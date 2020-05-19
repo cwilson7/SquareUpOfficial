@@ -9,6 +9,8 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
 {
     public static PhotonLobby lobby;
 
+    public GameObject startButton, loadingTxt;
+
     private void Awake()
     {
         lobby = this;
@@ -23,8 +25,8 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
-        //startButton.SetActive(true);
-        //loadingTxt.SetActive(false);
+        startButton.SetActive(true);
+        loadingTxt.SetActive(false);
     }
 
     
@@ -49,21 +51,13 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
         Debug.Log("Failed to create room. Attempting again...");
         CreateRoom();
     }
-    /*
-
-    public void QuickCancel()
-    {
-        cancelButton.SetActive(false);
-        startButton.SetActive(true);
-        PhotonNetwork.LeaveRoom();
-    }
 
     public void QuickStart()
     {
         startButton.SetActive(false);
-        cancelButton.SetActive(true);
+        loadingTxt.SetActive(true);
+        //cancelButton.SetActive(true);
         PhotonNetwork.JoinRandomRoom(null, (byte)MultiplayerSettings.multiplayerSettings.maxPlayers);
-        Debug.Log("Quick Start.");
     }
-    */
+    
 }

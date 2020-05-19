@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{BC2B658E-E380-9EE8-4419-756263B98F67}</ProjectGuid>
+    <ProjectGuid>{049A5D77-4C45-E620-146E-5330B37B02A7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -77,6 +77,8 @@
     <Compile Include="Assets\Photon\PhotonChat\Demos\DemoChat\IgnoreUiRaycastWhenInactive.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\DemoChat\NamePickGui.cs" />
     <Compile Include="Assets\Photon\PhotonRealtime\Demos\DemoLoadBalancing\ConnectAndJoinRandomLb.cs" />
+    <Compile Include="Assets\PhotonPlayer.cs" />
+    <Compile Include="Assets\Scripts\GameSetup.cs" />
     <Compile Include="Assets\Scripts\MultiplayerSettings.cs" />
     <Compile Include="Assets\Scripts\PhotonLobby.cs" />
     <Compile Include="Assets\Scripts\PhotonRoom.cs" />
@@ -142,67 +144,67 @@
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Sprite.shader" />
     <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\Bangers - OFL.txt" />
     <Reference Include="Unity.Timeline.Editor">
-      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/Square Up Official/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpOfficial/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VSCode.Editor">
-      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/Square Up Official/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
+      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpOfficial/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.RenderPipelines.Core.Editor">
-      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/Square Up Official/Library/ScriptAssemblies/Unity.RenderPipelines.Core.Editor.dll</HintPath>
+      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpOfficial/Library/ScriptAssemblies/Unity.RenderPipelines.Core.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.RenderPipelines.Core.Runtime">
-      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/Square Up Official/Library/ScriptAssemblies/Unity.RenderPipelines.Core.Runtime.dll</HintPath>
+      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpOfficial/Library/ScriptAssemblies/Unity.RenderPipelines.Core.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualEffectGraph.Runtime">
-      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/Square Up Official/Library/ScriptAssemblies/Unity.VisualEffectGraph.Runtime.dll</HintPath>
+      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpOfficial/Library/ScriptAssemblies/Unity.VisualEffectGraph.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/Square Up Official/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpOfficial/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.DeviceSimulator.Tests.Common">
-      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/Square Up Official/Library/ScriptAssemblies/Unity.DeviceSimulator.Tests.Common.dll</HintPath>
+      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpOfficial/Library/ScriptAssemblies/Unity.DeviceSimulator.Tests.Common.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/Square Up Official/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpOfficial/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline">
-      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/Square Up Official/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpOfficial/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
     </Reference>
     <Reference Include="Unity.CollabProxy.Editor">
-      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/Square Up Official/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
+      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpOfficial/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.RenderPipelines.HighDefinition.Runtime">
-      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/Square Up Official/Library/ScriptAssemblies/Unity.RenderPipelines.HighDefinition.Runtime.dll</HintPath>
+      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpOfficial/Library/ScriptAssemblies/Unity.RenderPipelines.HighDefinition.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Rider.Editor">
-      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/Square Up Official/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
+      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpOfficial/Library/ScriptAssemblies/Unity.Rider.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary">
-      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/Square Up Official/Library/ScriptAssemblies/Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll</HintPath>
+      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpOfficial/Library/ScriptAssemblies/Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.dll</HintPath>
     </Reference>
     <Reference Include="Unity.DeviceSimulator.Editor">
-      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/Square Up Official/Library/ScriptAssemblies/Unity.DeviceSimulator.Editor.dll</HintPath>
+      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpOfficial/Library/ScriptAssemblies/Unity.DeviceSimulator.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.RenderPipelines.HighDefinition.Config.Runtime">
-      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/Square Up Official/Library/ScriptAssemblies/Unity.RenderPipelines.HighDefinition.Config.Runtime.dll</HintPath>
+      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpOfficial/Library/ScriptAssemblies/Unity.RenderPipelines.HighDefinition.Config.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="Unity.VisualEffectGraph.Editor">
-      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/Square Up Official/Library/ScriptAssemblies/Unity.VisualEffectGraph.Editor.dll</HintPath>
+      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpOfficial/Library/ScriptAssemblies/Unity.VisualEffectGraph.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.ShaderGraph.Editor">
-      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/Square Up Official/Library/ScriptAssemblies/Unity.ShaderGraph.Editor.dll</HintPath>
+      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpOfficial/Library/ScriptAssemblies/Unity.ShaderGraph.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.RenderPipelines.HighDefinition.Editor">
-      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/Square Up Official/Library/ScriptAssemblies/Unity.RenderPipelines.HighDefinition.Editor.dll</HintPath>
+      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpOfficial/Library/ScriptAssemblies/Unity.RenderPipelines.HighDefinition.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.RenderPipelines.Core.ShaderLibrary">
-      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/Square Up Official/Library/ScriptAssemblies/Unity.RenderPipelines.Core.ShaderLibrary.dll</HintPath>
+      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpOfficial/Library/ScriptAssemblies/Unity.RenderPipelines.Core.ShaderLibrary.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/Square Up Official/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpOfficial/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
-      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/Square Up Official/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpOfficial/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Users/sloan/Desktop/Chase/Unity Editor/2019.3.6f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -376,10 +378,10 @@
       <HintPath>C:/Users/sloan/Desktop/Chase/Unity Editor/2019.3.6f1/Editor/Data/Managed/UnityEngine/UnityEngine.XRModule.dll</HintPath>
     </Reference>
     <Reference Include="Photon3Unity3D">
-      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/Square Up Official/Assets/Photon/PhotonLibs/Photon3Unity3D.dll</HintPath>
+      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpOfficial/Assets/Photon/PhotonLibs/Photon3Unity3D.dll</HintPath>
     </Reference>
     <Reference Include="websocket-sharp">
-      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/Square Up Official/Assets/Photon/PhotonLibs/WebSocket/websocket-sharp.dll</HintPath>
+      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpOfficial/Assets/Photon/PhotonLibs/WebSocket/websocket-sharp.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>C:/Users/sloan/Desktop/Chase/Unity Editor/2019.3.6f1/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
@@ -735,47 +737,47 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="PhotonUnityNetworking.Utilities.PhotonPlayer.Editor.csproj">
-      <Project>{41387399-B995-28C8-0EB8-18EC1C5D2013}</Project>
+      <Project>{31590AC6-D64A-FF4E-7A28-3FB2E06AEAA9}</Project>
       <Name>PhotonUnityNetworking.Utilities.PhotonPlayer.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="PunDemos.DemoHubEditor.csproj">
-      <Project>{445AE1EF-3416-D761-D5C9-C08631373B84}</Project>
+      <Project>{3076B0CD-EB48-D7AB-FEE4-77DE112AC75C}</Project>
       <Name>PunDemos.DemoHubEditor</Name>
     </ProjectReference>
     <ProjectReference Include="PunDemos.DemoSlotcarEditor.csproj">
-      <Project>{1DBA38D5-BB65-33D6-D372-0EC0B56FC2B5}</Project>
+      <Project>{A5889E7B-2D3C-172E-974A-74FA1AB504CB}</Project>
       <Name>PunDemos.DemoSlotcarEditor</Name>
     </ProjectReference>
     <ProjectReference Include="PhotonUnityNetworking.Demos.csproj">
-      <Project>{C286469F-143A-C179-C85D-656C04AE28D1}</Project>
+      <Project>{1583CEDA-6154-841A-D425-479709B88BC6}</Project>
       <Name>PhotonUnityNetworking.Demos</Name>
     </ProjectReference>
     <ProjectReference Include="PhotonUnityNetworking.Utilities.csproj">
-      <Project>{BFA29D59-ADFF-A224-DD6D-E67CA0DA6623}</Project>
+      <Project>{6CFEB5CC-69D0-F0B2-D155-C2972467F6FF}</Project>
       <Name>PhotonUnityNetworking.Utilities</Name>
     </ProjectReference>
     <ProjectReference Include="PhotonWebSocket.csproj">
-      <Project>{DB533566-38EE-F6CF-23ED-D995A95EE006}</Project>
+      <Project>{5A3A7CDB-E784-6D39-F89C-E57EDB16005E}</Project>
       <Name>PhotonWebSocket</Name>
     </ProjectReference>
     <ProjectReference Include="PhotonRealtime.csproj">
-      <Project>{BE3FD351-7178-D9C4-2175-B06E7D2E8E64}</Project>
+      <Project>{DD8D0020-36AA-21CA-20C1-2054537858CD}</Project>
       <Name>PhotonRealtime</Name>
     </ProjectReference>
     <ProjectReference Include="PhotonUnityNetworking.csproj">
-      <Project>{29ED3FEE-F90A-04C6-423F-DBE182611150}</Project>
+      <Project>{A82FEB91-ACE9-0D48-FF57-F47CA54ABDDA}</Project>
       <Name>PhotonUnityNetworking</Name>
     </ProjectReference>
     <ProjectReference Include="PhotonChat.csproj">
-      <Project>{999B703B-6FDA-1D9C-B6B4-727A22637403}</Project>
+      <Project>{BF964BF3-F486-DC6E-7D09-5DBDF85D9A91}</Project>
       <Name>PhotonChat</Name>
     </ProjectReference>
     <ProjectReference Include="PhotonUnityNetworking.Utilities.Culling.Editor.csproj">
-      <Project>{1DCB7E57-C2A2-1A3F-8CE5-E5CFE3EE6BFE}</Project>
+      <Project>{2ED5B84D-C4E9-882C-40CD-F50A7B31C3CF}</Project>
       <Name>PhotonUnityNetworking.Utilities.Culling.Editor</Name>
     </ProjectReference>
     <ProjectReference Include="PhotonUnityNetworking.Editor.csproj">
-      <Project>{DEF50D4B-1511-8E4D-449E-EF37A0FC15A9}</Project>
+      <Project>{9CCF4C04-B7C0-8CE4-B9EE-D3417415AA84}</Project>
       <Name>PhotonUnityNetworking.Editor</Name>
     </ProjectReference>
   </ItemGroup>

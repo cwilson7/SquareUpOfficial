@@ -25,7 +25,7 @@ public class PhotonPlayer : MonoBehaviour
 
     void Update()
     {
-        if (myAvatar == null)
+        if (myAvatar == null && PV.IsMine)
         {
             Spawn();
         }

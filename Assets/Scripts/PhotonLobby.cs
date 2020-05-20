@@ -25,8 +25,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
     public override void OnConnectedToMaster()
     {
         PhotonNetwork.AutomaticallySyncScene = true;
-        startButton.SetActive(true);
-        loadingTxt.SetActive(false);
+        Loading(false);
     }
 
     
@@ -52,12 +51,16 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
         CreateRoom();
     }
 
-    public void QuickStart()
+    public void StartLobby()
     {
-        startButton.SetActive(false);
-        loadingTxt.SetActive(true);
-        //cancelButton.SetActive(true);
+        Loading(true);
         PhotonNetwork.JoinRandomRoom(null, (byte)MultiplayerSettings.multiplayerSettings.maxPlayers);
+    }
+
+    private void Loading(bool isLoading)
+    {
+        startButton.SetActive(!isLoading);
+        loadingTxt.SetActive(isLoading);
     }
     
 }

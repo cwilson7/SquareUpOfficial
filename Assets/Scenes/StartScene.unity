@@ -307,6 +307,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startButton: {fileID: 1463596464}
   loadingTxt: {fileID: 1871952502}
+  lobbyTestBtn: {fileID: 0}
 --- !u!4 &190493115
 Transform:
   m_ObjectHideFlags: 0
@@ -556,7 +557,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: be80f91417ed8464384a49292ef5dd50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  multiplayerScene: 1
+  multiplayerScene: 2
+  intermediateScene: 1
+  testingLobby: 0
 --- !u!4 &465429609
 Transform:
   m_ObjectHideFlags: 0
@@ -825,9 +828,8 @@ GameObject:
   - component: {fileID: 1463596469}
   - component: {fileID: 1463596468}
   - component: {fileID: 1463596467}
-  - component: {fileID: 1463596466}
   m_Layer: 5
-  m_Name: PlayBtn
+  m_Name: JoinRandomGameBtn
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -853,18 +855,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 250, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1463596466
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1463596464}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6526419093667614199c304634a5f15a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1463596467
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -909,7 +899,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 190493114}
-        m_MethodName: QuickStart
+        m_MethodName: StartLobby
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

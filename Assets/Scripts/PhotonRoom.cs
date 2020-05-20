@@ -10,8 +10,9 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
 {
     public static PhotonRoom room;
     private PhotonView PV;
-    public int multiplayerScene;
+    public int multiplayerScene, intermediateScene;
     private int currentScene;
+    public bool testingLobby;
 
     private void Awake()
     {
@@ -49,12 +50,17 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
     {
         base.OnJoinedRoom();
         if (!PhotonNetwork.IsMasterClient) return;
-        StartGame();
+        MoveToLobby();
     }
 
-    void StartGame()
+    public void StartGame()
     {
         PhotonNetwork.LoadLevel(multiplayerScene);
+    }
+
+    void MoveToLobby()
+    {
+        PhotonNetwork.LoadLevel(intermediateScene);
     }
 
     void OnSceneFinishedLoading(Scene scene, LoadSceneMode mode)

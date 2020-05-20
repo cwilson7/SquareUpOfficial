@@ -32,6 +32,11 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
         PV = GetComponent<PhotonView>();
     }
 
+    void Update()
+    {
+        //Debug.Log(PhotonNetwork.PlayerList.Length);
+    }
+
     public override void OnEnable()
     {
         base.OnEnable();
@@ -53,7 +58,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
         MoveToLobby();
     }
 
-    public void StartGame()
+    void StartGame()
     {
         PhotonNetwork.LoadLevel(multiplayerScene);
     }
@@ -82,6 +87,5 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
         // All information on the player that is pertinent to the other players games needs to be tracked and sent out when player leaves
         // If player owns cube when a player leaves, cube needs to be set to next nearest face and ownership transferred randomly
     }
-
 
 }

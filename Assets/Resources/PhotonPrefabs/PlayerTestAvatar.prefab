@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 6299201916958379825}
   - component: {fileID: 8571559651302936874}
   - component: {fileID: 230725977286613779}
+  - component: {fileID: -3524013647954577349}
   m_Layer: 0
   m_Name: PlayerTestAvatar
   m_TagString: Untagged
@@ -142,10 +143,10 @@ MonoBehaviour:
   ObservedComponentsFoldoutOpen: 1
   Group: 0
   prefixField: -1
-  Synchronization: 0
+  Synchronization: 3
   OwnershipTransfer: 0
   ObservedComponents:
-  - {fileID: 0}
+  - {fileID: -3524013647954577349}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -194,3 +195,18 @@ CharacterController:
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-3524013647954577349
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7553275058234249101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0

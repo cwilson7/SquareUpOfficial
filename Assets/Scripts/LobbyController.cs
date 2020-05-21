@@ -5,10 +5,14 @@ using Photon.Pun;
 
 public class LobbyController : MonoBehaviour
 {
+    public static LobbyController lc;
+    
+    public List<GameObject> charAvatars;
+    
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
-        
+        lc = this;
     }
 
     // Update is called once per frame

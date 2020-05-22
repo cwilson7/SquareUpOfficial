@@ -60,7 +60,7 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
             {
                 newLocation += new Vector3(-Screen.width, 0, 0);
                 panelCounter += 1;
-            } else if (percentage < 0 && (panelCounter > 1))
+            } else if (percentage < 0 && (panelCounter > 0))
             {
                 newLocation += new Vector3(Screen.width, 0, 0);
                 panelCounter -= 1;

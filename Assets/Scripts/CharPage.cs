@@ -17,6 +17,5 @@ public class CharPage : MonoBehaviour
     public void ShowDetails(int charID)
     {
         charName.text = LobbyController.lc.charAvatars[charID].name;
-        //GameObject character = Instantiate(LobbyController.lc.charAvatars[charID], new Vector3(0, 0, 0), Quaternion.identity, transform);
     }
 }

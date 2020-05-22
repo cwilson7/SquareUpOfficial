@@ -6,10 +6,11 @@ using UnityEngine.EventSystems;
 
 public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHandler
 {
-    [SerializeField] private GameObject charPanel;
+    [SerializeField] private GameObject charPanel, playerListPanel;
     [SerializeField] private float offsetFromLeftEdge, percentThreshold, easing;
     private Vector3 panelLocation;
     private int panelCounter;
+    
     
     // Start is called before the first frame update
     void Start()
@@ -82,5 +83,11 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
             transform.position = Vector3.Lerp(startpos, endpos, Mathf.SmoothStep(0f, 1f, t));
             yield return null;
         }
+    }
+
+    public void SendToPlayerList()
+    {
+        StartCoroutine(SexyTransition(transform.position, panelLocation = playerListPanel.transform.position + new Vector3((1+panelCounter)*Screen.width, 0 ,0), easing*4));
+        panelCounter = 0;
     }
 }

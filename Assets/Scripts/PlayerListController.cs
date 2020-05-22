@@ -51,4 +51,20 @@ public class PlayerListController : MonoBehaviourPunCallbacks
         }
     }
 
+    public void UpdatePlayerListings(Player p)
+    {
+        GetComponent<PhotonView>().RPC("SetPlayerInfo_RPC", RpcTarget.AllBuffered, p.ActorNumber);
+    }
+
+    [PunRPC]
+    private void SetPlayerInfo_RPC(int actorNumber)
+    {
+        Player p = PhotonNetwork.CurrentRoom.GetPlayer(actorNumber);
+        int index = playerListings.FindIndex(x => x.Player == p);
+        if (index != -1)
+        {
+            Debug.Log("Ready: " + (bool)p.CustomProperties["PlayerReady"]);
+            playerListings[index].SetPlayerListing(p);
+        }
+    }
 }

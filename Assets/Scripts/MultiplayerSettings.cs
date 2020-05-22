@@ -42,26 +42,16 @@ public class MultiplayerSettings : MonoBehaviour
     public void InitializeCustomProperties()
     {
         customProperties = new ExitGames.Client.Photon.Hashtable();
-        SetPlayerReady(false);
-        SetSelectedCharacter(-1);
-        SetAssignedColor(-1);
+        SetCustomPlayerProperties("PlayerReady", false);
+        SetCustomPlayerProperties("SelectedCharacter", -1);
+        SetCustomPlayerProperties("AssignedColor", -1);
     }
     
-    public void SetPlayerReady(bool isReady)
+    public void SetCustomPlayerProperties(string key, object value)
     {
-        customProperties["PlayerReady"] = isReady;
-        PhotonNetwork.LocalPlayer.CustomProperties = customProperties;
+        if (!PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey(key)) customProperties.Add(key, value);
+        else customProperties[key] = value;
+        PhotonNetwork.LocalPlayer.SetCustomProperties(customProperties);
     }
 
-    public void SetSelectedCharacter(int charID)
-    {
-        customProperties["SelectedCharacter"] = charID;
-        PhotonNetwork.LocalPlayer.CustomProperties = customProperties;
-    }
-
-    public void SetAssignedColor(int colorID)
-    {
-        customProperties["AssignedColor"] = colorID;
-        PhotonNetwork.LocalPlayer.CustomProperties = customProperties;
-    }
 }

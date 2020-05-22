@@ -9,7 +9,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
 {
     public static PhotonLobby lobby;
 
-    public GameObject startButton, loadingTxt;
+    public GameObject startButton, loadingTxt, chooseModePnl, startPnl, createRoomPnl, currentPnl;
 
     private void Awake()
     {
@@ -18,6 +18,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
 
     void Start()
     {
+        currentPnl = startPnl;
         // Once we move to server implementation, this needs to be changed to "PhotonNetwork.ConnectToMaster(IP of server, port of server, our decided name of server);"
         PhotonNetwork.ConnectUsingSettings();
     }
@@ -52,7 +53,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
         CreateRoom();
     }
 
-    public void StartLobby()
+    public void StartRandomLobby()
     {
         Loading(true);
         PhotonNetwork.JoinRandomRoom(null, (byte)MultiplayerSettings.multiplayerSettings.maxPlayers);
@@ -64,4 +65,27 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
         loadingTxt.SetActive(isLoading);
     }
     
+    public void CaseSwitchPanels(int transition)
+    {
+        Debug.Log("button presesed");
+        switch(transition)
+        {
+            case 0:
+                SwitchPanels(chooseModePnl);
+                break;
+            case 1:
+                SwitchPanels(createRoomPnl);
+                break;
+            case 2:
+                SwitchPanels(startPnl);
+                break;
+        }
+    } 
+
+    private void SwitchPanels(GameObject pnlIn)
+    {
+        pnlIn.SetActive(true);
+        currentPnl.SetActive(false);
+        currentPnl = pnlIn;
+    }
 }

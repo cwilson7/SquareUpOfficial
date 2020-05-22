@@ -10,6 +10,7 @@ public class CharPage : MonoBehaviour
     [SerializeField] private TMP_Text charName;
     [SerializeField] private Button charSelectBtn;
     [SerializeField] private TMP_FontAsset font;
+
     private int myCharID;
     private PlayerListController plc;
     private CharSelectPanelController cspc;
@@ -27,6 +28,7 @@ public class CharPage : MonoBehaviour
         
         charName.font = font;
         charSelectBtn.GetComponentInChildren<TMP_Text>().font = font;
+
         charName.text = LobbyController.lc.charAvatars[charID].name;
         charSelectBtn.GetComponentInChildren<TMP_Text>().text = "Select " + LobbyController.lc.charAvatars[charID].name;
     }

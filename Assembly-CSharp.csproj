@@ -87,6 +87,7 @@
     <Compile Include="Assets\Scripts\CharPage.cs" />
     <Compile Include="Assets\Scripts\CharSelectPanelController.cs" />
     <Compile Include="Assets\Scripts\GameSetup.cs" />
+    <Compile Include="Assets\Scripts\JoinRoomsMenu.cs" />
     <Compile Include="Assets\Scripts\LobbyController.cs" />
     <Compile Include="Assets\Scripts\MultiplayerSettings.cs" />
     <Compile Include="Assets\Scripts\PhotonLobby.cs" />

@@ -63,6 +63,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\CachedRoomList.cs" />
     <Compile Include="Assets\CrystalFramework\Utility\Demos\SafeAreaDemo.cs" />
     <Compile Include="Assets\CrystalFramework\Utility\SafeArea.cs" />
     <Compile Include="Assets\Joystick Pack\Examples\JoystickPlayerExample.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="Assets\Scripts\PlayerListing.cs" />
     <Compile Include="Assets\Scripts\Random UI\DisconnectBtnSccript.cs" />
     <Compile Include="Assets\Scripts\Random UI\LoadingTxtScript.cs" />
+    <Compile Include="Assets\Scripts\Random UI\TempNicknameUI.cs" />
     <Compile Include="Assets\Scripts\RoomListing.cs" />
     <Compile Include="Assets\Scripts\SettingsInit.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01.cs" />

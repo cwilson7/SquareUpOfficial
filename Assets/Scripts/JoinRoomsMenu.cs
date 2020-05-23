@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using System.Linq;
 
 public class JoinRoomsMenu : MonoBehaviourPunCallbacks
 {
@@ -15,11 +16,14 @@ public class JoinRoomsMenu : MonoBehaviourPunCallbacks
         InitializeRoomListings();
     }
 
+    private void FixedUpdate()
+    {
+        
+    }
+
     public override void OnRoomListUpdate(List<RoomInfo> roomList)
     {
-        base.OnRoomListUpdate(roomList);
-        Debug.Log("Room list update.");
-        foreach (RoomInfo info in roomList)
+        foreach (RoomInfo info in roomList.ToList())
         {
             if (info.RemovedFromList)
             {
@@ -28,6 +32,7 @@ public class JoinRoomsMenu : MonoBehaviourPunCallbacks
                 {
                     Destroy(roomListings[index].gameObject);
                     roomListings.RemoveAt(index);
+                    CachedRoomList.cachedRoomList.rooms.Remove(info);
                 }
             }
             else
@@ -35,6 +40,7 @@ public class JoinRoomsMenu : MonoBehaviourPunCallbacks
                 RoomListing listing = Instantiate(rlPrefab, content.transform);
                 if (listing != null) listing.SetRoomListing(info);
                 roomListings.Add(listing);
+                if(!CachedRoomList.cachedRoomList.rooms.Contains(info)) CachedRoomList.cachedRoomList.rooms.Add(info);
             }
         }
     }
@@ -42,5 +48,6 @@ public class JoinRoomsMenu : MonoBehaviourPunCallbacks
     private void InitializeRoomListings()
     {
         roomListings = new List<RoomListing>();
+        OnRoomListUpdate(CachedRoomList.cachedRoomList.rooms);
     }
 }

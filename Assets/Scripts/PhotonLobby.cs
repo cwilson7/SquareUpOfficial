@@ -11,30 +11,21 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
 {
     public static PhotonLobby lobby;
 
-    public GameObject startButton, loadingTxtPrefab, joinRndLobbyBtn, chooseModePnl, startPnl, createRoomPnl, currentPnl;
+    public GameObject startButton, loadingTxtPrefab, roomListContent, joinRndLobbyBtn, chooseModePnl, startPnl, createRoomPnl, currentPnl;
     [SerializeField] Canvas canvas;
-    private List<GameObject> loadingPrefabs;
+    private Hashtable loadingObjects;
 
+    private bool inPhotonLobby;
+    
     private void Awake()
     {
         lobby = this;
     }
-
+    #region Networking
     void Start()
     {
-        currentPnl = startPnl;
-        foreach (TMP_Text text in canvas.GetComponentsInChildren<TMP_Text>())
-        {
-            text.font = MultiplayerSettings.multiplayerSettings.font;
-        }
-        loadingPrefabs = new List<GameObject>();
-        GameObject startLoading = Instantiate(loadingTxtPrefab, startButton.transform.parent.transform);
-        GameObject lobbyLoading = Instantiate(loadingTxtPrefab, joinRndLobbyBtn.transform.parent.transform);
-        loadingPrefabs.Add(startLoading);
-        loadingPrefabs.Add(lobbyLoading);
-        startButton.SetActive(false);
-        chooseModePnl.SetActive(false);
-        createRoomPnl.SetActive(false);
+        InitializeLoadingUI();
+        Loading(true, startButton);
         // Once we move to server implementation, this needs to be changed to "PhotonNetwork.ConnectToMaster(IP of server, port of server, our decided name of server);"
         PhotonNetwork.ConnectUsingSettings();
     }
@@ -45,12 +36,33 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
         MultiplayerSettings.multiplayerSettings.InitializeCustomProperties();
 
         PhotonNetwork.JoinLobby(); 
+    }
+
+    public override void OnJoinedLobby()
+    {
+        base.OnJoinedLobby();
+        inPhotonLobby = true;
         Loading(false, startButton);
+    }
+
+    public override void OnLeftLobby()
+    {
+        base.OnLeftLobby();
+        inPhotonLobby = false;
     }
 
     public void JoinSelectedRoom(RoomInfo info)
     {
+        StartCoroutine(LeaveLobbyDelay());
         PhotonNetwork.JoinRoom(info.Name);
+    }
+
+    IEnumerator LeaveLobbyDelay()
+    {
+        PhotonNetwork.LeaveLobby();
+        Loading(true, roomListContent);
+        yield return new WaitForSeconds(1f);
+        if (inPhotonLobby == true) StartCoroutine(LeaveLobbyDelay());
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
@@ -91,13 +103,14 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinRandomRoom(null, (byte)MultiplayerSettings.multiplayerSettings.maxPlayers);
     }
 
-    private void Loading(bool isLoading, GameObject btnToCover)
+    #endregion
+
+    #region UI Elements
+    private void Loading(bool isLoading, GameObject item)
     {
-        btnToCover.SetActive(!isLoading);
-        foreach(GameObject loading in loadingPrefabs)
-        {
-            loading.SetActive(isLoading);
-        }
+        item.SetActive(!isLoading);
+        GameObject loading = (GameObject)loadingObjects[item];
+        loading.SetActive(isLoading);
     }
     
     public void CaseSwitchPanels(int transition)
@@ -123,4 +136,34 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
         currentPnl.SetActive(false);
         currentPnl = pnlIn;
     }
+
+    private void InitializeLoadingUI()
+    {
+        foreach (TMP_Text text in canvas.GetComponentsInChildren<TMP_Text>())
+        {
+            text.font = MultiplayerSettings.multiplayerSettings.font;
+        }
+        
+        currentPnl = startPnl;
+        chooseModePnl.SetActive(false);
+        createRoomPnl.SetActive(false);
+
+        loadingObjects = new Hashtable();
+        PopulateLoadingHash();
+    }
+
+    private void SetLoadingHash(GameObject key)
+    {
+        GameObject loadingTxt = Instantiate(loadingTxtPrefab, key.transform.parent.transform);
+        loadingObjects.Add(key, loadingTxt);
+        loadingTxt.SetActive(false);
+    }
+
+    private void PopulateLoadingHash()
+    {
+        SetLoadingHash(startButton);
+        SetLoadingHash(roomListContent);
+        SetLoadingHash(joinRndLobbyBtn);
+    }
+    #endregion
 }

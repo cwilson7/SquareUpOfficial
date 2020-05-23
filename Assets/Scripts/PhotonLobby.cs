@@ -4,12 +4,16 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine.UI;
+using System.Net;
+using TMPro;
 
 public class PhotonLobby : MonoBehaviourPunCallbacks
 {
     public static PhotonLobby lobby;
 
-    public GameObject startButton, loadingTxt, chooseModePnl, startPnl, createRoomPnl, currentPnl;
+    public GameObject startButton, loadingTxtPrefab, joinRndLobbyBtn, chooseModePnl, startPnl, createRoomPnl, currentPnl;
+    [SerializeField] Canvas canvas;
+    private List<GameObject> loadingPrefabs;
 
     private void Awake()
     {
@@ -19,6 +23,18 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
     void Start()
     {
         currentPnl = startPnl;
+        foreach (TMP_Text text in canvas.GetComponentsInChildren<TMP_Text>())
+        {
+            text.font = MultiplayerSettings.multiplayerSettings.font;
+        }
+        loadingPrefabs = new List<GameObject>();
+        GameObject startLoading = Instantiate(loadingTxtPrefab, startButton.transform.parent.transform);
+        GameObject lobbyLoading = Instantiate(loadingTxtPrefab, joinRndLobbyBtn.transform.parent.transform);
+        loadingPrefabs.Add(startLoading);
+        loadingPrefabs.Add(lobbyLoading);
+        startButton.SetActive(false);
+        chooseModePnl.SetActive(false);
+        createRoomPnl.SetActive(false);
         // Once we move to server implementation, this needs to be changed to "PhotonNetwork.ConnectToMaster(IP of server, port of server, our decided name of server);"
         PhotonNetwork.ConnectUsingSettings();
     }
@@ -27,10 +43,15 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
     {
         PhotonNetwork.AutomaticallySyncScene = true;
         MultiplayerSettings.multiplayerSettings.InitializeCustomProperties();
-        Loading(false);
+
+        PhotonNetwork.JoinLobby(); 
+        Loading(false, startButton);
     }
 
-    
+    public void JoinSelectedRoom(RoomInfo info)
+    {
+        PhotonNetwork.JoinRoom(info.Name);
+    }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
@@ -47,6 +68,17 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
         Debug.Log("Created room with number: " + randomRoomNumber);
     }
 
+    public void CreateCustomRoom()
+    {
+        if (MultiplayerSettings.multiplayerSettings.customRoomName == null)
+        {
+            Debug.Log("Name the room");
+            return;
+        }
+        RoomOptions roomOps = new RoomOptions() { IsVisible = !MultiplayerSettings.multiplayerSettings.customRoomPrivate, IsOpen = true, MaxPlayers = (byte)MultiplayerSettings.multiplayerSettings.maxPlayers };
+        PhotonNetwork.CreateRoom(MultiplayerSettings.multiplayerSettings.customRoomName, roomOps);
+    }
+
     public override void OnCreateRoomFailed(short returnCode, string message)
     {
         Debug.Log("Failed to create room. Attempting again...");
@@ -55,23 +87,26 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
 
     public void StartRandomLobby()
     {
-        Loading(true);
+        Loading(true, joinRndLobbyBtn);
         PhotonNetwork.JoinRandomRoom(null, (byte)MultiplayerSettings.multiplayerSettings.maxPlayers);
     }
 
-    private void Loading(bool isLoading)
+    private void Loading(bool isLoading, GameObject btnToCover)
     {
-        startButton.SetActive(!isLoading);
-        loadingTxt.SetActive(isLoading);
+        btnToCover.SetActive(!isLoading);
+        foreach(GameObject loading in loadingPrefabs)
+        {
+            loading.SetActive(isLoading);
+        }
     }
     
     public void CaseSwitchPanels(int transition)
     {
-        Debug.Log("button presesed");
         switch(transition)
         {
             case 0:
                 SwitchPanels(chooseModePnl);
+                Loading(false, joinRndLobbyBtn);
                 break;
             case 1:
                 SwitchPanels(createRoomPnl);

@@ -1,15 +1,20 @@
 ﻿using Photon.Pun;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class MultiplayerSettings : MonoBehaviour
 {
     public static MultiplayerSettings multiplayerSettings;
     private ExitGames.Client.Photon.Hashtable customProperties;
 
-    public bool delayStart;
-    public int maxPlayers, menuScene, multiplayerScene;
+    public bool delayStart, customRoomPrivate;
+    public int maxPlayers, multiplayerScene, intermediateScene, mainMenuScene;
+    public string customRoomName;
+
+    public TMP_FontAsset font; 
 
     private void Awake()
     {
@@ -27,10 +32,20 @@ public class MultiplayerSettings : MonoBehaviour
         DontDestroyOnLoad(this.gameObject);
     }
 
-    public void SetMaxPlayers(int value)
+    public void SetMaxPlayers(string value)
     {
-        Debug.Log("SetMaxPlayers called.");
-        maxPlayers = value;
+        int intVal = Int32.Parse(value);
+        maxPlayers = intVal;
+    }
+
+    public void SetCustomRoomName(string value)
+    {
+        customRoomName = value;
+    }
+
+    public void SetRoomPrivate(bool isPrivate)
+    {
+        customRoomPrivate = isPrivate;
     }
 
     public void SetNickName(string nickname)
@@ -53,5 +68,4 @@ public class MultiplayerSettings : MonoBehaviour
         else customProperties[key] = value;
         PhotonNetwork.LocalPlayer.SetCustomProperties(customProperties);
     }
-
 }

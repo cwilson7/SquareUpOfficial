@@ -13,7 +13,9 @@ public class PlayerListing : MonoBehaviour
     public void SetPlayerListing(Player p)
     {
         Player = p;
+        playerLabel.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, transform.parent.GetComponent<RectTransform>().rect.width);
         playerLabel.text = p.NickName;
+        playerLabel.font = MultiplayerSettings.multiplayerSettings.font;
         if ((bool)p.CustomProperties["PlayerReady"])
         {
             playerLabel.color = LobbyController.lc.availableMaterials[(int)p.CustomProperties["AssignedColor"]].color;

@@ -5,12 +5,12 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using System;
+using System.Collections;
 
 public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
 {
     public static PhotonRoom room;
     private PhotonView PV;
-    public int multiplayerScene, intermediateScene;
     private int currentScene;
     public bool testingLobby;
 
@@ -30,11 +30,6 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
         }
         DontDestroyOnLoad(this.gameObject);
         PV = GetComponent<PhotonView>();
-    }
-
-    void Update()
-    {
-        //Debug.Log(PhotonNetwork.PlayerList.Length);
     }
 
     public override void OnEnable()
@@ -60,18 +55,18 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
 
     void StartGame()
     {
-        PhotonNetwork.LoadLevel(multiplayerScene);
+        PhotonNetwork.LoadLevel(MultiplayerSettings.multiplayerSettings.multiplayerScene);
     }
 
     void MoveToLobby()
     {
-        PhotonNetwork.LoadLevel(intermediateScene);
+        PhotonNetwork.LoadLevel(MultiplayerSettings.multiplayerSettings.intermediateScene);
     }
 
     void OnSceneFinishedLoading(Scene scene, LoadSceneMode mode)
     {
         currentScene = scene.buildIndex;
-        if(currentScene == multiplayerScene)
+        if(currentScene == MultiplayerSettings.multiplayerSettings.multiplayerScene)
         {
             CreatePlayer();
         }

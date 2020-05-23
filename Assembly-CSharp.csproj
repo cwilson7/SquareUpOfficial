@@ -86,6 +86,7 @@
     <Compile Include="Assets\Photon\PhotonRealtime\Demos\DemoLoadBalancing\ConnectAndJoinRandomLb.cs" />
     <Compile Include="Assets\Scripts\CharPage.cs" />
     <Compile Include="Assets\Scripts\CharSelectPanelController.cs" />
+    <Compile Include="Assets\Scripts\For All New UI\SetFont.cs" />
     <Compile Include="Assets\Scripts\GameSetup.cs" />
     <Compile Include="Assets\Scripts\JoinRoomsMenu.cs" />
     <Compile Include="Assets\Scripts\LobbyController.cs" />
@@ -96,6 +97,9 @@
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\PlayerListController.cs" />
     <Compile Include="Assets\Scripts\PlayerListing.cs" />
+    <Compile Include="Assets\Scripts\Random UI\DisconnectBtnSccript.cs" />
+    <Compile Include="Assets\Scripts\Random UI\LoadingTxtScript.cs" />
+    <Compile Include="Assets\Scripts\RoomListing.cs" />
     <Compile Include="Assets\Scripts\SettingsInit.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />

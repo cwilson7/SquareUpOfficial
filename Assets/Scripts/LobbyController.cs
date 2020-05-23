@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
+using UnityEngine.SceneManagement;
 
-public class LobbyController : MonoBehaviour
+public class LobbyController : MonoBehaviourPunCallbacks
 {
     public static LobbyController lc;
     
@@ -35,6 +37,22 @@ public class LobbyController : MonoBehaviour
 
     public void StartGame()
     {
-        PhotonNetwork.LoadLevel(PhotonRoom.room.multiplayerScene);
+        PhotonNetwork.LoadLevel(MultiplayerSettings.multiplayerSettings.multiplayerScene);
+    }
+
+    public void ReturnToMenu()
+    {
+        Destroy(PhotonRoom.room.gameObject);
+        StartCoroutine(DisconnectAndLoad());
+    }
+
+    IEnumerator DisconnectAndLoad()
+    {
+        PhotonNetwork.Disconnect();
+        while (PhotonNetwork.IsConnected)
+        {
+            yield return null;
+        }
+        SceneManager.LoadScene(MultiplayerSettings.multiplayerSettings.mainMenuScene);
     }
 }

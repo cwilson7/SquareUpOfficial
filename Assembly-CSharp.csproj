@@ -85,6 +85,7 @@
     <Compile Include="Assets\Photon\PhotonChat\Demos\DemoChat\IgnoreUiRaycastWhenInactive.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\DemoChat\NamePickGui.cs" />
     <Compile Include="Assets\Photon\PhotonRealtime\Demos\DemoLoadBalancing\ConnectAndJoinRandomLb.cs" />
+    <Compile Include="Assets\Scripts\AvatarSetup.cs" />
     <Compile Include="Assets\Scripts\CharPage.cs" />
     <Compile Include="Assets\Scripts\CharSelectPanelController.cs" />
     <Compile Include="Assets\Scripts\For All New UI\SetFont.cs" />
@@ -98,8 +99,10 @@
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\PlayerListController.cs" />
     <Compile Include="Assets\Scripts\PlayerListing.cs" />
-    <Compile Include="Assets\Scripts\Random UI\DisconnectBtnSccript.cs" />
+    <Compile Include="Assets\Scripts\Random UI\ButtonUISynchronzie.cs" />
+    <Compile Include="Assets\Scripts\Random UI\DisconnectButtonBehaviour.cs" />
     <Compile Include="Assets\Scripts\Random UI\LoadingTxtScript.cs" />
+    <Compile Include="Assets\Scripts\Random UI\StartButtonBehaviour.cs" />
     <Compile Include="Assets\Scripts\Random UI\TempNicknameUI.cs" />
     <Compile Include="Assets\Scripts\RoomListing.cs" />
     <Compile Include="Assets\Scripts\SettingsInit.cs" />

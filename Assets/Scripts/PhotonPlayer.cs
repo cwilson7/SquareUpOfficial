@@ -14,7 +14,7 @@ public class PhotonPlayer : MonoBehaviour
     void Start()
     {
         PV = GetComponent<PhotonView>();
-        myAvatar = null;
+        if(PV.IsMine) InitializePhotonPlayer();
     }
 
     public void Spawn()
@@ -25,9 +25,13 @@ public class PhotonPlayer : MonoBehaviour
 
     void Update()
     {
-        if (myAvatar == null && PV.IsMine)
-        {
-            Spawn();
-        }
+
+    }
+
+    private void InitializePhotonPlayer()
+    {
+        int spawnPicker = Random.Range(0, GameSetup.gs.spawnPoints.Length);
+        myAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerTestAvatar"), GameSetup.gs.spawnPoints[spawnPicker].position, GameSetup.gs.spawnPoints[spawnPicker].rotation, 0);
+        myAvatar.GetComponent<MeshRenderer>().enabled = false;
     }
 }

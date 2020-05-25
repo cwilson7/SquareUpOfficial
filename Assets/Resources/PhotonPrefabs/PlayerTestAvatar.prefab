@@ -46,6 +46,7 @@ GameObject:
   - component: {fileID: 8571559651302936874}
   - component: {fileID: 230725977286613779}
   - component: {fileID: -3524013647954577349}
+  - component: {fileID: 6391912281978112192}
   m_Layer: 0
   m_Name: PlayerTestAvatar
   m_TagString: Untagged
@@ -163,7 +164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cc: {fileID: 230725977286613779}
-  speed: 50
+  speed: 5
   gravity: -9.8
   jumpHeight: 2
   groundCheck: {fileID: 1124722248348084620}
@@ -210,3 +211,15 @@ MonoBehaviour:
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
+--- !u!114 &6391912281978112192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7553275058234249101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 078b2b74a63e085478b2889d3304864f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

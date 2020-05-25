@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\CachedRoomList.cs" />
+    <Compile Include="Assets\CarouselController.cs" />
     <Compile Include="Assets\CrystalFramework\Utility\Demos\SafeAreaDemo.cs" />
     <Compile Include="Assets\CrystalFramework\Utility\SafeArea.cs" />
     <Compile Include="Assets\Joystick Pack\Examples\JoystickPlayerExample.cs" />
@@ -86,19 +87,20 @@
     <Compile Include="Assets\Photon\PhotonChat\Demos\DemoChat\NamePickGui.cs" />
     <Compile Include="Assets\Photon\PhotonRealtime\Demos\DemoLoadBalancing\ConnectAndJoinRandomLb.cs" />
     <Compile Include="Assets\Scripts\AvatarSetup.cs" />
-    <Compile Include="Assets\Scripts\CharPage.cs" />
-    <Compile Include="Assets\Scripts\CharSelectPanelController.cs" />
     <Compile Include="Assets\Scripts\For All New UI\SetFont.cs" />
     <Compile Include="Assets\Scripts\GameSetup.cs" />
     <Compile Include="Assets\Scripts\JoinRoomsMenu.cs" />
     <Compile Include="Assets\Scripts\LobbyController.cs" />
+    <Compile Include="Assets\Scripts\LobbyScripts\CarouselBehaviour.cs" />
+    <Compile Include="Assets\Scripts\LobbyScripts\CharPage.cs" />
+    <Compile Include="Assets\Scripts\LobbyScripts\CharSelectPanelController.cs" />
+    <Compile Include="Assets\Scripts\LobbyScripts\PlayerListController.cs" />
+    <Compile Include="Assets\Scripts\LobbyScripts\PlayerListing.cs" />
     <Compile Include="Assets\Scripts\MultiplayerSettings.cs" />
     <Compile Include="Assets\Scripts\PhotonLobby.cs" />
     <Compile Include="Assets\Scripts\PhotonPlayer.cs" />
     <Compile Include="Assets\Scripts\PhotonRoom.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
-    <Compile Include="Assets\Scripts\PlayerListController.cs" />
-    <Compile Include="Assets\Scripts\PlayerListing.cs" />
     <Compile Include="Assets\Scripts\Random UI\ButtonUISynchronzie.cs" />
     <Compile Include="Assets\Scripts\Random UI\DisconnectButtonBehaviour.cs" />
     <Compile Include="Assets\Scripts\Random UI\LoadingTxtScript.cs" />
@@ -240,6 +242,18 @@
     </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpOfficial/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.ProBuilder">
+      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpOfficial/Library/ScriptAssemblies/Unity.ProBuilder.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.ProBuilder.Editor">
+      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpOfficial/Library/ScriptAssemblies/Unity.ProBuilder.Editor.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.ProBuilder.AssetIdRemapUtility">
+      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpOfficial/Library/ScriptAssemblies/Unity.ProBuilder.AssetIdRemapUtility.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.ProBuilder.AddOns.Editor">
+      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpOfficial/Library/ScriptAssemblies/Unity.ProBuilder.AddOns.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Users/sloan/Desktop/Chase/Unity Editor/2019.3.6f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>

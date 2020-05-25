@@ -18,11 +18,12 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
     void Start()
     {
         SetTransformInfo();
-        for(int i = 0; i < LobbyController.lc.charAvatars.Count; i++)
+        CarouselController.cc.carousel.GetComponent<CarouselBehaviour>().InitializePlayerDisplay();
+        for (int i = 0; i < LobbyController.lc.charAvatars.Count; i++)
         {
             GenerateCharacterPanel(i);
         }
-        UpdateCurrentDisplayedCharacter();
+        //UpdateCurrentDisplayedCharacter();
     }
 
     private void GenerateCharacterPanel(int charID)
@@ -124,7 +125,7 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
             }
             StartCoroutine(SexyTransition(transform.position, newLocation, easing));
             panelLocation = newLocation;
-            UpdateCurrentDisplayedCharacter();
+            //UpdateCurrentDisplayedCharacter();
         } else
         {
             StartCoroutine(SexyTransition(transform.position, panelLocation, easing));

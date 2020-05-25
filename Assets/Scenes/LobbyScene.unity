@@ -567,6 +567,56 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &753267284
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 753267286}
+  - component: {fileID: 753267285}
+  m_Layer: 0
+  m_Name: CarouselController
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &753267285
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 753267284}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56b89cf84da23f04d8796a34eb15fe06, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  carouselPrefab: {fileID: 1893305953657370708, guid: b66ccf0b62ab6d74680d6afa3c31eef8,
+    type: 3}
+  carouselPos: {fileID: 1439387628}
+  carouselRadius: 5
+  distanceFromCamera: 6
+  offsetNegativeYDirection: 2.5
+  carousel: {fileID: 0}
+--- !u!4 &753267286
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 753267284}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1005654384
 GameObject:
   m_ObjectHideFlags: 0
@@ -1226,7 +1276,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1439387625}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1376.364, y: 751.22925, z: -61.6958}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1374,6 +1424,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 341c573e14076a7459ea9efaa03bc20a, type: 2}
   - {fileID: 2100000, guid: 67c119077bb75644dbf2ab0accc7fb8f, type: 2}
   - {fileID: 2100000, guid: 2640b912a686a0a4383e722edc9bd7b8, type: 2}
+  selectedMaterialIDs: 
 --- !u!4 &1916758864
 Transform:
   m_ObjectHideFlags: 0

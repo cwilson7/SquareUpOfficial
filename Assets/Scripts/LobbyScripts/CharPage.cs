@@ -34,8 +34,8 @@ public class CharPage : MonoBehaviour
         charName.text = LobbyController.lc.charAvatars[charID].name;
         charSelectBtn.GetComponentInChildren<TMP_Text>().text = "Select " + LobbyController.lc.charAvatars[charID].name;
 
-        Vector3 characterDisplayPos = new Vector3(characterCamera.transform.position.x, characterCamera.transform.position.y, characterCamera.transform.position.z + distanceFromCamera);  
-        GameObject character = Instantiate(LobbyController.lc.charAvatars[charID], characterDisplayPos, Quaternion.identity, characterCamera.transform);
+        Transform characterDisplayPos = CarouselController.cc.carousel.GetComponent<CarouselBehaviour>().playerDisplayLocations[charID];  
+        GameObject character = Instantiate(LobbyController.lc.charAvatars[charID], characterDisplayPos);
         character.layer = 9;
         cspc.displayedCharacters.Add(charID, character);
     }

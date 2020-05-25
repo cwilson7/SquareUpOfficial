@@ -9,16 +9,19 @@ public class CharPage : MonoBehaviour
 {
     [SerializeField] private TMP_Text charName;
     [SerializeField] private Button charSelectBtn;
+    [SerializeField] private float distanceFromCamera;
 
     private int myCharID;
     private PlayerListController plc;
     private CharSelectPanelController cspc;
+    private Camera characterCamera;
 
-    private void Start()
+    private void Awake()
     {
         charSelectBtn.onClick.AddListener(SetPlayerInfo);
         plc = GameObject.Find("PlayerList").GetComponent<PlayerListController>();
         cspc = GameObject.Find("CharSelectPanelContainer").GetComponent<CharSelectPanelController>();
+        characterCamera = cspc.charDisplayCamera;
     }
 
     public void ShowDetails(int charID)
@@ -30,6 +33,11 @@ public class CharPage : MonoBehaviour
 
         charName.text = LobbyController.lc.charAvatars[charID].name;
         charSelectBtn.GetComponentInChildren<TMP_Text>().text = "Select " + LobbyController.lc.charAvatars[charID].name;
+
+        Vector3 characterDisplayPos = new Vector3(characterCamera.transform.position.x, characterCamera.transform.position.y, characterCamera.transform.position.z + distanceFromCamera);  
+        GameObject character = Instantiate(LobbyController.lc.charAvatars[charID], characterDisplayPos, Quaternion.identity, characterCamera.transform);
+        character.layer = 9;
+        cspc.displayedCharacters.Add(charID, character);
     }
 
     private void SetPlayerInfo()
@@ -46,6 +54,7 @@ public class CharPage : MonoBehaviour
     {
         //Takes a little for hashtable to change key: "PlayerReady" to value true
         yield return new WaitForSeconds(0.5f);
+        cspc.UpdateCurrentDisplayedCharacter();
         plc.UpdatePlayerListings(PhotonNetwork.LocalPlayer);
     }
 

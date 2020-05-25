@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Photon.Pun;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,7 +11,8 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
     [SerializeField] private float offsetFromLeftEdge, percentThreshold, easing;
     private Vector3 panelLocation;
     private int panelCounter;
-    
+    public Hashtable displayedCharacters;
+    public Camera charDisplayCamera;
     
     // Start is called before the first frame update
     void Start()
@@ -20,12 +22,7 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
         {
             GenerateCharacterPanel(i);
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        UpdateCurrentDisplayedCharacter();
     }
 
     private void GenerateCharacterPanel(int charID)
@@ -33,6 +30,8 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
         GameObject newPanel = Instantiate(charPanel, gameObject.transform.position, Quaternion.identity, gameObject.transform);
         newPanel.GetComponent<RectTransform>().anchoredPosition = new Vector2 ((charID + 0.5f) * charPanel.GetComponent<RectTransform>().rect.width, newPanel.GetComponent<RectTransform>().anchoredPosition.y);
         newPanel.GetComponent<CharPage>().ShowDetails(charID);
+
+        GameObject myChar = (GameObject)displayedCharacters[charID];
     }
 
     private void SetTransformInfo()
@@ -43,6 +42,63 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
 
         panelLocation = transform.position;
         panelCounter = 1;
+
+        displayedCharacters = new Hashtable();
+    }
+
+    public void UpdateCurrentDisplayedCharacter()
+    {
+        GameObject charToDisplay = null;
+        foreach (GameObject character in displayedCharacters.Values)
+        {
+            if(character.activeSelf)
+            {
+                character.SetActive(false);
+            }
+        }
+        if ((bool)PhotonNetwork.LocalPlayer.CustomProperties["PlayerReady"])
+        {
+            Material assignedMat = LobbyController.lc.availableMaterials[(int)PhotonNetwork.LocalPlayer.CustomProperties["AssignedColor"]];
+            charToDisplay = (GameObject)displayedCharacters[(int)PhotonNetwork.LocalPlayer.CustomProperties["SelectedCharacter"]];
+            charToDisplay.GetComponent<MeshRenderer>().sharedMaterial = assignedMat;
+        }
+        else if (displayedCharacters.ContainsKey(panelCounter-1))
+        {
+            charToDisplay = (GameObject)displayedCharacters[panelCounter-1];           
+        }
+        if(charToDisplay != null) charToDisplay.SetActive(true);
+    }
+
+    IEnumerator CharacterFade(GameObject character, float endalpha, float seconds)
+    {
+        float t = 0f;
+        while (t <= 1.0)
+        {
+            t += Time.deltaTime / seconds;
+            Color charColor = CharacterColor(character);
+            charColor = Color.Lerp(charColor, new Color(charColor.r, charColor.g, charColor.b, endalpha), Mathf.SmoothStep(0f, 1f, t));
+            SetCharacterColor(character, charColor);
+            yield return null;
+        }
+        if (endalpha == 0f) character.SetActive(false);
+    }
+
+    private void InitializeCharacterModel(GameObject character)
+    {
+        Color transparent = new Color(CharacterColor(character).r, CharacterColor(character).g, CharacterColor(character).b, 0f);
+        SetCharacterColor(character, transparent);
+        character.SetActive(false);
+    }
+
+    private Color CharacterColor(GameObject character)
+    {
+        Color color = character.GetComponent<MeshRenderer>().sharedMaterial.GetColor("_BaseColor");
+        return color;
+    }
+
+    private void SetCharacterColor(GameObject character, Color colorToBecome)
+    {
+        character.GetComponent<MeshRenderer>().sharedMaterial.SetColor("_BaseColor", colorToBecome);
     }
 
     public void OnDrag(PointerEventData data)
@@ -68,6 +124,7 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
             }
             StartCoroutine(SexyTransition(transform.position, newLocation, easing));
             panelLocation = newLocation;
+            UpdateCurrentDisplayedCharacter();
         } else
         {
             StartCoroutine(SexyTransition(transform.position, panelLocation, easing));

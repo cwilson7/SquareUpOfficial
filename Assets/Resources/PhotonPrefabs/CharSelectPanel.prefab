@@ -489,7 +489,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -518,4 +518,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   charName: {fileID: 2839827232007871370}
   charSelectBtn: {fileID: 3346265857826759166}
-  font: {fileID: 11400000, guid: dc36b3fdc14f47ebb36fd484a67e268a, type: 2}
+  distanceFromCamera: 5

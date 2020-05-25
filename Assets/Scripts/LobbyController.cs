@@ -11,6 +11,7 @@ public class LobbyController : MonoBehaviourPunCallbacks
     
     public List<GameObject> charAvatars;
     public List<Material> availableMaterials;
+    public List<int> selectedMaterialIDs;
     
     // Start is called before the first frame update
     void Awake()
@@ -54,5 +55,15 @@ public class LobbyController : MonoBehaviourPunCallbacks
             yield return null;
         }
         SceneManager.LoadScene(MultiplayerSettings.multiplayerSettings.mainMenuScene);
+    }
+
+    public override void OnPlayerLeftRoom(Player otherPlayer)
+    {
+        base.OnPlayerLeftRoom(otherPlayer);
+        int myColorID = (int)otherPlayer.CustomProperties["AssignedColor"];
+        if(LobbyController.lc.selectedMaterialIDs.Contains(myColorID))
+        {
+            LobbyController.lc.selectedMaterialIDs.Remove(myColorID);
+        }
     }
 }

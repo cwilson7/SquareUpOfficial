@@ -51,7 +51,7 @@ public class PlayerListController : MonoBehaviourPunCallbacks
         }
     }
 
-    public void UpdatePlayerListings(Player p)
+    public void UpdatePlayerListingsAndUsedColorList(Player p)
     {
         GetComponent<PhotonView>().RPC("SetPlayerInfo_RPC", RpcTarget.AllBuffered, p.ActorNumber);
     }
@@ -60,6 +60,9 @@ public class PlayerListController : MonoBehaviourPunCallbacks
     private void SetPlayerInfo_RPC(int actorNumber)
     {
         Player p = PhotonNetwork.CurrentRoom.GetPlayer(actorNumber);
+
+        LobbyController.lc.selectedMaterialIDs.Add((int)p.CustomProperties["AssignedColor"]);
+
         int index = playerListings.FindIndex(x => x.Player == p);
         if (index != -1)
         {

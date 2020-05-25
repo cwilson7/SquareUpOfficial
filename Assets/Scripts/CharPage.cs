@@ -55,13 +55,17 @@ public class CharPage : MonoBehaviour
         //Takes a little for hashtable to change key: "PlayerReady" to value true
         yield return new WaitForSeconds(0.5f);
         cspc.UpdateCurrentDisplayedCharacter();
-        plc.UpdatePlayerListings(PhotonNetwork.LocalPlayer);
+        plc.UpdatePlayerListingsAndUsedColorList(PhotonNetwork.LocalPlayer);
     }
 
     private int GenerateRandomColorID()
     {
         int maxColors = Mathf.Min(MultiplayerSettings.multiplayerSettings.maxPlayers, LobbyController.lc.availableMaterials.Count);
         int color = Random.Range(0, maxColors);
-        return color;
+        if(LobbyController.lc.selectedMaterialIDs.Contains(color))
+        {
+            return GenerateRandomColorID();
+        }
+        else return color;
     }
 }

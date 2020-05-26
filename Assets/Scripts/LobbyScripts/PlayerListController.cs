@@ -66,7 +66,6 @@ public class PlayerListController : MonoBehaviourPunCallbacks
         int index = playerListings.FindIndex(x => x.Player == p);
         if (index != -1)
         {
-            Debug.Log("Ready: " + (bool)p.CustomProperties["PlayerReady"]);
             playerListings[index].SetPlayerListing(p);
         }
     }

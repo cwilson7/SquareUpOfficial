@@ -45,7 +45,7 @@ public class CharPage : MonoBehaviour
         MultiplayerSettings.multiplayerSettings.SetCustomPlayerProperties("PlayerReady", true);
         MultiplayerSettings.multiplayerSettings.SetCustomPlayerProperties("SelectedCharacter", myCharID);
         if((int)PhotonNetwork.LocalPlayer.CustomProperties["AssignedColor"] == -1) MultiplayerSettings.multiplayerSettings.SetCustomPlayerProperties("AssignedColor", GenerateRandomColorID());
-
+        cspc.charSelected = true;
         cspc.SendToPlayerList();
         StartCoroutine(InformationDelay());
     }

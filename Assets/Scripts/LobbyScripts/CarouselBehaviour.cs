@@ -29,8 +29,8 @@ public class CarouselBehaviour : MonoBehaviour
 
         for (int index = 0; index < avatarList.Count; index++)
         {
-            float distanceX = controller.carouselRadius / 2 * Mathf.Cos(2 * Mathf.PI / avatarList.Count * index) * distanceMultiplier;
-            float distanceZ = controller.carouselRadius / 2 * Mathf.Sin(2 * Mathf.PI / avatarList.Count * index) * distanceMultiplier;
+            float distanceX = controller.carouselRadius / 2 * Mathf.Cos(2 * Mathf.PI / avatarList.Count * (index+3)) * distanceMultiplier;
+            float distanceZ = controller.carouselRadius / 2 * Mathf.Sin(2 * Mathf.PI / avatarList.Count * (index+3)) * distanceMultiplier;
             
             Transform location = Instantiate(displayLocationPrefab, new Vector3(distanceX, controller.gameObject.transform.position.y, distanceZ + controller.distanceFromCamera), Quaternion.identity);
             location.SetParent(transform);

@@ -14,6 +14,8 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
     private int panelCounter;
     public Hashtable displayedCharacters;
     public Camera charDisplayCamera;
+    public Material defaultMaterial;
+    public bool charSelected;
     
     // Start is called before the first frame update
     void Start()
@@ -41,6 +43,8 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
         charPanel.GetComponent<RectTransform>().anchorMin = new Vector2(0, 0.5f);
         charPanel.GetComponent<RectTransform>().anchorMax = new Vector2(0, 0.5f);
 
+        charSelected = false;
+
         panelLocation = transform.position;
         panelCounter = 1;
 
@@ -52,10 +56,7 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
         GameObject charToDisplay = null;
         foreach (GameObject character in displayedCharacters.Values)
         {
-            if(character.activeSelf)
-            {
-                character.SetActive(false);
-            }
+            character.GetComponent<MeshRenderer>().sharedMaterial = defaultMaterial;
         }
         if ((bool)PhotonNetwork.LocalPlayer.CustomProperties["PlayerReady"])
         {
@@ -85,65 +86,79 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
 
     public void OnDrag(PointerEventData data)
     {
-        float difference = data.pressPosition.x - data.position.x;
-        transform.position = panelLocation - new Vector3(difference, 0, 0);
-
-        Quaternion targetAngle = Quaternion.Euler(0, Mathf.Rad2Deg * ((panelCounter - 1) * 2 * Mathf.PI / LobbyController.lc.charAvatars.Count + ConvertDistanceToRadians(difference)), 0);
-        CarouselController.cc.carousel.transform.rotation = Quaternion.Slerp(CarouselController.cc.carousel.transform.rotation, targetAngle, Time.deltaTime);
+        if (!charSelected)
+        {
+            float difference = data.pressPosition.x - data.position.x;
+            transform.position = panelLocation - new Vector3(difference, 0, 0);
+        }
     }
 
     public void OnEndDrag(PointerEventData data)
     {
-        float percentage = (data.pressPosition.x - data.position.x) / Screen.width;
-        if(Mathf.Abs(percentage) >= percentThreshold)
+        if (!charSelected)
         {
-            Vector3 newLocation = panelLocation;
-            if(percentage > 0 && (panelCounter < LobbyController.lc.charAvatars.Count))
+            float percentage = (data.pressPosition.x - data.position.x) / Screen.width;
+            if (Mathf.Abs(percentage) >= percentThreshold)
             {
-                newLocation += new Vector3(-Screen.width, 0, 0);
-                panelCounter += 1;
-            } else if (percentage < 0 && (panelCounter > 0))
-            {
-                newLocation += new Vector3(Screen.width, 0, 0);
-                panelCounter -= 1;
+                Vector3 newLocation = panelLocation;
+                if (percentage > 0 && (panelCounter < LobbyController.lc.charAvatars.Count))
+                {
+                    newLocation += new Vector3(-Screen.width, 0, 0);
+                    panelCounter += 1;
+                }
+                else if (percentage < 0 && (panelCounter > 0))
+                {
+                    newLocation += new Vector3(Screen.width, 0, 0);
+                    panelCounter -= 1;
+                }
+
+                SexyTransition(transform.position, newLocation, easing, easing);
+                panelLocation = newLocation;
             }
-            StartCoroutine(SexyTransition(transform.position, newLocation, easing));
-            panelLocation = newLocation;
-        } else
-        {
-            StartCoroutine(SexyTransition(transform.position, panelLocation, easing));
+            else
+            {
+                SexyTransition(transform.position, panelLocation, easing, easing);
+            }
         }
     }
 
-    IEnumerator SexyTransition(Vector3 startpos, Vector3 endpos, float seconds)
+    private void SexyTransition(Vector3 startpos, Vector3 endpos, float panelSeconds, float carouselSeconds)
+    {
+        if(!charSelected) StartCoroutine(SexyTransitionCarousel(carouselSeconds));
+        StartCoroutine(SexyTransitionPanels(startpos, endpos, panelSeconds));
+    }
+
+    IEnumerator SexyTransitionPanels(Vector3 startpos, Vector3 endpos, float seconds)
     {
         float t = 0f; 
+        while (t <= 1.0)
+        {
+            t += Time.deltaTime / seconds;
+            transform.position = Vector3.Lerp(startpos, endpos, Mathf.SmoothStep(0f, 1f, t));
+
+            yield return null;
+        }
+    }
+    IEnumerator SexyTransitionCarousel(float seconds)
+    {
+        float t = 0f;
+        Quaternion rotation = Quaternion.Euler(0, Mathf.Rad2Deg * (panelCounter - 1) * 2 * Mathf.PI / LobbyController.lc.charAvatars.Count, 0);
         while (t <= 1.0)
         {
             t += Time.deltaTime / seconds;
 
             if (panelCounter >= 1)
             {
-                Quaternion targetAngle = Quaternion.Euler(0, Mathf.Rad2Deg * (panelCounter - 1) * 2 * Mathf.PI / LobbyController.lc.charAvatars.Count, 0);
-                CarouselController.cc.carousel.transform.rotation = Quaternion.Slerp(CarouselController.cc.carousel.transform.rotation, targetAngle, Mathf.SmoothStep(0f, 1f, t));
+                CarouselController.cc.carousel.transform.rotation = Quaternion.Slerp(CarouselController.cc.carousel.transform.rotation, rotation, Mathf.SmoothStep(0f, 1f, t));
             }
-
-            transform.position = Vector3.Lerp(startpos, endpos, Mathf.SmoothStep(0f, 1f, t));
-
             yield return null;
         }
     }
 
-    private float ConvertDistanceToRadians(float distance)
-    {
-        float maxDistance = Screen.width/2;
-        float radians = distance / maxDistance * 2 * Mathf.PI / LobbyController.lc.charAvatars.Count;
-        return radians;
-    }
-
     public void SendToPlayerList()
     {
-        StartCoroutine(SexyTransition(transform.position, panelLocation = playerListPanel.transform.position + new Vector3((1+panelCounter)*Screen.width, 0 ,0), easing*4));
+        SexyTransition(transform.position, panelLocation = playerListPanel.transform.position + new Vector3((1 + panelCounter)*Screen.width, 0 ,0), easing*4, easing*4);
         panelCounter = 0;
     }
+
 }

@@ -599,9 +599,9 @@ MonoBehaviour:
   carouselPrefab: {fileID: 1893305953657370708, guid: b66ccf0b62ab6d74680d6afa3c31eef8,
     type: 3}
   carouselPos: {fileID: 1439387628}
-  carouselRadius: 5
-  distanceFromCamera: 6
-  offsetNegativeYDirection: 2.5
+  carouselRadius: 10
+  distanceFromCamera: 6.5
+  offsetNegativeYDirection: 2
   carousel: {fileID: 0}
 --- !u!4 &753267286
 Transform:

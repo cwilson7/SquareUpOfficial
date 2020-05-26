@@ -2,11 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
+using UnityEditor.ProBuilder;
 using UnityEngine;
+using UnityEngine.ProBuilder;
 
 public class CarouselBehaviour : MonoBehaviour
 {
     public List<Transform> playerDisplayLocations;
+    public float distanceMultiplier;
 
     public Transform displayLocationPrefab;
     
@@ -24,11 +27,13 @@ public class CarouselBehaviour : MonoBehaviour
         CarouselController controller = CarouselController.cc;
         playerDisplayLocations = new List<Transform>();
 
-        Debug.Log("avatar list size is " + avatarList.Count);
-
         for (int index = 0; index < avatarList.Count; index++)
         {
-            Transform location = Instantiate(displayLocationPrefab, new Vector3(controller.carouselRadius * Mathf.Cos(2*Mathf.PI / avatarList.Count * index), controller.gameObject.transform.position.y, controller.carouselRadius * Mathf.Sin(2*Mathf.PI / avatarList.Count * index) + controller.distanceFromCamera), Quaternion.identity);
+            float distanceX = controller.carouselRadius / 2 * Mathf.Cos(2 * Mathf.PI / avatarList.Count * index) * distanceMultiplier;
+            float distanceZ = controller.carouselRadius / 2 * Mathf.Sin(2 * Mathf.PI / avatarList.Count * index) * distanceMultiplier;
+            
+            Transform location = Instantiate(displayLocationPrefab, new Vector3(distanceX, controller.gameObject.transform.position.y, distanceZ + controller.distanceFromCamera), Quaternion.identity);
+            location.SetParent(transform);
             playerDisplayLocations.Add(location);
         }
     }

@@ -30,6 +30,6 @@ public class CarouselController : MonoBehaviour
     {
         carousel = Instantiate(carouselPrefab, carouselPos, transform);
         carousel.transform.localScale = new Vector3(carouselRadius, carousel.transform.localScale.y, carouselRadius);
-        carousel.transform.position = new Vector3(carousel.transform.position.x + carouselRadius, carousel.transform.position.y - offsetNegativeYDirection, carousel.transform.position.z + distanceFromCamera);
+        carousel.transform.position = new Vector3(carousel.transform.position.x, carousel.transform.position.y - offsetNegativeYDirection, carousel.transform.position.z + distanceFromCamera);
     }
 }

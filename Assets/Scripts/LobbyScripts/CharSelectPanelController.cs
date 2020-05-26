@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -23,7 +24,6 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
         {
             GenerateCharacterPanel(i);
         }
-        //UpdateCurrentDisplayedCharacter();
     }
 
     private void GenerateCharacterPanel(int charID)
@@ -70,27 +70,7 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
         if(charToDisplay != null) charToDisplay.SetActive(true);
     }
 
-    IEnumerator CharacterFade(GameObject character, float endalpha, float seconds)
-    {
-        float t = 0f;
-        while (t <= 1.0)
-        {
-            t += Time.deltaTime / seconds;
-            Color charColor = CharacterColor(character);
-            charColor = Color.Lerp(charColor, new Color(charColor.r, charColor.g, charColor.b, endalpha), Mathf.SmoothStep(0f, 1f, t));
-            SetCharacterColor(character, charColor);
-            yield return null;
-        }
-        if (endalpha == 0f) character.SetActive(false);
-    }
-
-    private void InitializeCharacterModel(GameObject character)
-    {
-        Color transparent = new Color(CharacterColor(character).r, CharacterColor(character).g, CharacterColor(character).b, 0f);
-        SetCharacterColor(character, transparent);
-        character.SetActive(false);
-    }
-
+    /* color stuff
     private Color CharacterColor(GameObject character)
     {
         Color color = character.GetComponent<MeshRenderer>().sharedMaterial.GetColor("_BaseColor");
@@ -101,11 +81,15 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
     {
         character.GetComponent<MeshRenderer>().sharedMaterial.SetColor("_BaseColor", colorToBecome);
     }
+    */
 
     public void OnDrag(PointerEventData data)
     {
         float difference = data.pressPosition.x - data.position.x;
         transform.position = panelLocation - new Vector3(difference, 0, 0);
+
+        Quaternion targetAngle = Quaternion.Euler(0, Mathf.Rad2Deg * ((panelCounter - 1) * 2 * Mathf.PI / LobbyController.lc.charAvatars.Count + ConvertDistanceToRadians(difference)), 0);
+        CarouselController.cc.carousel.transform.rotation = Quaternion.Slerp(CarouselController.cc.carousel.transform.rotation, targetAngle, Time.deltaTime);
     }
 
     public void OnEndDrag(PointerEventData data)
@@ -125,7 +109,6 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
             }
             StartCoroutine(SexyTransition(transform.position, newLocation, easing));
             panelLocation = newLocation;
-            //UpdateCurrentDisplayedCharacter();
         } else
         {
             StartCoroutine(SexyTransition(transform.position, panelLocation, easing));
@@ -138,9 +121,24 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
         while (t <= 1.0)
         {
             t += Time.deltaTime / seconds;
+
+            if (panelCounter >= 1)
+            {
+                Quaternion targetAngle = Quaternion.Euler(0, Mathf.Rad2Deg * (panelCounter - 1) * 2 * Mathf.PI / LobbyController.lc.charAvatars.Count, 0);
+                CarouselController.cc.carousel.transform.rotation = Quaternion.Slerp(CarouselController.cc.carousel.transform.rotation, targetAngle, Mathf.SmoothStep(0f, 1f, t));
+            }
+
             transform.position = Vector3.Lerp(startpos, endpos, Mathf.SmoothStep(0f, 1f, t));
+
             yield return null;
         }
+    }
+
+    private float ConvertDistanceToRadians(float distance)
+    {
+        float maxDistance = Screen.width/2;
+        float radians = distance / maxDistance * 2 * Mathf.PI / LobbyController.lc.charAvatars.Count;
+        return radians;
     }
 
     public void SendToPlayerList()

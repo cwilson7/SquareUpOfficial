@@ -142,7 +142,7 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
     IEnumerator SexyTransitionCarousel(float seconds)
     {
         float t = 0f;
-        Quaternion rotation = Quaternion.Euler(0, Mathf.Rad2Deg * (panelCounter - 1) * 2 * Mathf.PI / LobbyController.lc.charAvatars.Count, 0);
+        Quaternion rotation = Quaternion.Euler(0, Mathf.Rad2Deg * (panelCounter - 1) * 2 * Mathf.PI / (LobbyController.lc.charAvatars.Count), 0);
         while (t <= 1.0)
         {
             t += Time.deltaTime / seconds;

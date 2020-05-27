@@ -21,6 +21,10 @@ public class PlayerListing : MonoBehaviour
             playerLabel.color = LobbyController.lc.availableMaterials[(int)p.CustomProperties["AssignedColor"]].color;
             playerLabel.text += " - " + LobbyController.lc.charAvatars[(int)p.CustomProperties["SelectedCharacter"]].name;
         }
+        else
+        {
+            MultiplayerSettings.multiplayerSettings.SetCustomPlayerProperties("SelectedCharacter", -1);
+        }
     }
 
 }

@@ -10,12 +10,12 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
 {
     [SerializeField] private GameObject charPanel, playerListPanel;
     [SerializeField] private float offsetFromLeftEdge, percentThreshold, easing;
+    private List<CharPage> characterPages;
     private Vector3 panelLocation;
     private int panelCounter;
     public Hashtable displayedCharacters;
     public Camera charDisplayCamera;
     public Material defaultMaterial;
-    public bool charSelected;
     
     // Start is called before the first frame update
     void Start()
@@ -33,6 +33,7 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
         GameObject newPanel = Instantiate(charPanel, gameObject.transform.position, Quaternion.identity, gameObject.transform);
         newPanel.GetComponent<RectTransform>().anchoredPosition = new Vector2 ((charID + 0.5f) * charPanel.GetComponent<RectTransform>().rect.width, newPanel.GetComponent<RectTransform>().anchoredPosition.y);
         newPanel.GetComponent<CharPage>().ShowDetails(charID);
+        characterPages.Add(newPanel.GetComponent<CharPage>());
 
         GameObject myChar = (GameObject)displayedCharacters[charID];
     }
@@ -43,12 +44,12 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
         charPanel.GetComponent<RectTransform>().anchorMin = new Vector2(0, 0.5f);
         charPanel.GetComponent<RectTransform>().anchorMax = new Vector2(0, 0.5f);
 
-        charSelected = false;
-
         panelLocation = transform.position;
         panelCounter = 1;
 
         displayedCharacters = new Hashtable();
+
+        characterPages = new List<CharPage>();
     }
 
     public void UpdateCurrentDisplayedCharacter()
@@ -56,13 +57,14 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
         GameObject charToDisplay = null;
         foreach (GameObject character in displayedCharacters.Values)
         {
-            character.GetComponent<MeshRenderer>().sharedMaterial = defaultMaterial;
+            if((int) MultiplayerSettings.multiplayerSettings.localPlayerValues["AssignedColor"] == -1) character.GetComponent<AvatarCharacteristics>().SetMaterial(defaultMaterial);
+            else character.GetComponent<AvatarCharacteristics>().SetMaterial(LobbyController.lc.availableMaterials[(int)MultiplayerSettings.multiplayerSettings.localPlayerValues["AssignedColor"]]);
         }
-        if ((bool)PhotonNetwork.LocalPlayer.CustomProperties["PlayerReady"])
+        if ((bool)MultiplayerSettings.multiplayerSettings.localPlayerValues["PlayerReady"])
         {
-            Material assignedMat = LobbyController.lc.availableMaterials[(int)PhotonNetwork.LocalPlayer.CustomProperties["AssignedColor"]];
-            charToDisplay = (GameObject)displayedCharacters[(int)PhotonNetwork.LocalPlayer.CustomProperties["SelectedCharacter"]];
-            charToDisplay.GetComponent<MeshRenderer>().sharedMaterial = assignedMat;
+            Material assignedMat = LobbyController.lc.availableMaterials[(int)MultiplayerSettings.multiplayerSettings.localPlayerValues["AssignedColor"]];
+            charToDisplay = (GameObject)displayedCharacters[(int)MultiplayerSettings.multiplayerSettings.localPlayerValues["SelectedCharacter"]];
+            charToDisplay.GetComponent<AvatarCharacteristics>().SetMaterial(assignedMat);
         }
         else if (displayedCharacters.ContainsKey(panelCounter-1))
         {
@@ -71,22 +73,9 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
         if(charToDisplay != null) charToDisplay.SetActive(true);
     }
 
-    /* color stuff
-    private Color CharacterColor(GameObject character)
-    {
-        Color color = character.GetComponent<MeshRenderer>().sharedMaterial.GetColor("_BaseColor");
-        return color;
-    }
-
-    private void SetCharacterColor(GameObject character, Color colorToBecome)
-    {
-        character.GetComponent<MeshRenderer>().sharedMaterial.SetColor("_BaseColor", colorToBecome);
-    }
-    */
-
     public void OnDrag(PointerEventData data)
     {
-        if (!charSelected)
+        if (!(bool)MultiplayerSettings.multiplayerSettings.localPlayerValues["PlayerReady"])
         {
             float difference = data.pressPosition.x - data.position.x;
             transform.position = panelLocation - new Vector3(difference, 0, 0);
@@ -95,7 +84,7 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
 
     public void OnEndDrag(PointerEventData data)
     {
-        if (!charSelected)
+        if (!(bool)MultiplayerSettings.multiplayerSettings.localPlayerValues["PlayerReady"])
         {
             float percentage = (data.pressPosition.x - data.position.x) / Screen.width;
             if (Mathf.Abs(percentage) >= percentThreshold)
@@ -124,7 +113,7 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
 
     private void SexyTransition(Vector3 startpos, Vector3 endpos, float panelSeconds, float carouselSeconds)
     {
-        if(!charSelected) StartCoroutine(SexyTransitionCarousel(carouselSeconds));
+        if(!(bool)MultiplayerSettings.multiplayerSettings.localPlayerValues["PlayerReady"]) StartCoroutine(SexyTransitionCarousel(carouselSeconds));
         StartCoroutine(SexyTransitionPanels(startpos, endpos, panelSeconds));
     }
 
@@ -157,8 +146,22 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
 
     public void SendToPlayerList()
     {
-        SexyTransition(transform.position, panelLocation = playerListPanel.transform.position + new Vector3((1 + panelCounter)*Screen.width, 0 ,0), easing*4, easing*4);
+        foreach (CharPage page in characterPages)
+        {
+            page.SetPanelActive(false);
+        }
+        SexyTransition(transform.position, panelLocation = playerListPanel.transform.position + new Vector3((1 + panelCounter)*Screen.width, 0 ,0), easing, easing);
         panelCounter = 0;
+    }
+
+    public void SendToFirstCharacterPanel()
+    {
+        foreach (CharPage page in characterPages)
+        {
+            page.SetPanelActive(true);
+        }
+        panelCounter = 1;
+        SexyTransition(transform.position, panelLocation += new Vector3(-Screen.width, 0, 0), easing, easing);
     }
 
 }

@@ -72,6 +72,7 @@
     <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\FixedJoystick.cs" />
     <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\FloatingJoystick.cs" />
     <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\VariableJoystick.cs" />
+    <Compile Include="Assets\NetworkAvatar.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\Common\EventSystemSpawner.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\Common\OnStartDelete.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\Common\TextButtonTransition.cs" />
@@ -87,9 +88,13 @@
     <Compile Include="Assets\Scripts\AvatarSetup.cs" />
     <Compile Include="Assets\Scripts\CachedRoomList.cs" />
     <Compile Include="Assets\Scripts\For All New UI\SetFont.cs" />
+    <Compile Include="Assets\Scripts\Game\GameInfo.cs" />
+    <Compile Include="Assets\Scripts\Game\Score.cs" />
+    <Compile Include="Assets\Scripts\Game\Weapon.cs" />
     <Compile Include="Assets\Scripts\GameSetup.cs" />
     <Compile Include="Assets\Scripts\JoinRoomsMenu.cs" />
     <Compile Include="Assets\Scripts\LobbyController.cs" />
+    <Compile Include="Assets\Scripts\LobbyScripts\AvatarCharacteristics.cs" />
     <Compile Include="Assets\Scripts\LobbyScripts\CarouselBehaviour.cs" />
     <Compile Include="Assets\Scripts\LobbyScripts\CarouselController.cs" />
     <Compile Include="Assets\Scripts\LobbyScripts\CharPage.cs" />

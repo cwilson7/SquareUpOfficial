@@ -10,6 +10,8 @@ public class CharPage : MonoBehaviour
     [SerializeField] private TMP_Text charName;
     [SerializeField] private Button charSelectBtn;
     [SerializeField] private float distanceFromCamera;
+    [SerializeField] public GameObject myPanel;
+    [SerializeField] private List<GameObject> panelElements;
 
     private int myCharID;
     private PlayerListController plc;
@@ -21,6 +23,10 @@ public class CharPage : MonoBehaviour
         charSelectBtn.onClick.AddListener(SetPlayerInfo);
         plc = GameObject.Find("PlayerList").GetComponent<PlayerListController>();
         cspc = GameObject.Find("CharSelectPanelContainer").GetComponent<CharSelectPanelController>();
+        foreach (Transform UIElement in myPanel.GetComponentsInChildren<Transform>())
+        {
+            panelElements.Add(UIElement.gameObject);
+        }
         characterCamera = cspc.charDisplayCamera;
     }
 
@@ -40,13 +46,21 @@ public class CharPage : MonoBehaviour
         cspc.displayedCharacters.Add(charID, character);
     }
 
+    public void SetPanelActive(bool isActive)
+    {
+        foreach(GameObject UIElement in panelElements)
+        {
+            if(UIElement != gameObject) UIElement.SetActive(isActive);
+        }
+    }
+
     private void SetPlayerInfo()
     {
         MultiplayerSettings.multiplayerSettings.SetCustomPlayerProperties("PlayerReady", true);
         MultiplayerSettings.multiplayerSettings.SetCustomPlayerProperties("SelectedCharacter", myCharID);
-        if((int)PhotonNetwork.LocalPlayer.CustomProperties["AssignedColor"] == -1) MultiplayerSettings.multiplayerSettings.SetCustomPlayerProperties("AssignedColor", GenerateRandomColorID());
-        cspc.charSelected = true;
+        if((int)PhotonNetwork.LocalPlayer.CustomProperties["AssignedColor"] == -1) MultiplayerSettings.multiplayerSettings.SetCustomPlayerProperties("AssignedColor", GenerateRandomColorID());        
         cspc.SendToPlayerList();
+        cspc.UpdateCurrentDisplayedCharacter();
         StartCoroutine(InformationDelay());
     }
 
@@ -54,7 +68,6 @@ public class CharPage : MonoBehaviour
     {
         //Takes a little for hashtable to change key: "PlayerReady" to value true
         yield return new WaitForSeconds(0.5f);
-        cspc.UpdateCurrentDisplayedCharacter();
         plc.UpdatePlayerListingsAndUsedColorList(PhotonNetwork.LocalPlayer);
     }
 

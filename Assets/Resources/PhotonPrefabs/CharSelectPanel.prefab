@@ -519,3 +519,4 @@ MonoBehaviour:
   charName: {fileID: 2839827232007871370}
   charSelectBtn: {fileID: 3346265857826759166}
   distanceFromCamera: 5
+  myPanel: {fileID: 8855396151601012057}

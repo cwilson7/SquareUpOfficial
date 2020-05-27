@@ -9,6 +9,7 @@ public class MultiplayerSettings : MonoBehaviour
 {
     public static MultiplayerSettings multiplayerSettings;
     private ExitGames.Client.Photon.Hashtable customProperties;
+    public Hashtable localPlayerValues;
 
     public bool delayStart, customRoomPrivate;
     public int maxPlayers, multiplayerScene, intermediateScene, mainMenuScene;
@@ -57,6 +58,7 @@ public class MultiplayerSettings : MonoBehaviour
     public void InitializeCustomProperties()
     {
         customProperties = new ExitGames.Client.Photon.Hashtable();
+        localPlayerValues = new Hashtable();
         SetCustomPlayerProperties("PlayerReady", false);
         SetCustomPlayerProperties("SelectedCharacter", -1);
         SetCustomPlayerProperties("AssignedColor", -1);
@@ -67,5 +69,8 @@ public class MultiplayerSettings : MonoBehaviour
         if (!PhotonNetwork.LocalPlayer.CustomProperties.ContainsKey(key)) customProperties.Add(key, value);
         else customProperties[key] = value;
         PhotonNetwork.LocalPlayer.SetCustomProperties(customProperties);
+
+        if (localPlayerValues.ContainsKey(key)) localPlayerValues[key] = value;
+        else localPlayerValues.Add(key, value);
     }
 }

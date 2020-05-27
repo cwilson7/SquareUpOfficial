@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using Photon.Realtime;
 
 public class AvatarSetup : MonoBehaviour
 {
@@ -11,16 +12,17 @@ public class AvatarSetup : MonoBehaviour
     void Awake()
     {
         PV = GetComponent<PhotonView>();
-        PV.RPC("InitializeCharacter_RPC", RpcTarget.AllBuffered);
+        if(PV.IsMine) PV.RPC("InitializeCharacter_RPC", RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer.ActorNumber);
     }
 
     [PunRPC]
-    private void InitializeCharacter_RPC()
+    private void InitializeCharacter_RPC(int actorNumber)
     {
-        GameObject mySelectedCharacter = LobbyController.lc.charAvatars[(int)PhotonNetwork.LocalPlayer.CustomProperties["SelectedCharacter"]];
-        Material myAssignedColor = LobbyController.lc.availableMaterials[(int)PhotonNetwork.LocalPlayer.CustomProperties["AssignedColor"]];
+        Player p = PhotonNetwork.CurrentRoom.GetPlayer(actorNumber);
+        GameObject mySelectedCharacter = LobbyController.lc.charAvatars[(int)p.CustomProperties["SelectedCharacter"]];
+        Material myAssignedColor = LobbyController.lc.availableMaterials[(int)p.CustomProperties["AssignedColor"]];
 
         GameObject avatarSkin = Instantiate(mySelectedCharacter, transform, transform);
-        avatarSkin.GetComponent<MeshRenderer>().sharedMaterial = myAssignedColor;
+        avatarSkin.GetComponent<AvatarCharacteristics>().SetMaterial(myAssignedColor);
     }
 }

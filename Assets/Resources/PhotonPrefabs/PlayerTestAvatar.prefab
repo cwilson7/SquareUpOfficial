@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &4545348536818812901
+--- !u!1 &5847854268284727757
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,28 +8,41 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1124722248348084620}
+  - component: {fileID: 5602454038807706821}
+  - component: {fileID: 6306866485801571927}
   m_Layer: 0
-  m_Name: GroundCheck
+  m_Name: BaseOfCharacter
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1124722248348084620
+--- !u!4 &5602454038807706821
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4545348536818812901}
+  m_GameObject: {fileID: 5847854268284727757}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1008630218328219121}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6306866485801571927
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5847854268284727757}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7891842d8ca7dbf4aadb4b413eaa4ac3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7553275058234249101
 GameObject:
   m_ObjectHideFlags: 0
@@ -40,7 +53,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1008630218328219121}
   - component: {fileID: 6299201916958379825}
-  - component: {fileID: 8571559651302936874}
   - component: {fileID: 230725977286613779}
   - component: {fileID: 6391912281978112192}
   - component: {fileID: -7095289599236880044}
@@ -62,7 +74,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1124722248348084620}
+  - {fileID: 5602454038807706821}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -88,30 +100,6 @@ MonoBehaviour:
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &8571559651302936874
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7553275058234249101}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb224915e7be5d746b468ec711571230, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cc: {fileID: 230725977286613779}
-  speed: 5
-  gravity: -9.8
-  jumpHeight: 2
-  groundCheck: {fileID: 1124722248348084620}
-  groundDistance: 0.6
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 256
-  velocity: {x: 0, y: 0, z: 0}
-  ljoy: {fileID: 0}
-  rjoy: {fileID: 0}
 --- !u!143 &230725977286613779
 CharacterController:
   m_ObjectHideFlags: 0

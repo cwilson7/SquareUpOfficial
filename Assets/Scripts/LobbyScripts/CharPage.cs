@@ -16,6 +16,7 @@ public class CharPage : MonoBehaviour
     private int myCharID;
     private PlayerListController plc;
     private CharSelectPanelController cspc;
+    private LobbyGameController lbc;
     private Camera characterCamera;
 
     private void Awake()
@@ -23,6 +24,7 @@ public class CharPage : MonoBehaviour
         charSelectBtn.onClick.AddListener(SetPlayerInfo);
         plc = GameObject.Find("PlayerList").GetComponent<PlayerListController>();
         cspc = GameObject.Find("CharSelectPanelContainer").GetComponent<CharSelectPanelController>();
+        lbc = GameObject.Find("GameController").GetComponent<LobbyGameController>();
         foreach (Transform UIElement in myPanel.GetComponentsInChildren<Transform>())
         {
             panelElements.Add(UIElement.gameObject);
@@ -61,6 +63,7 @@ public class CharPage : MonoBehaviour
         if((int)PhotonNetwork.LocalPlayer.CustomProperties["AssignedColor"] == -1) MultiplayerSettings.multiplayerSettings.SetCustomPlayerProperties("AssignedColor", GenerateRandomColorID());        
         cspc.SendToPlayerList();
         cspc.UpdateCurrentDisplayedCharacter();
+        lbc.waitingTxt.enabled = (bool)MultiplayerSettings.multiplayerSettings.localPlayerValues["PlayerReady"];
         StartCoroutine(InformationDelay());
     }
 

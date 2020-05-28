@@ -47,7 +47,7 @@ public class NetworkAvatar : MonoBehaviourPun, IPunObservable
         {
             transform.position = remotePlayerPosition;
         }
-        else if(lagDistance.magnitude > 0.11f)
+        else 
         {
             transform.position = Vector3.Lerp(positionAtLastPacket, remotePlayerPosition, (float)(currentTime / timeToReachGoal));
         }

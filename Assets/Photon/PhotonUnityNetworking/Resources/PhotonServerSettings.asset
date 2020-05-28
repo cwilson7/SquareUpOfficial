@@ -44,6 +44,8 @@ MonoBehaviour:
   - AddDeath_RPC
   - AddScore_RPC
   - InitializeMyScore_RPC
+  - AddKill_RPC
+  - AddStat_RPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

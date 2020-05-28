@@ -53,11 +53,6 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
         MoveToLobby();
     }
 
-    void StartGame()
-    {
-        PhotonNetwork.LoadLevel(MultiplayerSettings.multiplayerSettings.multiplayerScene);
-    }
-
     void MoveToLobby()
     {
         PhotonNetwork.LoadLevel(MultiplayerSettings.multiplayerSettings.intermediateScene);

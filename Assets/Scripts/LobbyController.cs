@@ -38,6 +38,7 @@ public class LobbyController : MonoBehaviourPunCallbacks
 
     public void StartGame()
     {
+        if (!PhotonNetwork.IsMasterClient) return;
         PhotonNetwork.LoadLevel(MultiplayerSettings.multiplayerSettings.multiplayerScene);
     }
 

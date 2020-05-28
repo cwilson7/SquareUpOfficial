@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Weapon : MonoBehaviour
+public class EquippedWeapon : MonoBehaviour
 {
+    public Weapon weapon;
+    
     // Start is called before the first frame update
     void Start()
     {

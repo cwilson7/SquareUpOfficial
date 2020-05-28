@@ -8,6 +8,9 @@ public class GameInfo : MonoBehaviour
     public static GameInfo GI;
     public PhotonView PV;
     public Hashtable scoreTable;
+    public bool TimeStopped;
+
+    private bool starting;
 
     [SerializeField] private GameObject scorePrefab;
     
@@ -16,11 +19,14 @@ public class GameInfo : MonoBehaviour
     {
         GI = this;
         PV = GetComponent<PhotonView>();
+        TimeStopped = true;
+        starting = false;
     }
 
     private void Start()
     {
         InitializeScoreTable();
+        StartCoroutine(StartingMatch());
     }
 
     private void InitializeScoreTable()
@@ -33,6 +39,13 @@ public class GameInfo : MonoBehaviour
     {
         PV.RPC("AddStat_RPC", RpcTarget.AllBuffered, actorNumber, key);
     }
+
+    IEnumerator StartingMatch()
+    {
+        yield return new WaitForSeconds(5f);
+        TimeStopped = false;
+    }
+
 
     [PunRPC]
     private void InitializeMyScore_RPC(int actorNumber)

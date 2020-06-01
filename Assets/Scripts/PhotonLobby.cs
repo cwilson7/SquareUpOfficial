@@ -11,10 +11,11 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
 {
     public static PhotonLobby lobby;
 
-    public GameObject startButton, loadingTxtPrefab, roomListContent, joinRndLobbyBtn, chooseModePnl, startPnl, createRoomPnl, currentPnl;
+    public GameObject startButton, loadingTxtPrefab, roomNotFoundTxtPrefab, roomListContent, joinRndLobbyBtn, chooseModePnl, startPnl, createRoomPnl, currentPnl;
     [SerializeField] Canvas canvas;
     private Hashtable loadingObjects;
 
+    private GameObject roomNotFoundTxt;
     private bool inPhotonLobby;
     
     private void Awake()
@@ -27,12 +28,12 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
         InitializeLoadingUI();
         Loading(true, startButton);
         // Once we move to server implementation, this needs to be changed to "PhotonNetwork.ConnectToMaster(IP of server, port of server, our decided name of server);"
+        PhotonNetwork.AutomaticallySyncScene = true;
         PhotonNetwork.ConnectUsingSettings();
     }
 
     public override void OnConnectedToMaster()
     {
-        PhotonNetwork.AutomaticallySyncScene = true;
         MultiplayerSettings.multiplayerSettings.InitializeCustomProperties();
 
         PhotonNetwork.JoinLobby(); 
@@ -65,16 +66,28 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
 
     IEnumerator LeaveLobbyDelay()
     {
-        PhotonNetwork.LeaveLobby();
-        Loading(true, roomListContent);
-        yield return new WaitForSeconds(1f);
-        if (inPhotonLobby == true) StartCoroutine(LeaveLobbyDelay());
+        if (PhotonNetwork.InLobby)
+        {
+            PhotonNetwork.LeaveLobby();
+            Loading(true, roomListContent);
+            yield return new WaitForSeconds(1f);
+            if (inPhotonLobby == true) StartCoroutine(LeaveLobbyDelay());
+        }
     }
 
     public override void OnJoinRandomFailed(short returnCode, string message)
     {
         Debug.Log("Failed to join a room.");
         CreateRoom();
+    }
+
+    public override void OnJoinRoomFailed(short returnCode, string message)
+    {
+        base.OnJoinRoomFailed(returnCode, message);
+        Loading(false, roomListContent);
+        PhotonNetwork.JoinLobby();
+        roomNotFoundTxt = Instantiate(roomNotFoundTxtPrefab, currentPnl.transform);
+        StartCoroutine(TextFade());
     }
 
     private void CreateRoom()
@@ -109,9 +122,31 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinRandomRoom(null, (byte)MultiplayerSettings.multiplayerSettings.maxPlayers);
     }
 
+    public void SearchForRoom(string roomName)
+    {
+        StartCoroutine(LeaveLobbyDelay());
+        PhotonNetwork.JoinRoom(roomName);
+    }
+
     #endregion
 
     #region UI Elements
+    IEnumerator TextFade()
+    {
+        if (roomNotFoundTxt != null)
+        {
+            TMP_Text currentTxt = roomNotFoundTxt.GetComponent<TMP_Text>();
+            float t = 0f;
+            while (t <= 1.0)
+            {
+                t += Time.deltaTime / 16;
+                currentTxt.alpha = Mathf.Lerp(currentTxt.alpha, 0, Mathf.SmoothStep(0f, 1f, t));
+                yield return null;
+            }
+            Destroy(currentTxt);
+        }
+    }
+    
     private void Loading(bool isLoading, GameObject item)
     {
         item.SetActive(!isLoading);

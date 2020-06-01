@@ -8,21 +8,24 @@ using Photon.Realtime;
 public class LobbyGameController : MonoBehaviour
 {
     public TMP_Text waitingTxt;
+    private bool allReady;
     
     // Start is called before the first frame update
     void Start()
     {
         waitingTxt.enabled = false;
+        allReady = false;
     }
 
     private void FixedUpdate()
     {
-        if((bool)PhotonNetwork.LocalPlayer.CustomProperties["PlayerReady"]) CheckIfAllReady();
+        if(PhotonNetwork.IsConnected && (bool)PhotonNetwork.LocalPlayer.CustomProperties["PlayerReady"] && !allReady) CheckIfAllReady();
     }
 
     private void CheckIfAllReady()
     {
-        bool allReady = true;
+        if (!PhotonNetwork.IsMasterClient) return;
+        allReady = true;
         foreach (Player player in PhotonNetwork.PlayerList)
         {
             if (!(bool)player.CustomProperties["PlayerReady"])
@@ -35,6 +38,7 @@ public class LobbyGameController : MonoBehaviour
 
     IEnumerator StartingGame()
     {
+        Debug.Log("Starting game");
         yield return new WaitForSeconds(5f);
         LobbyController.lc.StartGame();
     }

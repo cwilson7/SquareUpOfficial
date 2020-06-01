@@ -22,8 +22,8 @@ public abstract class Controller : MonoBehaviour
     public Transform baseOfCharacter;
     
     //Tracked variables
-    protected Vector3 Velocity, impact;
-    protected int jumpNum;
+    public Vector3 Velocity, impact;
+    public int jumpNum;
 
     // Start is called before the first frame update
     void Start()
@@ -36,15 +36,15 @@ public abstract class Controller : MonoBehaviour
     {
         if (GameInfo.GI.TimeStopped) return;
         Gravity();
-        Movement();
         Combat();
         SpecialAbility();
+
+        if (PV.IsMine) Movement();
     }
 
     public virtual void InitializePlayerController()
     {
         PV = GetComponent<PhotonView>();
-        if (!PV.IsMine) Destroy(this);
 
         impact = Vector3.zero;
         speed = 10f;
@@ -87,8 +87,7 @@ public abstract class Controller : MonoBehaviour
         //Vertical movement
         if (moveStick.Vertical >= 0.8 && jumpNum > 0)
         {
-            Velocity.y = Mathf.Sqrt(jumpHeightMultiplier * -1f * gravity);
-            jumpNum -= 1;
+            Jump();
         }
 
         //Horizontal movement
@@ -106,6 +105,12 @@ public abstract class Controller : MonoBehaviour
 
         //Account for impact from being hit by weapon
         impact = Vector3.Lerp(impact, Vector3.zero, 5 * Time.deltaTime);
+    }
+
+    public void Jump()
+    {
+        Velocity.y = Mathf.Sqrt(jumpHeightMultiplier * -1f * gravity);
+        jumpNum -= 1;
     }
 
     public virtual void Combat()

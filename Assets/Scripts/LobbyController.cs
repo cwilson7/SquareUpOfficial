@@ -38,7 +38,7 @@ public class LobbyController : MonoBehaviourPunCallbacks
 
     public void StartGame()
     {
-        if (!PhotonNetwork.IsMasterClient) return;
+        Debug.Log("Photon Network Scene Sync set to: " + PhotonNetwork.AutomaticallySyncScene);
         PhotonNetwork.LoadLevel(MultiplayerSettings.multiplayerSettings.multiplayerScene);
     }
 

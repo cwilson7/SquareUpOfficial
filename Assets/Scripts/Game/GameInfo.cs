@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using System;
 
 public class GameInfo : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class GameInfo : MonoBehaviour
     private bool starting;
 
     [SerializeField] private GameObject scorePrefab;
-    
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -26,7 +27,7 @@ public class GameInfo : MonoBehaviour
     private void Start()
     {
         InitializeScoreTable();
-        StartCoroutine(StartingMatch());
+        PV.RPC("SyncStart_RPC", RpcTarget.AllBuffered);
     }
 
     private void InitializeScoreTable()
@@ -46,12 +47,24 @@ public class GameInfo : MonoBehaviour
         TimeStopped = false;
     }
 
+    public void StopTime()
+    {
+        PV.RPC("StopTime_RPC", RpcTarget.AllBuffered);
+    }
+
+    public void StartTime()
+    {
+        PV.RPC("StartTime_RPC", RpcTarget.AllBuffered);
+    }
+
 
     [PunRPC]
     private void InitializeMyScore_RPC(int actorNumber)
     {
         GameObject scoreObj = Instantiate(scorePrefab, transform);
         Score score = scoreObj.GetComponent<Score>();
+        score.photonPlayer = PhotonView.Find(Int32.Parse(actorNumber + "001")).gameObject;
+        score.playerAvatar = PhotonView.Find(Int32.Parse(actorNumber + "002")).gameObject;
         score.actorNumber = actorNumber;
         scoreTable.Add(actorNumber, score);
     }
@@ -61,6 +74,24 @@ public class GameInfo : MonoBehaviour
     {
         Score score = (Score)scoreTable[actorNumber];
         score.AddToStat(key);
+    }
+
+    [PunRPC]
+    private void SyncStart_RPC()
+    {
+        StartCoroutine(StartingMatch());
+    }
+
+    [PunRPC]
+    private void StopTime_RPC()
+    {
+        TimeStopped = true;
+    }
+
+    [PunRPC]
+    private void StartTime_RPC()
+    {
+        TimeStopped = false;
     }
 
 }

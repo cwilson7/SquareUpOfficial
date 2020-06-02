@@ -11,7 +11,7 @@ public abstract class Controller : MonoBehaviour
     private CharacterController cc;
     [SerializeField] private GameObject baseOfCharacterPrefab; 
     
-    public EquippedWeapon currentWeapon;
+    public Weapon currentWeapon;
     
     //Control UI
     protected FloatingJoystick moveStick;
@@ -24,6 +24,7 @@ public abstract class Controller : MonoBehaviour
     //Tracked variables
     public Vector3 Velocity, impact;
     public int jumpNum;
+    public double HP;
 
     // Start is called before the first frame update
     void Start()
@@ -34,12 +35,12 @@ public abstract class Controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (GameInfo.GI.TimeStopped) return;
+        //if (GameInfo.GI.TimeStopped) return;
         Gravity();
-        Combat();
-        SpecialAbility();
 
-        if (PV.IsMine) Movement();
+        if (!PV.IsMine) return;             
+        Movement();
+        SpecialAbility();
     }
 
     public virtual void InitializePlayerController()
@@ -47,21 +48,24 @@ public abstract class Controller : MonoBehaviour
         PV = GetComponent<PhotonView>();
 
         impact = Vector3.zero;
+
+        //Default values for all players
         speed = 10f;
         gravity = -9.8f;
         jumpHeightMultiplier = 1f;
         groundDetectionRadius = 0.1f;
         maxJumps = 2;
         distanceFromGround = 0.5f;
+        HP = 100;
 
         cc = GetComponent<CharacterController>();
-        currentWeapon = GetComponent<EquippedWeapon>();
+        currentWeapon = GetComponent<Weapon>();
         moveStick = JoyStickReference.joyStick.gameObject.GetComponent<FloatingJoystick>();
+
+        SwipeDetector.OnSwipe += Combat;
 
         baseOfCharacter = GetComponentInChildren<BaseOfCharacter>().gameObject.transform;
         baseOfCharacter.transform.position = new Vector3(baseOfCharacter.position.x, baseOfCharacter.position.y - distanceFromGround, baseOfCharacter.transform.position.z);
-
-        //Default values for all players
     }
 
     private void OnDrawGizmosSelected()
@@ -113,10 +117,46 @@ public abstract class Controller : MonoBehaviour
         jumpNum -= 1;
     }
 
-    public virtual void Combat()
+    public virtual void Combat(SwipeData data)
     {
-
+        if (currentWeapon == null)
+        {
+            //punch code
+        }
+        else
+        {
+            Vector3 AttackDirection = data.StartPos - data.EndPos;
+            currentWeapon.Attack(AttackDirection);
+        }
     }
+
+    #region RPC
+
+    public void LoseHealth(double lostHP)
+    {
+        PV.RPC("LoseHealth_RPC", RpcTarget.AllBuffered, lostHP);
+    }
+
+    [PunRPC]
+    public void FireWeapon_RPC(Vector3 Direction, float dmg, Vector3 impt, float bltSpd, int ownr, string projName)
+    {
+        GameObject bullet = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/Weapons/" + projName), transform.position, Quaternion.identity);
+        bullet.GetComponent<Projectile>().InitializeProjectile(dmg, impt, Direction * (float)bltSpd, ownr);
+    }
+
+    [PunRPC]
+    public void LoseHealth_RPC(double lostHP)
+    {
+        HP -= lostHP;
+    }
+
+    [PunRPC]
+    public void LoseWeapon_RPC()
+    {
+        if (currentWeapon == null) return;
+        currentWeapon.Remove();
+    }
+    #endregion
 
     public abstract void SpecialAbility();
 }

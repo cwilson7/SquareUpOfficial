@@ -8,12 +8,14 @@ using System.IO;
 public class PhotonPlayer : MonoBehaviour
 {
     private PhotonView PV;
+    public int myActorNumber;
     public GameObject myAvatar;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         PV = GetComponent<PhotonView>();
+        myActorNumber = PV.OwnerActorNr;
         if(PV.IsMine) InitializePhotonPlayer();
     }
 

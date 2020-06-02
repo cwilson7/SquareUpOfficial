@@ -22,6 +22,7 @@ public class AvatarSetup : MonoBehaviour
     private void InitializeCharacter_RPC(int actorNumber)
     {
         Player p = PhotonNetwork.CurrentRoom.GetPlayer(actorNumber);
+        if (p == null) Debug.Log("player: " + actorNumber + " doesn't exist!");
         GameObject mySelectedCharacter = LobbyController.lc.charAvatars[(int)p.CustomProperties["SelectedCharacter"]];
         Material myAssignedColor = LobbyController.lc.availableMaterials[(int)p.CustomProperties["AssignedColor"]];
 

@@ -46,6 +46,14 @@ MonoBehaviour:
   - InitializeMyScore_RPC
   - AddKill_RPC
   - AddStat_RPC
+  - DestroyPowerUp_RPC
+  - FireWeapon_RPC
+  - SyncStart_RPC
+  - StopTime_RPC
+  - StartTime_RPC
+  - EquipWeapon_RPC
+  - LoseHealth_RPC
+  - LoseWeapon_RPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

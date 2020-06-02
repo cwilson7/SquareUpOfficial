@@ -7,6 +7,8 @@ using UnityEngine;
 public class Score : MonoBehaviour
 {
     public int actorNumber, kills, deaths, powerUpsCollected, punchesThrown, punchesLanded, bulletsFired, bulletsLanded, falls;
+
+    public GameObject photonPlayer, playerAvatar;
     
     // Start is called before the first frame update
     void Start()

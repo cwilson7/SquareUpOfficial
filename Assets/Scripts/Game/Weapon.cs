@@ -14,10 +14,12 @@ public class Weapon : MonoBehaviour
     public GameObject projectile;
     public Transform FiringPoint, GunPivot;
 
-    private void Awake()
+    private void Start()
     {
-        PV = GetComponentInParent<PhotonView>();
-        ParentController = GetComponentInParent<Controller>();
+        GameObject parentAvatar = transform.parent.parent.gameObject;
+        PV = parentAvatar.GetComponent<PhotonView>();
+        ParentController = parentAvatar.GetComponent<Controller>();
+        GunPivot = GetComponentInParent<GunPivot>().gameObject.transform;
 
         ammoLeft = totalAmmo;
         fireCooldown = 0f;
@@ -26,17 +28,16 @@ public class Weapon : MonoBehaviour
     private void FixedUpdate()
     {
         if (fireCooldown >= 0) fireCooldown -= Time.deltaTime;
+        TrackMousePosition(ParentController.AimDirection);
     }
 
-    private void RotateGun(Vector2 angle)
+    public void TrackMousePosition(Vector3 Direction)
     {
-        Vector2 ang = angle.normalized;
-        if (ang.x < 0) transform.localEulerAngles = new Vector3(0, 0, 180 + Mathf.Rad2Deg * Mathf.Atan(ang.y / ang.x));
-        else transform.localEulerAngles = new Vector3(0, 0, Mathf.Rad2Deg * Mathf.Atan(ang.y / ang.x));
-
+        if (Direction.x < 0) GunPivot.localEulerAngles = new Vector3(0, 0, 180 + Mathf.Rad2Deg * Mathf.Atan(Direction.y / Direction.x));
+        else GunPivot.localEulerAngles = new Vector3(0, 0, Mathf.Rad2Deg * Mathf.Atan(Direction.y / Direction.x));
     }
 
-    public void Attack(Vector3 Direction)
+    public virtual void Attack(Vector3 Direction)
     {
         if (fireCooldown > 0) return;
         

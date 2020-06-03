@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="Assets\CrystalFramework\Utility\Demos\SafeAreaDemo.cs" />
     <Compile Include="Assets\CrystalFramework\Utility\SafeArea.cs" />
+    <Compile Include="Assets\Fist.cs" />
     <Compile Include="Assets\Gun.cs" />
     <Compile Include="Assets\Joystick Pack\Examples\JoystickPlayerExample.cs" />
     <Compile Include="Assets\Joystick Pack\Examples\JoystickSetterExample.cs" />

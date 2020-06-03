@@ -22,7 +22,7 @@ public class WeaponPowerUp : PowerUp
     {
         Score playerInfo = (Score)GameInfo.GI.scoreTable[ownr];
         GameObject wpn = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/Weapons/"+WeaponPrefab.name), playerInfo.playerAvatar.transform.position, Quaternion.identity);
-        wpn.transform.SetParent(playerInfo.playerAvatar.transform);
+        wpn.transform.SetParent(playerInfo.playerAvatar.GetComponentInChildren<GunPivot>().transform);
         wpn.GetComponent<Weapon>().owner = ownr;
         playerInfo.playerAvatar.GetComponent<Controller>().currentWeapon = wpn.GetComponent<Weapon>();
     }

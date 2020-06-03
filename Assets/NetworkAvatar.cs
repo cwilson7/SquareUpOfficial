@@ -43,7 +43,7 @@ public class NetworkAvatar : MonoBehaviourPun, IPunObservable
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (PV.IsMine) return;
         
@@ -57,6 +57,7 @@ public class NetworkAvatar : MonoBehaviourPun, IPunObservable
 
         CheckForMove(lagDistance, timeToReachGoal);
         cc.Move((controller.Velocity * controller.speed + controller.impact * 10f) * Time.deltaTime);
+        controller.impact = Vector3.Lerp(controller.impact, Vector3.zero, 5 * Time.deltaTime);
     }
 
     private void CheckForMove(Vector3 lagDistance, double timeToReachGoal)

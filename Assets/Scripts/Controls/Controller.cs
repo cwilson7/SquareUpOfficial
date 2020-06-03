@@ -7,6 +7,8 @@ using System;
 
 public abstract class Controller : MonoBehaviour  
 {
+    public bool DEVMODE = false;
+    
     private PhotonView PV;
     private CharacterController cc;
     [SerializeField] private GameObject baseOfCharacterPrefab; 
@@ -25,6 +27,7 @@ public abstract class Controller : MonoBehaviour
     public Vector3 Velocity, impact;
     public int jumpNum;
     public double HP;
+    public Vector2 AimDirection;
 
     // Start is called before the first frame update
     void Start()
@@ -35,11 +38,12 @@ public abstract class Controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //if (GameInfo.GI.TimeStopped) return;
+        if (!DEVMODE) { if (GameInfo.GI.TimeStopped) return; }
         Gravity();
 
         if (!PV.IsMine) return;             
         Movement();
+        if (DEVMODE) DevCombat();
         SpecialAbility();
     }
 
@@ -48,6 +52,7 @@ public abstract class Controller : MonoBehaviour
         PV = GetComponent<PhotonView>();
 
         impact = Vector3.zero;
+        AimDirection = Vector2.zero;
 
         //Default values for all players
         speed = 10f;
@@ -62,16 +67,10 @@ public abstract class Controller : MonoBehaviour
         currentWeapon = GetComponent<Weapon>();
         moveStick = JoyStickReference.joyStick.gameObject.GetComponent<FloatingJoystick>();
 
-        SwipeDetector.OnSwipe += Combat;
+        if (!DEVMODE) SwipeDetector.OnSwipe += Combat;
 
         baseOfCharacter = GetComponentInChildren<BaseOfCharacter>().gameObject.transform;
         baseOfCharacter.transform.position = new Vector3(baseOfCharacter.position.x, baseOfCharacter.position.y - distanceFromGround, baseOfCharacter.transform.position.z);
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawSphere(baseOfCharacter.position, groundDetectionRadius);
     }
 
     public virtual void Gravity()
@@ -116,9 +115,10 @@ public abstract class Controller : MonoBehaviour
         Velocity.y = Mathf.Sqrt(jumpHeightMultiplier * -1f * gravity);
         jumpNum -= 1;
     }
-
     public virtual void Combat(SwipeData data)
     {
+        if (DEVMODE) return;
+        
         if (currentWeapon == null)
         {
             //punch code
@@ -126,7 +126,42 @@ public abstract class Controller : MonoBehaviour
         else
         {
             Vector3 AttackDirection = data.StartPos - data.EndPos;
+            AimDirection = AttackDirection;
             currentWeapon.Attack(AttackDirection);
+        }
+    }
+
+    private void DevCombat()
+    {
+        if (!DEVMODE) return;
+        
+        if (currentWeapon == null) return;
+        
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            currentWeapon.Attack(new Vector3(1, 0, 0));
+        }
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            currentWeapon.Attack(new Vector3(-1, 0, 0));
+        }
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.tag == "Projectile")
+        {
+            Projectile proj = other.gameObject.GetComponent<Projectile>();
+            if (proj.owner == PV.OwnerActorNr) return;
+
+            if (PV.IsMine)
+            {
+                LoseHealth(proj.damage);
+                GameInfo.GI.StatChange(proj.owner, "bulletsLanded");
+            }
+            
+            impact += proj.impactMultiplier * proj.Velocity.normalized;
+            Destroy(other.gameObject);
         }
     }
 
@@ -138,9 +173,9 @@ public abstract class Controller : MonoBehaviour
     }
 
     [PunRPC]
-    public void FireWeapon_RPC(Vector3 Direction, float dmg, Vector3 impt, float bltSpd, int ownr, string projName)
+    public void FireWeapon_RPC(Vector3 Direction, float dmg, float impt, float bltSpd, int ownr, string projName)
     {
-        GameObject bullet = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/Weapons/" + projName), transform.position, Quaternion.identity);
+        GameObject bullet = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/Weapons/" + projName), currentWeapon.FiringPoint.position, Quaternion.identity);
         bullet.GetComponent<Projectile>().InitializeProjectile(dmg, impt, Direction * (float)bltSpd, ownr);
     }
 
@@ -155,6 +190,7 @@ public abstract class Controller : MonoBehaviour
     {
         if (currentWeapon == null) return;
         currentWeapon.Remove();
+        currentWeapon = null;
     }
     #endregion
 

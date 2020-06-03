@@ -25,35 +25,29 @@ MonoBehaviour:
     AuthMode: 0
     EnableLobbyStatistics: 0
     NetworkLogging: 1
-  DevRegion: us
+  DevRegion: 
   PunLogging: 0
   EnableSupportLogger: 0
   RunInBackground: 1
   StartInOfflineMode: 0
   RpcList:
+  - AddStat_RPC
   - ClickRpc
+  - DestroyPowerUp_RPC
   - DestroyRpc
   - DestroySpaceship
-  - Fire
-  - InitializeCharacter_RPC
-  - RespawnSpaceship
-  - SetPlayerInfo_RPC
-  - ResetPlayerInfo_RPC
-  - InitializeMyScore
-  - AddScore
-  - AddDeath_RPC
-  - AddScore_RPC
-  - InitializeMyScore_RPC
-  - AddKill_RPC
-  - AddStat_RPC
-  - DestroyPowerUp_RPC
-  - FireWeapon_RPC
-  - SyncStart_RPC
-  - StopTime_RPC
-  - StartTime_RPC
   - EquipWeapon_RPC
+  - Fire
+  - FireWeapon_RPC
+  - InitializeCharacter_RPC
+  - InitializeMyScore_RPC
   - LoseHealth_RPC
   - LoseWeapon_RPC
+  - RespawnSpaceship
+  - SetPlayerInfo_RPC
+  - StartTime_RPC
+  - StopTime_RPC
+  - SyncStart_RPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
-  DevRegionSetOnce: 1
+  DevRegionSetOnce: 0

@@ -9,11 +9,12 @@ public class Weapon : MonoBehaviour
     private Controller ParentController;
 
     public float damage, fireRate, fireCooldown, bltSpeed, recoil;
-    public Vector3 impact;
+    public float impact;
     public int owner, totalAmmo, ammoLeft;
     public GameObject projectile;
+    public Transform FiringPoint, GunPivot;
 
-    private void Start()
+    private void Awake()
     {
         PV = GetComponentInParent<PhotonView>();
         ParentController = GetComponentInParent<Controller>();
@@ -25,6 +26,14 @@ public class Weapon : MonoBehaviour
     private void FixedUpdate()
     {
         if (fireCooldown >= 0) fireCooldown -= Time.deltaTime;
+    }
+
+    private void RotateGun(Vector2 angle)
+    {
+        Vector2 ang = angle.normalized;
+        if (ang.x < 0) transform.localEulerAngles = new Vector3(0, 0, 180 + Mathf.Rad2Deg * Mathf.Atan(ang.y / ang.x));
+        else transform.localEulerAngles = new Vector3(0, 0, Mathf.Rad2Deg * Mathf.Atan(ang.y / ang.x));
+
     }
 
     public void Attack(Vector3 Direction)
@@ -48,7 +57,7 @@ public class Weapon : MonoBehaviour
 
     public void Remove()
     {
-        Destroy(this);
+        Destroy(this.gameObject);
     }
 
 }

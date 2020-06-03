@@ -9,10 +9,6 @@ public class Fist : MonoBehaviour
     public int owner;
     public float damage, impact, cooldown, timeBtwnPunches;
 
-    private void Awake()
-    {
-        ParentController = GetComponentInParent<Controller>();
-    }
     public void Update()
     {
         if (cooldown >= 0) cooldown -= Time.deltaTime;
@@ -20,11 +16,13 @@ public class Fist : MonoBehaviour
     public void Smack(Vector3 Direction)
     {
         if (cooldown > 0) return;
+        GameInfo.GI.StatChange(owner, "punchesThrown");
         ParentController.gameObject.GetComponent<PhotonView>().RPC("RPC_MeleAttack", RpcTarget.AllBuffered, Direction, owner);
     }
 
     public void InitializeFist()
     {
+        ParentController = GetComponentInParent<Controller>();
         GetComponent<SphereCollider>().enabled = false;
 
         damage = ParentController.punchPower;
@@ -33,14 +31,16 @@ public class Fist : MonoBehaviour
         cooldown = ParentController.punchCooldown;
         timeBtwnPunches = cooldown;
 
-        GetComponent<MeshRenderer>().sharedMaterial = LobbyController.lc.availableMaterials[LobbyController.lc.selectedMaterialIDs[owner - 1]];
+        transform.localPosition = new Vector3(0f, 0f, 0f);
+        GetComponent<Rigidbody>().velocity = new Vector3(0f, 0f, 0f);
+
+        GetComponent<MeshRenderer>().sharedMaterial = LobbyController.lc.availableMaterials[(int)PhotonNetwork.CurrentRoom.GetPlayer(owner).CustomProperties["AssignedColor"]];
     }
 
     public IEnumerator FistDrag()
     {
         yield return new WaitForSeconds(0.5f);
-        GetComponent<Rigidbody>().velocity = -GetComponent<Rigidbody>().velocity;
-        yield return new WaitForSeconds(0.5f);
+        GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
         transform.localPosition = new Vector3(0, 0, 0);
         GetComponent<SphereCollider>().enabled = false;
     }

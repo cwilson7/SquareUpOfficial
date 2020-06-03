@@ -18,7 +18,7 @@ public class Projectile : MonoBehaviour
         this.Velocity = vel;
         this.owner = owner;
         maxLifeTime = 5f;
-        GetComponent<MeshRenderer>().sharedMaterial = LobbyController.lc.availableMaterials[LobbyController.lc.selectedMaterialIDs[owner - 1]];
+        GetComponent<MeshRenderer>().sharedMaterial = LobbyController.lc.availableMaterials[(int)PhotonNetwork.CurrentRoom.GetPlayer(owner).CustomProperties["AssignedColor"]];
     }
 
     void Start()

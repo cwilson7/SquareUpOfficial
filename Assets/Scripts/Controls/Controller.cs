@@ -34,7 +34,7 @@ public abstract class Controller : MonoBehaviour
 
     #region SET VALUES
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         InitializePlayerController();
     }
@@ -56,7 +56,7 @@ public abstract class Controller : MonoBehaviour
         HP = 100;
         punchPower = 10f;
         punchImpact = 1f;
-        punchCooldown = 30;
+        punchCooldown = 2;
         actorNr = GetComponent<PhotonView>().OwnerActorNr;
 
         cc = GetComponent<CharacterController>();
@@ -90,6 +90,28 @@ public abstract class Controller : MonoBehaviour
         SpecialAbility();
     }
 
+    private void MouseCombat()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            if (currentWeapon == null)
+            {
+                Fist.Smack(AimDirection);
+            }
+            else
+            {
+                currentWeapon.Attack(AimDirection);
+            }
+        }
+    }
+
+    public void TrackMouse()
+    {
+        Vector3 MouseWorldPos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
+        MouseWorldPos.z = 0f;
+        AimDirection = (MouseWorldPos - transform.position).normalized;
+    }
+    #region Movement Functions
     public virtual void Gravity()
     {
         LayerMask ground = LayerMask.GetMask("Platform");
@@ -105,7 +127,7 @@ public abstract class Controller : MonoBehaviour
     public virtual void Movement()
     {
         transform.position = new Vector3(transform.position.x, transform.position.y, 0f);
-        
+
         if (iPhone)
         {
             //Vertical movement
@@ -133,46 +155,23 @@ public abstract class Controller : MonoBehaviour
             }
             Velocity.x = Input.GetAxis("Horizontal");
         }
-        
-        
+
+
         Vector3 move = new Vector3(Velocity.x, Velocity.y, 0f);
         cc.Move((move * speed + impact * 10f) * Time.deltaTime);
 
         //Account for impact from being hit by weapon
         impact = Vector3.Lerp(impact, Vector3.zero, 5 * Time.deltaTime);
     }
-
-    private void MouseCombat()
-    {
-        if (Input.GetMouseButtonDown(0))
-        {
-            if (currentWeapon == null)
-            {
-                Fist.Smack(AimDirection);
-            }
-            else
-            {
-                currentWeapon.Attack(AimDirection);
-            }
-        }
-    }
-
-    public void TrackMouse()
-    {
-        Vector3 MouseWorldPos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
-        MouseWorldPos.z = 0f;
-        AimDirection = (MouseWorldPos - transform.position).normalized;
-    }
-
     public void Jump()
     {
         if (jumpNum <= 0) return;
         Velocity.y = Mathf.Sqrt(jumpHeightMultiplier * -1f * gravity);
         jumpNum -= 1;
     }
+    #endregion
 
-
-    #region TOUCH
+    #region Touch Functions
     public virtual void TouchCombat(SwipeData data)
     {
         Vector3 AttackDirection = data.StartPos - data.EndPos;
@@ -186,13 +185,15 @@ public abstract class Controller : MonoBehaviour
             currentWeapon.Attack(AimDirection);
         }
     }
-    #endregion 
+    #endregion
+
+    #region Collision/ Trigger 
     private void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.tag == "Projectile")
         {
             Projectile proj = other.gameObject.GetComponent<Projectile>();
-            if (proj.owner == PV.OwnerActorNr) return;
+            if (proj.owner == actorNr) return;
 
             if (PV.IsMine)
             {
@@ -205,6 +206,24 @@ public abstract class Controller : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "Fist")
+        {
+            Fist fist = other.GetComponent<Fist>();
+            if (fist.owner == actorNr) return;
+
+            if (PV.IsMine)
+            {
+                LoseHealth(fist.damage);
+                GameInfo.GI.StatChange(fist.owner, "punchesLanded");
+            }
+
+            impact += fist.impact * fist.gameObject.GetComponent<Rigidbody>().velocity.normalized;
+            other.gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
+        }
+    }
+    #endregion
     #region RPC
 
     public void LoseHealth(double lostHP)
@@ -240,8 +259,8 @@ public abstract class Controller : MonoBehaviour
         Score playerInfo = (Score)GameInfo.GI.scoreTable[actorNumber];
         GameObject fist = playerInfo.playerAvatar.GetComponent<Controller>().Fist.gameObject;
         fist.GetComponent<Fist>().cooldown = Fist.GetComponent<Fist>().timeBtwnPunches;
-        fist.GetComponent<SphereCollider>().enabled = true;
         fist.GetComponent<Rigidbody>().AddForce(aim * 1000);
+        fist.GetComponent<SphereCollider>().enabled = true;
         StartCoroutine(fist.GetComponent<Fist>().FistDrag());
     }
     #endregion

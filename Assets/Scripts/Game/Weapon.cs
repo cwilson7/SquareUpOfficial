@@ -33,6 +33,7 @@ public class Weapon : MonoBehaviour
 
     public void TrackMousePosition(Vector3 Direction)
     {
+        if (!PV.IsMine) return;
         if (Direction.x < 0) GunPivot.localEulerAngles = new Vector3(0, 0, 180 + Mathf.Rad2Deg * Mathf.Atan(Direction.y / Direction.x));
         else GunPivot.localEulerAngles = new Vector3(0, 0, Mathf.Rad2Deg * Mathf.Atan(Direction.y / Direction.x));
     }

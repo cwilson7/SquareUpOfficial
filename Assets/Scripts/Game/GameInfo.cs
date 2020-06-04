@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using System;
+using Photon.Realtime;
 
 public class GameInfo : MonoBehaviour
 {
@@ -10,8 +11,9 @@ public class GameInfo : MonoBehaviour
     public PhotonView PV;
     public Hashtable scoreTable;
     public bool TimeStopped;
+    private bool allReady;
 
-    private bool starting;
+    private bool started = false, setScoreTable = false, stopUpdateCalls = false;
 
     [SerializeField] private GameObject scorePrefab;
 
@@ -19,21 +21,58 @@ public class GameInfo : MonoBehaviour
     void Awake()
     {
         GI = this;
-        PV = GetComponent<PhotonView>();
-        TimeStopped = true;
-        starting = false;
+        scoreTable = new Hashtable();
     }
 
-    private void Start()
+    public void InitializeGameInfo()
     {
+        PV = GetComponent<PhotonView>();
+        TimeStopped = true;
+        started= false;
         InitializeScoreTable();
-        PV.RPC("SyncStart_RPC", RpcTarget.AllBuffered);
+    }
+
+    private void FixedUpdate()
+    {
+        if (!started) CheckIfAllReady();
+        if (!setScoreTable && !stopUpdateCalls) CheckIfAllSpawned();
+    }
+
+    private void CheckIfAllReady()
+    {
+        if (!PhotonNetwork.IsMasterClient) return;
+        allReady = true;
+        foreach (Player player in PhotonNetwork.PlayerList)
+        {
+            if (!(bool)player.CustomProperties["LoadedIn"])
+            {
+                allReady = false;
+            }
+        }
+        if (allReady) PV.RPC("SyncStart_RPC", RpcTarget.AllBuffered);
+    }
+
+    private void CheckIfAllSpawned()
+    {
+        allReady = true;
+        foreach (Player player in PhotonNetwork.PlayerList)
+        {
+            if (!(bool)player.CustomProperties["ControllerInitialized"])
+            {
+                allReady = false;
+            }
+        }
+        if (allReady)
+        {
+            InitializeGameInfo();
+            stopUpdateCalls = true;
+        }
     }
 
     private void InitializeScoreTable()
     {
-        scoreTable = new Hashtable();
         PV.RPC("InitializeMyScore_RPC", RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer.ActorNumber);
+        MultiplayerSettings.multiplayerSettings.SetCustomPlayerProperties("GameInfoSet", true);
     }
 
     public void StatChange(int actorNumber, string key)
@@ -64,7 +103,8 @@ public class GameInfo : MonoBehaviour
         GameObject scoreObj = Instantiate(scorePrefab, transform);
         Score score = scoreObj.GetComponent<Score>();
         score.photonPlayer = PhotonView.Find(Int32.Parse(actorNumber + "001")).gameObject;
-        score.playerAvatar = PhotonView.Find(Int32.Parse(actorNumber + "002")).gameObject;
+        if (!PhotonNetwork.CurrentRoom.GetPlayer(actorNumber).IsMasterClient) score.playerAvatar = PhotonView.Find(Int32.Parse(actorNumber + "002")).gameObject;
+        else score.playerAvatar = PhotonView.Find(Int32.Parse(actorNumber + "003")).gameObject;
         score.actorNumber = actorNumber;
         scoreTable.Add(actorNumber, score);
     }

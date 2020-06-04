@@ -65,6 +65,7 @@
   <ItemGroup>
     <Compile Include="Assets\CrystalFramework\Utility\Demos\SafeAreaDemo.cs" />
     <Compile Include="Assets\CrystalFramework\Utility\SafeArea.cs" />
+    <Compile Include="Assets\Cube.cs" />
     <Compile Include="Assets\Fist.cs" />
     <Compile Include="Assets\Gun.cs" />
     <Compile Include="Assets\Joystick Pack\Examples\JoystickPlayerExample.cs" />
@@ -74,6 +75,7 @@
     <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\FixedJoystick.cs" />
     <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\FloatingJoystick.cs" />
     <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\VariableJoystick.cs" />
+    <Compile Include="Assets\Level.cs" />
     <Compile Include="Assets\LobbyGameController.cs" />
     <Compile Include="Assets\NetworkAvatar.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\Common\EventSystemSpawner.cs" />
@@ -98,6 +100,7 @@
     <Compile Include="Assets\Scripts\Classes\CharacterClass4.cs" />
     <Compile Include="Assets\Scripts\Controls\Controller.cs" />
     <Compile Include="Assets\Scripts\For All New UI\SetFont.cs" />
+    <Compile Include="Assets\Scripts\Game\CameraFollow.cs" />
     <Compile Include="Assets\Scripts\Game\EquippedWeapon.cs" />
     <Compile Include="Assets\Scripts\Game\GameInfo.cs" />
     <Compile Include="Assets\Scripts\Game\Score.cs" />
@@ -109,6 +112,7 @@
     <Compile Include="Assets\Scripts\Labels\FiringPoint.cs" />
     <Compile Include="Assets\Scripts\Labels\GunPivot.cs" />
     <Compile Include="Assets\Scripts\Labels\JoyStickReference.cs" />
+    <Compile Include="Assets\Scripts\Labels\MiniMapPlayer.cs" />
     <Compile Include="Assets\Scripts\LobbyController.cs" />
     <Compile Include="Assets\Scripts\LobbyScripts\AvatarCharacteristics.cs" />
     <Compile Include="Assets\Scripts\LobbyScripts\CarouselBehaviour.cs" />

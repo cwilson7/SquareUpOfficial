@@ -62,6 +62,10 @@ public class MultiplayerSettings : MonoBehaviour
         SetCustomPlayerProperties("PlayerReady", false);
         SetCustomPlayerProperties("SelectedCharacter", -1);
         SetCustomPlayerProperties("AssignedColor", -1);
+        SetCustomPlayerProperties("LoadedIn", false);
+        SetCustomPlayerProperties("CharacterSpawned", false);
+        SetCustomPlayerProperties("ControllerInitialized", false);
+        SetCustomPlayerProperties("GameInfoSet", false);
     }
     
     public void SetCustomPlayerProperties(string key, object value)

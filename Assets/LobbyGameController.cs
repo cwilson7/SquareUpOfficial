@@ -39,6 +39,8 @@ public class LobbyGameController : MonoBehaviour
     IEnumerator StartingGame()
     {
         Debug.Log("Starting game");
+        //Aesthetic changes
+        PhotonNetwork.CurrentRoom.IsOpen = false;
         yield return new WaitForSeconds(5f);
         LobbyController.lc.StartGame();
     }

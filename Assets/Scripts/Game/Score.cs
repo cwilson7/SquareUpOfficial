@@ -11,7 +11,7 @@ public class Score : MonoBehaviour
     public GameObject photonPlayer, playerAvatar;
     
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         kills = 0;
         deaths = 0;

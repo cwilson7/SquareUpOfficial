@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameSetup : MonoBehaviour
+public class Level : MonoBehaviour
 {
-    public static GameSetup gs;
     public Transform[] spawnPoints;
-
+    public Transform face;
 }

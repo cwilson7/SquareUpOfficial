@@ -15,6 +15,7 @@ public abstract class Controller : MonoBehaviour
     
     public Weapon currentWeapon;
     public Fist Fist;
+    public MiniMapPlayer mmPlayer;
     
     //Control UI
     protected FloatingJoystick moveStick;
@@ -31,12 +32,13 @@ public abstract class Controller : MonoBehaviour
     public int jumpNum;
     public double HP;
     public Vector3 AimDirection;
+    private bool controllerInitialized = false;
 
     #region SET VALUES
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
-        InitializePlayerController();
+        //InitializePlayerController();
     }
 
     public virtual void InitializePlayerController()
@@ -69,14 +71,20 @@ public abstract class Controller : MonoBehaviour
         Fist = GetComponentInChildren<Fist>();
         Fist.InitializeFist();
 
+        mmPlayer = GetComponentInChildren<MiniMapPlayer>();
+
         baseOfCharacter = GetComponentInChildren<BaseOfCharacter>().gameObject.transform;
         baseOfCharacter.transform.position = new Vector3(baseOfCharacter.position.x, baseOfCharacter.position.y - distanceFromGround, baseOfCharacter.transform.position.z);
+
+        controllerInitialized = true;
+        if (PV.IsMine) MultiplayerSettings.multiplayerSettings.SetCustomPlayerProperties("ControllerInitialized", true);
     }
     #endregion
 
     // Update is called once per frame
     void Update()
     {
+        if (!controllerInitialized) return;
         //if (GameInfo.GI.TimeStopped) return;
         Gravity();
 
@@ -263,6 +271,18 @@ public abstract class Controller : MonoBehaviour
         fist.GetComponent<SphereCollider>().enabled = true;
         StartCoroutine(fist.GetComponent<Fist>().FistDrag());
     }
+
+    [PunRPC]
+    public void SetUpMiniMap_RPC(int actorNumber)
+    {
+        Score playerInfo = (Score)GameInfo.GI.scoreTable[actorNumber];
+        MiniMapPlayer player = playerInfo.playerAvatar.GetComponent<Controller>().mmPlayer;
+        int colorid = (int)PhotonNetwork.CurrentRoom.GetPlayer(actorNumber).CustomProperties["AssignedColor"];
+        player.gameObject.GetComponent<MeshRenderer>().sharedMaterial = LobbyController.lc.availableMaterials[colorid];
+    }
+    #endregion
+
+    #region Coroutines
     #endregion
 
     public abstract void SpecialAbility();

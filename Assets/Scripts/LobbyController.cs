@@ -38,7 +38,6 @@ public class LobbyController : MonoBehaviourPunCallbacks
 
     public void StartGame()
     {
-        Debug.Log("Photon Network Scene Sync set to: " + PhotonNetwork.AutomaticallySyncScene);
         PhotonNetwork.LoadLevel(MultiplayerSettings.multiplayerSettings.multiplayerScene);
     }
 
@@ -56,6 +55,7 @@ public class LobbyController : MonoBehaviourPunCallbacks
             yield return null;
         }
         SceneManager.LoadScene(MultiplayerSettings.multiplayerSettings.mainMenuScene);
+        Destroy(this);
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)

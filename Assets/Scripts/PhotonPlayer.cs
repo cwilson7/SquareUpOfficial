@@ -12,17 +12,22 @@ public class PhotonPlayer : MonoBehaviour
     public GameObject myAvatar;
 
     // Start is called before the first frame update
-    void Awake()
+    void Start()
     {
         PV = GetComponent<PhotonView>();
         myActorNumber = PV.OwnerActorNr;
-        if(PV.IsMine) InitializePhotonPlayer();
+        if (PV.IsMine)
+        {
+            if (PhotonNetwork.IsMasterClient) SetUpCube();
+            InitializePhotonPlayer();
+            //GameInfo.GI.InitializeGameInfo();
+        }
     }
 
-    public void Spawn()
+    public void SetUpCube()
     {
-        int spawnPicker = Random.Range(0, GameSetup.gs.spawnPoints.Length);
-        myAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerTestAvatar"), GameSetup.gs.spawnPoints[spawnPicker].position, GameSetup.gs.spawnPoints[spawnPicker].rotation, 0);
+        PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "CubeStuff", "LevelCube"), new Vector3(0f, 0f, 0f), Quaternion.identity);
+        Cube.cb.InitializeCube();
     }
 
     void Update()
@@ -32,7 +37,18 @@ public class PhotonPlayer : MonoBehaviour
 
     private void InitializePhotonPlayer()
     {
-        int spawnPicker = Random.Range(0, GameSetup.gs.spawnPoints.Length);
-        myAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerTestAvatar"), GameSetup.gs.spawnPoints[spawnPicker].position, GameSetup.gs.spawnPoints[spawnPicker].rotation, 0);
+        if (Cube.cb == null) StartCoroutine(InformationDelay());
+        else
+        {
+            Transform[] spawnList = Cube.cb.CurrentFace.spawnPoints;
+            int spawnPicker = Random.Range(0, spawnList.Length);
+            myAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerTestAvatar"), spawnList[spawnPicker].position, spawnList[spawnPicker].rotation, 0);
+        }
+    }
+
+    IEnumerator InformationDelay()
+    {
+        yield return new WaitForSeconds(0.5f);
+        InitializePhotonPlayer();
     }
 }

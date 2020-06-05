@@ -42,7 +42,7 @@ public class PhotonPlayer : MonoBehaviour
         {
             Transform[] spawnList = Cube.cb.CurrentFace.spawnPoints;
             int spawnPicker = Random.Range(0, spawnList.Length);
-            myAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerTestAvatar"), spawnList[spawnPicker].position, spawnList[spawnPicker].rotation, 0);
+            myAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerTestAvatar"), spawnList[spawnPicker].position, Quaternion.identity/*spawnList[spawnPicker].rotation*/, 0);
         }
     }
 

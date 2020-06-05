@@ -13,6 +13,8 @@ public class GameInfo : MonoBehaviour
     public bool TimeStopped;
     private bool allReady;
 
+    public List<GameObject> WeaponPowerUps, PowerUps;
+
     private bool started = false, setScoreTable = false, stopUpdateCalls = false;
 
     [SerializeField] private GameObject scorePrefab;
@@ -29,7 +31,31 @@ public class GameInfo : MonoBehaviour
         PV = GetComponent<PhotonView>();
         TimeStopped = true;
         started= false;
+        PopulateList(WeaponPowerUps, "PhotonPrefabs/PowerUps/WeaponPowerUps");
+        PopulateList(PowerUps, "PhotonPrefabs/PowerUps/OtherPowerUps");
         InitializeScoreTable();
+    }
+
+    public void PopulateList(List<GameObject> list, string prefabFolderPath)
+    {
+        UnityEngine.Object[] prefabs = Resources.LoadAll(prefabFolderPath);
+        foreach (UnityEngine.Object prefab in prefabs)
+        {
+            GameObject prefabGO = (GameObject)prefab;
+            list.Add(prefabGO);
+        }
+    }
+
+    public List<GameObject> ReturnListFromID(int id)
+    {
+        switch (id)
+        {
+            case 1:
+                return WeaponPowerUps;
+            case 2:
+                return PowerUps;
+        }
+        return null;
     }
 
     private void FixedUpdate()
@@ -49,7 +75,11 @@ public class GameInfo : MonoBehaviour
                 allReady = false;
             }
         }
-        if (allReady) PV.RPC("SyncStart_RPC", RpcTarget.AllBuffered);
+        if (allReady)
+        {
+            started = true;
+            PV.RPC("SyncStart_RPC", RpcTarget.AllBuffered);
+        }
     }
 
     private void CheckIfAllSpawned()
@@ -119,6 +149,7 @@ public class GameInfo : MonoBehaviour
     [PunRPC]
     private void SyncStart_RPC()
     {
+        if (GameManager.Manager.PV.IsMine) GameManager.Manager.InitalizeGameManager();
         StartCoroutine(StartingMatch());
     }
 

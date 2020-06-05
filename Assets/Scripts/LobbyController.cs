@@ -28,12 +28,28 @@ public class LobbyController : MonoBehaviourPunCallbacks
             }
         }
         DontDestroyOnLoad(this.gameObject);
+        InitalizeInfoLists();
     }
 
     // Update is called once per frame
-    void Update()
+    void InitalizeInfoLists()
     {
+        charAvatars = new List<GameObject>();
+        availableMaterials = new List<Material>();
         
+        Object[] avatarPrefabs = Resources.LoadAll("PhotonPrefabs/CharacterAvatars");
+        foreach (Object prefab in avatarPrefabs)
+        {
+            GameObject prefabGO = (GameObject)prefab;
+            charAvatars.Add(prefabGO);
+        }
+
+        Object[] mats = Resources.LoadAll("PhotonPrefabs/Materials");
+        foreach (Object mat in mats)
+        {
+            Material prefabGO = (Material)mat;
+            availableMaterials.Add(prefabGO);
+        }
     }
 
     public void StartGame()

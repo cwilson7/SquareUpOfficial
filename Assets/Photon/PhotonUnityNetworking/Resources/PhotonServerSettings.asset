@@ -55,6 +55,7 @@ MonoBehaviour:
   - InitializeCube_RPC
   - SetFirstFace_RPC
   - SetLevels_RPC
+  - InstantiatePowerUp_RPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

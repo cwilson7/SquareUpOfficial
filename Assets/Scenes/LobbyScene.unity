@@ -1633,6 +1633,7 @@ MonoBehaviour:
   - {fileID: 8639073091388673823, guid: 820bca7d043edac4f821d46937414145, type: 3}
   - {fileID: 8190783227649145712, guid: 9591dc0936050ee45814528868072e93, type: 3}
   - {fileID: 6916490148790006800, guid: 85ed9ba00be988c499534b6ec5ad703c, type: 3}
+  - {fileID: 1608496636541054530, guid: 940b1cfa0e3358946b0df1451deb8795, type: 3}
   availableMaterials:
   - {fileID: 2100000, guid: 63f1a05ca15a6a94484ac9ef1fedbad3, type: 2}
   - {fileID: 2100000, guid: 9e23bd183be5ab64380527fab91bca77, type: 2}

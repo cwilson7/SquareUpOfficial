@@ -6,6 +6,9 @@ public class AvatarCharacteristics : MonoBehaviour
 {
     public void SetMaterial(Material mat)
     {
-        gameObject.GetComponent<MeshRenderer>().sharedMaterial = mat;
+        foreach (MeshRenderer m in gameObject.GetComponentsInChildren<MeshRenderer>())
+        {
+            m.sharedMaterial = mat;
+        }
     }
 }

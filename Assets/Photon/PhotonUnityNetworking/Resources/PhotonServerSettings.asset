@@ -40,22 +40,21 @@ MonoBehaviour:
   - Fire
   - FireWeapon_RPC
   - InitializeCharacter_RPC
+  - InitializeCube_RPC
   - InitializeMyScore_RPC
+  - InstantiatePowerUp_RPC
   - LoseHealth_RPC
   - LoseWeapon_RPC
   - RespawnSpaceship
+  - RPC_MeleAttack
+  - SetFaces_RPC
+  - SetFirstFace_RPC
+  - SetLevels_RPC
   - SetPlayerInfo_RPC
+  - SetUpMiniMap_RPC
   - StartTime_RPC
   - StopTime_RPC
   - SyncStart_RPC
-  - RPC_MeleAttack
-  - SetUpMiniMap_RPC
-  - SetFace
-  - SetFaces_RPC
-  - InitializeCube_RPC
-  - SetFirstFace_RPC
-  - SetLevels_RPC
-  - InstantiatePowerUp_RPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

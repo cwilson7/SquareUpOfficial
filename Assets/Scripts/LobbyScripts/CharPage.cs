@@ -44,7 +44,10 @@ public class CharPage : MonoBehaviour
 
         Transform characterDisplayPos = CarouselController.cc.carousel.GetComponent<CarouselBehaviour>().playerDisplayLocations[charID];  
         GameObject character = Instantiate(LobbyController.lc.charAvatars[charID], characterDisplayPos);
-        character.layer = 9;
+        foreach(Transform trans in character.GetComponentsInChildren<Transform>())
+        {
+            trans.gameObject.layer = 9;
+        }
         cspc.displayedCharacters.Add(charID, character);
     }
 

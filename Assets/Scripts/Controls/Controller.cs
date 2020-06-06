@@ -85,7 +85,7 @@ public abstract class Controller : MonoBehaviour
     void Update()
     {
         if (!controllerInitialized) return;
-        //if (GameInfo.GI.TimeStopped) return;
+        if (GameInfo.GI.TimeStopped) return;
         Gravity();
 
         if (!PV.IsMine) return;             

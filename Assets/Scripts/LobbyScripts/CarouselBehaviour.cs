@@ -32,7 +32,7 @@ public class CarouselBehaviour : MonoBehaviour
             float distanceZ = -controller.carouselRadius / 2 * Mathf.Cos(angle) * distanceMultiplier;
             float distanceX = -controller.carouselRadius / 2 * Mathf.Sin(angle) * distanceMultiplier;
             
-            Transform location = Instantiate(displayLocationPrefab, new Vector3(distanceX, controller.gameObject.transform.position.y, distanceZ + controller.distanceFromCamera), Quaternion.identity);
+            Transform location = Instantiate(displayLocationPrefab, new Vector3(distanceX, controller.gameObject.transform.position.y, distanceZ + controller.distanceFromCamera), Quaternion.Euler(0f, -Mathf.Rad2Deg* (Mathf.PI - angle), 0f)); 
             location.SetParent(transform);
             playerDisplayLocations.Add(location);
         }

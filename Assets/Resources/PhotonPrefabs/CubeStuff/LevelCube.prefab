@@ -100,6 +100,9 @@ MonoBehaviour:
   InstantiatedLevelIDs: 
   Faces: []
   CurrentFace: {fileID: 0}
+  inRotation: 0
+  cubeRot: {x: 0, y: 0, z: 0, w: 0}
+  DistanceFromCameraForRotation: 65
   cubeSize: 0
 --- !u!114 &5897616120442807645
 MonoBehaviour:
@@ -117,7 +120,7 @@ MonoBehaviour:
   Group: 0
   prefixField: -1
   Synchronization: 3
-  OwnershipTransfer: 0
+  OwnershipTransfer: 1
   ObservedComponents:
   - {fileID: 2008065530047151829}
   viewIdField: 0

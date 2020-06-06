@@ -56,6 +56,9 @@ public class AvatarSetup : MonoBehaviour
             case 4:
                 controller = gameObject.AddComponent<CharacterClass4>();
                 break;
+            case 5:
+                controller = gameObject.AddComponent<CharacterClass4>();
+                break;
         }
         controller.InitializePlayerController();
     }

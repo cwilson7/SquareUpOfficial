@@ -6,6 +6,7 @@ public class Level : MonoBehaviour
 {
     public Transform[] spawnPoints, weaponSpawnPoints, otherPowerUpSpawnPoints;
     public Transform face;
+    public int num;
 
     public Transform[] ReturnArrayFromID(int id)
     {

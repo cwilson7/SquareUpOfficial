@@ -6,7 +6,7 @@ public class RotateCubePowerUp : PowerUp
 {
     public override void ItemAbility(int actorNr)
     {
-
+        Cube.cb.StartRotation(actorNr);
     }
 
     public override void PickUpEffect(Transform transform)

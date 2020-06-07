@@ -78,6 +78,8 @@ public abstract class Controller : MonoBehaviour
         baseOfCharacter = GetComponentInChildren<BaseOfCharacter>().gameObject.transform;
         baseOfCharacter.transform.position = new Vector3(baseOfCharacter.position.x, baseOfCharacter.position.y - distanceFromGround, baseOfCharacter.transform.position.z);
 
+        anim = GetComponentInChildren<Animator>();
+
         controllerInitialized = true;
         if (PV.IsMine) MultiplayerSettings.multiplayerSettings.SetCustomPlayerProperties("ControllerInitialized", true);
     }
@@ -149,19 +151,45 @@ public abstract class Controller : MonoBehaviour
             //Horizontal movement
             if (moveStick.Horizontal >= 0.2)
             {
+                Debug.Log("Move");
                 Velocity.x = 1;
+                anim.SetBool("Run", true);
+                gameObject.transform.rotation = Quaternion.Euler(0, 90, 0);
             }
             else if (moveStick.Horizontal <= -0.2)
             {
                 Velocity.x = -1;
+                anim.SetBool("Run", true);
+                gameObject.transform.rotation = Quaternion.Euler(0, -90, 0);
             }
-            else Velocity.x = 0;
+            else
+            {
+                Velocity.x = 0;
+                anim.SetBool("Run", false);
+                gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
+            }
         }
         else
         {
+            Debug.Log(Input.GetAxis("Horizontal"));
             if (Input.GetKeyDown(KeyCode.W))
             {
                 Jump();
+            }
+            if (Input.GetAxis("Horizontal") > 0)
+            {
+                anim.SetBool("Running", true);
+                gameObject.transform.rotation = Quaternion.Euler(0, 90, 0);
+            }
+            if (Input.GetAxis("Horizontal") < 0)
+            {
+                anim.SetBool("Running", true);
+                gameObject.transform.rotation = Quaternion.Euler(0, -90, 0);
+            }
+            if (Input.GetAxis("Horizontal") == 0)
+            {
+                anim.SetBool("Running", false);
+                gameObject.transform.rotation = Quaternion.Euler(0, 180, 0);
             }
             Velocity.x = Input.GetAxis("Horizontal");
         }
@@ -176,7 +204,7 @@ public abstract class Controller : MonoBehaviour
     public void Jump()
     {
         if (jumpNum <= 0) return;
-
+        anim.SetTrigger("Jump");
         Velocity.y = Mathf.Sqrt(jumpHeightMultiplier * -1f * gravity);
         jumpNum -= 1;
     }

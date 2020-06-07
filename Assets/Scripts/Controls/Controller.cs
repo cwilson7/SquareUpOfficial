@@ -34,6 +34,8 @@ public abstract class Controller : MonoBehaviour
     public Vector3 AimDirection;
     private bool controllerInitialized = false;
 
+    public Animator anim;
+
     #region SET VALUES
     // Start is called before the first frame update
     void Start()
@@ -174,6 +176,7 @@ public abstract class Controller : MonoBehaviour
     public void Jump()
     {
         if (jumpNum <= 0) return;
+
         Velocity.y = Mathf.Sqrt(jumpHeightMultiplier * -1f * gravity);
         jumpNum -= 1;
     }

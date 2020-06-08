@@ -19,4 +19,18 @@ public class Level : MonoBehaviour
         }
         return null;
     }
+
+    public Level Clone()
+    {
+        GameObject newLevelGO = Instantiate(gameObject, transform.position, transform.rotation);
+        Level newLevel = newLevelGO.GetComponent<Level>();//new Level();
+        /*
+        newLevel.spawnPoints = spawnPoints;
+        newLevel.weaponSpawnPoints = weaponSpawnPoints;
+        newLevel.otherPowerUpSpawnPoints = otherPowerUpSpawnPoints;
+        GameObject newFace = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/CubeStuff/FaceLocation"), face.position, face.rotation);
+        newLevel.face = newFace.transform;
+        */
+        return newLevel;
+    }
 }

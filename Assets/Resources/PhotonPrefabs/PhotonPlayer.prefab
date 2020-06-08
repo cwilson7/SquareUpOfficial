@@ -68,3 +68,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myActorNumber: 0
   myAvatar: {fileID: 0}
+  makingCubeClone: 0

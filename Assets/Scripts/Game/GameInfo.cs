@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using System;
 using Photon.Realtime;
+using JetBrains.Annotations;
 
 public class GameInfo : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class GameInfo : MonoBehaviour
     public Hashtable scoreTable;
     public bool TimeStopped;
     private bool allReady;
+    public Cube CubeClone;
 
     public List<GameObject> WeaponPowerUps, PowerUps;
 
@@ -31,9 +33,39 @@ public class GameInfo : MonoBehaviour
         PV = GetComponent<PhotonView>();
         TimeStopped = true;
         started= false;
+        CubeClone = CopyCube(Cube.cb);
         PopulateList(WeaponPowerUps, "PhotonPrefabs/PowerUps/WeaponPowerUps");
         PopulateList(PowerUps, "PhotonPrefabs/PowerUps/OtherPowerUps");
         InitializeScoreTable();
+    }
+
+    public Cube CopyCube(Cube original)
+    {
+        Cube clone = new Cube();
+        clone.LevelPool = original.LevelPool;
+        /*
+        clone.LevelsOnCube = new List<Level>();
+        clone.Faces = new List<Transform>();
+        foreach (Level level in original.LevelsOnCube)
+        {
+            Level newLevel = level.Clone();
+            clone.LevelsOnCube.Add(newLevel);
+            clone.Faces.Add(newLevel.face);
+        }
+        */
+        clone.InstantiatedLevelIDs = original.InstantiatedLevelIDs;
+        clone.DistanceFromCameraForRotation = original.DistanceFromCameraForRotation;
+        clone.CurrentFace = original.CurrentFace;
+        clone.inRotation = original.inRotation;
+        clone.cubeRot = original.cubeRot;
+        return clone;
+    }
+
+    public void UpdateCubeClone(Cube original, Cube clone)
+    {
+        clone.inRotation = original.inRotation;
+        clone.CurrentFace = original.CurrentFace;
+        clone.cubeRot = original.cubeRot;
     }
 
     public void PopulateList(List<GameObject> list, string prefabFolderPath)

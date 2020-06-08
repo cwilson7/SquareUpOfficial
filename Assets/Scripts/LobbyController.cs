@@ -83,4 +83,30 @@ public class LobbyController : MonoBehaviourPunCallbacks
             LobbyController.lc.selectedMaterialIDs.Remove(myColorID);
         }
     }
+
+    public override void OnMasterClientSwitched(Player newMasterClient)
+    {
+        base.OnMasterClientSwitched(newMasterClient);
+        if (GameInfo.GI != null)
+        {
+            if (GameInfo.GI.TimeStopped == false) GameInfo.GI.StopTime();
+            Score playerInfo = (Score)GameInfo.GI.scoreTable[newMasterClient.ActorNumber];
+            PhotonPlayer newHost = playerInfo.photonPlayer.GetComponent<PhotonPlayer>();
+            //Debug.Log("new master client is null " + newHost == null);
+            newHost.makingCubeClone = true;
+            newHost.SetUpCube();
+        }
+        StartCoroutine(TimeForCube());
+
+        //display migrating host text
+        //new host instantiate cube
+        //cube is cube clone
+        //if (Cube.cb != null) Cube.cb.PV.TransferOwnership(newMasterClient);
+    }
+
+    IEnumerator TimeForCube()
+    {
+        yield return new WaitForSeconds(1f);
+        GameInfo.GI.StartTime();
+    }
 }

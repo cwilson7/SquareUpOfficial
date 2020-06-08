@@ -171,7 +171,6 @@ public abstract class Controller : MonoBehaviour
         }
         else
         {
-            Debug.Log(Input.GetAxis("Horizontal"));
             if (Input.GetKeyDown(KeyCode.W))
             {
                 Jump();

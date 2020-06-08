@@ -10,6 +10,7 @@ public class PhotonPlayer : MonoBehaviour
     private PhotonView PV;
     public int myActorNumber;
     public GameObject myAvatar;
+    public bool makingCubeClone = false;
 
     // Start is called before the first frame update
     void Start()
@@ -27,7 +28,11 @@ public class PhotonPlayer : MonoBehaviour
     public void SetUpCube()
     {
         PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "CubeStuff", "LevelCube"), new Vector3(0f, 0f, 0f), Quaternion.identity);
-        Cube.cb.InitializeCube();
+        if (!makingCubeClone) Cube.cb.InitializeCube();
+        else
+        {
+            Cube.cb.DeployClone();
+        }
     }
 
     void Update()

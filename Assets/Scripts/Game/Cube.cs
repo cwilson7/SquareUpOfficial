@@ -35,7 +35,7 @@ public class Cube : MonoBehaviour
 
     #region Cube Rotation
     private void RotateHandler()
-    {
+    {        
         gameObject.transform.rotation = cubeRot;
 
         targetXY = new Vector2(rubberBandX(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")),
@@ -54,6 +54,8 @@ public class Cube : MonoBehaviour
         gameObject.transform.Rotate(transform.InverseTransformVector(Vector3.up), actualXY.x * 90);
         gameObject.transform.Rotate(transform.InverseTransformVector(Vector3.left), actualXY.y * 90);
         if (!PV.IsMine) PV.RPC("SendRotateInformation_RPC", RpcTarget.AllBuffered, actualXY);
+
+        GameInfo.GI.UpdateCubeClone(cb, GameInfo.GI.CubeClone);
 
         if (Input.GetMouseButtonDown(0) && actualXY.x == Mathf.Floor(actualXY.x) && actualXY.y == Mathf.Floor(actualXY.y))
         {
@@ -83,7 +85,7 @@ public class Cube : MonoBehaviour
         PV.RPC("SetFace_RPC", RpcTarget.AllBuffered, tmpClosest);
         GameInfo.GI.StartTime();
         inRotation = false;
-        gameObject.transform.position = gameObject.transform.position + new Vector3(0, 0, -DistanceFromCameraForRotation);
+        gameObject.transform.position = new Vector3(0f, 0f, 0f);//gameObject.transform.position + new Vector3(0, 0, -DistanceFromCameraForRotation);
     }
 
     float rubberBandX(float x, float y)
@@ -132,6 +134,19 @@ public class Cube : MonoBehaviour
         PV.RPC("SetFirstFace_RPC", RpcTarget.AllBuffered);
     }
 
+    public void DeployClone()
+    {
+        PV.RPC("InitializeCube_RPC", RpcTarget.AllBuffered);
+        PV.RPC("SwitchToCubeClone_RPC", RpcTarget.AllBuffered);
+        PopulateFaceList();
+        for (int i = 0; i < InstantiatedLevelIDs.Count; i++)
+        {
+            PV.RPC("SetLevels_RPC", RpcTarget.AllBuffered, InstantiatedLevelIDs[i], i);
+        }
+        PV.RPC("SetFace_RPC", RpcTarget.AllBuffered, CurrentFace.face.position);
+        GameInfo.GI.CubeClone = GameInfo.GI.CopyCube(cb);
+    }
+
     void PopulateFaceList()
     {
         PV.RPC("SetFaces_RPC", RpcTarget.AllBuffered);
@@ -165,6 +180,19 @@ public class Cube : MonoBehaviour
 
     #region RPCs
     [PunRPC]
+    public void SwitchToCubeClone_RPC()
+    {
+        LevelPool = GameInfo.GI.CubeClone.LevelPool;
+        //LevelsOnCube = GameInfo.GI.CubeClone.LevelsOnCube;
+        InstantiatedLevelIDs = GameInfo.GI.CubeClone.InstantiatedLevelIDs;
+        //Faces = GameInfo.GI.CubeClone.Faces;
+        DistanceFromCameraForRotation = GameInfo.GI.CubeClone.DistanceFromCameraForRotation;
+        CurrentFace = GameInfo.GI.CubeClone.CurrentFace;
+        inRotation = GameInfo.GI.CubeClone.inRotation;
+        cubeRot = GameInfo.GI.CubeClone.cubeRot;
+    }
+    
+    [PunRPC]
     public void SendRotateInformation_RPC(Vector2 aXY)
     {
         actualXY = aXY;
@@ -173,6 +201,7 @@ public class Cube : MonoBehaviour
     [PunRPC]
     public void SetLevels_RPC(int id, int i)
     {
+        if (!InstantiatedLevelIDs.Contains(id)) InstantiatedLevelIDs.Add(id);
         GameObject level = Instantiate(LevelPool[id].gameObject, Faces[i].transform.position, Faces[i].transform.rotation);
         level.GetComponent<Level>().num = i;
         level.transform.SetParent(transform);

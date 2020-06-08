@@ -57,6 +57,7 @@ MonoBehaviour:
   - SyncStart_RPC
   - SendRotateInformation_RPC
   - SetFace_RPC
+  - SwitchToCubeClone_RPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

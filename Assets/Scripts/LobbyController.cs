@@ -12,6 +12,8 @@ public class LobbyController : MonoBehaviourPunCallbacks
     public List<GameObject> charAvatars;
     public List<Material> availableMaterials;
     public List<int> selectedMaterialIDs;
+    public List<int> IDsOfDisconnectedPlayers;
+    public int currMasterID;
     
     // Start is called before the first frame update
     void Awake()
@@ -36,7 +38,9 @@ public class LobbyController : MonoBehaviourPunCallbacks
     {
         charAvatars = new List<GameObject>();
         availableMaterials = new List<Material>();
-        
+        IDsOfDisconnectedPlayers = new List<int>();
+        currMasterID = PhotonNetwork.MasterClient.ActorNumber;
+
         Object[] avatarPrefabs = Resources.LoadAll("PhotonPrefabs/CharacterAvatars");
         foreach (Object prefab in avatarPrefabs)
         {
@@ -77,6 +81,7 @@ public class LobbyController : MonoBehaviourPunCallbacks
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         base.OnPlayerLeftRoom(otherPlayer);
+        if (!IDsOfDisconnectedPlayers.Contains(otherPlayer.ActorNumber)) IDsOfDisconnectedPlayers.Add(otherPlayer.ActorNumber);
         int myColorID = (int)otherPlayer.CustomProperties["AssignedColor"];
         if(LobbyController.lc.selectedMaterialIDs.Contains(myColorID))
         {
@@ -86,25 +91,23 @@ public class LobbyController : MonoBehaviourPunCallbacks
 
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
+        IDsOfDisconnectedPlayers.Add(currMasterID);
         base.OnMasterClientSwitched(newMasterClient);
+        currMasterID = newMasterClient.ActorNumber;
         if (GameInfo.GI != null)
         {
             if (GameInfo.GI.TimeStopped == false) GameInfo.GI.StopTime();
             Score playerInfo = (Score)GameInfo.GI.scoreTable[newMasterClient.ActorNumber];
             PhotonPlayer newHost = playerInfo.photonPlayer.GetComponent<PhotonPlayer>();
-            //Debug.Log("new master client is null " + newHost == null);
             newHost.makingCubeClone = true;
             newHost.SetUpCube();
         }
-        StartCoroutine(TimeForCube());
+        StartCoroutine(LoadTime());
 
         //display migrating host text
-        //new host instantiate cube
-        //cube is cube clone
-        //if (Cube.cb != null) Cube.cb.PV.TransferOwnership(newMasterClient);
     }
 
-    IEnumerator TimeForCube()
+    IEnumerator LoadTime()
     {
         yield return new WaitForSeconds(1f);
         GameInfo.GI.StartTime();

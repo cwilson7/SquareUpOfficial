@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
 
     //Tracked values
     [SerializeField] private float powerUpCooldown;
-    [SerializeField] private bool gameStarted = false;
+    [SerializeField] public bool gameStarted = false;
     [SerializeField] private Hashtable currentPowerUps = new Hashtable();
     
     // Start is called before the first frame update

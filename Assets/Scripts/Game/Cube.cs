@@ -3,10 +3,11 @@ using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.ProBuilder;
 
-public class Cube : MonoBehaviour
+public class Cube : MonoBehaviour, IPunObservable
 {
     public static Cube cb;
     public PhotonView PV;
@@ -14,9 +15,11 @@ public class Cube : MonoBehaviour
     public List<int> InstantiatedLevelIDs = new List<int>();
     public List<Transform> Faces = new List<Transform>();
     public Level CurrentFace;
+    public int currFaceID;
     public bool inRotation = false;
     public Quaternion cubeRot;
     public int DistanceFromCameraForRotation = 65;
+    public int ownerActorNr;
 
     private Vector2 targetXY, actualXY;
 
@@ -53,9 +56,6 @@ public class Cube : MonoBehaviour
 
         gameObject.transform.Rotate(transform.InverseTransformVector(Vector3.up), actualXY.x * 90);
         gameObject.transform.Rotate(transform.InverseTransformVector(Vector3.left), actualXY.y * 90);
-        if (!PV.IsMine) PV.RPC("SendRotateInformation_RPC", RpcTarget.AllBuffered, actualXY);
-
-        GameInfo.GI.UpdateCubeClone(cb, GameInfo.GI.CubeClone);
 
         if (Input.GetMouseButtonDown(0) && actualXY.x == Mathf.Floor(actualXY.x) && actualXY.y == Mathf.Floor(actualXY.y))
         {
@@ -70,12 +70,23 @@ public class Cube : MonoBehaviour
     {
         if (PhotonNetwork.CurrentRoom.GetPlayer(actorNr) == null) return;
         PV.TransferOwnership(PhotonNetwork.CurrentRoom.GetPlayer(actorNr));
+        ownerActorNr = actorNr;
         GameInfo.GI.StopTime();
         inRotation = true;
+        PV.RPC("SendRotateInformation_RPC", RpcTarget.AllBuffered, inRotation, ownerActorNr);
         gameObject.transform.position = gameObject.transform.position + new Vector3(0, 0, DistanceFromCameraForRotation);
     }
 
     void StopRotation()
+    {
+        SetClosestFace();
+        GameInfo.GI.StartTime();
+        inRotation = false;
+        PV.RPC("SendRotateInformation_RPC", RpcTarget.AllBuffered, inRotation, ownerActorNr);
+        gameObject.transform.position = new Vector3(0f, 0f, 0f);//gameObject.transform.position + new Vector3(0, 0, -DistanceFromCameraForRotation);
+    }
+
+    void SetClosestFace()
     {
         Vector3 tmpClosest = CurrentFace.face.position;
         for (int i = 0; i < LevelsOnCube.Count; i++)
@@ -83,9 +94,6 @@ public class Cube : MonoBehaviour
             if (Vector3.Distance(LevelsOnCube[i].face.position, Camera.main.transform.position) < Vector3.Distance(tmpClosest, Camera.main.transform.position)) tmpClosest = LevelsOnCube[i].face.position;
         }
         PV.RPC("SetFace_RPC", RpcTarget.AllBuffered, tmpClosest);
-        GameInfo.GI.StartTime();
-        inRotation = false;
-        gameObject.transform.position = new Vector3(0f, 0f, 0f);//gameObject.transform.position + new Vector3(0, 0, -DistanceFromCameraForRotation);
     }
 
     float rubberBandX(float x, float y)
@@ -131,20 +139,56 @@ public class Cube : MonoBehaviour
         PV.RPC("InitializeCube_RPC", RpcTarget.AllBuffered);
         PopulateFaceList();
         SelectAndDeployRandomLevels();
-        PV.RPC("SetFirstFace_RPC", RpcTarget.AllBuffered);
+        PV.RPC("SetFace_RPC", RpcTarget.AllBuffered, Faces[0].position);
     }
+
 
     public void DeployClone()
     {
         PV.RPC("InitializeCube_RPC", RpcTarget.AllBuffered);
-        PV.RPC("SwitchToCubeClone_RPC", RpcTarget.AllBuffered);
         PopulateFaceList();
-        for (int i = 0; i < InstantiatedLevelIDs.Count; i++)
+        PV.RPC("SwitchToCubeClone_RPC", RpcTarget.AllBuffered);
+        DeploySelectedLevels();
+        PV.RPC("SetFace_RPC", RpcTarget.AllBuffered, Faces[currFaceID].position);
+        transform.rotation = cubeRot;
+        Debug.Log("num of actors left: " + LobbyController.lc.IDsOfDisconnectedPlayers.Count);
+        foreach (int i in LobbyController.lc.IDsOfDisconnectedPlayers) Debug.Log("actor left: " + i);
+        if (inRotation)
         {
-            PV.RPC("SetLevels_RPC", RpcTarget.AllBuffered, InstantiatedLevelIDs[i], i);
+            Player owner = PhotonNetwork.CurrentRoom.GetPlayer(ownerActorNr);
+            Debug.Log("current cube owner: " + ownerActorNr);
+            if (owner == null)
+            {
+                ownerActorNr = PV.OwnerActorNr;
+                float[] nums = { -270, -180, -90, 0, 90, 180, 270 };
+                Vector3 angles = new Vector3(SnapToValue(transform.eulerAngles.x, nums), SnapToValue(transform.eulerAngles.y, nums), SnapToValue(transform.eulerAngles.z, nums));
+                cubeRot.eulerAngles = angles;
+                transform.localEulerAngles = angles;
+                transform.position = new Vector3(0f, 0f, 0f);
+                SetClosestFace();
+            }
+            else PV.TransferOwnership(owner);
         }
-        PV.RPC("SetFace_RPC", RpcTarget.AllBuffered, CurrentFace.face.position);
-        GameInfo.GI.CubeClone = GameInfo.GI.CopyCube(cb);
+    }
+
+    IEnumerator InfoDelay()
+    {
+        yield return new WaitForSeconds(1f);
+    }
+
+    private float SnapToValue(float val, float[] nums)
+    {
+        float closest = nums[0];
+        foreach (float num in nums)
+        {
+            float newDiff = Mathf.Abs(val - num);
+            float smallestDiff = Mathf.Abs(val - closest);
+            if (newDiff < smallestDiff)
+            {
+                closest = num;
+            }
+        }
+        return closest;
     }
 
     void PopulateFaceList()
@@ -157,6 +201,15 @@ public class Cube : MonoBehaviour
         for (int i = 0; i < Faces.Count; i++)
         {
             int id = GenerateRandomLevelID();
+            PV.RPC("SetLevels_RPC", RpcTarget.AllBuffered, id, i);
+        }
+    }
+
+    void DeploySelectedLevels()
+    {
+        for (int i = 0; i < InstantiatedLevelIDs.Count; i++)
+        {
+            int id = InstantiatedLevelIDs[i];
             PV.RPC("SetLevels_RPC", RpcTarget.AllBuffered, id, i);
         }
     }
@@ -182,20 +235,20 @@ public class Cube : MonoBehaviour
     [PunRPC]
     public void SwitchToCubeClone_RPC()
     {
-        LevelPool = GameInfo.GI.CubeClone.LevelPool;
-        //LevelsOnCube = GameInfo.GI.CubeClone.LevelsOnCube;
         InstantiatedLevelIDs = GameInfo.GI.CubeClone.InstantiatedLevelIDs;
-        //Faces = GameInfo.GI.CubeClone.Faces;
         DistanceFromCameraForRotation = GameInfo.GI.CubeClone.DistanceFromCameraForRotation;
-        CurrentFace = GameInfo.GI.CubeClone.CurrentFace;
         inRotation = GameInfo.GI.CubeClone.inRotation;
         cubeRot = GameInfo.GI.CubeClone.cubeRot;
+        currFaceID = GameInfo.GI.CubeClone.currFaceID;
+        ownerActorNr = GameInfo.GI.CubeClone.ownerActorNr;
+        GameInfo.GI.CopyCube(cb);
     }
     
     [PunRPC]
-    public void SendRotateInformation_RPC(Vector2 aXY)
+    public void SendRotateInformation_RPC(bool inRotation, int ownerNr)
     {
-        actualXY = aXY;
+        GameInfo.GI.CubeClone.inRotation = inRotation;
+        GameInfo.GI.CubeClone.ownerActorNr = ownerNr;
     }
     
     [PunRPC]
@@ -208,25 +261,18 @@ public class Cube : MonoBehaviour
         level.GetComponent<Level>().face = Faces[i];
         LevelsOnCube.Add(level.GetComponent<Level>());
     }
-    
-    [PunRPC]
-    public void SetFirstFace_RPC()
-    {
-        foreach (Level level in LevelsOnCube)
-        {
-            if (level.face == Faces[0])
-            {
-                CurrentFace = level;
-            }
-        }
-    }
 
     [PunRPC] 
     public void SetFace_RPC(Vector3 pos)
     {
         foreach (Level level in LevelsOnCube)
         {
-            if (level.face.position == pos) CurrentFace = level;
+            if (level.face.position == pos)
+            {
+                CurrentFace = level;
+                currFaceID = level.num;
+                if (GameInfo.GI.cubeCloned) GameInfo.GI.CubeClone.currFaceID = level.num;
+            }
         }
     }
     
@@ -245,33 +291,61 @@ public class Cube : MonoBehaviour
             GameObject prefabGO = (GameObject)prefab;
             LevelPool.Add(prefabGO.GetComponent<Level>());
         }
+
+        if (GameInfo.GI.cubeCloned)
+        {
+            Score playerInfo = (Score)GameInfo.GI.scoreTable[PV.OwnerActorNr];
+            if (!playerInfo.photonPlayer.GetComponent<PhotonPlayer>().makingCubeClone) ownerActorNr = PV.OwnerActorNr;
+        }
+        else ownerActorNr = PV.OwnerActorNr;
     }
     
     [PunRPC]
     public void SetFaces_RPC()
     {
         //front face Faces[0]
+        // cubeRot (0, 0, 0)
         GameObject faceLoc = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/CubeStuff/FaceLocation"), transform.position - transform.forward * cubeSize / 2, Quaternion.Euler(new Vector3(0, 180, 0)));
         Faces.Add(faceLoc.transform);
         //back face Faces[1]
+        //(0, 180, 180)
         faceLoc = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/CubeStuff/FaceLocation"), transform.position + transform.forward * cubeSize / 2, Quaternion.Euler(new Vector3(0, 180 + 180, 0)));
         Faces.Add(faceLoc.transform);
         //right face Faces[2]
+        //(0, 90, 0)
         faceLoc = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/CubeStuff/FaceLocation"), transform.position + transform.right * cubeSize / 2, Quaternion.Euler(new Vector3(0, 90, 0)));
         Faces.Add(faceLoc.transform);
         //left face Faces[3]
+        //(0, 270, 0)
         faceLoc = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/CubeStuff/FaceLocation"), transform.position - transform.right * cubeSize / 2, Quaternion.Euler(new Vector3(0, -90, 0)));
         Faces.Add(faceLoc.transform);
         //top face Faces[4]
+        //(270, 0, 0)
         faceLoc = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/CubeStuff/FaceLocation"), transform.position + transform.up * cubeSize / 2, Quaternion.Euler(new Vector3(180 + 90, 180, 0)));
         Faces.Add(faceLoc.transform);
         //bottom face Faces[5]
+        //
         faceLoc = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/CubeStuff/FaceLocation"), transform.position - transform.up * cubeSize / 2, Quaternion.Euler(new Vector3(180 - 90, 180, 0)));
         Faces.Add(faceLoc.transform);
 
         foreach (Transform face in Faces)
         {
             face.SetParent(transform);
+        }
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if(stream.IsWriting)
+        {
+            stream.SendNext(transform.rotation);
+        }
+        else if(stream.IsReading)
+        {
+            if (GameInfo.GI.cubeCloned)
+            {
+                GameInfo.GI.CubeClone.cubeRot = (Quaternion)stream.ReceiveNext();
+            }
         }
     }
     #endregion

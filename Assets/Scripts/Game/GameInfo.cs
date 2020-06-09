@@ -11,7 +11,7 @@ public class GameInfo : MonoBehaviour
     public static GameInfo GI;
     public PhotonView PV;
     public Hashtable scoreTable;
-    public bool TimeStopped;
+    public bool TimeStopped, cubeCloned = false;
     private bool allReady;
     public Cube CubeClone;
 
@@ -34,6 +34,7 @@ public class GameInfo : MonoBehaviour
         TimeStopped = true;
         started= false;
         CubeClone = CopyCube(Cube.cb);
+        cubeCloned = true;
         PopulateList(WeaponPowerUps, "PhotonPrefabs/PowerUps/WeaponPowerUps");
         PopulateList(PowerUps, "PhotonPrefabs/PowerUps/OtherPowerUps");
         InitializeScoreTable();
@@ -42,30 +43,25 @@ public class GameInfo : MonoBehaviour
     public Cube CopyCube(Cube original)
     {
         Cube clone = new Cube();
-        clone.LevelPool = original.LevelPool;
-        /*
-        clone.LevelsOnCube = new List<Level>();
-        clone.Faces = new List<Transform>();
-        foreach (Level level in original.LevelsOnCube)
-        {
-            Level newLevel = level.Clone();
-            clone.LevelsOnCube.Add(newLevel);
-            clone.Faces.Add(newLevel.face);
-        }
-        */
         clone.InstantiatedLevelIDs = original.InstantiatedLevelIDs;
         clone.DistanceFromCameraForRotation = original.DistanceFromCameraForRotation;
-        clone.CurrentFace = original.CurrentFace;
         clone.inRotation = original.inRotation;
         clone.cubeRot = original.cubeRot;
+        clone.currFaceID = original.currFaceID;
+        clone.ownerActorNr = original.ownerActorNr;
         return clone;
     }
 
-    public void UpdateCubeClone(Cube original, Cube clone)
+    //for cube cloning while cube is in motion
+    public void UpdateCubeClone(Cube original)
     {
-        clone.inRotation = original.inRotation;
-        clone.CurrentFace = original.CurrentFace;
-        clone.cubeRot = original.cubeRot;
+        CubeClone.inRotation = original.inRotation;
+        CubeClone.cubeRot = original.cubeRot;
+        /*
+        Quaternion cbRotNew = new Quaternion();
+        cbRotNew.eulerAngles = original.cubeRot.eulerAngles;
+        CubeClone.cubeRot = cbRotNew;
+        */
     }
 
     public void PopulateList(List<GameObject> list, string prefabFolderPath)

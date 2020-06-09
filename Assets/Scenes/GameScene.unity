@@ -337,8 +337,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PV: {fileID: 0}
-  percentOfPowerUpsWeapons: 0.75
-  powerUpMaxCooldown: 20
+  percentOfPowerUpsWeapons: 0
+  powerUpMaxCooldown: 2
+  maxPowerups: 3
   powerUpCooldown: 0
   gameStarted: 0
 --- !u!4 &926156153
@@ -508,6 +509,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PV: {fileID: 0}
   TimeStopped: 0
+  CubeClone: {fileID: 0}
   WeaponPowerUps: []
   PowerUps: []
   scorePrefab: {fileID: 4722932063433500185, guid: 7e2f2d04e526fbd4a929930c4001c68c,

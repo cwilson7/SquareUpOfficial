@@ -91,6 +91,7 @@
     <Compile Include="Assets\Scripts\Classes\CharacterClass3.cs" />
     <Compile Include="Assets\Scripts\Classes\CharacterClass4.cs" />
     <Compile Include="Assets\Scripts\Controls\Controller.cs" />
+    <Compile Include="Assets\Scripts\Face.cs" />
     <Compile Include="Assets\Scripts\Fist.cs" />
     <Compile Include="Assets\Scripts\For All New UI\SetFont.cs" />
     <Compile Include="Assets\Scripts\Game\CameraFollow.cs" />

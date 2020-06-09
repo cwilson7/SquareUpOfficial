@@ -107,7 +107,7 @@ Transform:
   m_GameObject: {fileID: 1604356539541478856}
   m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_Children:
   - {fileID: 8274069083112453990}
   - {fileID: 8437368622491492220}
@@ -176,6 +176,8 @@ MonoBehaviour:
   punchPower: 0
   punchImpact: 0
   punchCooldown: 0
+  respawnDelay: 0
+  boundaryDist: 0
   Velocity: {x: 0, y: 0, z: 0}
   impact: {x: 0, y: 0, z: 0}
   jumpNum: 0

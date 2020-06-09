@@ -11,6 +11,7 @@ public class AvatarSetup : MonoBehaviour
     private PhotonView PV;
     private GameObject avatarSkin;
     Controller controller;
+    [SerializeField] private float avatarOffset = 0.5f;
 
     // Start is called before the first frame update
     public void Start()
@@ -32,7 +33,8 @@ public class AvatarSetup : MonoBehaviour
             GameObject mySelectedCharacter = LobbyController.lc.charAvatars[(int)p.CustomProperties["SelectedCharacter"]];
             Material myAssignedColor = LobbyController.lc.availableMaterials[(int)p.CustomProperties["AssignedColor"]];
 
-            avatarSkin = Instantiate(mySelectedCharacter, transform);
+            avatarSkin = Instantiate(mySelectedCharacter, new Vector3(transform.position.x, transform.position.y - avatarOffset, transform.position.z), transform.rotation);
+            avatarSkin.transform.SetParent(transform);
             avatarSkin.GetComponent<AvatarCharacteristics>().SetMaterial(myAssignedColor);
 
             AddPlayerController(avatarSkin);

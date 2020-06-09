@@ -8,4 +8,5 @@ public class CharacterClass3 : Controller
     {
 
     }
+
 }

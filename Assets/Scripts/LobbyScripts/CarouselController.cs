@@ -9,7 +9,9 @@ public class CarouselController : MonoBehaviour
     
     public GameObject carouselPrefab;
     public Transform carouselPos;
-    public float carouselRadius, distanceFromCamera, offsetNegativeYDirection;
+    public float carouselRadius;
+    [SerializeField] public float distanceFromCamera = 7;
+    private float offsetNegativeYDirection = 1;
 
     public GameObject carousel;
     

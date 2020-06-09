@@ -841,7 +841,6 @@ MonoBehaviour:
   carouselPos: {fileID: 1439387628}
   carouselRadius: 10
   distanceFromCamera: 6.5
-  offsetNegativeYDirection: 2
   carousel: {fileID: 0}
 --- !u!4 &753267286
 Transform:
@@ -1491,13 +1490,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1439387625}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.1564345, y: 0, z: 0, w: 0.98768836}
+  m_LocalPosition: {x: 0, y: 1.3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 18, y: 0, z: 0}
 --- !u!1 &1558249776
 GameObject:
   m_ObjectHideFlags: 0
@@ -1631,6 +1630,8 @@ MonoBehaviour:
   charAvatars: []
   availableMaterials: []
   selectedMaterialIDs: 
+  IDsOfDisconnectedPlayers: 
+  currMasterID: 0
 --- !u!4 &1916758864
 Transform:
   m_ObjectHideFlags: 0

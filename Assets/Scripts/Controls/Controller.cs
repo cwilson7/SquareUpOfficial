@@ -236,17 +236,16 @@ public abstract class Controller : MonoBehaviour
             if (Input.GetAxis("Horizontal") > 0)
             {
                 anim.SetBool("Running", true);
-                gameObject.transform.rotation = Quaternion.Euler(0, 90, 0);
+                gameObject.transform.rotation = Quaternion.Euler(0, 100, 0);
             }
             if (Input.GetAxis("Horizontal") < 0)
             {
                 anim.SetBool("Running", true);
-                gameObject.transform.rotation = Quaternion.Euler(0, -90, 0);
+                gameObject.transform.rotation = Quaternion.Euler(0, -100, 0);
             }
             if (Input.GetAxis("Horizontal") == 0)
             {
                 anim.SetBool("Running", false);
-                gameObject.transform.rotation = Quaternion.Euler(0, 180, 0);
             }
             Velocity.x = Input.GetAxis("Horizontal");
         }

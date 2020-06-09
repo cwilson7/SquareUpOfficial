@@ -74,8 +74,8 @@ public class LobbyController : MonoBehaviourPunCallbacks
         {
             yield return null;
         }
+        Destroy(this.gameObject);
         SceneManager.LoadScene(MultiplayerSettings.multiplayerSettings.mainMenuScene);
-        Destroy(this);
     }
 
     public override void OnPlayerLeftRoom(Player otherPlayer)
@@ -102,14 +102,7 @@ public class LobbyController : MonoBehaviourPunCallbacks
             newHost.makingCubeClone = true;
             newHost.SetUpCube();
         }
-        StartCoroutine(LoadTime());
 
         //display migrating host text
-    }
-
-    IEnumerator LoadTime()
-    {
-        yield return new WaitForSeconds(1f);
-        GameInfo.GI.StartTime();
     }
 }

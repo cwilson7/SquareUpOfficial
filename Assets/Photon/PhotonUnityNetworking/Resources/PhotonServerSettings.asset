@@ -58,6 +58,8 @@ MonoBehaviour:
   - SendRotateInformation_RPC
   - SetFace_RPC
   - SwitchToCubeClone_RPC
+  - SetFaceTest_RPC
+  - GameStart_RPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

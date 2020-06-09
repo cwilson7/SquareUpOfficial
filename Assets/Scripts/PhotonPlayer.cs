@@ -11,7 +11,6 @@ public class PhotonPlayer : MonoBehaviour
     public int myActorNumber;
     public GameObject myAvatar;
     public bool makingCubeClone = false;
-    [SerializeField] private float horizontalBoundary, verticalBoundary = -60;
 
     // Start is called before the first frame update
     void Start()
@@ -34,6 +33,7 @@ public class PhotonPlayer : MonoBehaviour
         }
         else
         {
+            if (!PhotonNetwork.IsMasterClient) return;
             if (GameInfo.GI.CubeClone.inRotation) PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "CubeStuff", "LevelCube"), new Vector3(0f, 0f, GameInfo.GI.CubeClone.DistanceFromCameraForRotation), Quaternion.identity);
             else PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "CubeStuff", "LevelCube"), new Vector3(0f, 0f, 0f), Quaternion.identity);
             Cube.cb.DeployClone();
@@ -43,10 +43,6 @@ public class PhotonPlayer : MonoBehaviour
     void Update()
     {
         if (!GameManager.Manager.gameStarted || !PV.IsMine) return;
-        if (myAvatar.transform.position.y < verticalBoundary)
-        {
-            Respawn();
-        }
     }
 
     private void InitializePhotonPlayer()
@@ -58,13 +54,6 @@ public class PhotonPlayer : MonoBehaviour
             int spawnPicker = Random.Range(0, spawnList.Length);
             myAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerTestAvatar"), spawnList[spawnPicker].position, spawnList[spawnPicker].rotation, 0);
         }
-    }
-
-    private void Respawn()
-    {
-        Transform[] spawnList = Cube.cb.CurrentFace.spawnPoints;
-        int spawnPicker = Random.Range(0, spawnList.Length);
-        myAvatar.transform.position = spawnList[spawnPicker].position;
     }
 
     IEnumerator InformationDelay()

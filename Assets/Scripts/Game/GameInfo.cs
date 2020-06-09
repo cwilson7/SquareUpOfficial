@@ -14,7 +14,7 @@ public class GameInfo : MonoBehaviour
     public bool TimeStopped, cubeCloned = false;
     private bool allReady;
     public Cube CubeClone;
-
+    public int cubeOwner;
     public List<GameObject> WeaponPowerUps, PowerUps;
 
     private bool started = false, setScoreTable = false, stopUpdateCalls = false;
@@ -57,11 +57,6 @@ public class GameInfo : MonoBehaviour
     {
         CubeClone.inRotation = original.inRotation;
         CubeClone.cubeRot = original.cubeRot;
-        /*
-        Quaternion cbRotNew = new Quaternion();
-        cbRotNew.eulerAngles = original.cubeRot.eulerAngles;
-        CubeClone.cubeRot = cbRotNew;
-        */
     }
 
     public void PopulateList(List<GameObject> list, string prefabFolderPath)

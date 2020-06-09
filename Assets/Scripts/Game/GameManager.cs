@@ -28,7 +28,6 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (!PV.IsMine) return;
         if (!gameStarted) return;
 
         HandleTimers();
@@ -39,7 +38,7 @@ public class GameManager : MonoBehaviour
     {
         //Set Initial Values
         powerUpCooldown = powerUpMaxCooldown;
-        gameStarted = true;
+        PV.RPC("GameStart_RPC", RpcTarget.AllBuffered);
     }
 
     private void HandleTimers()
@@ -106,7 +105,6 @@ public class GameManager : MonoBehaviour
     {
         List<GameObject> pwrUpList = GameInfo.GI.ReturnListFromID(listID);
         Transform[] pwrUpLocs = Cube.cb.CurrentFace.ReturnArrayFromID(listID);
-
         GameObject pwrUp = Instantiate(pwrUpList[pwrUpID], pwrUpLocs[locID]);
         pwrUp.GetComponent<PowerUp>().id = newID;
         currentPowerUps.Add(newID, pwrUp);
@@ -130,6 +128,12 @@ public class GameManager : MonoBehaviour
         wpn.transform.SetParent(playerInfo.playerAvatar.GetComponentInChildren<GunPivot>().transform);
         wpn.GetComponent<Weapon>().owner = actor;
         playerInfo.playerAvatar.GetComponent<Controller>().currentWeapon = wpn.GetComponent<Weapon>();
+    }
+
+    [PunRPC]
+    public void GameStart_RPC()
+    {
+        gameStarted = true;
     }
 
     #endregion

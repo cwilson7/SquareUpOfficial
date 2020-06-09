@@ -9,6 +9,7 @@ public class CameraFollow : MonoBehaviour
     public float distanceFromMap = 13, smoothDamp;
     private bool rdyToFollow = false;
     private Vector3 offset, velocity = Vector3.zero;
+    [SerializeField] private float leeway, maxDistance;
     
     // Start is called before the first frame update
     void Start()
@@ -25,6 +26,7 @@ public class CameraFollow : MonoBehaviour
             if (playerInfo.playerAvatar == null) StartCoroutine(InformationDelay());
             else
             {
+                maxDistance = Cube.cb.cubeSize / 2 + leeway;
                 offset = new Vector3(0f, 0f, -distanceFromMap);
                 player = playerInfo.playerAvatar;
                 rdyToFollow = true;
@@ -40,7 +42,20 @@ public class CameraFollow : MonoBehaviour
 
     void Follow()
     {
+        if (Cube.cb == null) return;
         Vector3 desiredPos = player.transform.position + offset;
+        Vector3 center = Cube.cb.CurrentFace.face.position;
+        float horizDist = Mathf.Abs(desiredPos.x - center.x);
+        float vertDist = Mathf.Abs(desiredPos.y - center.y);
+        if (horizDist > maxDistance) {
+            if (desiredPos.x < 0) desiredPos.x = center.x - maxDistance;
+            else desiredPos.x = center.x + maxDistance;
+        }
+        if (vertDist > maxDistance)
+        {
+            if (desiredPos.y < 0) desiredPos.y = center.y - maxDistance;
+            else desiredPos.y = center.y + maxDistance;
+        }
         Vector3 smoothedPos = Vector3.SmoothDamp(transform.position, desiredPos, ref velocity, smoothDamp);
         transform.position = smoothedPos;
     }

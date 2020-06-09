@@ -23,7 +23,7 @@ public class Cube : MonoBehaviour, IPunObservable
 
     private Vector2 targetXY, actualXY;
 
-    [SerializeField] private float cubeSize;
+    public float cubeSize;
 
     private void Awake()
     {
@@ -159,6 +159,7 @@ public class Cube : MonoBehaviour, IPunObservable
             Debug.Log("current cube owner: " + ownerActorNr);
             if (owner == null)
             {
+                inRotation = false;
                 ownerActorNr = PV.OwnerActorNr;
                 float[] nums = { -270, -180, -90, 0, 90, 180, 270 };
                 Vector3 angles = new Vector3(SnapToValue(transform.eulerAngles.x, nums), SnapToValue(transform.eulerAngles.y, nums), SnapToValue(transform.eulerAngles.z, nums));
@@ -256,6 +257,7 @@ public class Cube : MonoBehaviour, IPunObservable
     {
         if (!InstantiatedLevelIDs.Contains(id)) InstantiatedLevelIDs.Add(id);
         GameObject level = Instantiate(LevelPool[id].gameObject, Faces[i].transform.position, Faces[i].transform.rotation);
+        level.transform.SetParent(Faces[i]);
         level.GetComponent<Level>().num = i;
         level.transform.SetParent(transform);
         level.GetComponent<Level>().face = Faces[i];
@@ -275,7 +277,8 @@ public class Cube : MonoBehaviour, IPunObservable
             }
         }
     }
-    
+
+
     [PunRPC]
     public void InitializeCube_RPC()
     {
@@ -304,27 +307,21 @@ public class Cube : MonoBehaviour, IPunObservable
     public void SetFaces_RPC()
     {
         //front face Faces[0]
-        // cubeRot (0, 0, 0)
         GameObject faceLoc = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/CubeStuff/FaceLocation"), transform.position - transform.forward * cubeSize / 2, Quaternion.Euler(new Vector3(0, 180, 0)));
         Faces.Add(faceLoc.transform);
         //back face Faces[1]
-        //(0, 180, 180)
         faceLoc = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/CubeStuff/FaceLocation"), transform.position + transform.forward * cubeSize / 2, Quaternion.Euler(new Vector3(0, 180 + 180, 0)));
         Faces.Add(faceLoc.transform);
         //right face Faces[2]
-        //(0, 90, 0)
         faceLoc = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/CubeStuff/FaceLocation"), transform.position + transform.right * cubeSize / 2, Quaternion.Euler(new Vector3(0, 90, 0)));
         Faces.Add(faceLoc.transform);
         //left face Faces[3]
-        //(0, 270, 0)
         faceLoc = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/CubeStuff/FaceLocation"), transform.position - transform.right * cubeSize / 2, Quaternion.Euler(new Vector3(0, -90, 0)));
         Faces.Add(faceLoc.transform);
         //top face Faces[4]
-        //(270, 0, 0)
         faceLoc = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/CubeStuff/FaceLocation"), transform.position + transform.up * cubeSize / 2, Quaternion.Euler(new Vector3(180 + 90, 180, 0)));
         Faces.Add(faceLoc.transform);
         //bottom face Faces[5]
-        //
         faceLoc = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/CubeStuff/FaceLocation"), transform.position - transform.up * cubeSize / 2, Quaternion.Euler(new Vector3(180 - 90, 180, 0)));
         Faces.Add(faceLoc.transform);
 

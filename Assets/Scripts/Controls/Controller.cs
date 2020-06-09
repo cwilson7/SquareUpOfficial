@@ -4,19 +4,20 @@ using UnityEngine;
 using Photon.Pun;
 using UnityEditor;
 using System;
+using System.IO;
 
-public abstract class Controller : MonoBehaviour  
+public abstract class Controller : MonoBehaviour
 {
     public bool iPhone = false;
-    
+
     private PhotonView PV;
     private CharacterController cc;
-    [SerializeField] private GameObject baseOfCharacterPrefab; 
-    
+    [SerializeField] private GameObject baseOfCharacterPrefab;
+
     public Weapon currentWeapon;
     public Fist Fist;
     public MiniMapPlayer mmPlayer;
-    
+
     //Control UI
     protected FloatingJoystick moveStick;
 
@@ -26,13 +27,15 @@ public abstract class Controller : MonoBehaviour
     public int maxJumps;
     public Transform baseOfCharacter;
     public float punchPower, punchImpact, punchCooldown;
-    
+    [SerializeField] float respawnDelay, boundaryDist;
+
     //Tracked variables
     public Vector3 Velocity, impact;
     public int jumpNum;
     public double HP;
     public Vector3 AimDirection;
     private bool controllerInitialized = false;
+    public bool isDead = false;
 
     public Animator anim;
 
@@ -61,6 +64,8 @@ public abstract class Controller : MonoBehaviour
         punchPower = 10f;
         punchImpact = 1f;
         punchCooldown = 2;
+        respawnDelay = 3f;
+        boundaryDist = 100f;
         actorNr = GetComponent<PhotonView>().OwnerActorNr;
 
         cc = GetComponent<CharacterController>();
@@ -88,12 +93,12 @@ public abstract class Controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!controllerInitialized) return;
-        if (GameInfo.GI.TimeStopped) return;
+        if (!controllerInitialized || GameInfo.GI.TimeStopped || isDead) return;
         Gravity();
 
         if (!PV.IsMine) return;             
         Movement();
+        HandleDeaths();
         if (!iPhone)
         {
             TrackMouse();
@@ -123,6 +128,59 @@ public abstract class Controller : MonoBehaviour
         MouseWorldPos.z = 0f;
         AimDirection = (MouseWorldPos - transform.position).normalized;
     }
+
+    #region Death/ Respawn
+
+    private void HandleDeaths()
+    {
+        float vertDistance = Mathf.Abs(transform.position.y - Cube.cb.CurrentFace.face.position.y);
+        float horizDistance = Mathf.Abs(transform.position.x - Cube.cb.CurrentFace.face.position.x);
+        if (horizDistance > boundaryDist || vertDistance > boundaryDist || HP <= 0.0)
+        {
+            Die();
+        }
+    }
+    
+    private void Die()
+    {
+        isDead = true;
+        GameInfo.GI.StatChange(PhotonNetwork.LocalPlayer.ActorNumber, "deaths");
+        //explode with color
+        SetAllComponents(false);
+        StartCoroutine(SpawnDelay());
+    }
+
+    IEnumerator SpawnDelay()
+    {
+        yield return new WaitForSeconds(respawnDelay);
+        Respawn();
+    }
+
+    private void Respawn()
+    {
+        Transform[] list = Cube.cb.CurrentFace.spawnPoints;
+        int locID = UnityEngine.Random.Range(0, list.Length);
+        transform.position = list[locID].position;
+        transform.rotation = list[locID].rotation;
+        SetAllComponents(true);
+        isDead = false;
+        //spawn effect
+    }
+
+    private void SetAllComponents(bool isActive)
+    {
+        foreach (MeshRenderer display in gameObject.GetComponentsInChildren<MeshRenderer>())
+        {
+            display.enabled = isActive;
+        }
+        foreach (Collider collider in gameObject.GetComponentsInChildren<Collider>())
+        {
+            collider.enabled = isActive;
+        }
+    }
+
+    #endregion
+
     #region Movement Functions
     public virtual void Gravity()
     {
@@ -262,6 +320,7 @@ public abstract class Controller : MonoBehaviour
         }
     }
     #endregion
+
     #region RPC
 
     public void LoseHealth(double lostHP)

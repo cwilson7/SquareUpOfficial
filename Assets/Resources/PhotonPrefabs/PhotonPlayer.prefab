@@ -69,5 +69,6 @@ MonoBehaviour:
   myActorNumber: 0
   myAvatar: {fileID: 0}
   makingCubeClone: 0
+  AvatarController: {fileID: 0}
   horizontalBoundary: 0
   verticalBoundary: -60

@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
 using System;
+using System.Reflection;
 
 public class AvatarSetup : MonoBehaviour
 {
@@ -34,32 +35,17 @@ public class AvatarSetup : MonoBehaviour
             avatarSkin = Instantiate(mySelectedCharacter, transform);
             avatarSkin.GetComponent<AvatarCharacteristics>().SetMaterial(myAssignedColor);
 
-            AddPlayerController((int)p.CustomProperties["SelectedCharacter"] + 1);
+            AddPlayerController(avatarSkin);
             MultiplayerSettings.multiplayerSettings.SetCustomPlayerProperties("CharacterSpawned", true);
         }
         else StartCoroutine(InformationDelay());
     }
 
-    private void AddPlayerController(int selectedChar)
+    private void AddPlayerController(GameObject avatarGO)
     {
-        switch(selectedChar)
-        {
-            case 1:
-                controller = gameObject.AddComponent<CharacterClass1>();
-                break;
-            case 2:
-                controller = gameObject.AddComponent<CharacterClass2>();
-                break;
-            case 3:
-                controller = gameObject.AddComponent<CharacterClass3>();
-                break;
-            case 4:
-                controller = gameObject.AddComponent<CharacterClass4>();
-                break;
-            case 5:
-                controller = gameObject.AddComponent<CharacterClass4>();
-                break;
-        }
+        Controller charControl = avatarGO.GetComponent<Controller>();
+        controller = (Controller)gameObject.AddComponent(charControl.GetType());
+        Destroy(charControl);
         controller.InitializePlayerController();
     }
 

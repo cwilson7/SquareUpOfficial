@@ -84,12 +84,12 @@
     <Compile Include="Assets\Photon\PhotonChat\Demos\DemoChat\IgnoreUiRaycastWhenInactive.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\DemoChat\NamePickGui.cs" />
     <Compile Include="Assets\Photon\PhotonRealtime\Demos\DemoLoadBalancing\ConnectAndJoinRandomLb.cs" />
+    <Compile Include="Assets\Resources\Classes\CharacterClass1.cs" />
+    <Compile Include="Assets\Resources\Classes\CharacterClass2.cs" />
+    <Compile Include="Assets\Resources\Classes\CharacterClass3.cs" />
+    <Compile Include="Assets\Resources\Classes\CharacterClass4.cs" />
     <Compile Include="Assets\Scripts\AvatarSetup.cs" />
     <Compile Include="Assets\Scripts\CachedRoomList.cs" />
-    <Compile Include="Assets\Scripts\Classes\CharacterClass1.cs" />
-    <Compile Include="Assets\Scripts\Classes\CharacterClass2.cs" />
-    <Compile Include="Assets\Scripts\Classes\CharacterClass3.cs" />
-    <Compile Include="Assets\Scripts\Classes\CharacterClass4.cs" />
     <Compile Include="Assets\Scripts\Controls\Controller.cs" />
     <Compile Include="Assets\Scripts\Face.cs" />
     <Compile Include="Assets\Scripts\Fist.cs" />

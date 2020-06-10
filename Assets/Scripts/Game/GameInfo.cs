@@ -16,6 +16,7 @@ public class GameInfo : MonoBehaviour
     public Cube CubeClone;
     public int cubeOwner;
     public List<GameObject> WeaponPowerUps, PowerUps;
+    public List<RuntimeAnimatorController> AnimatorControllers;
 
     private bool started = false, setScoreTable = false, stopUpdateCalls = false;
 
@@ -35,8 +36,9 @@ public class GameInfo : MonoBehaviour
         started= false;
         CubeClone = CopyCube(Cube.cb);
         cubeCloned = true;
-        PopulateList(WeaponPowerUps, "PhotonPrefabs/PowerUps/WeaponPowerUps");
-        PopulateList(PowerUps, "PhotonPrefabs/PowerUps/OtherPowerUps");
+        PopulateList<GameObject>(WeaponPowerUps, "PhotonPrefabs/PowerUps/WeaponPowerUps");
+        PopulateList<GameObject>(PowerUps, "PhotonPrefabs/PowerUps/OtherPowerUps");
+        PopulateList<RuntimeAnimatorController>(AnimatorControllers, "PhotonPrefabs/AnimatorControllers");
         InitializeScoreTable();
     }
 
@@ -59,12 +61,12 @@ public class GameInfo : MonoBehaviour
         CubeClone.cubeRot = original.cubeRot;
     }
 
-    public void PopulateList(List<GameObject> list, string prefabFolderPath)
+    public void PopulateList<T>(List<T> list, string prefabFolderPath)
     {
         UnityEngine.Object[] prefabs = Resources.LoadAll(prefabFolderPath);
         foreach (UnityEngine.Object prefab in prefabs)
         {
-            GameObject prefabGO = (GameObject)prefab;
+            T prefabGO = (T)(object)prefab;
             list.Add(prefabGO);
         }
     }

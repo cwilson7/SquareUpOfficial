@@ -60,6 +60,11 @@ MonoBehaviour:
   - SwitchToCubeClone_RPC
   - SetFaceTest_RPC
   - GameStart_RPC
+  - RPC_AnimAim
+  - RPC_AnimGun
+  - RPC_AnimJump
+  - RPC_AnimRun
+  - SetAnimatorController_RPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

@@ -84,6 +84,9 @@ public abstract class Controller : MonoBehaviour
         baseOfCharacter.transform.position = new Vector3(baseOfCharacter.position.x, baseOfCharacter.position.y - distanceFromGround, baseOfCharacter.transform.position.z);
 
         anim = GetComponentInChildren<Animator>();
+        anim.gameObject.AddComponent<PhotonAnimatorView>();
+        anim.gameObject.GetComponent<PhotonAnimatorView>();
+        PV.ObservedComponents.Add(GetComponentInChildren<PhotonAnimatorView>());
 
         controllerInitialized = true;
         if (PV.IsMine) MultiplayerSettings.multiplayerSettings.SetCustomPlayerProperties("ControllerInitialized", true);
@@ -127,6 +130,12 @@ public abstract class Controller : MonoBehaviour
         Vector3 MouseWorldPos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
         MouseWorldPos.z = 0f;
         AimDirection = (MouseWorldPos - transform.position).normalized;
+        if (Input.GetAxis("Horizontal") > 0)
+        {
+            anim.SetFloat("AimX", AimDirection.x);
+        }
+        else anim.SetFloat("AimX", -1*AimDirection.x);
+        anim.SetFloat("AimY", AimDirection.y);
     }
 
     #region Death/ Respawn
@@ -211,19 +220,19 @@ public abstract class Controller : MonoBehaviour
             {
                 Debug.Log("Move");
                 Velocity.x = 1;
-                anim.SetBool("Run", true);
+                //anim.SetBool("Run", true);
                 gameObject.transform.rotation = Quaternion.Euler(0, 90, 0);
             }
             else if (moveStick.Horizontal <= -0.2)
             {
                 Velocity.x = -1;
-                anim.SetBool("Run", true);
+                //anim.SetBool("Run", true);
                 gameObject.transform.rotation = Quaternion.Euler(0, -90, 0);
             }
             else
             {
                 Velocity.x = 0;
-                anim.SetBool("Run", false);
+                //anim.SetBool("Run", false);
                 gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
             }
         }
@@ -235,13 +244,13 @@ public abstract class Controller : MonoBehaviour
             }
             if (Input.GetAxis("Horizontal") > 0)
             {
-                anim.SetBool("Running", true);
                 gameObject.transform.rotation = Quaternion.Euler(0, 100, 0);
+                anim.SetBool("Running", true);
             }
             if (Input.GetAxis("Horizontal") < 0)
             {
-                anim.SetBool("Running", true);
                 gameObject.transform.rotation = Quaternion.Euler(0, -100, 0);
+                anim.SetBool("Running", true);
             }
             if (Input.GetAxis("Horizontal") == 0)
             {
@@ -346,6 +355,7 @@ public abstract class Controller : MonoBehaviour
         if (currentWeapon == null) return;
         currentWeapon.Remove();
         currentWeapon = null;
+        anim.SetBool("Gun", false);
     }
 
     [PunRPC]
@@ -368,6 +378,8 @@ public abstract class Controller : MonoBehaviour
         int colorid = (int)PhotonNetwork.CurrentRoom.GetPlayer(actorNumber).CustomProperties["AssignedColor"];
         player.gameObject.GetComponent<MeshRenderer>().sharedMaterial = LobbyController.lc.availableMaterials[colorid];
     }
+    
+
     #endregion
 
     #region Coroutines

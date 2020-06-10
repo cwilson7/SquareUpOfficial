@@ -8,16 +8,18 @@ public class Fist : MonoBehaviour
     Controller ParentController;
     public int owner;
     public float damage, impact, cooldown, timeBtwnPunches;
+    public Transform fistLocation;
 
     public void Update()
     {
         if (cooldown >= 0) cooldown -= Time.deltaTime;
+        //transform.position = fistLocation.position;
     }
     public void Smack(Vector3 Direction)
     {
         if (cooldown > 0) return;
         GameInfo.GI.StatChange(owner, "punchesThrown");
-        ParentController.gameObject.GetComponent<PhotonView>().RPC("RPC_MeleAttack", RpcTarget.AllBuffered, Direction, owner);
+        //ParentController.gameObject.GetComponent<PhotonView>().RPC("RPC_MeleAttack", RpcTarget.AllBuffered, Direction, owner);
     }
 
     public void InitializeFist()
@@ -35,6 +37,8 @@ public class Fist : MonoBehaviour
         GetComponent<Rigidbody>().velocity = new Vector3(0f, 0f, 0f);
 
         GetComponent<MeshRenderer>().sharedMaterial = LobbyController.lc.availableMaterials[(int)PhotonNetwork.CurrentRoom.GetPlayer(owner).CustomProperties["AssignedColor"]];
+
+        //fistLocation = transform.parent.transform.FindChild("FistLocation").transform;
     }
 
     public IEnumerator FistDrag()

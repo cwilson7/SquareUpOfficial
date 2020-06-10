@@ -93,6 +93,7 @@
     <Compile Include="Assets\Scripts\Controls\Controller.cs" />
     <Compile Include="Assets\Scripts\Face.cs" />
     <Compile Include="Assets\Scripts\Fist.cs" />
+    <Compile Include="Assets\Scripts\FistLocation.cs" />
     <Compile Include="Assets\Scripts\For All New UI\SetFont.cs" />
     <Compile Include="Assets\Scripts\Game\CameraFollow.cs" />
     <Compile Include="Assets\Scripts\Game\Cube.cs" />

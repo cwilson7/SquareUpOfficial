@@ -42,6 +42,18 @@ ModelImporter:
   - first:
       74: 6392853791061812894
     second: Armature|IdleGU
+  - first:
+      74: 7278988929283152960
+    second: Armature|MeleB
+  - first:
+      74: -3182235808114180992
+    second: Armature|MeleD
+  - first:
+      74: -4626083562356275372
+    second: Armature|MeleF
+  - first:
+      74: -8990402275531489482
+    second: Armature|MeleU
   externalObjects: {}
   materials:
     materialImportMode: 1

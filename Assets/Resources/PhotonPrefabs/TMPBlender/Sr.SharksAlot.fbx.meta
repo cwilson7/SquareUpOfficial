@@ -7,11 +7,50 @@ ModelImporter:
       74: 885944232402757753
     second: Armature|Action
   - first:
+      74: 2707143346007764129
+    second: Armature|F
+  - first:
+      74: 1113860177799156048
+    second: Armature|IdleGD
+  - first:
+      74: 2745996441696326006
+    second: Armature|IdleGF
+  - first:
+      74: -8758642737087526308
+    second: Armature|IdleGB.001
+  - first:
+      74: 6392853791061812894
+    second: Armature|IdleGU
+  - first:
       74: 1079665108409675491
     second: Armature|Jump
   - first:
+      74: 7278988929283152960
+    second: Armature|MeleB
+  - first:
+      74: -3182235808114180992
+    second: Armature|MeleD
+  - first:
+      74: -4626083562356275372
+    second: Armature|MeleF
+  - first:
+      74: -8990402275531489482
+    second: Armature|MeleU
+  - first:
       74: -7551964380084998518
     second: Armature|Run
+  - first:
+      74: -2151118498892140654
+    second: Armature|RunGB
+  - first:
+      74: -4085116197259182321
+    second: Armature|RunGD
+  - first:
+      74: -5310466417884043908
+    second: Armature|RunGF
+  - first:
+      74: -7788625352787544070
+    second: Armature|RunGU
   externalObjects: {}
   materials:
     materialImportMode: 1
@@ -39,106 +78,19 @@ ModelImporter:
     animationWrapMode: 0
     extraExposedTransformPaths: []
     extraUserProperties: []
-    clipAnimations:
-    - serializedVersion: 16
-      name: Armature|Action
-      takeName: Armature|Action
-      internalID: 0
-      firstFrame: 0
-      lastFrame: 1
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: Armature|Jump
-      takeName: Armature|Jump
-      internalID: 0
-      firstFrame: 0
-      lastFrame: 20
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: Armature|Run
-      takeName: Armature|Run
-      internalID: 0
-      firstFrame: 0
-      lastFrame: 20
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 1
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
+    clipAnimations: []
     isReadable: 0
   meshes:
     lODScreenPercentages: []
     globalScale: 1
     meshCompression: 0
-    addColliders: 1
+    addColliders: 0
     useSRGBMaterialColor: 1
     sortHierarchyByName: 1
     importVisibility: 1
     importBlendShapes: 1
-    importCameras: 0
-    importLights: 0
+    importCameras: 1
+    importLights: 1
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1

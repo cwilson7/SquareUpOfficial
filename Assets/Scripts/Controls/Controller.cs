@@ -94,7 +94,6 @@ public abstract class Controller : MonoBehaviour
         controllerInitialized = true;
         if (PV.IsMine) MultiplayerSettings.multiplayerSettings.SetCustomPlayerProperties("ControllerInitialized", true);
 
-        //Fist.fistLocation = transform.Find("FistLocation").transform;
     }
     #endregion
 
@@ -137,7 +136,7 @@ public abstract class Controller : MonoBehaviour
         MouseWorldPos.z = transform.position.z;
         AimDirection = (MouseWorldPos - transform.position).normalized;
         AimDirection.z = transform.position.z;
-        Debug.Log(AimDirection);
+        //Debug.Log(AimDirection);
         if (Input.GetAxis("Horizontal") >= 0)
         {
             anim.SetFloat("AimX", AimDirection.x);

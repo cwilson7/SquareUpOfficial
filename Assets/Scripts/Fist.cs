@@ -37,8 +37,6 @@ public class Fist : MonoBehaviour
         GetComponent<Rigidbody>().velocity = new Vector3(0f, 0f, 0f);
 
         GetComponent<MeshRenderer>().sharedMaterial = LobbyController.lc.availableMaterials[(int)PhotonNetwork.CurrentRoom.GetPlayer(owner).CustomProperties["AssignedColor"]];
-
-        //fistLocation = transform.parent.transform.FindChild("FistLocation").transform;
     }
 
     public IEnumerator FistDrag()

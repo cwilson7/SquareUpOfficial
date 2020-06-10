@@ -90,6 +90,8 @@ public abstract class Controller : MonoBehaviour
 
         controllerInitialized = true;
         if (PV.IsMine) MultiplayerSettings.multiplayerSettings.SetCustomPlayerProperties("ControllerInitialized", true);
+
+        //Fist.fistLocation = transform.Find("FistLocation").transform;
     }
     #endregion
 
@@ -116,7 +118,8 @@ public abstract class Controller : MonoBehaviour
         {
             if (currentWeapon == null)
             {
-                Fist.Smack(AimDirection);
+                //Fist.Smack(AimDirection);
+                anim.SetTrigger("Mele");
             }
             else
             {
@@ -130,7 +133,7 @@ public abstract class Controller : MonoBehaviour
         Vector3 MouseWorldPos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
         MouseWorldPos.z = 0f;
         AimDirection = (MouseWorldPos - transform.position).normalized;
-        if (Input.GetAxis("Horizontal") > 0)
+        if (Input.GetAxis("Horizontal") >= 0)
         {
             anim.SetFloat("AimX", AimDirection.x);
         }

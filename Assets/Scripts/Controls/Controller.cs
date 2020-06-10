@@ -28,6 +28,7 @@ public abstract class Controller : MonoBehaviour
     public Transform baseOfCharacter;
     public float punchPower, punchImpact, punchCooldown;
     [SerializeField] float respawnDelay, boundaryDist;
+    public float maxTimePunch, punchDistance;
 
     //Tracked variables
     public Vector3 Velocity, impact;
@@ -66,6 +67,8 @@ public abstract class Controller : MonoBehaviour
         punchCooldown = 2;
         respawnDelay = 3f;
         boundaryDist = 100f;
+        maxTimePunch = 0.5f;
+        punchDistance = 1f;
         actorNr = GetComponent<PhotonView>().OwnerActorNr;
 
         cc = GetComponent<CharacterController>();
@@ -76,7 +79,7 @@ public abstract class Controller : MonoBehaviour
         if (!iPhone) moveStick.gameObject.SetActive(false);
 
         Fist = GetComponentInChildren<Fist>();
-        Fist.InitializeFist();
+        Fist.InitializeFist(this);
 
         mmPlayer = GetComponentInChildren<MiniMapPlayer>();
 
@@ -118,7 +121,7 @@ public abstract class Controller : MonoBehaviour
         {
             if (currentWeapon == null)
             {
-                //Fist.Smack(AimDirection);
+                Fist.Smack(AimDirection);
                 anim.SetTrigger("Mele");
             }
             else
@@ -131,8 +134,10 @@ public abstract class Controller : MonoBehaviour
     public void TrackMouse()
     {
         Vector3 MouseWorldPos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
-        MouseWorldPos.z = 0f;
+        MouseWorldPos.z = transform.position.z;
         AimDirection = (MouseWorldPos - transform.position).normalized;
+        AimDirection.z = transform.position.z;
+        Debug.Log(AimDirection);
         if (Input.GetAxis("Horizontal") >= 0)
         {
             anim.SetFloat("AimX", AimDirection.x);
@@ -326,8 +331,7 @@ public abstract class Controller : MonoBehaviour
                 GameInfo.GI.StatChange(fist.owner, "punchesLanded");
             }
 
-            impact += fist.impact * fist.gameObject.GetComponent<Rigidbody>().velocity.normalized;
-            other.gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
+            impact += fist.impact * fist.Velocity.normalized;
         }
     }
     #endregion
@@ -364,13 +368,19 @@ public abstract class Controller : MonoBehaviour
     [PunRPC]
     public void RPC_MeleAttack(Vector3 aim, int actorNumber)
     {
+        /*
         aim = new Vector3(aim.x, aim.y, 0f);
         Score playerInfo = (Score)GameInfo.GI.scoreTable[actorNumber];
         GameObject fist = playerInfo.playerAvatar.GetComponent<Controller>().Fist.gameObject;
         fist.GetComponent<Fist>().cooldown = Fist.GetComponent<Fist>().timeBtwnPunches;
-        fist.GetComponent<Rigidbody>().AddForce(aim * 1000);
-        fist.GetComponent<SphereCollider>().enabled = true;
+        //fist.GetComponent<SphereCollider>().enabled = true;
         StartCoroutine(fist.GetComponent<Fist>().FistDrag());
+        */
+        //aim = new Vector3(aim.x, aim.y, 0f);
+        Score playerInfo = (Score)GameInfo.GI.scoreTable[actorNumber];
+        GameObject fist = playerInfo.playerAvatar.GetComponent<Controller>().Fist.gameObject;
+        fist.GetComponent<Fist>().cooldown = Fist.GetComponent<Fist>().timeBtwnPunches;
+        StartCoroutine(fist.GetComponent<Fist>().Punch(aim));
     }
 
     [PunRPC]

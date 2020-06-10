@@ -422,6 +422,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Fist
       objectReference: {fileID: 0}
+    - target: {fileID: 4916118961665143373, guid: cc296d4f4ee9a9246a1d0afc7ce46f8c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8936218813353542812, guid: cc296d4f4ee9a9246a1d0afc7ce46f8c,
         type: 3}
       propertyPath: m_IsTrigger

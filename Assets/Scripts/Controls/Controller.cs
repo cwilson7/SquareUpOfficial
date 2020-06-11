@@ -15,6 +15,7 @@ public abstract class Controller : MonoBehaviour
     private PhotonView PV;
     private CharacterController cc;
     [SerializeField] private GameObject baseOfCharacterPrefab;
+    BoxCollider Collider;
 
     public Weapon currentWeapon;
     public Fist Fist;
@@ -30,7 +31,7 @@ public abstract class Controller : MonoBehaviour
     public Transform baseOfCharacter;
     public float punchPower, punchImpact, punchCooldown;
     [SerializeField] float respawnDelay, boundaryDist;
-    public float maxTimePunch, punchDistance;
+    public float fistActiveTime, fistRadius;
 
     //Tracked variables
     public Vector3 Velocity, impact;
@@ -44,15 +45,11 @@ public abstract class Controller : MonoBehaviour
     private int directionModifier;
 
     #region SET VALUES
-    // Start is called before the first frame update
-    void Start()
-    {
-        //InitializePlayerController();
-    }
 
     public virtual void InitializePlayerController()
     {
         PV = GetComponent<PhotonView>();
+        Collider = gameObject.AddComponent<BoxCollider>();
 
         impact = Vector3.zero;
         AimDirection = Vector2.zero;
@@ -70,9 +67,12 @@ public abstract class Controller : MonoBehaviour
         punchCooldown = 2;
         respawnDelay = 3f;
         boundaryDist = 100f;
-        maxTimePunch = 0.5f;
-        punchDistance = 1f;
+        fistActiveTime = 0.5f;
         directionModifier = 1;
+        fistRadius = 0.5f;
+        Collider.center = new Vector3(0f, 0.6f, 0f);
+        Collider.size = new Vector3(1f, 2.2f, 4f);
+        Collider.isTrigger = true;
         actorNr = GetComponent<PhotonView>().OwnerActorNr;
 
         cc = GetComponent<CharacterController>();
@@ -129,21 +129,20 @@ public abstract class Controller : MonoBehaviour
         {
             anim.SetFloat("AimX", directionModifier*AimDirection.x);
             anim.SetFloat("AimY", AimDirection.y);
-            if (Input.GetMouseButtonDown(0)) anim.SetTrigger("Mele");
         }
 
     }
 
-    #region Mouse Tracking
+    #region Mouse Tracking / Combat
     private void MouseCombat()
     {
         if (Input.GetMouseButtonDown(0))
         {
-            if (currentWeapon == null)
+            if (currentWeapon == null && Fist.cooldown <= 0)
             {
-                Fist.Smack(AimDirection);
+                Punch();
             }
-            else
+            else if (currentWeapon != null)
             {
                 currentWeapon.Attack(AimDirection);
             }
@@ -156,6 +155,13 @@ public abstract class Controller : MonoBehaviour
         MouseWorldPos.z = transform.position.z;
         AimDirection = (MouseWorldPos - transform.position).normalized;
         AimDirection.z = transform.position.z;
+    }
+
+    private void Punch()
+    {
+        anim.SetTrigger("Mele");
+        GameInfo.GI.StatChange(actorNr, "punchesThrown");
+        PV.RPC("RPC_MeleAttack", RpcTarget.AllBuffered, AimDirection, actorNr);
     }
 
     #endregion
@@ -287,6 +293,9 @@ public abstract class Controller : MonoBehaviour
         Vector3 move = new Vector3(Velocity.x, Velocity.y, 0f);
         cc.Move((move * speed + impact * 10f) * Time.deltaTime);
 
+        //lock Z Pos
+        transform.position = new Vector3(transform.position.x, transform.position.y, Cube.cb.CurrentFace.spawnPoints[0].position.z);
+
         //Account for impact from being hit by weapon
         impact = Vector3.Lerp(impact, Vector3.zero, 5 * Time.deltaTime);
     }
@@ -306,7 +315,8 @@ public abstract class Controller : MonoBehaviour
         AimDirection = AttackDirection;
         if (currentWeapon == null)
         {
-            Fist.Smack(AimDirection);
+            //animate fist
+            //call RPC melee attack
         }
         else
         {
@@ -383,21 +393,14 @@ public abstract class Controller : MonoBehaviour
     }
 
     [PunRPC]
-    public void RPC_MeleAttack(Vector3 aim, int actorNumber)
+    public void RPC_MeleAttack(Vector3 aimDir, int actorNumber)
     {
-        /*
-        aim = new Vector3(aim.x, aim.y, 0f);
         Score playerInfo = (Score)GameInfo.GI.scoreTable[actorNumber];
-        GameObject fist = playerInfo.playerAvatar.GetComponent<Controller>().Fist.gameObject;
-        fist.GetComponent<Fist>().cooldown = Fist.GetComponent<Fist>().timeBtwnPunches;
-        //fist.GetComponent<SphereCollider>().enabled = true;
-        StartCoroutine(fist.GetComponent<Fist>().FistDrag());
-        */
-        //aim = new Vector3(aim.x, aim.y, 0f);
-        Score playerInfo = (Score)GameInfo.GI.scoreTable[actorNumber];
-        GameObject fist = playerInfo.playerAvatar.GetComponent<Controller>().Fist.gameObject;
-        fist.GetComponent<Fist>().cooldown = Fist.GetComponent<Fist>().timeBtwnPunches;
-        //StartCoroutine(fist.GetComponent<Fist>().Punch(aim));
+        //FOR TESTING
+        playerInfo.playerAvatar.GetComponent<Controller>().anim.SetFloat("AimX", directionModifier * aimDir.x);
+        playerInfo.playerAvatar.GetComponent<Controller>().anim.SetFloat("AimY", aimDir.y);
+        playerInfo.playerAvatar.GetComponent<Controller>().anim.SetTrigger("Mele");
+        playerInfo.playerAvatar.GetComponent<Controller>().Fist.Punch();
     }
 
     [PunRPC]
@@ -408,12 +411,19 @@ public abstract class Controller : MonoBehaviour
         int colorid = (int)PhotonNetwork.CurrentRoom.GetPlayer(actorNumber).CustomProperties["AssignedColor"];
         player.gameObject.GetComponent<MeshRenderer>().sharedMaterial = LobbyController.lc.availableMaterials[colorid];
     }
-    
 
     #endregion
 
     #region Coroutines
     #endregion
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        BoxCollider Collider = GetComponent<BoxCollider>();
+        if (Collider == null) return;
+        Gizmos.DrawWireCube(Collider.transform.position + Collider.center, Collider.size);
+    }
 
     public abstract void SpecialAbility();
 }

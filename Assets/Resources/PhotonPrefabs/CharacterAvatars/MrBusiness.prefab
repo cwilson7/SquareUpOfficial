@@ -798,8 +798,8 @@ MonoBehaviour:
   punchCooldown: 0
   respawnDelay: 0
   boundaryDist: 0
-  maxTimePunch: 0
-  punchDistance: 0
+  fistActiveTime: 0
+  fistRadius: 0
   Velocity: {x: 0, y: 0, z: 0}
   impact: {x: 0, y: 0, z: 0}
   jumpNum: 0

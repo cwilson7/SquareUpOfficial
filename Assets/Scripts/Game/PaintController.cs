@@ -17,7 +17,7 @@ public class PaintController : MonoBehaviour
     void SplatterPaint(DamageDealer projInfo, Controller player)
     {
         int attackerActorNumber = projInfo.owner;
-        int AttackerMatID = (int)PhotonNetwork.CurrentRoom.GetPlayer(attackerActorNumber).CustomProperties["AssignedMaterial"];
+        int AttackerMatID = (int)PhotonNetwork.CurrentRoom.GetPlayer(attackerActorNumber).CustomProperties["AssignedColor"];
         int damagedActorNumber = player.actorNr;
         float impactMultiplier = projInfo.impactMultiplier;
         Vector3 projVelocity = projInfo.Velocity.normalized;

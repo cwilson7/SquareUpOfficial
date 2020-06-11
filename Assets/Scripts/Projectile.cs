@@ -32,4 +32,11 @@ public class Projectile : DamageDealer
         }
         GetComponent<Rigidbody>().velocity = Velocity;
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        if (GetComponent<SphereCollider>() == null) return;
+        Gizmos.DrawWireSphere(transform.position, GetComponent<SphereCollider>().radius);
+    }
 }

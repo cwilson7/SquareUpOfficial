@@ -38,8 +38,9 @@ public abstract class Controller : MonoBehaviour
     public int jumpNum;
     public double HP;
     public Vector3 AimDirection;
-    private bool controllerInitialized = false;
+    public bool controllerInitialized = false;
     public bool isDead = false;
+    public bool isRunning, hasGun;
 
     public Animator anim;
     private int directionModifier;
@@ -110,7 +111,7 @@ public abstract class Controller : MonoBehaviour
         if (!PV.IsMine) return;             
         Movement();
         HandleDeaths();
-        HandleAnimation();
+        HandleAnimationValues();
         if (!iPhone)
         {
             TrackMouse();
@@ -119,17 +120,13 @@ public abstract class Controller : MonoBehaviour
         SpecialAbility();
     }
 
-    private void HandleAnimation()
+    private void HandleAnimationValues()
     {
-        if (iPhone)
-        {
+        if (currentWeapon != null) hasGun = true;
+        else if (currentWeapon == null) hasGun = false;
 
-        }
-        else
-        {
-            anim.SetFloat("AimX", directionModifier*AimDirection.x);
-            anim.SetFloat("AimY", AimDirection.y);
-        }
+        if (Mathf.Abs(Velocity.x) > 0) isRunning = true;
+        else isRunning = false;
 
     }
 
@@ -159,7 +156,6 @@ public abstract class Controller : MonoBehaviour
 
     private void Punch()
     {
-        anim.SetTrigger("Mele");
         GameInfo.GI.StatChange(actorNr, "punchesThrown");
         PV.RPC("RPC_MeleAttack", RpcTarget.AllBuffered, AimDirection, actorNr);
     }

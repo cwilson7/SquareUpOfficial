@@ -88,6 +88,7 @@
     <Compile Include="Assets\Resources\Classes\CharacterClass2.cs" />
     <Compile Include="Assets\Resources\Classes\CharacterClass3.cs" />
     <Compile Include="Assets\Resources\Classes\CharacterClass4.cs" />
+    <Compile Include="Assets\Scripts\AnimationSynchronization.cs" />
     <Compile Include="Assets\Scripts\AvatarSetup.cs" />
     <Compile Include="Assets\Scripts\CachedRoomList.cs" />
     <Compile Include="Assets\Scripts\Controls\Controller.cs" />

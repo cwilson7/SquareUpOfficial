@@ -41,6 +41,7 @@ public abstract class Controller : MonoBehaviour
     public bool isDead = false;
 
     public Animator anim;
+    private int directionModifier;
 
     #region SET VALUES
     // Start is called before the first frame update
@@ -71,6 +72,7 @@ public abstract class Controller : MonoBehaviour
         boundaryDist = 100f;
         maxTimePunch = 0.5f;
         punchDistance = 1f;
+        directionModifier = 1;
         actorNr = GetComponent<PhotonView>().OwnerActorNr;
 
         cc = GetComponent<CharacterController>();
@@ -125,8 +127,8 @@ public abstract class Controller : MonoBehaviour
         }
         else
         {
-            if (Input.GetAxis("Horizontal") >= 0) anim.SetFloat("AimX", AimDirection.x);
-            else anim.SetFloat("AimY", AimDirection.y);
+            anim.SetFloat("AimX", directionModifier*AimDirection.x);
+            anim.SetFloat("AimY", AimDirection.y);
             if (Input.GetMouseButtonDown(0)) anim.SetTrigger("Mele");
         }
 
@@ -264,11 +266,13 @@ public abstract class Controller : MonoBehaviour
             }
             if (Input.GetAxis("Horizontal") > 0)
             {
+                directionModifier = 1;
                 gameObject.transform.rotation = Quaternion.Euler(0, 100, 0);
                 anim.SetBool("Running", true);
             }
             if (Input.GetAxis("Horizontal") < 0)
             {
+                directionModifier = -1;
                 gameObject.transform.rotation = Quaternion.Euler(0, -100, 0);
                 anim.SetBool("Running", true);
             }

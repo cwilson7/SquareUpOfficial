@@ -139,8 +139,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3fb1ef4572408e48b04b3b3957928b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testing: 0
-  TestingLevel: {fileID: 0}
+  testing: 1
+  TestingLevel: {fileID: 8186551026939270731, guid: 755c05e2e0c6386448daccf455e1dcd5,
+    type: 3}
   PV: {fileID: 0}
   LevelPool: []
   LevelsOnCube: []

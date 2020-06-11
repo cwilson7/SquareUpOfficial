@@ -16,13 +16,23 @@ public class Weapon : MonoBehaviour
 
     private void Start()
     {
-        GameObject parentAvatar = transform.parent.parent.parent.parent.gameObject;
+        GameObject parentAvatar = ReturnPlayerAvatar(gameObject);
         PV = parentAvatar.GetComponent<PhotonView>();
         ParentController = parentAvatar.GetComponent<Controller>();
         GunPivot = GetComponentInParent<GunPivot>().gameObject.transform;
 
         ammoLeft = totalAmmo;
         fireCooldown = 0f;
+    }
+
+    GameObject ReturnPlayerAvatar(GameObject child)
+    {
+        Controller control = child.GetComponentInParent<Controller>();
+        if (control == null)
+        {
+            return ReturnPlayerAvatar(child.transform.parent.gameObject);
+        }
+        else return control.gameObject;
     }
 
     private void FixedUpdate()

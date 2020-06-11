@@ -60,7 +60,7 @@ public abstract class Controller : MonoBehaviour
         speed = 10f;
         gravity = -9.8f;
         jumpHeightMultiplier = 1f;
-        groundDetectionRadius = 0.5f;
+        groundDetectionRadius = 0.1f;
         maxJumps = 2;
         distanceFromGround = 0.5f;
         HP = 100;

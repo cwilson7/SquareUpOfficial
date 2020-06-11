@@ -810,10 +810,7 @@ MonoBehaviour:
   isDead: 0
   isRunning: 0
   hasGun: 0
-<<<<<<< Updated upstream
   directionModifier: 0
-=======
->>>>>>> Stashed changes
   anim: {fileID: 0}
 --- !u!95 &2733806496987645801
 Animator:
@@ -981,7 +978,7 @@ GameObject:
   - component: {fileID: 6329239581454235181}
   - component: {fileID: 1067785583949967072}
   m_Layer: 0
-  m_Name: FistBone
+  m_Name: Bone.011
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1627,7 +1624,7 @@ GameObject:
   - component: {fileID: 8976148755951970026}
   - component: {fileID: 2682675957022431871}
   m_Layer: 0
-  m_Name: GunBone
+  m_Name: Bone.006
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

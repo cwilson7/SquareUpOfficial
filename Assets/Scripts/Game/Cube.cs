@@ -9,6 +9,9 @@ using UnityEngine.ProBuilder;
 
 public class Cube : MonoBehaviour, IPunObservable
 {
+    //FOR TESTING
+    public GameObject TestingLevel;
+    
     public static Cube cb;
     public PhotonView PV;
     public List<Level> LevelPool = new List<Level>(), LevelsOnCube = new List<Level>();
@@ -200,10 +203,16 @@ public class Cube : MonoBehaviour, IPunObservable
 
     void SelectAndDeployRandomLevels()
     {
+        //REMOVE AFTER TESTING
+        LevelPool[0] = TestingLevel.GetComponent<Level>();
         for (int i = 0; i < Faces.Count; i++)
         {
-            int id = GenerateRandomLevelID();
-            PV.RPC("SetLevels_RPC", RpcTarget.AllBuffered, id, i);
+            if (i == 0) PV.RPC("SetLevels_RPC", RpcTarget.AllBuffered, 0, 0);
+            else
+            {
+                int id = GenerateRandomLevelID();
+                PV.RPC("SetLevels_RPC", RpcTarget.AllBuffered, id, i);
+            }
         }
     }
 

@@ -397,7 +397,7 @@ public abstract class Controller : MonoBehaviour
         Score playerInfo = (Score)GameInfo.GI.scoreTable[actorNumber];
         GameObject fist = playerInfo.playerAvatar.GetComponent<Controller>().Fist.gameObject;
         fist.GetComponent<Fist>().cooldown = Fist.GetComponent<Fist>().timeBtwnPunches;
-        StartCoroutine(fist.GetComponent<Fist>().Punch(aim));
+        //StartCoroutine(fist.GetComponent<Fist>().Punch(aim));
     }
 
     [PunRPC]

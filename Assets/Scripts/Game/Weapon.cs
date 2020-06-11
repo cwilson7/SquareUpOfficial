@@ -12,7 +12,7 @@ public class Weapon : MonoBehaviour
     public float impact;
     public int owner, totalAmmo, ammoLeft;
     public GameObject projectile;
-    public Transform FiringPoint, GunPivot;
+    public Transform FiringPoint, GunPivot, GunLocation;
 
     private void Start()
     {
@@ -20,7 +20,6 @@ public class Weapon : MonoBehaviour
         PV = parentAvatar.GetComponent<PhotonView>();
         ParentController = parentAvatar.GetComponent<Controller>();
         GunPivot = GetComponentInParent<GunPivot>().gameObject.transform;
-
         ammoLeft = totalAmmo;
         fireCooldown = 0f;
     }
@@ -39,6 +38,7 @@ public class Weapon : MonoBehaviour
     {
         if (fireCooldown >= 0) fireCooldown -= Time.deltaTime;
         TrackMousePosition(ParentController.AimDirection);
+        GunPivot.position = GunLocation.position;
     }
 
     public void TrackMousePosition(Vector3 Direction)
@@ -47,6 +47,7 @@ public class Weapon : MonoBehaviour
         //Debug.Log("W "+GunPivot.transform.parent.position); 
         //Debug.Log("L "+GunPivot.transform.parent.localPosition);
         //GunPivot.transform.position = GunPivot.transform.parent.TransformPoint(GunPivot.transform.parent.position);
+        transform.localRotation = Quaternion.Euler(0f, 0f, transform.localRotation.z);
         if (Direction.x > 0) GunPivot.rotation = Quaternion.Euler(0, 0, Mathf.Rad2Deg * Mathf.Atan(Direction.y / Direction.x));
         else GunPivot.rotation = Quaternion.Euler(0, 0, 180 + Mathf.Rad2Deg * Mathf.Atan(Direction.y / Direction.x));
     }

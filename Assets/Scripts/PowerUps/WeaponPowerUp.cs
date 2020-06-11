@@ -16,7 +16,7 @@ public class WeaponPowerUp : PowerUp
     {
         Score playerInfo = (Score)GameInfo.GI.scoreTable[actor];
         Weapon playerWeapon = playerInfo.playerAvatar.GetComponent<Controller>().currentWeapon;
-        if (playerWeapon != null) Destroy(playerWeapon);
+        if (playerWeapon != null) Destroy(playerWeapon.gameObject);
         GameManager.Manager.PV.RPC("EquipWeapon_RPC", RpcTarget.AllBuffered, actor, WeaponPrefab.name);
     }
 

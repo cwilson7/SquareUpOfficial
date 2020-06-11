@@ -23,7 +23,7 @@ public class Fist : DamageDealer
         GameInfo.GI.StatChange(owner, "punchesThrown");
         ParentController.gameObject.GetComponent<PhotonView>().RPC("RPC_MeleAttack", RpcTarget.AllBuffered, Direction, owner);
     }
-    
+    /*
     public IEnumerator Punch(Vector3 Direction)
     {
         //turn on collider
@@ -51,6 +51,7 @@ public class Fist : DamageDealer
             yield return null;
         }
     }
+    */
 
     private void TrackVelocity()
     {

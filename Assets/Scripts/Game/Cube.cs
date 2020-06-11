@@ -204,7 +204,20 @@ public class Cube : MonoBehaviour, IPunObservable
     {
         if (testing)
         {
+            List<Level> TestLevels = new List<Level>();
             //REMOVE AFTER TESTING
+<<<<<<< Updated upstream
+=======
+            foreach (Level level in LevelPool)
+            {
+                TestLevels.Add(TestingLevel.GetComponent<Level>());
+            }
+            LevelPool.Clear();
+            foreach (Level level in TestLevels)
+            {
+                LevelPool.Add(TestingLevel.GetComponent<Level>());
+            }
+>>>>>>> Stashed changes
             for (int i = 0; i < Faces.Count; i++)
             {
                 if (i == 0) PV.RPC("SetLevels_RPC", RpcTarget.AllBuffered, 0, 0);

@@ -5050,8 +5050,8 @@ CharacterController:
   serializedVersion: 2
   m_Height: 1
   m_Radius: 0.5
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
+  m_SlopeLimit: 60
+  m_StepOffset: 0.5
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
@@ -5105,9 +5105,10 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.5
-  m_Height: 1
+  m_Radius: 1
+  m_Height: 3
   m_Direction: 1
+<<<<<<< Updated upstream
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &6374201829056692465
 MonoBehaviour:
@@ -5121,3 +5122,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9b8e806294698a468f78546fc6a5484, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+=======
+  m_Center: {x: 0, y: 1.5, z: 0}
+>>>>>>> Stashed changes

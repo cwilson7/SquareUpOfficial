@@ -3,13 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
-public class Fist : MonoBehaviour
+public class Fist : DamageDealer
 {
     Controller ParentController;
-    public int owner;
-    public float damage, impact, cooldown, timeBtwnPunches;
+    public float cooldown, timeBtwnPunches;
     public Transform fistLocation;
-    public Vector3 Velocity;
    
     private Vector3 OriginalPos, PrevPos;
     private float maxTimePunch, punchDistance;
@@ -65,7 +63,7 @@ public class Fist : MonoBehaviour
         ParentController = parentController;
 
         damage = ParentController.punchPower;
-        impact = ParentController.punchImpact;
+        impactMultiplier = ParentController.punchImpact;
         owner = ParentController.actorNr;
         cooldown = ParentController.punchCooldown;
         timeBtwnPunches = cooldown;

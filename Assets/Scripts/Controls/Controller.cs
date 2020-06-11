@@ -8,6 +8,8 @@ using System.IO;
 
 public abstract class Controller : MonoBehaviour
 {
+    public static event Action<DamageDealer, Controller> OnDamgeTaken;
+    
     public bool iPhone = false;
 
     private PhotonView PV;
@@ -106,6 +108,7 @@ public abstract class Controller : MonoBehaviour
         if (!PV.IsMine) return;             
         Movement();
         HandleDeaths();
+        HandleAnimation();
         if (!iPhone)
         {
             TrackMouse();
@@ -114,6 +117,22 @@ public abstract class Controller : MonoBehaviour
         SpecialAbility();
     }
 
+    private void HandleAnimation()
+    {
+        if (iPhone)
+        {
+
+        }
+        else
+        {
+            if (Input.GetAxis("Horizontal") >= 0) anim.SetFloat("AimX", AimDirection.x);
+            else anim.SetFloat("AimY", AimDirection.y);
+            if (Input.GetMouseButtonDown(0)) anim.SetTrigger("Mele");
+        }
+
+    }
+
+    #region Mouse Tracking
     private void MouseCombat()
     {
         if (Input.GetMouseButtonDown(0))
@@ -121,7 +140,6 @@ public abstract class Controller : MonoBehaviour
             if (currentWeapon == null)
             {
                 Fist.Smack(AimDirection);
-                anim.SetTrigger("Mele");
             }
             else
             {
@@ -136,14 +154,9 @@ public abstract class Controller : MonoBehaviour
         MouseWorldPos.z = transform.position.z;
         AimDirection = (MouseWorldPos - transform.position).normalized;
         AimDirection.z = transform.position.z;
-        //Debug.Log(AimDirection);
-        if (Input.GetAxis("Horizontal") >= 0)
-        {
-            anim.SetFloat("AimX", AimDirection.x);
-        }
-        else anim.SetFloat("AimX", -1*AimDirection.x);
-        anim.SetFloat("AimY", AimDirection.y);
     }
+
+    #endregion
 
     #region Death/ Respawn
 
@@ -311,7 +324,7 @@ public abstract class Controller : MonoBehaviour
                 LoseHealth(proj.damage);
                 GameInfo.GI.StatChange(proj.owner, "bulletsLanded");
             }
-            
+            OnDamgeTaken?.Invoke(proj, this);
             impact += proj.impactMultiplier * proj.Velocity.normalized;
             Destroy(other.gameObject);
         }
@@ -329,8 +342,8 @@ public abstract class Controller : MonoBehaviour
                 LoseHealth(fist.damage);
                 GameInfo.GI.StatChange(fist.owner, "punchesLanded");
             }
-
-            impact += fist.impact * fist.Velocity.normalized;
+            OnDamgeTaken?.Invoke(fist, this);
+            impact += fist.impactMultiplier * fist.Velocity.normalized;
         }
     }
     #endregion
@@ -345,6 +358,7 @@ public abstract class Controller : MonoBehaviour
     [PunRPC]
     public void FireWeapon_RPC(Vector3 Direction, float dmg, float impt, float bltSpd, int ownr, string projName)
     {
+        Direction.z = 0f;
         GameObject bullet = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/Weapons/" + projName), currentWeapon.FiringPoint.position, Quaternion.identity);
         bullet.GetComponent<Projectile>().InitializeProjectile(dmg, impt, Direction * (float)bltSpd, ownr);
     }

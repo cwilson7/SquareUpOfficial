@@ -81,7 +81,14 @@ public class LobbyController : MonoBehaviourPunCallbacks
     public override void OnPlayerLeftRoom(Player otherPlayer)
     {
         base.OnPlayerLeftRoom(otherPlayer);
-        if (!IDsOfDisconnectedPlayers.Contains(otherPlayer.ActorNumber)) IDsOfDisconnectedPlayers.Add(otherPlayer.ActorNumber);
+        if (SceneManager.GetActiveScene() == SceneManager.GetSceneByBuildIndex(MultiplayerSettings.multiplayerSettings.intermediateScene))
+        {
+            //nothing?
+        }
+        if (SceneManager.GetActiveScene() == SceneManager.GetSceneByBuildIndex(MultiplayerSettings.multiplayerSettings.multiplayerScene))
+        {
+            if (!IDsOfDisconnectedPlayers.Contains(otherPlayer.ActorNumber)) IDsOfDisconnectedPlayers.Add(otherPlayer.ActorNumber);
+        }
         int myColorID = (int)otherPlayer.CustomProperties["AssignedColor"];
         if(LobbyController.lc.selectedMaterialIDs.Contains(myColorID))
         {
@@ -91,18 +98,24 @@ public class LobbyController : MonoBehaviourPunCallbacks
 
     public override void OnMasterClientSwitched(Player newMasterClient)
     {
-        IDsOfDisconnectedPlayers.Add(currMasterID);
         base.OnMasterClientSwitched(newMasterClient);
-        currMasterID = newMasterClient.ActorNumber;
-        if (GameInfo.GI != null)
+        if (SceneManager.GetActiveScene() == SceneManager.GetSceneByBuildIndex(MultiplayerSettings.multiplayerSettings.intermediateScene))
         {
-            if (GameInfo.GI.TimeStopped == false) GameInfo.GI.StopTime();
-            Score playerInfo = (Score)GameInfo.GI.scoreTable[newMasterClient.ActorNumber];
-            PhotonPlayer newHost = playerInfo.photonPlayer.GetComponent<PhotonPlayer>();
-            newHost.makingCubeClone = true;
-            newHost.SetUpCube();
+            //nothing?
         }
-
+        if (SceneManager.GetActiveScene() == SceneManager.GetSceneByBuildIndex(MultiplayerSettings.multiplayerSettings.multiplayerScene))
+        {
+            IDsOfDisconnectedPlayers.Add(currMasterID);
+            currMasterID = newMasterClient.ActorNumber;
+            if (GameInfo.GI != null)
+            {
+                if (GameInfo.GI.TimeStopped == false) GameInfo.GI.StopTime();
+                Score playerInfo = (Score)GameInfo.GI.scoreTable[newMasterClient.ActorNumber];
+                PhotonPlayer newHost = playerInfo.photonPlayer.GetComponent<PhotonPlayer>();
+                newHost.makingCubeClone = true;
+                newHost.SetUpCube();
+            }
+        }
         //display migrating host text
     }
 }

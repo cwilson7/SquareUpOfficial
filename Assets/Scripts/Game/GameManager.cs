@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     //Set values
     [SerializeField] private double percentOfPowerUpsWeapons;
     [SerializeField] private float powerUpMaxCooldown;
-    [SerializeField] private int maxPowerups = 3;
+    [SerializeField] private int maxPowerups = 5;
 
     //Tracked values
     [SerializeField] private float powerUpCooldown;
@@ -98,6 +98,14 @@ public class GameManager : MonoBehaviour
         return rand.Next(min, max);
     }
     #endregion
+
+    public void DestroyAllPowerUps()
+    {
+        foreach (int key in currentPowerUps.Keys)
+        {
+            PV.RPC("DestroyPowerUp_RPC", RpcTarget.AllBuffered, key);
+        }
+    }
 
     #region RPCs
     [PunRPC]

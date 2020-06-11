@@ -70,6 +70,7 @@ public class Cube : MonoBehaviour, IPunObservable
     {
         if (PhotonNetwork.CurrentRoom.GetPlayer(actorNr) == null) return;
         PV.TransferOwnership(PhotonNetwork.CurrentRoom.GetPlayer(actorNr));
+        GameManager.Manager.DestroyAllPowerUps();
         ownerActorNr = actorNr;
         GameInfo.GI.StopTime();
         inRotation = true;

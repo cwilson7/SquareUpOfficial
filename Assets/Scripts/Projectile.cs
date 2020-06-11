@@ -3,12 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Projectile : MonoBehaviour
+public class Projectile : DamageDealer
 {
-    public float damage;
-    public Vector3 Velocity;
-    public float impactMultiplier;
-    public int owner;
     public float lifeTime, maxLifeTime;
 
     public void InitializeProjectile(float dmg, float impt, Vector3 vel, int owner)

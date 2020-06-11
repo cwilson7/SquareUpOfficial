@@ -540,9 +540,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c1c672795f77ce488e5faa4fd3a4dd2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Velocity: {x: 0, y: 0, z: 0}
   owner: 0
   damage: 0
-  impact: 0
+  impactMultiplier: 0
   cooldown: 0
   timeBtwnPunches: 0
   fistLocation: {fileID: 0}
@@ -817,6 +818,8 @@ MonoBehaviour:
   punchCooldown: 0
   respawnDelay: 0
   boundaryDist: 0
+  maxTimePunch: 0
+  punchDistance: 0
   Velocity: {x: 0, y: 0, z: 0}
   impact: {x: 0, y: 0, z: 0}
   jumpNum: 0
@@ -1600,6 +1603,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8976148755951970026}
+  - component: {fileID: 2682675957022431871}
   m_Layer: 0
   m_Name: Bone.006
   m_TagString: Untagged
@@ -1622,6 +1626,18 @@ Transform:
   m_Father: {fileID: 2395276344618610771}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2682675957022431871
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7387941707571226069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bbd2a24996479143bcb00362596fce9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7399025467037911610
 GameObject:
   m_ObjectHideFlags: 0

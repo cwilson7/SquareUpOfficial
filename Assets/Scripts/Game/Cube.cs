@@ -10,6 +10,7 @@ using UnityEngine.ProBuilder;
 public class Cube : MonoBehaviour, IPunObservable
 {
     //FOR TESTING
+    public bool testing;
     public GameObject TestingLevel;
     
     public static Cube cb;
@@ -203,12 +204,28 @@ public class Cube : MonoBehaviour, IPunObservable
 
     void SelectAndDeployRandomLevels()
     {
-        //REMOVE AFTER TESTING
-        LevelPool[0] = TestingLevel.GetComponent<Level>();
-        for (int i = 0; i < Faces.Count; i++)
+        if (testing)
         {
-            if (i == 0) PV.RPC("SetLevels_RPC", RpcTarget.AllBuffered, 0, 0);
-            else
+            //REMOVE AFTER TESTING
+            foreach (Level level in LevelPool)
+            {
+                Level newLev = TestingLevel.GetComponent<Level>();
+                LevelPool.Remove(level);
+                LevelPool.Add(newLev);
+            }
+            for (int i = 0; i < Faces.Count; i++)
+            {
+                if (i == 0) PV.RPC("SetLevels_RPC", RpcTarget.AllBuffered, 0, 0);
+                else
+                {
+                    int id = GenerateRandomLevelID();
+                    PV.RPC("SetLevels_RPC", RpcTarget.AllBuffered, id, i);
+                }
+            }
+        }
+        else
+        {
+            for (int i = 0; i < Faces.Count; i++)
             {
                 int id = GenerateRandomLevelID();
                 PV.RPC("SetLevels_RPC", RpcTarget.AllBuffered, id, i);

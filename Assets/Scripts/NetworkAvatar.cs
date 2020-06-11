@@ -62,10 +62,6 @@ public class NetworkAvatar : MonoBehaviourPun, IPunObservable
 
     private void CheckForMove(Vector3 lagDistance, double timeToReachGoal)
     {
-        if (timeToReachGoal < 1.0 && Mathf.Abs(lagDistance.y) > 0.11f && controller.jumpNum > 0)
-        {
-            controller.Jump();
-        }
         
         if (Mathf.Abs(lagDistance.x) < 0.11f)
         {

@@ -11,10 +11,13 @@ public class Fist : DamageDealer
     public float cooldown, timeBtwnPunches;
     public Transform fistLocation;
     private float activeTime;
+    private Vector3 PrevPos;
 
     public void FixedUpdate()
     {
         if (cooldown >= 0) cooldown -= Time.deltaTime;
+        if (gameObject.tag != "Fist") return;
+        TrackVelocity();
     }
 
     public void Punch()
@@ -22,6 +25,12 @@ public class Fist : DamageDealer
         SetCollider(true);
         cooldown = timeBtwnPunches;
         StartCoroutine(FistDrag());
+    }
+
+    void TrackVelocity()
+    {
+        Velocity = (transform.position - PrevPos);
+        PrevPos = transform.position;
     }
 
     public void InitializeFist(Controller parentController)
@@ -38,6 +47,8 @@ public class Fist : DamageDealer
         cooldown = ParentController.punchCooldown;
         timeBtwnPunches = cooldown;
         activeTime = ParentController.fistActiveTime;
+        PrevPos = transform.position;
+        gameObject.tag = "Fist";
     }
 
     public IEnumerator FistDrag()

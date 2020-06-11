@@ -137,7 +137,6 @@ public class GameManager : MonoBehaviour
         wpn.GetComponent<Weapon>().owner = actor;
         wpn.GetComponent<Weapon>().GunLocation = playerInfo.playerAvatar.GetComponentInChildren<GunLocation>().transform;
         playerInfo.playerAvatar.GetComponent<Controller>().currentWeapon = wpn.GetComponent<Weapon>();
-        playerInfo.playerAvatar.GetComponent<Controller>().anim.SetBool("Gun", true);
     }
 
     [PunRPC]

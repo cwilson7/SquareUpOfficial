@@ -9,9 +9,10 @@ public class Paint : MonoBehaviour
 
     public void Initialize(Vector3 Velocity, Material mat)
     {
+        ps = GetComponent<ParticleSystem>();
         var main = ps.main;
-        main.startColor = mat.GetColor("_BaseColor");
-
+        main.startColor = mat.GetColor("_Color");
+        main.startSize = Velocity.magnitude/3;
         InitialVelocity = Velocity;
 
         ps.emissionRate = 4 * Velocity.magnitude * 10;

@@ -3,9 +3,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using UnityEngine.ProBuilder;
 
 public class Cube : MonoBehaviour, IPunObservable
 {
@@ -207,12 +205,6 @@ public class Cube : MonoBehaviour, IPunObservable
         if (testing)
         {
             //REMOVE AFTER TESTING
-            foreach (Level level in LevelPool)
-            {
-                Level newLev = TestingLevel.GetComponent<Level>();
-                LevelPool.Remove(level);
-                LevelPool.Add(newLev);
-            }
             for (int i = 0; i < Faces.Count; i++)
             {
                 if (i == 0) PV.RPC("SetLevels_RPC", RpcTarget.AllBuffered, 0, 0);
@@ -288,6 +280,11 @@ public class Cube : MonoBehaviour, IPunObservable
         level.GetComponent<Level>().num = i;
         level.transform.SetParent(transform);
         level.GetComponent<Level>().face = Faces[i];
+        for (int j = 0; j < level.transform.childCount; j++)
+        {
+            GameObject child = level.transform.GetChild(j).gameObject;
+            if (child.layer == 8/*LayerMask.GetMask("Platform")*/) child.AddComponent<CollideListener>();
+        }
         LevelsOnCube.Add(level.GetComponent<Level>());
     }
 
@@ -311,6 +308,7 @@ public class Cube : MonoBehaviour, IPunObservable
     {
         cb = this;
         PV = GetComponent<PhotonView>();
+        gameObject.AddComponent<CollideListener>();
         MiniMapCamera.mmCamera.InitializeMiniMapCamera();
 
         cubeSize = transform.localScale.x;

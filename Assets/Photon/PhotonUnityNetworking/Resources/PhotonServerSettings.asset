@@ -66,6 +66,7 @@ MonoBehaviour:
   - RPC_AnimRun
   - SetAnimatorController_RPC
   - SplatterPaint_RPC
+  - JumpAnimation_RPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

@@ -63,6 +63,7 @@ public class GameInfo : MonoBehaviour
 
     public void PopulateList<T>(List<T> list, string prefabFolderPath)
     {
+        if (list == null) list = new List<T>();
         UnityEngine.Object[] prefabs = Resources.LoadAll(prefabFolderPath);
         foreach (UnityEngine.Object prefab in prefabs)
         {

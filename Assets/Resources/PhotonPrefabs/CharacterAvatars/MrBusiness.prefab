@@ -781,6 +781,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   iPhone: 0
+  PV: {fileID: 0}
   baseOfCharacterPrefab: {fileID: 0}
   currentWeapon: {fileID: 0}
   Fist: {fileID: 0}
@@ -805,7 +806,11 @@ MonoBehaviour:
   jumpNum: 0
   HP: 0
   AimDirection: {x: 0, y: 0, z: 0}
+  controllerInitialized: 0
   isDead: 0
+  isRunning: 0
+  hasGun: 0
+  directionModifier: 0
   anim: {fileID: 0}
 --- !u!95 &2733806496987645801
 Animator:
@@ -1021,8 +1026,8 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4556186689436058943}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
+  m_IsTrigger: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Size: {x: 0.041343432, y: 0.09055144, z: 0.031938765}
   m_Center: {x: 0.00906845, y: -0.020191666, z: 0.0010429885}

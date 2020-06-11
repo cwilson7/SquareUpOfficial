@@ -30,9 +30,12 @@ public class PaintController : MonoBehaviour
     {
         Score damagedInfo = (Score)GameInfo.GI.scoreTable[damagedID];
         Material matOfProj = LobbyController.lc.availableMaterials[matID];
+        ParticleSystem ps = damagedInfo.playerAvatar.GetComponent<Controller>().PaintExplosionSystem;
+        var main = ps.main;
+        main.startColor = new ParticleSystem.MinMaxGradient(matOfProj.GetColor("_Color"));
+        main.startSize = PaintVelocity.magnitude / 3;
 
-        GameObject paintEffect = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/PaintEffect"), damagedInfo.playerAvatar.transform.position, Quaternion.identity);
-        Paint paint = paintEffect.GetComponent<Paint>();
-        paint.Initialize(PaintVelocity, matOfProj);
+        ps.emissionRate = 4 * PaintVelocity.magnitude * 10;
+        ps.Play();
     }
 }

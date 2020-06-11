@@ -12,6 +12,7 @@ public class AnimationSynchronization : MonoBehaviour, IPunObservable
     private Controller controller;
     private Animator animator;
     private Vector3 aim;
+    private int directionModifier;
     private bool isRunning, hasGun;
 
     private void Start()
@@ -35,7 +36,7 @@ public class AnimationSynchronization : MonoBehaviour, IPunObservable
 
     private void GhostAnimate(Vector3 aim, bool running, bool gun)
     {
-        animator.SetFloat("AimX", aim.x);
+        animator.SetFloat("AimX", aim.x * directionModifier);
         animator.SetFloat("AimY", aim.y);
         animator.SetBool("Running", running);
         animator.SetBool("Gun", gun);
@@ -55,12 +56,14 @@ public class AnimationSynchronization : MonoBehaviour, IPunObservable
             stream.SendNext(controller.AimDirection);
             stream.SendNext(controller.isRunning);
             stream.SendNext(controller.hasGun);
+            stream.SendNext(controller.directionModifier);
         }
         else if (stream.IsReading)
         {
             aim = (Vector3)stream.ReceiveNext();
             isRunning = (bool)stream.ReceiveNext();
             hasGun = (bool)stream.ReceiveNext();
+            directionModifier = (int)stream.ReceiveNext();
         }
     }
 }

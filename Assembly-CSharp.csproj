@@ -91,6 +91,7 @@
     <Compile Include="Assets\Scripts\AnimationSynchronization.cs" />
     <Compile Include="Assets\Scripts\AvatarSetup.cs" />
     <Compile Include="Assets\Scripts\CachedRoomList.cs" />
+    <Compile Include="Assets\Scripts\CollideListener.cs" />
     <Compile Include="Assets\Scripts\Controls\Controller.cs" />
     <Compile Include="Assets\Scripts\DamageDealer.cs" />
     <Compile Include="Assets\Scripts\Face.cs" />

@@ -12,7 +12,8 @@ public abstract class Controller : MonoBehaviour
     
     public bool iPhone = false;
 
-    private PhotonView PV;
+    public PhotonView PV;
+    public ParticleSystem PaintExplosionSystem;
     private CharacterController cc;
     [SerializeField] private GameObject baseOfCharacterPrefab;
     BoxCollider Collider;
@@ -41,9 +42,9 @@ public abstract class Controller : MonoBehaviour
     public bool controllerInitialized = false;
     public bool isDead = false;
     public bool isRunning, hasGun;
+    public int directionModifier;
 
     public Animator anim;
-    private int directionModifier;
 
     #region SET VALUES
 
@@ -64,7 +65,7 @@ public abstract class Controller : MonoBehaviour
         distanceFromGround = 0.5f;
         HP = 100;
         punchPower = 10f;
-        punchImpact = 1f;
+        punchImpact = 1.5f;
         punchCooldown = 2;
         respawnDelay = 3f;
         boundaryDist = 100f;
@@ -76,6 +77,8 @@ public abstract class Controller : MonoBehaviour
         Collider.isTrigger = true;
         actorNr = GetComponent<PhotonView>().OwnerActorNr;
 
+        PaintExplosionSystem = GetComponentInChildren<ParticleSystem>();
+        
         cc = GetComponent<CharacterController>();
         currentWeapon = GetComponent<Weapon>();
         moveStick = JoyStickReference.joyStick.gameObject.GetComponent<FloatingJoystick>();
@@ -92,9 +95,6 @@ public abstract class Controller : MonoBehaviour
         baseOfCharacter.transform.position = new Vector3(baseOfCharacter.position.x, baseOfCharacter.position.y - distanceFromGround, baseOfCharacter.transform.position.z);
 
         anim = GetComponentInChildren<Animator>();
-        anim.gameObject.AddComponent<PhotonAnimatorView>();
-        anim.gameObject.GetComponent<PhotonAnimatorView>();
-        PV.ObservedComponents.Add(GetComponentInChildren<PhotonAnimatorView>());
 
         controllerInitialized = true;
         if (PV.IsMine) MultiplayerSettings.multiplayerSettings.SetCustomPlayerProperties("ControllerInitialized", true);
@@ -122,12 +122,13 @@ public abstract class Controller : MonoBehaviour
 
     private void HandleAnimationValues()
     {
+        //set values for aimx and aimy
+        
         if (currentWeapon != null) hasGun = true;
         else if (currentWeapon == null) hasGun = false;
 
         if (Mathf.Abs(Velocity.x) > 0) isRunning = true;
         else isRunning = false;
-
     }
 
     #region Mouse Tracking / Combat
@@ -152,6 +153,9 @@ public abstract class Controller : MonoBehaviour
         MouseWorldPos.z = transform.position.z;
         AimDirection = (MouseWorldPos - transform.position).normalized;
         AimDirection.z = transform.position.z;
+
+        anim.SetFloat("AimX", AimDirection.x * directionModifier);
+        anim.SetFloat("AimY", AimDirection.y);
     }
 
     private void Punch()
@@ -195,6 +199,7 @@ public abstract class Controller : MonoBehaviour
         int locID = UnityEngine.Random.Range(0, list.Length);
         transform.position = list[locID].position;
         transform.rotation = list[locID].rotation;
+        HP = 100;
         SetAllComponents(true);
         isDead = false;
         //spawn effect
@@ -202,7 +207,7 @@ public abstract class Controller : MonoBehaviour
 
     private void SetAllComponents(bool isActive)
     {
-        foreach (MeshRenderer display in gameObject.GetComponentsInChildren<MeshRenderer>())
+        foreach (SkinnedMeshRenderer display in gameObject.GetComponentsInChildren<SkinnedMeshRenderer>())
         {
             display.enabled = isActive;
         }
@@ -236,7 +241,7 @@ public abstract class Controller : MonoBehaviour
             //Vertical movement
             if (moveStick.Vertical >= 0.8)
             {
-                Jump();
+                TryJump();
             }
 
             //Horizontal movement
@@ -264,7 +269,7 @@ public abstract class Controller : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.W))
             {
-                Jump();
+                TryJump();
             }
             if (Input.GetAxis("Horizontal") > 0)
             {
@@ -295,9 +300,14 @@ public abstract class Controller : MonoBehaviour
         //Account for impact from being hit by weapon
         impact = Vector3.Lerp(impact, Vector3.zero, 5 * Time.deltaTime);
     }
-    public void Jump()
+    public void TryJump()
     {
         if (jumpNum <= 0) return;
+        PV.RPC("JumpAnimation_RPC", RpcTarget.AllBuffered, actorNr);
+    }
+
+    public void JumpAction()
+    {
         anim.SetTrigger("Jump");
         Velocity.y = Mathf.Sqrt(jumpHeightMultiplier * -1f * gravity);
         jumpNum -= 1;
@@ -324,19 +334,20 @@ public abstract class Controller : MonoBehaviour
     #region Collision/ Trigger 
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.tag == "Projectile")
+        GameObject otherGO = other.gameObject;
+        if (otherGO.tag == "Projectile")
         {
-            Projectile proj = other.gameObject.GetComponent<Projectile>();
+            Projectile proj = otherGO.GetComponent<Projectile>();
             if (proj.owner == actorNr) return;
 
             if (PV.IsMine)
             {
                 LoseHealth(proj.damage);
+                OnDamgeTaken?.Invoke(proj, this);
                 GameInfo.GI.StatChange(proj.owner, "bulletsLanded");
             }
-            OnDamgeTaken?.Invoke(proj, this);
             impact += proj.impactMultiplier * proj.Velocity.normalized;
-            Destroy(other.gameObject);
+            Destroy(otherGO);
         }
     }
 
@@ -346,16 +357,18 @@ public abstract class Controller : MonoBehaviour
         {
             Fist fist = other.GetComponent<Fist>();
             if (fist.owner == actorNr) return;
+            fist.SetCollider(false);
 
             if (PV.IsMine)
             {
                 LoseHealth(fist.damage);
+                OnDamgeTaken?.Invoke(fist, this);
                 GameInfo.GI.StatChange(fist.owner, "punchesLanded");
             }
-            OnDamgeTaken?.Invoke(fist, this);
             impact += fist.impactMultiplier * fist.Velocity.normalized;
         }
     }
+
     #endregion
 
     #region RPC
@@ -385,17 +398,13 @@ public abstract class Controller : MonoBehaviour
         if (currentWeapon == null) return;
         currentWeapon.Remove();
         currentWeapon = null;
-        anim.SetBool("Gun", false);
     }
 
     [PunRPC]
     public void RPC_MeleAttack(Vector3 aimDir, int actorNumber)
     {
         Score playerInfo = (Score)GameInfo.GI.scoreTable[actorNumber];
-        //FOR TESTING
-        playerInfo.playerAvatar.GetComponent<Controller>().anim.SetFloat("AimX", directionModifier * aimDir.x);
-        playerInfo.playerAvatar.GetComponent<Controller>().anim.SetFloat("AimY", aimDir.y);
-        playerInfo.playerAvatar.GetComponent<Controller>().anim.SetTrigger("Mele");
+        playerInfo.playerAvatar.GetComponent<Controller>().anim.SetTrigger("Melee");
         playerInfo.playerAvatar.GetComponent<Controller>().Fist.Punch();
     }
 
@@ -406,6 +415,13 @@ public abstract class Controller : MonoBehaviour
         MiniMapPlayer player = playerInfo.playerAvatar.GetComponent<Controller>().mmPlayer;
         int colorid = (int)PhotonNetwork.CurrentRoom.GetPlayer(actorNumber).CustomProperties["AssignedColor"];
         player.gameObject.GetComponent<MeshRenderer>().sharedMaterial = LobbyController.lc.availableMaterials[colorid];
+    }
+
+    [PunRPC]
+    public void JumpAnimation_RPC(int id)
+    {
+        Score playerInfo = (Score)GameInfo.GI.scoreTable[id];
+        playerInfo.playerAvatar.GetComponent<Controller>().JumpAction();
     }
 
     #endregion

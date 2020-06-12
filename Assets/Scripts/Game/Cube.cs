@@ -207,7 +207,7 @@ public class Cube : MonoBehaviour, IPunObservable
             //REMOVE AFTER TESTING
             for (int i = 0; i < Faces.Count; i++)
             {
-                if (i == 0) PV.RPC("SetLevels_RPC", RpcTarget.AllBuffered, 0, 0);
+                if (i == 1) PV.RPC("SetLevels_RPC", RpcTarget.AllBuffered, 1, 0);
                 else
                 {
                     int id = GenerateRandomLevelID();
@@ -227,11 +227,12 @@ public class Cube : MonoBehaviour, IPunObservable
 
     void DeploySelectedLevels()
     {
-        for (int i = 0; i < InstantiatedLevelIDs.Count; i++)
-        {
-            int id = InstantiatedLevelIDs[i];
-            PV.RPC("SetLevels_RPC", RpcTarget.AllBuffered, id, i);
-        }
+            for (int i = 0; i < InstantiatedLevelIDs.Count; i++)
+            {
+                int id = InstantiatedLevelIDs[i];
+                PV.RPC("SetLevels_RPC", RpcTarget.AllBuffered, id, i);
+            }
+
     }
 
     private int GenerateRandomLevelID()

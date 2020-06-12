@@ -39,34 +39,27 @@ MonoBehaviour:
   - EquipWeapon_RPC
   - Fire
   - FireWeapon_RPC
+  - GameStart_RPC
   - InitializeCharacter_RPC
   - InitializeCube_RPC
   - InitializeMyScore_RPC
   - InstantiatePowerUp_RPC
+  - JumpAnimation_RPC
   - LoseHealth_RPC
   - LoseWeapon_RPC
   - RespawnSpaceship
   - RPC_MeleAttack
+  - SendRotateInformation_RPC
+  - SetFace_RPC
   - SetFaces_RPC
-  - SetFirstFace_RPC
   - SetLevels_RPC
   - SetPlayerInfo_RPC
   - SetUpMiniMap_RPC
+  - SplatterPaint_RPC
   - StartTime_RPC
   - StopTime_RPC
-  - SyncStart_RPC
-  - SendRotateInformation_RPC
-  - SetFace_RPC
   - SwitchToCubeClone_RPC
-  - SetFaceTest_RPC
-  - GameStart_RPC
-  - RPC_AnimAim
-  - RPC_AnimGun
-  - RPC_AnimJump
-  - RPC_AnimRun
-  - SetAnimatorController_RPC
-  - SplatterPaint_RPC
-  - JumpAnimation_RPC
+  - SyncStart_RPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

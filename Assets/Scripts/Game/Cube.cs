@@ -4,6 +4,7 @@ using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using CustomUtilities;
 
 public class Cube : MonoBehaviour, IPunObservable
 {
@@ -202,26 +203,10 @@ public class Cube : MonoBehaviour, IPunObservable
 
     void SelectAndDeployRandomLevels()
     {
-        if (testing)
+        for (int i = 0; i < Faces.Count; i++)
         {
-            //REMOVE AFTER TESTING
-            for (int i = 0; i < Faces.Count; i++)
-            {
-                if (i == 1) PV.RPC("SetLevels_RPC", RpcTarget.AllBuffered, 1, 0);
-                else
-                {
-                    int id = GenerateRandomLevelID();
-                    PV.RPC("SetLevels_RPC", RpcTarget.AllBuffered, id, i);
-                }
-            }
-        }
-        else
-        {
-            for (int i = 0; i < Faces.Count; i++)
-            {
-                int id = GenerateRandomLevelID();
-                PV.RPC("SetLevels_RPC", RpcTarget.AllBuffered, id, i);
-            }
+            int id = GenerateRandomLevelID();
+            PV.RPC("SetLevels_RPC", RpcTarget.AllBuffered, id, i);
         }
     }
 
@@ -247,6 +232,16 @@ public class Cube : MonoBehaviour, IPunObservable
         {
             InstantiatedLevelIDs.Add(id);
             return id;
+        }
+    }
+
+    private void AttachToAllChildren<T>(Transform root, LayerMask layer) where T : Component
+    {
+        for (int i = 0; i < root.childCount; i++)
+        {
+            Transform child = root.GetChild(i);
+            if (child.childCount > 0) AttachToAllChildren<T>(child, layer);
+            if (child.gameObject.layer == Mathf.RoundToInt(Mathf.Log(layer.value, 2))) child.gameObject.AddComponent<T>();
         }
     }
 
@@ -281,11 +276,7 @@ public class Cube : MonoBehaviour, IPunObservable
         level.GetComponent<Level>().num = i;
         level.transform.SetParent(transform);
         level.GetComponent<Level>().face = Faces[i];
-        for (int j = 0; j < level.transform.childCount; j++)
-        {
-            GameObject child = level.transform.GetChild(j).gameObject;
-            if (child.layer == 8/*LayerMask.GetMask("Platform")*/) child.AddComponent<CollideListener>();
-        }
+        AttachToAllChildren<CollideListener>(level.transform, LayerMask.GetMask("Platform"));
         LevelsOnCube.Add(level.GetComponent<Level>());
     }
 
@@ -314,12 +305,8 @@ public class Cube : MonoBehaviour, IPunObservable
 
         cubeSize = transform.localScale.x;
 
-        Object[] prefabs = Resources.LoadAll("PhotonPrefabs/Levels");
-        foreach (Object prefab in prefabs)
-        {
-            GameObject prefabGO = (GameObject)prefab;
-            LevelPool.Add(prefabGO.GetComponent<Level>());
-        }
+        if (!testing) Utils.PopulateList<Level>(LevelPool, "PhotonPrefabs/Levels");
+        else for (int i = 0; i < 9; i++) LevelPool.Add(TestingLevel.GetComponent<Level>());
 
         if (GameInfo.GI.cubeCloned)
         {

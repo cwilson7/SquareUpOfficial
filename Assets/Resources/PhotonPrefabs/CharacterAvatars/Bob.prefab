@@ -817,6 +817,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6445015615115613140}
+  - component: {fileID: 8581663030052043034}
   m_Layer: 0
   m_Name: Armature
   m_TagString: Untagged
@@ -843,6 +844,18 @@ Transform:
   m_Father: {fileID: 7340657559494187098}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8581663030052043034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2409002187290115292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e96e0cbcd0dcda4d91c58003f310077, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2710526730649679007
 GameObject:
   m_ObjectHideFlags: 0
@@ -1909,6 +1922,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   iPhone: 0
+  PV: {fileID: 0}
+  PaintExplosionSystem: {fileID: 0}
   baseOfCharacterPrefab: {fileID: 0}
   currentWeapon: {fileID: 0}
   Fist: {fileID: 0}
@@ -1926,12 +1941,18 @@ MonoBehaviour:
   punchCooldown: 0
   respawnDelay: 0
   boundaryDist: 0
+  fistActiveTime: 0
+  fistRadius: 0
   Velocity: {x: 0, y: 0, z: 0}
   impact: {x: 0, y: 0, z: 0}
   jumpNum: 0
   HP: 0
   AimDirection: {x: 0, y: 0, z: 0}
+  controllerInitialized: 0
   isDead: 0
+  isRunning: 0
+  hasGun: 0
+  directionModifier: 0
   anim: {fileID: 0}
 --- !u!95 &-1910552460178805050
 Animator:

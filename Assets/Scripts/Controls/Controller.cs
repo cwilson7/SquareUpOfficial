@@ -60,7 +60,7 @@ public abstract class Controller : MonoBehaviour
         speed = 10f;
         gravity = -9.8f;
         jumpHeightMultiplier = 1f;
-        groundDetectionRadius = 0.1f;
+        groundDetectionRadius = 0.5f;
         maxJumps = 2;
         distanceFromGround = 0.5f;
         HP = 100;
@@ -71,9 +71,9 @@ public abstract class Controller : MonoBehaviour
         boundaryDist = 100f;
         fistActiveTime = 0.5f;
         directionModifier = 1;
-        fistRadius = 0.5f;
+        fistRadius = 5f;
         Collider.center = new Vector3(0f, 0.6f, 0f);
-        Collider.size = new Vector3(1f, 2.2f, 4f);
+        Collider.size = new Vector3(4f, 2.2f, 1f);
         Collider.isTrigger = true;
         actorNr = GetComponent<PhotonView>().OwnerActorNr;
 
@@ -123,7 +123,7 @@ public abstract class Controller : MonoBehaviour
     private void HandleAnimationValues()
     {
         //set values for aimx and aimy
-        
+
         if (currentWeapon != null) hasGun = true;
         else if (currentWeapon == null) hasGun = false;
 
@@ -271,13 +271,13 @@ public abstract class Controller : MonoBehaviour
             {
                 TryJump();
             }
-            if (Input.GetAxis("Horizontal") > 0)
+            if (Input.GetAxis("Horizontal") > 0 || Input.GetKeyDown(KeyCode.D))
             {
                 directionModifier = 1;
                 gameObject.transform.rotation = Quaternion.Euler(0, 100, 0);
                 anim.SetBool("Running", true);
             }
-            if (Input.GetAxis("Horizontal") < 0)
+            if (Input.GetAxis("Horizontal") < 0 || Input.GetKeyDown(KeyCode.A))
             {
                 directionModifier = -1;
                 gameObject.transform.rotation = Quaternion.Euler(0, -100, 0);
@@ -397,6 +397,7 @@ public abstract class Controller : MonoBehaviour
     {
         if (currentWeapon == null) return;
         currentWeapon.Remove();
+        anim.SetBool("Gun", false);
         currentWeapon = null;
     }
 

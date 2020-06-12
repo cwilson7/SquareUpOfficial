@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using CustomUtilities;
 
 public class Weapon : MonoBehaviour
 {
@@ -16,22 +17,12 @@ public class Weapon : MonoBehaviour
 
     private void Start()
     {
-        GameObject parentAvatar = ReturnPlayerAvatar(gameObject);
+        GameObject parentAvatar = Utils.FindParentWithClass<Controller>(transform).gameObject;
         PV = parentAvatar.GetComponent<PhotonView>();
         ParentController = parentAvatar.GetComponent<Controller>();
         GunPivot = GetComponentInParent<GunPivot>().gameObject.transform;
         ammoLeft = totalAmmo;
         fireCooldown = 0f;
-    }
-
-    GameObject ReturnPlayerAvatar(GameObject child)
-    {
-        Controller control = child.GetComponentInParent<Controller>();
-        if (control == null)
-        {
-            return ReturnPlayerAvatar(child.transform.parent.gameObject);
-        }
-        else return control.gameObject;
     }
 
     private void FixedUpdate()

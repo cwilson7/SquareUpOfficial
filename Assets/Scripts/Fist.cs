@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using CustomUtilities;
 
 public class Fist : DamageDealer
 {
     Controller ParentController;
-    SphereCollider Collider;
+    SphereCollider collide;
 
     public float cooldown, timeBtwnPunches;
     public Transform fistLocation;
@@ -30,9 +31,10 @@ public class Fist : DamageDealer
     public void InitializeFist(Controller parentController)
     {
         ParentController = parentController;
-        Collider = gameObject.AddComponent<SphereCollider>();
-        Collider.radius = ParentController.fistRadius;
-        Collider.isTrigger = true;
+        collide = gameObject.AddComponent<SphereCollider>();
+        GameObject armature = Utils.FindParentWithClass<Armature>(transform).gameObject;
+        collide.radius = ParentController.fistRadius / armature.transform.localScale.magnitude;
+        collide.isTrigger = true;
         SetCollider(false);
 
         damage = ParentController.punchPower;
@@ -53,13 +55,13 @@ public class Fist : DamageDealer
 
     public void SetCollider(bool isActive)
     {
-        Collider.enabled = isActive;
+        collide.enabled = isActive;
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        if (Collider == null) return;
-        Gizmos.DrawWireSphere(transform.position, Collider.radius);
+        if (collide == null) return;
+        Gizmos.DrawWireSphere(transform.position, collide.radius * 10f);
     }
 }

@@ -782,6 +782,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   iPhone: 0
   PV: {fileID: 0}
+  PaintExplosionSystem: {fileID: 0}
   baseOfCharacterPrefab: {fileID: 0}
   currentWeapon: {fileID: 0}
   Fist: {fileID: 0}
@@ -1387,6 +1388,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2395276344618610771}
+  - component: {fileID: 7863760190984932940}
   m_Layer: 0
   m_Name: Armature
   m_TagString: Untagged
@@ -1415,6 +1417,18 @@ Transform:
   m_Father: {fileID: 2131242226590907357}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7863760190984932940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6422852230197305179}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e96e0cbcd0dcda4d91c58003f310077, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7048154380954793212
 GameObject:
   m_ObjectHideFlags: 0

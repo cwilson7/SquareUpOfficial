@@ -4,6 +4,7 @@ using UnityEngine;
 using Photon.Pun;
 using System;
 using Photon.Realtime;
+using CustomUtilities;
 using JetBrains.Annotations;
 
 public class GameInfo : MonoBehaviour
@@ -36,9 +37,9 @@ public class GameInfo : MonoBehaviour
         started= false;
         CubeClone = CopyCube(Cube.cb);
         cubeCloned = true;
-        PopulateList<GameObject>(WeaponPowerUps, "PhotonPrefabs/PowerUps/WeaponPowerUps");
-        PopulateList<GameObject>(PowerUps, "PhotonPrefabs/PowerUps/OtherPowerUps");
-        PopulateList<RuntimeAnimatorController>(AnimatorControllers, "PhotonPrefabs/AnimatorControllers");
+        Utils.PopulateList<GameObject>(WeaponPowerUps, "PhotonPrefabs/PowerUps/WeaponPowerUps");
+        Utils.PopulateList<GameObject>(PowerUps, "PhotonPrefabs/PowerUps/OtherPowerUps");
+        Utils.PopulateList<RuntimeAnimatorController>(AnimatorControllers, "PhotonPrefabs/AnimatorControllers");
         InitializeScoreTable();
     }
 
@@ -59,17 +60,6 @@ public class GameInfo : MonoBehaviour
     {
         CubeClone.inRotation = original.inRotation;
         CubeClone.cubeRot = original.cubeRot;
-    }
-
-    public void PopulateList<T>(List<T> list, string prefabFolderPath)
-    {
-        if (list == null) list = new List<T>();
-        UnityEngine.Object[] prefabs = Resources.LoadAll(prefabFolderPath);
-        foreach (UnityEngine.Object prefab in prefabs)
-        {
-            T prefabGO = (T)(object)prefab;
-            list.Add(prefabGO);
-        }
     }
 
     public List<GameObject> ReturnListFromID(int id)

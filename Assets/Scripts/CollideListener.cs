@@ -9,7 +9,6 @@ public class CollideListener : MonoBehaviour
 
     private List<GameObject> bloodObjs;
     [SerializeField] private LayerMask cubeMask, groundMask;
-    private GameObject cubeTransform;
     public Material mat;
     void Start()
     {
@@ -19,16 +18,6 @@ public class CollideListener : MonoBehaviour
         cubeMask = LayerMask.GetMask("Cube");
     }
 
-    private void Update()
-    {
-        if (cubeTransform == null && Cube.cb != null) SetCubeTransform();
-    }
-
-    void SetCubeTransform()
-    {
-        cubeTransform = Cube.cb.gameObject;
-    }
-
     void OnParticleCollision(GameObject other)
     {
         List<ParticleCollisionEvent> collisionEvents = new List<ParticleCollisionEvent>();
@@ -36,14 +25,14 @@ public class CollideListener : MonoBehaviour
 
         if (other == null) return;
         foreach (ParticleCollisionEvent p in collisionEvents) {
-            Debug.Log("Detecting Collisions");
             ParticleSystem ps = other.GetComponent<ParticleSystem>();
             var main = ps.main;
             mat = new Material(Shader.Find("Standard"));
             mat.SetColor("_Color", main.startColor.color);
 
             GameObject bloodObj = bloodObjs[Random.Range(0, bloodObjs.Count)];
-            GameObject blood = Instantiate(bloodObj, cubeTransform.transform);
+            GameObject blood = Instantiate(bloodObj, Cube.cb.CurrentFace.face.position, Quaternion.identity);
+            blood.transform.SetParent(Cube.cb.gameObject.GetComponentInChildren<PaintObjects>().gameObject.transform);
             foreach (MeshRenderer b in blood.GetComponentsInChildren<MeshRenderer>()) {
                 b.sharedMaterial = mat;
             }
@@ -60,15 +49,20 @@ public class CollideListener : MonoBehaviour
                     offEdge = true;
                 }
             }
-
+            
+            blood.SetActive(true);
+            /*
             if (offEdge)
             {
                 Destroy(blood);
+                Debug.Log("its' getting destroyed!");
             } 
             else
             {
+                Debug.Log("being set active");
                 blood.SetActive(true);
             }
+            */
         }
     }
 }

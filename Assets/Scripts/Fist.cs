@@ -17,20 +17,14 @@ public class Fist : DamageDealer
     {
         if (cooldown >= 0) cooldown -= Time.deltaTime;
         if (gameObject.tag != "Fist") return;
-        TrackVelocity();
     }
 
-    public void Punch()
+    public void Punch(Vector3 dir)
     {
         SetCollider(true);
+        Velocity = new Vector3(dir.x, dir.y, 0f) * impactMultiplier;
         cooldown = timeBtwnPunches;
         StartCoroutine(FistDrag());
-    }
-
-    void TrackVelocity()
-    {
-        Velocity = (transform.position - PrevPos);
-        PrevPos = transform.position;
     }
 
     public void InitializeFist(Controller parentController)

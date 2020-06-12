@@ -32,8 +32,8 @@ public class AvatarSetup : MonoBehaviour
         int charID = (int)p.CustomProperties["SelectedCharacter"];
         if (LobbyController.lc.charAvatars.Count >= charID && LobbyController.lc.availableMaterials.Count >= colorID && colorID >= 0 && charID >= 0)
         {
-            GameObject mySelectedCharacter = LobbyController.lc.charAvatars[(int)p.CustomProperties["SelectedCharacter"]];
-            Material myAssignedColor = LobbyController.lc.availableMaterials[(int)p.CustomProperties["AssignedColor"]];
+            GameObject mySelectedCharacter = LobbyController.lc.charAvatars[charID];
+            Material myAssignedColor = LobbyController.lc.availableMaterials[colorID];
 
             avatarSkin = Instantiate(mySelectedCharacter, new Vector3(transform.position.x, transform.position.y - avatarOffset, transform.position.z), transform.rotation);
             avatarSkin.transform.SetParent(transform);

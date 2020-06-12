@@ -405,7 +405,7 @@ public abstract class Controller : MonoBehaviour
     {
         Score playerInfo = (Score)GameInfo.GI.scoreTable[actorNumber];
         playerInfo.playerAvatar.GetComponent<Controller>().anim.SetTrigger("Melee");
-        playerInfo.playerAvatar.GetComponent<Controller>().Fist.Punch();
+        playerInfo.playerAvatar.GetComponent<Controller>().Fist.Punch(aimDir);
     }
 
     [PunRPC]

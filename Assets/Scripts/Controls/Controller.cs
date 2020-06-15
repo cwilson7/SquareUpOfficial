@@ -183,9 +183,9 @@ public abstract class Controller : MonoBehaviour
         isDead = true;
         GameInfo.GI.StatChange(PhotonNetwork.LocalPlayer.ActorNumber, "deaths");
         //explode with color
-        PV.RPC("DieAndRespawn_RPC", RpcTarget.AllBuffered, actorNr);
-        SetAllComponents(false);
-        StartCoroutine(SpawnDelay());
+        Transform[] list = Cube.cb.CurrentFace.spawnPoints;
+        int spawnPtlocID = UnityEngine.Random.Range(0, list.Length);
+        PV.RPC("DieAndRespawn_RPC", RpcTarget.AllBuffered, spawnPtlocID);
     }
 
     IEnumerator SpawnDelay()
@@ -198,10 +198,6 @@ public abstract class Controller : MonoBehaviour
     {
         if (PV.IsMine)
         {
-            Transform[] list = Cube.cb.CurrentFace.spawnPoints;
-            int locID = UnityEngine.Random.Range(0, list.Length);
-            transform.position = list[locID].position;
-            transform.rotation = list[locID].rotation;
             HP = 100;
             isDead = false;
         }
@@ -391,9 +387,12 @@ public abstract class Controller : MonoBehaviour
     }
 
     [PunRPC]
-    public void DieAndRespawn_RPC()
+    public void DieAndRespawn_RPC(int locID)
     {
         SetAllComponents(false);
+        Transform[] list = Cube.cb.CurrentFace.spawnPoints;
+        transform.position = list[locID].position;
+        transform.rotation = list[locID].rotation;
         StartCoroutine(SpawnDelay());
     }
 

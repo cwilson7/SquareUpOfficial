@@ -183,6 +183,7 @@ public abstract class Controller : MonoBehaviour
         isDead = true;
         GameInfo.GI.StatChange(PhotonNetwork.LocalPlayer.ActorNumber, "deaths");
         //explode with color
+        PV.RPC("DieAndRespawn_RPC", RpcTarget.AllBuffered, actorNr);
         SetAllComponents(false);
         StartCoroutine(SpawnDelay());
     }
@@ -195,13 +196,16 @@ public abstract class Controller : MonoBehaviour
 
     private void Respawn()
     {
-        Transform[] list = Cube.cb.CurrentFace.spawnPoints;
-        int locID = UnityEngine.Random.Range(0, list.Length);
-        transform.position = list[locID].position;
-        transform.rotation = list[locID].rotation;
-        HP = 100;
+        if (PV.IsMine)
+        {
+            Transform[] list = Cube.cb.CurrentFace.spawnPoints;
+            int locID = UnityEngine.Random.Range(0, list.Length);
+            transform.position = list[locID].position;
+            transform.rotation = list[locID].rotation;
+            HP = 100;
+            isDead = false;
+        }
         SetAllComponents(true);
-        isDead = false;
         //spawn effect
     }
 
@@ -384,6 +388,13 @@ public abstract class Controller : MonoBehaviour
         Direction.z = 0f;
         GameObject bullet = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/Weapons/" + projName), currentWeapon.FiringPoint.position, Quaternion.identity);
         bullet.GetComponent<Projectile>().InitializeProjectile(dmg, impt, Direction * (float)bltSpd, ownr);
+    }
+
+    [PunRPC]
+    public void DieAndRespawn_RPC()
+    {
+        SetAllComponents(false);
+        StartCoroutine(SpawnDelay());
     }
 
     [PunRPC]

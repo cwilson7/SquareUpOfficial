@@ -4,31 +4,59 @@ using UnityEngine;
 
 public class PaintTesting : MonoBehaviour
 {
+    private readonly Color c_color = new Color(0, 0, 0, 0);
+    int textureWidth, textureHeight;
+    Texture2D m_texture;
+    Material m_material;
+    bool isEnabled;
+    Color color;
 
     private void Start()
     {
+        //`... (correct renderer and material availability check) ...
+        m_texture = new Texture2D(textureWidth, textureHeight);
+        for (int x = 0; x<textureWidth; ++x)
+            for (int y = 0; y<textureHeight; ++y)
+                m_texture.SetPixel(x, y, color);
+        m_texture.Apply();
+
+        m_material.SetTexture("_DrawingTex", m_texture);
+        isEnabled = true;
     }
 
     private void Update()
     {
         TrackMouse();
     }
+    /*
+    public void PaintOn(Vector2 textureCoord, Texture2D splashTexture)
+    {
+        if (isEnabled)
+        {
+            int x = (int)(textureCoord.x * textureWidth) - (splashTexture.width / 2);
+            int y = (int)(textureCoord.y * textureHeight) - (splashTexture.height / 2);
+            for (int i = 0; i < splashTexture.width; ++i)
+                for (int j = 0; j <   0)
+                {
+                    Color result = Color.Lerp(existingColor, targetColor, alpha);   // resulting color is an addition of splash texture to the texture based on alpha
+                    result.a = existingColor.a + alpha;                             // but resulting alpha is a sum of alphas (adding transparent color should not make base color more transparent)
+                    m_texture.SetPixel(newX, newY, result);
+                }
+        }
 
-    private void OnParticleCollision(GameObject other)
+        m_texture.Apply();
+    }
+    */
+private void OnParticleCollision(GameObject other)
     {
         List<ParticleCollisionEvent> collisionEvents = new List<ParticleCollisionEvent>();
         ParticlePhysicsExtensions.GetCollisionEvents(other.GetComponent<ParticleSystem>(), gameObject, collisionEvents);
-        /*
+        
         if (other == null) return;
         foreach (ParticleCollisionEvent p in collisionEvents)
         {
-            Mesh mesh = GetComponent<MeshFilter>().mesh;
-            Vector3[] verticies = mesh.vertices;
-            int VertexToChangeIndex = FindClosestPointIndex(p.intersection, verticies);
-            colors[VertexToChangeIndex] = Color.red;
-            mesh.colors = colors;
+            
         }
-        */
     }
 
     void TrackMouse()
@@ -39,11 +67,7 @@ public class PaintTesting : MonoBehaviour
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit))
             {
-                Mesh mesh = GetComponent<MeshFilter>().mesh;
-                Vector3[] verticies = mesh.vertices;
-                int VertexToChangeIndex = FindClosestPointIndex(hit.point, verticies);
-                colors[VertexToChangeIndex] = Color.red;
-                mesh.colors = colors;
+
             }
         }
     }

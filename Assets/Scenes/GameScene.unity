@@ -611,8 +611,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  distanceFromMap: 12
-  smoothDamp: 0.15
+  distanceFromMap: 40
+  smoothDamp: 0
   leeway: 0
   maxDistance: 0
 --- !u!1 &1068274247

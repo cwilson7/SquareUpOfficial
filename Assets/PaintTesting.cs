@@ -4,15 +4,9 @@ using UnityEngine;
 
 public class PaintTesting : MonoBehaviour
 {
-    Color[] colors;
 
     private void Start()
     {
-        colors = new Color[GetComponent<MeshFilter>().mesh.vertexCount];
-        for (int i =0; i < colors.Length; i++)
-        {
-            colors[i] = Color.white;
-        }
     }
 
     private void Update()
@@ -24,7 +18,7 @@ public class PaintTesting : MonoBehaviour
     {
         List<ParticleCollisionEvent> collisionEvents = new List<ParticleCollisionEvent>();
         ParticlePhysicsExtensions.GetCollisionEvents(other.GetComponent<ParticleSystem>(), gameObject, collisionEvents);
-
+        /*
         if (other == null) return;
         foreach (ParticleCollisionEvent p in collisionEvents)
         {
@@ -34,6 +28,7 @@ public class PaintTesting : MonoBehaviour
             colors[VertexToChangeIndex] = Color.red;
             mesh.colors = colors;
         }
+        */
     }
 
     void TrackMouse()

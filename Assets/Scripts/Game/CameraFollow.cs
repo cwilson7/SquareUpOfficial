@@ -63,6 +63,6 @@ public class CameraFollow : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
-        if (rdyToFollow) Follow();
+        if (rdyToFollow && !Cube.cb.inRotation) Follow();
     }
 }

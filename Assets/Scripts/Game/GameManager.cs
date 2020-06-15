@@ -101,9 +101,11 @@ public class GameManager : MonoBehaviour
 
     public void DestroyAllPowerUps()
     {
-        foreach (int key in currentPowerUps.Keys)
-        {
-            PV.RPC("DestroyPowerUp_RPC", RpcTarget.AllBuffered, key);
+        int keyLength = currentPowerUps.Count;
+        List<int> keys = new List<int>();
+        foreach (int key in currentPowerUps.Keys) keys.Add(key); 
+        for (int i = 0; i < keyLength; i++) {
+            PV.RPC("DestroyPowerUp_RPC", RpcTarget.AllBuffered, keys[i]);
         }
     }
 

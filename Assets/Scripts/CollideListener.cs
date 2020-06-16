@@ -72,11 +72,4 @@ public class CollideListener : MonoBehaviour
 
         }
     }
-
-    private void OnDrawGizmos()
-    {
-        if (GetComponent<MeshCollider>() == null) return;
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireMesh(GetComponent<MeshCollider>().sharedMesh);
-    }
 }

@@ -6,7 +6,7 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour
 {
     public GameObject player;
-    [HideInInspector] public float distanceFromMap = 20, smoothDamp;
+    [HideInInspector] public float distanceFromMap = 15, smoothDamp;
     private bool rdyToFollow = false;
     private Vector3 offset, velocity = Vector3.zero;
     [SerializeField] private float leeway, maxDistance;

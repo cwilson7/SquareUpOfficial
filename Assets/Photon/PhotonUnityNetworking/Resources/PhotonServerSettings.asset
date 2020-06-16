@@ -60,6 +60,7 @@ MonoBehaviour:
   - StopTime_RPC
   - SwitchToCubeClone_RPC
   - SyncStart_RPC
+  - DieAndRespawn_RPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

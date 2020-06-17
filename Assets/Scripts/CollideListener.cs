@@ -8,7 +8,7 @@ public class CollideListener : MonoBehaviour
 {
     // Start is called before the first frame update
     public bool testing;
-    [SerializeField] private List<GameObject> bloodObjs;
+    [SerializeField] public List<GameObject> bloodObjs;
     [SerializeField] private LayerMask cubeMask, groundMask;
     public Material mat;
     [SerializeField] private Transform CubeTransform;
@@ -30,12 +30,16 @@ public class CollideListener : MonoBehaviour
 
         if (other == null) return;
         foreach (ParticleCollisionEvent p in collisionEvents) {
-            Debug.Log("Detecting paint collisions on: " + gameObject.name);
             ParticleSystem ps = other.GetComponent<ParticleSystem>();
             var main = ps.main;
             mat = new Material(Shader.Find("Standard"));
             mat.SetColor("_Color", main.startColor.color);
 
+            //vector math
+            Vector3 DirectionToCenter = CubeTransform.position - p.intersection;
+
+
+            //vector math
             GameObject bloodObj = bloodObjs[Random.Range(0, bloodObjs.Count)];
             GameObject blood = Instantiate(bloodObj, CubeTransform.position, Quaternion.identity);
             if (!testing) blood.transform.SetParent(Cube.cb.gameObject.GetComponentInChildren<PaintObjects>().gameObject.transform);
@@ -44,7 +48,6 @@ public class CollideListener : MonoBehaviour
             }
 
             blood.transform.position = p.intersection;
-            blood.transform.localPosition = new Vector3(blood.transform.localPosition.x, blood.transform.localPosition.y, blood.transform.localPosition.z);
             blood.transform.Rotate(Vector3.up, Random.Range(0, 360));
             blood.transform.rotation = Quaternion.FromToRotation(Vector3.up, p.normal);
             float scaleFactor = Random.Range(0.15f, 0.5f);

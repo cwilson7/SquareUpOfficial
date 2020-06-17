@@ -16,7 +16,7 @@ public abstract class Controller : MonoBehaviour
     public ParticleSystem PaintExplosionSystem;
     private CharacterController cc;
     [SerializeField] private GameObject baseOfCharacterPrefab;
-    BoxCollider Collider;
+    public BoxCollider _Collider;
 
     public Weapon currentWeapon;
     public Fist Fist;
@@ -51,7 +51,7 @@ public abstract class Controller : MonoBehaviour
     public virtual void InitializePlayerController()
     {
         PV = GetComponent<PhotonView>();
-        Collider = gameObject.AddComponent<BoxCollider>();
+        _Collider = GetComponentInChildren<AvatarCharacteristics>().gameObject.GetComponent<BoxCollider>();
 
         impact = Vector3.zero;
         AimDirection = Vector2.zero;
@@ -72,9 +72,8 @@ public abstract class Controller : MonoBehaviour
         fistActiveTime = 0.5f;
         directionModifier = 1;
         fistRadius = 5f;
-        Collider.center = new Vector3(0f, 0.6f, 0f);
-        Collider.size = new Vector3(4f, 2.2f, 1f);
-        Collider.isTrigger = true;
+        _Collider.isTrigger = true;
+        _Collider.enabled = true;
         actorNr = GetComponent<PhotonView>().OwnerActorNr;
 
         PaintExplosionSystem = GetComponentInChildren<ParticleSystem>();
@@ -100,6 +99,7 @@ public abstract class Controller : MonoBehaviour
         if (PV.IsMine) MultiplayerSettings.multiplayerSettings.SetCustomPlayerProperties("ControllerInitialized", true);
 
     }
+
     #endregion
 
     // Update is called once per frame
@@ -443,9 +443,9 @@ public abstract class Controller : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.green;
-        BoxCollider Collider = GetComponent<BoxCollider>();
-        if (Collider == null) return;
-        Gizmos.DrawWireCube(Collider.transform.position + Collider.center, Collider.size);
+        BoxCollider _Collider = GetComponent<BoxCollider>();
+        if (_Collider == null) return;
+        Gizmos.DrawWireCube(_Collider.transform.position + _Collider.center, _Collider.size);
     }
 
     public abstract void SpecialAbility();

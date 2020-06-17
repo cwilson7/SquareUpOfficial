@@ -473,7 +473,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 1}
+      maxColor: {r: 1, g: 0, b: 0, a: 1}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -3980,7 +3980,7 @@ ParticleSystem:
         m_RotationOrder: 4
     minKillSpeed: 100
     maxKillSpeed: 10000
-    radiusScale: 1
+    radiusScale: 0.0001
     collidesWith:
       serializedVersion: 2
       m_Bits: 4294967295
@@ -5237,9 +5237,8 @@ GameObject:
   - component: {fileID: 1861338959}
   - component: {fileID: 1861338958}
   - component: {fileID: 1861338957}
-  - component: {fileID: 1861338956}
   - component: {fileID: 1861338955}
-  - component: {fileID: 1861338960}
+  - component: {fileID: 1861338956}
   m_Layer: 12
   m_Name: Cube
   m_TagString: Untagged
@@ -5256,9 +5255,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 1861338954}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d3fadfb066c89cd44a4bf60e1875d2b7, type: 3}
+  m_Script: {fileID: 11500000, guid: ad5c754ccde953d4faf1d315c512420b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  testing: 1
+  bloodObjs:
+  - {fileID: 8612691037902483270, guid: 251e4c17460a9cd4b94bd051d06ac36a, type: 3}
+  - {fileID: 8612691037902483270, guid: 6344ac96a894bf24fb50d5b083fd6d2f, type: 3}
+  - {fileID: 8612691037902483270, guid: b54153acc88259948b03db352c9b453e, type: 3}
+  cubeMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  groundMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  mat: {fileID: 0}
+  CubeTransform: {fileID: 1861338959}
 --- !u!65 &1861338956
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5335,55 +5347,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: -25, y: 0, z: 0}
---- !u!331 &1861338960
-SpriteMask:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1861338954}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 10758, guid: 0000000000000000f000000000000000, type: 0}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 0}
-  m_MaskAlphaCutoff: 0.2
-  m_FrontSortingLayerID: 0
-  m_BackSortingLayerID: 0
-  m_FrontSortingLayer: 0
-  m_BackSortingLayer: 0
-  m_FrontSortingOrder: 0
-  m_BackSortingOrder: 0
-  m_IsCustomRangeActive: 0
-  m_SpriteSortPoint: 0
 --- !u!1 &2014751418
 GameObject:
   m_ObjectHideFlags: 0

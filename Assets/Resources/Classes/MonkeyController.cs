@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterClass1 : Controller
+public class MonkeyController : Controller
 {
-    /*public override void InitializePlayerController()
+    public override void InitializePlayerController()
     {
         base.InitializePlayerController();
-
-        //Change values for each class
-    }*/
+    }
 
     public override void SpecialAbility()
     {

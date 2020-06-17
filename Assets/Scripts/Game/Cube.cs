@@ -247,6 +247,22 @@ public class Cube : MonoBehaviour, IPunObservable
 
     #endregion
 
+    #region Paint
+    //take paint gameobjects and turn it into data that can be sent over a network
+    //PAINT SHOULD BE MOVED TO A CONTAINER OUTSIDE OF CUBE IN HIERARCHY
+    System.Collections.Hashtable TranslatePaint()
+    {
+        System.Collections.Hashtable retHash = new System.Collections.Hashtable();
+        PaintInfo[] existingPaintObjs = GetComponentInChildren<PaintObjects>().gameObject.GetComponentsInChildren<PaintInfo>();
+        for (int i = 0; i < existingPaintObjs.Length; i++) {
+            (int ,Vector3, Vector3) dumbTransform = (existingPaintObjs[i].ID, existingPaintObjs[i].myTransform.position, existingPaintObjs[i].myTransform.eulerAngles);
+            retHash.Add(i, dumbTransform);
+        }
+        return retHash;
+    }
+
+    #endregion
+
     #region RPCs
     [PunRPC]
     public void SwitchToCubeClone_RPC()

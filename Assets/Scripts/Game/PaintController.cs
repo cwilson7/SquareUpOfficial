@@ -14,8 +14,14 @@ public class PaintController : MonoBehaviour
         Controller.OnDamgeTaken += SplatterPaint;
     }
 
+    void OnPaintSplattered()
+    {
+        //notify game info
+    }
+
     void SplatterPaint(DamageDealer projInfo, Controller player)
     {
+        OnPaintSplattered();
         int attackerActorNumber = projInfo.owner;
         int attackerMatID = (int)PhotonNetwork.CurrentRoom.GetPlayer(attackerActorNumber).CustomProperties["AssignedColor"];
         int damagedActorNumber = player.actorNr;
@@ -35,7 +41,7 @@ public class PaintController : MonoBehaviour
         main.startColor = new ParticleSystem.MinMaxGradient(matOfProj.GetColor("_Color"));
         main.startSize = PaintVelocity.magnitude / 3;
 
-        ps.emissionRate = 4 * PaintVelocity.magnitude * 10;
+        ps.emissionRate = 40f;
         ps.Play();
     }
 }

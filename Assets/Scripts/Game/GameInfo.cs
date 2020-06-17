@@ -55,13 +55,6 @@ public class GameInfo : MonoBehaviour
         return clone;
     }
 
-    //for cube cloning while cube is in motion
-    public void UpdateCubeClone(Cube original)
-    {
-        CubeClone.inRotation = original.inRotation;
-        CubeClone.cubeRot = original.cubeRot;
-    }
-
     public List<GameObject> ReturnListFromID(int id)
     {
         switch (id)

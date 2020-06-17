@@ -3818,6 +3818,7 @@ GameObject:
   - component: {fileID: -5203430430083402268}
   - component: {fileID: 3716447002623795206}
   - component: {fileID: 685021014001073499}
+  - component: {fileID: 3269537091210377758}
   m_Layer: 0
   m_Name: Sr.SharksAlot
   m_TagString: Untagged
@@ -3898,6 +3899,7 @@ MonoBehaviour:
   PV: {fileID: 0}
   PaintExplosionSystem: {fileID: 0}
   baseOfCharacterPrefab: {fileID: 0}
+  _Collider: {fileID: 0}
   currentWeapon: {fileID: 0}
   Fist: {fileID: 0}
   mmPlayer: {fileID: 0}
@@ -3946,6 +3948,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!65 &3269537091210377758
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7542802190550072478}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 4.7151413, y: 3.5, z: 4.456525}
+  m_Center: {x: 0, y: 1.7, z: -0.035124622}
 --- !u!1 &7640821596693483236
 GameObject:
   m_ObjectHideFlags: 0

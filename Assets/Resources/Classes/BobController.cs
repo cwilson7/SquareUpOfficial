@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CharacterClass3 : Controller
+public class BobController : Controller
 {
-    //BIZNES MAN
     public override void InitializePlayerController()
     {
         base.InitializePlayerController();
@@ -14,5 +13,4 @@ public class CharacterClass3 : Controller
     {
 
     }
-
 }

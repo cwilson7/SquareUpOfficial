@@ -17,6 +17,7 @@ public class AnimationSynchronization : MonoBehaviour, IPunObservable
 
     private void Start()
     {
+        GetComponent<Light>().color = Color.red;
         PV = GetComponent<PhotonView>();
     }
 

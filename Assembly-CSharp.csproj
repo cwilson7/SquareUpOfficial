@@ -129,6 +129,7 @@
     <Compile Include="Assets\Scripts\LobbyScripts\LobbyGameController.cs" />
     <Compile Include="Assets\Scripts\LobbyScripts\PlayerListController.cs" />
     <Compile Include="Assets\Scripts\LobbyScripts\PlayerListing.cs" />
+    <Compile Include="Assets\Scripts\MapObjects\SwingPendulem.cs" />
     <Compile Include="Assets\Scripts\MultiplayerSettings.cs" />
     <Compile Include="Assets\Scripts\NetworkAvatar.cs" />
     <Compile Include="Assets\Scripts\PaintInfo.cs" />

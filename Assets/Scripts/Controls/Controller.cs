@@ -117,7 +117,7 @@ public abstract class Controller : MonoBehaviour
             TrackMouse();
             MouseCombat();
         }
-        SpecialAbility();
+        
     }
 
     private void HandleAnimationValues()
@@ -287,6 +287,8 @@ public abstract class Controller : MonoBehaviour
             {
                 anim.SetBool("Running", false);
             }
+            if (Input.GetKeyDown(KeyCode.Space)) SpecialAbility();
+
             Velocity.x = Input.GetAxis("Horizontal");
         }
 

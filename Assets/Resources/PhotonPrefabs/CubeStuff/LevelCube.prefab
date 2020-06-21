@@ -95,7 +95,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7711541859279777695}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -139,8 +139,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3fb1ef4572408e48b04b3b3957928b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testing: 1
-  TestingLevel: {fileID: 8186551026939270731, guid: 755c05e2e0c6386448daccf455e1dcd5,
+  testing: 0
+  TestingLevel: {fileID: 6340896339270995685, guid: 3688a12738f7f5e489c10899a2162349,
     type: 3}
   PV: {fileID: 0}
   LevelPool: []

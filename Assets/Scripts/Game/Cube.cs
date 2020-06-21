@@ -5,6 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using CustomUtilities;
+using System.Linq;
 
 public class Cube : MonoBehaviour, IPunObservable
 {
@@ -245,6 +246,46 @@ public class Cube : MonoBehaviour, IPunObservable
         }
     }
 
+    private void setLevelObjects()
+    {
+        //Lights 
+        foreach (Level level in LevelsOnCube)
+        {
+            if (level.num == currFaceID)
+            {
+                foreach (Light l in level.gameObject.GetComponentsInChildren<Light>())
+                {
+                    l.enabled = true;
+                }
+                //Gravity
+                if (level.gameObject.name == "Ocean(Clone)")
+                {
+                    Debug.Log("oceanLevel");
+                    foreach(Controller p in level.gameObject.GetComponentsInChildren<Controller>())
+                    {
+                        p.gravity = p.gravity/2;
+                    }
+                }
+                else
+                {
+                    foreach (Controller p in level.gameObject.GetComponentsInChildren<Controller>())
+                    {
+                        p.gravity = p.gravity * 2;
+                    }
+                }
+                //
+            }
+            else
+            {
+                foreach (Light l in level.gameObject.GetComponentsInChildren<Light>())
+                {
+                    l.enabled = false;
+                }
+            }
+            //
+        }
+    }
+
     #endregion
 
     #region Paint
@@ -308,6 +349,7 @@ public class Cube : MonoBehaviour, IPunObservable
                 if (GameInfo.GI.cubeCloned) GameInfo.GI.CubeClone.currFaceID = level.num;
             }
         }
+        setLevelObjects();
     }
 
 
@@ -321,7 +363,17 @@ public class Cube : MonoBehaviour, IPunObservable
 
         cubeSize = transform.localScale.x;
 
-        if (!testing) Utils.PopulateList<Level>(LevelPool, "PhotonPrefabs/Levels");
+        if (!testing)
+        {
+            //Utils.PopulateList<Level>(LevelPool, "PhotonPrefabs/Levels");
+            var prefabs = Resources.LoadAll("PhotonPrefabs/Levels", typeof(GameObject)).Cast<GameObject>();
+            foreach (GameObject prefab in prefabs)
+            {
+                Debug.Log(prefab.name);
+                Level prefabGO = prefab.GetComponent<Level>();
+                LevelPool.Add(prefabGO);
+            }
+        }
         else for (int i = 0; i < 9; i++) LevelPool.Add(TestingLevel.GetComponent<Level>());
 
         if (GameInfo.GI.cubeCloned)
@@ -358,6 +410,7 @@ public class Cube : MonoBehaviour, IPunObservable
         {
             face.SetParent(transform);
         }
+        setLevelObjects();
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

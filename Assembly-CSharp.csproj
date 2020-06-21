@@ -86,9 +86,11 @@
     <Compile Include="Assets\Photon\PhotonChat\Demos\DemoChat\NamePickGui.cs" />
     <Compile Include="Assets\Photon\PhotonRealtime\Demos\DemoLoadBalancing\ConnectAndJoinRandomLb.cs" />
     <Compile Include="Assets\Resources\Classes\BobController.cs" />
+    <Compile Include="Assets\Resources\Classes\GooseController.cs" />
     <Compile Include="Assets\Resources\Classes\MonkeyController.cs" />
     <Compile Include="Assets\Resources\Classes\MrBusinessController.cs" />
     <Compile Include="Assets\Resources\Classes\SharkController.cs" />
+    <Compile Include="Assets\Resources\Classes\YetiController.cs" />
     <Compile Include="Assets\Scripts\AnimationSynchronization.cs" />
     <Compile Include="Assets\Scripts\AvatarSetup.cs" />
     <Compile Include="Assets\Scripts\CachedRoomList.cs" />
@@ -119,6 +121,7 @@
     <Compile Include="Assets\Scripts\Labels\JoyStickReference.cs" />
     <Compile Include="Assets\Scripts\Labels\MiniMapPlayer.cs" />
     <Compile Include="Assets\Scripts\Labels\Paint.cs" />
+    <Compile Include="Assets\Scripts\Labels\Special.cs" />
     <Compile Include="Assets\Scripts\Level.cs" />
     <Compile Include="Assets\Scripts\LobbyController.cs" />
     <Compile Include="Assets\Scripts\LobbyScripts\AvatarCharacteristics.cs" />
@@ -129,6 +132,7 @@
     <Compile Include="Assets\Scripts\LobbyScripts\LobbyGameController.cs" />
     <Compile Include="Assets\Scripts\LobbyScripts\PlayerListController.cs" />
     <Compile Include="Assets\Scripts\LobbyScripts\PlayerListing.cs" />
+    <Compile Include="Assets\Scripts\MapObjects\SetLevelLights.cs" />
     <Compile Include="Assets\Scripts\MapObjects\SwingPendulem.cs" />
     <Compile Include="Assets\Scripts\MultiplayerSettings.cs" />
     <Compile Include="Assets\Scripts\NetworkAvatar.cs" />

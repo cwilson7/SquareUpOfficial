@@ -1588,9 +1588,9 @@ GameObject:
   m_Component:
   - component: {fileID: 5827215144522656101}
   - component: {fileID: 4101822166124809810}
-  - component: {fileID: 4678303988680589763}
   - component: {fileID: 2259114116581322194}
   - component: {fileID: 7688280734583390014}
+  - component: {fileID: 1001560844566223854}
   m_Layer: 0
   m_Name: Abominable
   m_TagString: Untagged
@@ -1629,7 +1629,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a7e57b96aec248469e80b8e7c9930ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4678303988680589763
+--- !u!95 &2259114116581322194
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7387368574577957750}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 2e58c125b2595f2488800edfdb98781c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!65 &7688280734583390014
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7387368574577957750}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 8.067543, y: 12.4553585, z: 4.4070654}
+  m_Center: {x: 0.010267258, y: 0.57692814, z: 0.057251096}
+--- !u!114 &1001560844566223854
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1638,7 +1670,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7387368574577957750}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b167507afd703504a9272d5fe68946fb, type: 3}
+  m_Script: {fileID: 11500000, guid: 57442864092d3a849a8a986ca9836ef7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   iPhone: 0
@@ -1675,38 +1707,6 @@ MonoBehaviour:
   hasGun: 0
   directionModifier: 0
   anim: {fileID: 0}
---- !u!95 &2259114116581322194
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7387368574577957750}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 2e58c125b2595f2488800edfdb98781c, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
---- !u!65 &7688280734583390014
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7387368574577957750}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Size: {x: 2.11203, y: 3.2424622, z: 1.1595306}
-  m_Center: {x: 0.07626343, y: 0.13631058, z: 0.07976532}
 --- !u!1 &7509014540054391155
 GameObject:
   m_ObjectHideFlags: 0

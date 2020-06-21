@@ -4,13 +4,25 @@ using UnityEngine;
 
 public class MrBusinessController : Controller
 {
+    private SkinnedMeshRenderer paper;
     public override void InitializePlayerController()
     {
         base.InitializePlayerController();
+        paper = GetComponentInChildren<Special>().gameObject.GetComponent<SkinnedMeshRenderer>();
     }
 
     public override void SpecialAbility()
     {
-        
+        anim.SetTrigger("Special");
+
+        StartCoroutine(PaperRenderer());
+    }
+
+    IEnumerator PaperRenderer()
+    {
+        yield return new WaitForSeconds(.1f);
+        paper.enabled = true;
+        yield return new WaitForSeconds(.5f);
+        paper.enabled = false;
     }
 }

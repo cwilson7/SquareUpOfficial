@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 71f14a2d79f732f4d9893ef1b911f4ff, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -38,13 +38,13 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0, g: 0, b: 0, a: 1}
+  m_IndirectSpecularColor: {r: 0.4839558, g: 0.5757368, b: 0.6801966, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 11
-  m_GIWorkflowMode: 1
+  m_GIWorkflowMode: 0
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -52,7 +52,7 @@ LightmapSettings:
     m_AlbedoBoost: 1
     m_EnvironmentLightingMode: 0
     m_EnableBakedLightmaps: 1
-    m_EnableRealtimeLightmaps: 0
+    m_EnableRealtimeLightmaps: 1
   m_LightmapEditorSettings:
     serializedVersion: 12
     m_Resolution: 2
@@ -836,11 +836,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56b89cf84da23f04d8796a34eb15fe06, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  carouselPrefab: {fileID: 1893305953657370708, guid: b66ccf0b62ab6d74680d6afa3c31eef8,
+  carouselPrefab: {fileID: 1626404088902843679, guid: 626cc1fbb77eb8144897926bac92537e,
     type: 3}
   carouselPos: {fileID: 1439387628}
-  carouselRadius: 10
-  distanceFromCamera: 6.5
+  carouselRadius: 11
+  distanceFromCamera: 10
+  offsetNegativeYDirection: 7
   carousel: {fileID: 0}
 --- !u!4 &753267286
 Transform:

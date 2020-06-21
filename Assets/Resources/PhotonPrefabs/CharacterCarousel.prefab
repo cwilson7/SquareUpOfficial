@@ -46,7 +46,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerDisplayLocations: []
-  charDistanceTowardsCenter: 1
   distanceMultiplier: 0.8
   displayLocationPrefab: {fileID: 2910106520412817509, guid: 530f1cddb10ad88439048af336ca2d10,
     type: 3}

@@ -1607,7 +1607,7 @@ Transform:
   m_GameObject: {fileID: 7387368574577957750}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
+  m_LocalScale: {x: 0.15, y: 0.15, z: 0.15}
   m_Children:
   - {fileID: 7813859610937041643}
   - {fileID: 6411420357314965446}
@@ -1676,6 +1676,7 @@ MonoBehaviour:
   iPhone: 0
   PV: {fileID: 0}
   PaintExplosionSystem: {fileID: 0}
+  cc: {fileID: 0}
   baseOfCharacterPrefab: {fileID: 0}
   _Collider: {fileID: 0}
   currentWeapon: {fileID: 0}

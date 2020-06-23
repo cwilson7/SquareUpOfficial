@@ -1895,6 +1895,7 @@ GameObject:
   - component: {fileID: -2671427339165743429}
   - component: {fileID: -8614321656094109349}
   - component: {fileID: 3990340947764626879}
+  - component: {fileID: 7636209831762406958}
   m_Layer: 0
   m_Name: Bob
   m_TagString: Untagged
@@ -1911,7 +1912,7 @@ Transform:
   m_GameObject: {fileID: 6017962423375964745}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 0.35, y: 0.35, z: 0.35}
   m_Children:
   - {fileID: 6445015615115613140}
   - {fileID: 5271466929669578804}
@@ -1959,6 +1960,7 @@ MonoBehaviour:
   iPhone: 0
   PV: {fileID: 0}
   PaintExplosionSystem: {fileID: 0}
+  cc: {fileID: 0}
   baseOfCharacterPrefab: {fileID: 0}
   _Collider: {fileID: 0}
   currentWeapon: {fileID: 0}
@@ -1990,6 +1992,7 @@ MonoBehaviour:
   hasGun: 0
   directionModifier: 0
   anim: {fileID: 0}
+  hook: {fileID: 0}
 --- !u!95 &-1910552460178805050
 Animator:
   serializedVersion: 3
@@ -2064,6 +2067,9 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 0
     Name: Gun
+  - Type: 9
+    SynchronizeType: 0
+    Name: Special
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
@@ -2080,6 +2086,26 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 2.780207, y: 4.9645224, z: 2.8508906}
   m_Center: {x: -0.044272542, y: 2.507856, z: -0.1210835}
+--- !u!114 &7636209831762406958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6017962423375964745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50576fba4d4db4544ad619f05fca4642, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hook: {fileID: 6882352745376699452, guid: cb8fbce4b01c45042bb8f5eec1181ec4, type: 3}
+  hookHolder: {fileID: 2225463069594724797}
+  parentController: {fileID: 0}
+  playerTravelSpeed: 10
+  force: 2000
+  fired: 0
+  maxDistance: 50
+  aimDirection: {x: 0, y: 0, z: 0}
 --- !u!1 &6230262367450362119
 GameObject:
   m_ObjectHideFlags: 0

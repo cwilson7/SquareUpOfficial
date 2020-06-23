@@ -40,7 +40,7 @@ public class CharPage : MonoBehaviour
         charSelectBtn.GetComponentInChildren<TMP_Text>().font = MultiplayerSettings.multiplayerSettings.font;
 
         charName.text = LobbyController.lc.charAvatars[charID].name;
-        charSelectBtn.GetComponentInChildren<TMP_Text>().text = "Select " + LobbyController.lc.charAvatars[charID].name;
+        charSelectBtn.GetComponentInChildren<TMP_Text>().text = "Select";
 
         Transform characterDisplayPos = CarouselController.cc.carousel.GetComponent<CarouselBehaviour>().playerDisplayLocations[charID];  
         GameObject character = Instantiate(LobbyController.lc.charAvatars[charID], characterDisplayPos);

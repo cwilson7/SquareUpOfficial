@@ -543,9 +543,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PV: {fileID: 0}
-  percentOfPowerUpsWeapons: 1
+  percentOfPowerUpsWeapons: 0.5
   powerUpMaxCooldown: 2
-  maxPowerups: 2
+  maxPowerups: 10
   powerUpCooldown: 0
   gameStarted: 0
 --- !u!4 &926156153
@@ -660,7 +660,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  distanceFromMap: 15
+  distanceFromMap: 20
   smoothDamp: 0
   leeway: 0
   maxDistance: 0
@@ -869,7 +869,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1092924675}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -50}
+  m_LocalPosition: {x: 0, y: 0, z: -60}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}

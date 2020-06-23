@@ -17,12 +17,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float powerUpCooldown;
     [SerializeField] public bool gameStarted = false;
     [SerializeField] private Hashtable currentPowerUps = new Hashtable();
+    private System.Random rand;
     
     // Start is called before the first frame update
     void Awake()
     {
         Manager = this;
         PV = GetComponent<PhotonView>();
+        rand = new System.Random();
     }
 
     // Update is called once per frame
@@ -88,14 +90,12 @@ public class GameManager : MonoBehaviour
 
     private double RandomPercent()
     {
-        System.Random rand = new System.Random();
         return rand.NextDouble();
     }
 
     private int RandomInteger(int min, int max)
     {
-        System.Random rand = new System.Random();
-        return rand.Next(min, max);
+        return rand.Next(max);
     }
     #endregion
 

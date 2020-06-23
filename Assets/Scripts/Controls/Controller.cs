@@ -14,7 +14,7 @@ public abstract class Controller : MonoBehaviour
 
     public PhotonView PV;
     public ParticleSystem PaintExplosionSystem;
-    private CharacterController cc;
+    public CharacterController cc;
     [SerializeField] private GameObject baseOfCharacterPrefab;
     public BoxCollider _Collider;
 
@@ -57,7 +57,7 @@ public abstract class Controller : MonoBehaviour
         AimDirection = Vector2.zero;
 
         //Default values for all players
-        speed = 10f;
+        speed = 15f;
         gravity = -9.8f;
         jumpHeightMultiplier = 1f;
         groundDetectionRadius = 0.5f;
@@ -66,7 +66,7 @@ public abstract class Controller : MonoBehaviour
         HP = 100;
         punchPower = 10f;
         punchImpact = 1.5f;
-        punchCooldown = 2;
+        punchCooldown = 1;
         respawnDelay = 3f;
         boundaryDist = 100f;
         fistActiveTime = 0.5f;
@@ -234,7 +234,6 @@ public abstract class Controller : MonoBehaviour
 
     public virtual void Movement()
     {
-        transform.position = new Vector3(transform.position.x, transform.position.y, 0f);
 
         if (iPhone)
         {

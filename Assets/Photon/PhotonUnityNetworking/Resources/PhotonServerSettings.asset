@@ -63,6 +63,8 @@ MonoBehaviour:
   - DieAndRespawn_RPC
   - FireWarpMissile
   - FireWarpMissile_RPC
+  - SpecialAnimation_RPC
+  - SyncTriggers_RPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

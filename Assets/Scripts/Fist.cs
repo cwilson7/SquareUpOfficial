@@ -20,10 +20,9 @@ public class Fist : DamageDealer
         if (gameObject.tag != "Fist") return;
     }
 
-    public void Punch(Vector3 dir)
+    public void Punch()
     {
         SetCollider(true);
-        Velocity = new Vector3(dir.x, dir.y, 0f) * impactMultiplier;
         cooldown = timeBtwnPunches;
         StartCoroutine(FistDrag());
     }

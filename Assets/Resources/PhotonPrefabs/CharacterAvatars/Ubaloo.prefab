@@ -80,6 +80,7 @@ MonoBehaviour:
   punchPower: 0
   punchImpact: 0
   punchCooldown: 0
+  specialCooldown: 0
   respawnDelay: 0
   boundaryDist: 0
   fistActiveTime: 0
@@ -125,8 +126,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 5.75803, y: 8.057936, z: 4.8527813}
-  m_Center: {x: -0.26647547, y: 3.5289683, z: 0.47107416}
+  m_Size: {x: 11.841581, y: 8.871245, z: 7.8938465}
+  m_Center: {x: -0.16028017, y: 3.935622, z: 0.50643474}
 --- !u!1 &253504198748722007
 GameObject:
   m_ObjectHideFlags: 0

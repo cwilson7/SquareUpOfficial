@@ -669,6 +669,8 @@ GameObject:
   - component: {fileID: 3278094906024464243}
   - component: {fileID: -3142993245516113697}
   - component: {fileID: 2615503057098019757}
+  - component: {fileID: -6044657580520156262}
+  - component: {fileID: 8346773486469295895}
   m_Layer: 0
   m_Name: MrBusiness
   m_TagString: Untagged
@@ -745,6 +747,7 @@ MonoBehaviour:
   punchPower: 0
   punchImpact: 0
   punchCooldown: 0
+  specialCooldown: 0
   respawnDelay: 0
   boundaryDist: 0
   fistActiveTime: 0
@@ -790,8 +793,69 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 5.128579, y: 11.695615, z: 3.7369192}
-  m_Center: {x: 0.19922137, y: 5.347807, z: -0.14678799}
+  m_Size: {x: 11.769806, y: 12.08618, z: 3.7369192}
+  m_Center: {x: 0.1251467, y: 5.5430894, z: -0.14678796}
+--- !u!114 &-6044657580520156262
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2583136703934579115}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ObservedComponentsFoldoutOpen: 1
+  Group: 0
+  prefixField: -1
+  Synchronization: 3
+  OwnershipTransfer: 0
+  ObservedComponents:
+  - {fileID: 8346773486469295895}
+  viewIdField: 0
+  InstantiationId: 0
+  isRuntimeInstantiated: 0
+--- !u!114 &8346773486469295895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2583136703934579115}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowLayerWeightsInspector: 1
+  ShowParameterInspector: 1
+  m_SynchronizeParameters:
+  - Type: 9
+    SynchronizeType: 0
+    Name: Jump
+  - Type: 4
+    SynchronizeType: 0
+    Name: Running
+  - Type: 4
+    SynchronizeType: 0
+    Name: Gun
+  - Type: 1
+    SynchronizeType: 0
+    Name: AimX
+  - Type: 1
+    SynchronizeType: 0
+    Name: AimY
+  - Type: 9
+    SynchronizeType: 0
+    Name: Melee
+  - Type: 9
+    SynchronizeType: 0
+    Name: Special
+  m_SynchronizeLayers:
+  - SynchronizeType: 0
+    LayerIndex: 0
 --- !u!1 &2889344819419153318
 GameObject:
   m_ObjectHideFlags: 0

@@ -1892,8 +1892,6 @@ GameObject:
   - component: {fileID: 6206486494572773653}
   - component: {fileID: 7207989454932618405}
   - component: {fileID: -1910552460178805050}
-  - component: {fileID: -2671427339165743429}
-  - component: {fileID: -8614321656094109349}
   - component: {fileID: 3990340947764626879}
   - component: {fileID: 7636209831762406958}
   m_Layer: 0
@@ -1977,6 +1975,7 @@ MonoBehaviour:
   punchPower: 0
   punchImpact: 0
   punchCooldown: 0
+  specialCooldown: 0
   respawnDelay: 0
   boundaryDist: 0
   fistActiveTime: 0
@@ -2012,67 +2011,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &-2671427339165743429
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6017962423375964745}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa584fbee541324448dd18d8409c7a41, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ObservedComponentsFoldoutOpen: 1
-  Group: 0
-  prefixField: -1
-  Synchronization: 3
-  OwnershipTransfer: 0
-  ObservedComponents:
-  - {fileID: -8614321656094109349}
-  viewIdField: 0
-  InstantiationId: 0
-  isRuntimeInstantiated: 0
---- !u!114 &-8614321656094109349
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6017962423375964745}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b8c4a61274f60b4ea5fb4299cfdbf14, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowLayerWeightsInspector: 1
-  ShowParameterInspector: 1
-  m_SynchronizeParameters:
-  - Type: 4
-    SynchronizeType: 2
-    Name: Running
-  - Type: 9
-    SynchronizeType: 1
-    Name: Jump
-  - Type: 1
-    SynchronizeType: 0
-    Name: AimX
-  - Type: 1
-    SynchronizeType: 0
-    Name: AimY
-  - Type: 9
-    SynchronizeType: 0
-    Name: Melee
-  - Type: 4
-    SynchronizeType: 0
-    Name: Gun
-  - Type: 9
-    SynchronizeType: 0
-    Name: Special
-  m_SynchronizeLayers:
-  - SynchronizeType: 0
-    LayerIndex: 0
 --- !u!65 &3990340947764626879
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2084,8 +2022,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 2.780207, y: 4.9645224, z: 2.8508906}
-  m_Center: {x: -0.044272542, y: 2.507856, z: -0.1210835}
+  m_Size: {x: 7.4314365, y: 5.3545933, z: 2.8508906}
+  m_Center: {x: 0.020716531, y: 2.702891, z: -0.12108352}
 --- !u!114 &7636209831762406958
 MonoBehaviour:
   m_ObjectHideFlags: 0

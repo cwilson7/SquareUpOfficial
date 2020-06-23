@@ -30,7 +30,7 @@ public abstract class Controller : MonoBehaviour
     public float speed, gravity, jumpHeightMultiplier, groundDetectionRadius, distanceFromGround;
     public int maxJumps;
     public Transform baseOfCharacter;
-    public float punchPower, punchImpact, punchCooldown;
+    public float punchPower, punchImpact, punchCooldown, specialCooldown;
     [SerializeField] float respawnDelay, boundaryDist;
     public float fistActiveTime, fistRadius;
 
@@ -67,6 +67,7 @@ public abstract class Controller : MonoBehaviour
         punchPower = 10f;
         punchImpact = 1.5f;
         punchCooldown = 1;
+        specialCooldown = 1;
         respawnDelay = 3f;
         boundaryDist = 100f;
         fistActiveTime = 0.5f;
@@ -118,6 +119,10 @@ public abstract class Controller : MonoBehaviour
             MouseCombat();
         }
         
+    }
+    private void FixedUpdate()
+    {
+        if (specialCooldown >= 0) specialCooldown -= Time.deltaTime;
     }
 
     private void HandleAnimationValues()
@@ -286,7 +291,10 @@ public abstract class Controller : MonoBehaviour
             {
                 anim.SetBool("Running", false);
             }
-            if (Input.GetKeyDown(KeyCode.Space)) SpecialAbility();
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                TrySpecial();
+            }
 
             Velocity.x = Input.GetAxis("Horizontal");
         }
@@ -300,6 +308,13 @@ public abstract class Controller : MonoBehaviour
 
         //Account for impact from being hit by weapon
         impact = Vector3.Lerp(impact, Vector3.zero, 5 * Time.deltaTime);
+    }
+    public void TrySpecial()
+    {
+        if (specialCooldown <= 0)
+        {
+            PV.RPC("SpecialAnimation_RPC", RpcTarget.AllBuffered, actorNr);
+        }
     }
     public void TryJump()
     {
@@ -417,7 +432,7 @@ public abstract class Controller : MonoBehaviour
     {
         Score playerInfo = (Score)GameInfo.GI.scoreTable[actorNumber];
         playerInfo.playerAvatar.GetComponent<Controller>().anim.SetTrigger("Melee");
-        playerInfo.playerAvatar.GetComponent<Controller>().Fist.Punch(aimDir);
+        playerInfo.playerAvatar.GetComponent<Controller>().Fist.Punch();
     }
 
     [PunRPC]
@@ -434,6 +449,13 @@ public abstract class Controller : MonoBehaviour
     {
         Score playerInfo = (Score)GameInfo.GI.scoreTable[id];
         playerInfo.playerAvatar.GetComponent<Controller>().JumpAction();
+    }
+
+    [PunRPC]
+    public void SpecialAnimation_RPC(int id)
+    {
+        Score playerInfo = (Score)GameInfo.GI.scoreTable[id];
+        playerInfo.playerAvatar.GetComponent<Controller>().SpecialAbility();
     }
 
     #endregion

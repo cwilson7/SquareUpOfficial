@@ -1015,7 +1015,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 0
   serializedVersion: 2
-  m_Radius: 0.01
+  m_Radius: 0.015
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &4844220418159098271
 GameObject:
@@ -1159,8 +1159,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 0
   serializedVersion: 2
-  m_Size: {x: 1.2945563, y: 3.14872, z: 2.8181028}
-  m_Center: {x: -0.0115944445, y: 1.4658039, z: 0.39975494}
+  m_Size: {x: 4.9008675, y: 3.5187879, z: 3.567381}
+  m_Center: {x: 0.13073702, y: 1.6508377, z: 0.43450156}
 --- !u!114 &-64739732527831762
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1193,6 +1193,7 @@ MonoBehaviour:
   punchPower: 0
   punchImpact: 0
   punchCooldown: 0
+  specialCooldown: 0
   respawnDelay: 0
   boundaryDist: 0
   fistActiveTime: 0

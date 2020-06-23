@@ -13,7 +13,7 @@ public class AnimationSynchronization : MonoBehaviour, IPunObservable
     private Animator animator;
     private Vector3 aim;
     private int directionModifier;
-    private bool isRunning, hasGun;
+    private bool isRunning, hasGun, jumping, meleeing, specialing;
 
     private void Start()
     {
@@ -25,7 +25,7 @@ public class AnimationSynchronization : MonoBehaviour, IPunObservable
         if (GetComponent<Controller>() == null || !GetComponent<Controller>().controllerInitialized) return;
         if (controller == null) SetController();
         if (PV.IsMine) return;
-        GhostAnimate(aim, isRunning, hasGun);
+        //GhostAnimate(aim, isRunning, hasGun, jumping, meleeing, specialing);
     }
 
     private void SetController()
@@ -40,6 +40,7 @@ public class AnimationSynchronization : MonoBehaviour, IPunObservable
         animator.SetFloat("AimY", aim.y);
         animator.SetBool("Running", running);
         animator.SetBool("Gun", gun);
+        //PV.RPC("SyncTriggers_RPC", RpcTarget.AllBuffered,melee,jump,special);
     }
     //what needs to happen for animations
     //set float for aimx, aimy
@@ -64,6 +65,22 @@ public class AnimationSynchronization : MonoBehaviour, IPunObservable
             isRunning = (bool)stream.ReceiveNext();
             hasGun = (bool)stream.ReceiveNext();
             directionModifier = (int)stream.ReceiveNext();
+        }
+    }
+    [PunRPC]
+    private void SyncTriggers_RPC(bool melee, bool jump, bool special)
+    {
+        if (melee)
+        {
+            animator.SetTrigger("Melee");
+        }
+        if (jump)
+        {
+            animator.SetTrigger("Jump");
+        }
+        if (special)
+        {
+            animator.SetTrigger("Special");
         }
     }
 }

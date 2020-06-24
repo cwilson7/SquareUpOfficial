@@ -68,19 +68,7 @@ public class CharPage : MonoBehaviour
         cspc.UpdateCurrentDisplayedCharacter();
         lbc.waitingTxt.enabled = (bool)MultiplayerSettings.multiplayerSettings.localPlayerValues["PlayerReady"];
         StartCoroutine(plc.InformationDelay());
-        //StartCoroutine(InformationDelay());
     }
-
-    /*
-    private IEnumerator InformationDelay()
-    {
-        //Takes a little for hashtable to change key: "PlayerReady" to value true
-        /*
-        yield return new WaitForSeconds(0.5f);
-        plc.UpdatePlayerListingsAndUsedColorList(PhotonNetwork.LocalPlayer);
-        
-    }
-*/
 
     private int GenerateRandomColorID()
     {

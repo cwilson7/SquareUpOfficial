@@ -196,7 +196,8 @@ public abstract class Controller : MonoBehaviour
     IEnumerator SpawnDelay()
     {
         yield return new WaitForSeconds(respawnDelay);
-        Respawn();
+        if (GameInfo.GI.TimeStopped) StartCoroutine(CubeRotationWait());
+        else Respawn();
     }
 
     private void Respawn()
@@ -205,9 +206,17 @@ public abstract class Controller : MonoBehaviour
         {
             HP = 100;
             isDead = false;
+            Velocity = Vector3.zero;
         }
         SetAllComponents(true);
         //spawn effect
+    }
+
+    IEnumerator CubeRotationWait()
+    {
+        yield return new WaitForSeconds(0.1f);
+        if (GameInfo.GI.TimeStopped) StartCoroutine(CubeRotationWait());
+        else Respawn();
     }
 
     private void SetAllComponents(bool isActive)
@@ -234,7 +243,7 @@ public abstract class Controller : MonoBehaviour
             Velocity.y = 0f;
             jumpNum = maxJumps;
         }
-        else Velocity.y += gravity * Time.deltaTime;
+        else Velocity.y += Cube.cb.CurrentFace.GravityMultiplier * gravity * Time.deltaTime;
     }
 
     public virtual void Movement()

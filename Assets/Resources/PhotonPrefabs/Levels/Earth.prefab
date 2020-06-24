@@ -111,6 +111,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!64 &6285060377355301398
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3348869408419716183}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 4579454407841743219, guid: 669ed438f5c755c4b8c69ecbe4be76df, type: 3}
 --- !u!1 &3420134823648762473
 GameObject:
   m_ObjectHideFlags: 0
@@ -171,20 +185,6 @@ Transform:
   m_Father: {fileID: 7217589666124039859}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!64 &6285060377355301398
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3348869408419716183}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 4579454407841743219, guid: 669ed438f5c755c4b8c69ecbe4be76df, type: 3}
 --- !u!1 &7400083639395198320
 GameObject:
   m_ObjectHideFlags: 0
@@ -242,6 +242,7 @@ MonoBehaviour:
   - {fileID: 8419908743892566830}
   face: {fileID: 0}
   num: 0
+  GravityMultiplier: 1
 --- !u!1001 &5788141914785301750
 PrefabInstance:
   m_ObjectHideFlags: 0

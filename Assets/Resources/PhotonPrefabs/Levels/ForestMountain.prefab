@@ -212,6 +212,7 @@ MonoBehaviour:
   - {fileID: 5013778625467132091}
   face: {fileID: 0}
   num: 0
+  GravityMultiplier: 1
 --- !u!1 &8943007219311757260
 GameObject:
   m_ObjectHideFlags: 0

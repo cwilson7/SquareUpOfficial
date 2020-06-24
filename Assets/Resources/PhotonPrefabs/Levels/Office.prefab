@@ -914,6 +914,7 @@ MonoBehaviour:
   - {fileID: 4106461852601391447}
   face: {fileID: 0}
   num: 0
+  GravityMultiplier: 1
 --- !u!64 &8824288612620765332
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -984,7 +985,7 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -257278029260952120, guid: 451d077a73c989e4cb2799dbb23453f3, type: 3}
---- !u!64 &8463506531262474867
+--- !u!64 &5263558754747220064
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -998,7 +999,7 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: -3537709356157935800, guid: 451d077a73c989e4cb2799dbb23453f3, type: 3}
---- !u!64 &5263558754747220064
+--- !u!64 &8463506531262474867
 MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

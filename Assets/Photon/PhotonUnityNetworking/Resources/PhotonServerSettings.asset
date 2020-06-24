@@ -65,6 +65,7 @@ MonoBehaviour:
   - FireWarpMissile_RPC
   - SpecialAnimation_RPC
   - SyncTriggers_RPC
+  - NewCurrentFace_RPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

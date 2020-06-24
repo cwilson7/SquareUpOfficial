@@ -11,7 +11,6 @@ namespace CustomUtilities
             UnityEngine.Object[] prefabs = Resources.LoadAll(prefabFolderPath);
             foreach (UnityEngine.Object prefab in prefabs)
             {
-                Debug.Log(prefab.name);
                 T prefabGO = (T)(object)prefab;
                 list.Add(prefabGO);
             }

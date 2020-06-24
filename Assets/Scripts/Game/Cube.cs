@@ -98,7 +98,26 @@ public class Cube : MonoBehaviour, IPunObservable
         {
             if (Vector3.Distance(LevelsOnCube[i].face.position, Camera.main.transform.position) < Vector3.Distance(tmpClosest, Camera.main.transform.position)) tmpClosest = LevelsOnCube[i].face.position;
         }
-        PV.RPC("SetFace_RPC", RpcTarget.AllBuffered, tmpClosest);
+
+        //CurrentFace = 
+        //should find the face and set it for myself then set everyone else currfaces to my level num 
+        foreach (Level level in LevelsOnCube)
+        {
+            if (level.face.position == tmpClosest)
+            {
+                CurrentFace = level;
+                currFaceID = level.num;
+            }
+        }
+        PV.RPC("NewCurrentFace_RPC", RpcTarget.AllBuffered, currFaceID);
+        //PV.RPC("SetFace_RPC", RpcTarget.AllBuffered, tmpClosest);
+    }
+
+    [PunRPC]
+    public void NewCurrentFace_RPC(int levelNum)
+    {
+        currFaceID = levelNum;
+        CurrentFace = LevelsOnCube[currFaceID];
     }
 
     float rubberBandX(float x, float y)
@@ -369,7 +388,6 @@ public class Cube : MonoBehaviour, IPunObservable
             var prefabs = Resources.LoadAll("PhotonPrefabs/Levels", typeof(GameObject)).Cast<GameObject>();
             foreach (GameObject prefab in prefabs)
             {
-                Debug.Log(prefab.name);
                 Level prefabGO = prefab.GetComponent<Level>();
                 LevelPool.Add(prefabGO);
             }

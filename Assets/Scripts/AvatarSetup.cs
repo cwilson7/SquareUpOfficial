@@ -56,6 +56,6 @@ public class AvatarSetup : MonoBehaviour
     IEnumerator InformationDelay()
     {
         yield return new WaitForSeconds(0.5f);
-        PV.RPC("InitializeCharacter_RPC", RpcTarget.AllBuffered);
+        PV.RPC("InitializeCharacter_RPC", RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer.ActorNumber);
     }
 }

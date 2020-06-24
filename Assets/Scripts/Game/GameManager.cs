@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     //Set values
     [SerializeField] private double percentOfPowerUpsWeapons;
     [SerializeField] private float powerUpMaxCooldown;
-    [SerializeField] private int maxPowerups = 5;
+    [SerializeField] private int maxPowerups = ;
 
     //Tracked values
     [SerializeField] private float powerUpCooldown;
@@ -45,7 +45,7 @@ public class GameManager : MonoBehaviour
 
     private void HandleTimers()
     {
-        if (currentPowerUps.Count >= maxPowerups) return;
+        if (currentPowerUps.Count >= maxPowerups || GameInfo.GI.TimeStopped) return;
         if (powerUpCooldown >= 0) powerUpCooldown -= Time.deltaTime;
     }
 
@@ -74,6 +74,7 @@ public class GameManager : MonoBehaviour
         Transform[] pwrUpLocs = Cube.cb.CurrentFace.ReturnArrayFromID(idOfList);
         int newID = GenerateIDForPowerUp();
         int locID = RandomInteger(0, pwrUpLocs.Length);
+        //if locid has something generate new random number
         int itemID = RandomInteger(0, pwrUpList.Count);
         PV.RPC("InstantiatePowerUp_RPC", RpcTarget.AllBuffered, idOfList, locID, itemID, newID);
     }
@@ -97,17 +98,20 @@ public class GameManager : MonoBehaviour
     {
         return rand.Next(max);
     }
-    #endregion
 
     public void DestroyAllPowerUps()
     {
+        Debug.Log("length of power up list: " + currentPowerUps.Count);
         int keyLength = currentPowerUps.Count;
         List<int> keys = new List<int>();
-        foreach (int key in currentPowerUps.Keys) keys.Add(key); 
-        for (int i = 0; i < keyLength; i++) {
+        foreach (int key in currentPowerUps.Keys) keys.Add(key);
+        for (int i = 0; i < keyLength; i++)
+        {
             PV.RPC("DestroyPowerUp_RPC", RpcTarget.AllBuffered, keys[i]);
         }
     }
+
+    #endregion
 
     #region RPCs
     [PunRPC]

@@ -141,6 +141,7 @@ MonoBehaviour:
   - {fileID: 7066300298597627240}
   face: {fileID: 0}
   num: 0
+  GravityMultiplier: 1
 --- !u!64 &3753002783840296232
 MeshCollider:
   m_ObjectHideFlags: 0

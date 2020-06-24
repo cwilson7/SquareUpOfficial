@@ -23,6 +23,7 @@ public abstract class PowerUp : MonoBehaviour
 
     protected void PickUp(int actorNr)
     {
+        if (actorNr != PhotonNetwork.LocalPlayer.ActorNumber) return;
         PickUpEffect(transform);
         GameInfo.GI.StatChange(actorNr, "powerUpsCollected");
         ItemAbility(actorNr);

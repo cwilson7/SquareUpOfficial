@@ -42,7 +42,12 @@ public class CameraFollow : MonoBehaviour
 
     void Follow()
     {
-        if (Cube.cb == null) return;
+        if (Cube.cb == null)
+        {
+            Debug.Log("what the fuck is a cube i can't see it");
+            return;
+        }
+
         Vector3 desiredPos = player.transform.position + offset;
         Vector3 center = Cube.cb.CurrentFace.face.position;
         float horizDist = Mathf.Abs(desiredPos.x - center.x);

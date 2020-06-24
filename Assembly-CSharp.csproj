@@ -85,6 +85,7 @@
     <Compile Include="Assets\Photon\PhotonChat\Demos\DemoChat\IgnoreUiRaycastWhenInactive.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\DemoChat\NamePickGui.cs" />
     <Compile Include="Assets\Photon\PhotonRealtime\Demos\DemoLoadBalancing\ConnectAndJoinRandomLb.cs" />
+    <Compile Include="Assets\Resources\Classes\BlobusController.cs" />
     <Compile Include="Assets\Resources\Classes\BobController.cs" />
     <Compile Include="Assets\Resources\Classes\GooseController.cs" />
     <Compile Include="Assets\Resources\Classes\MonkeyController.cs" />

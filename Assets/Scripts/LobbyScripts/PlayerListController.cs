@@ -70,10 +70,12 @@ public class PlayerListController : MonoBehaviourPunCallbacks
         StartCoroutine(InformationDelay());
     }
 
-    IEnumerator InformationDelay()
+    public IEnumerator InformationDelay()
     {
         yield return new WaitForSeconds(0.5f);
-        UpdatePlayerListingsAndUsedColorList(PhotonNetwork.LocalPlayer);
+        Player local = PhotonNetwork.LocalPlayer;
+        if ((int)MultiplayerSettings.multiplayerSettings.localPlayerValues["AssignedColor"] != (int)local.CustomProperties["AssignedColor"] || (int)MultiplayerSettings.multiplayerSettings.localPlayerValues["SelectedCharacter"] != (int)local.CustomProperties["SelectedCharacter"]) StartCoroutine(InformationDelay());
+        else UpdatePlayerListingsAndUsedColorList(local);
     }
 
     [PunRPC]

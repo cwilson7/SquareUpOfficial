@@ -237,6 +237,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8774720322772758951}
   - component: {fileID: 398234132316900595}
+  - component: {fileID: 6672645322960060523}
   m_Layer: 0
   m_Name: Tie
   m_TagString: Untagged
@@ -332,6 +333,18 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.00074657437, y: 0.017768577, z: 0.00699031}
     m_Extent: {x: 0.004003139, y: 0.013995808, z: 0.0029324533}
   m_DirtyAABB: 0
+--- !u!114 &6672645322960060523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1185482124053138340}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abd1a677fe3c75744a6ec1ad8f9d27ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1254528336761611757
 GameObject:
   m_ObjectHideFlags: 0
@@ -1782,6 +1795,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2677307894659431138}
   - component: {fileID: 4174319935745196458}
+  - component: {fileID: 6279703902758935596}
   m_Layer: 0
   m_Name: Torus
   m_TagString: Untagged
@@ -1877,6 +1891,18 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.024443693, y: -0.012581079, z: 0.0020389345}
     m_Extent: {x: 0.002601822, y: 0.007706764, z: 0.0076025473}
   m_DirtyAABB: 0
+--- !u!114 &6279703902758935596
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7779216049048690861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abd1a677fe3c75744a6ec1ad8f9d27ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7848489770127785889
 GameObject:
   m_ObjectHideFlags: 0
@@ -2255,6 +2281,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2570416647006016470}
   - component: {fileID: 8833348895161933150}
+  - component: {fileID: 4724764636914385576}
   m_Layer: 0
   m_Name: Shoes
   m_TagString: Untagged
@@ -2350,3 +2377,15 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.00081394194, y: -0.05908198, z: 0.0033839282}
     m_Extent: {x: 0.01577143, y: 0.006184811, z: 0.010810277}
   m_DirtyAABB: 0
+--- !u!114 &4724764636914385576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8839475473435654561}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abd1a677fe3c75744a6ec1ad8f9d27ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

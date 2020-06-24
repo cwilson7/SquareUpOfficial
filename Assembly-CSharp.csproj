@@ -119,6 +119,7 @@
     <Compile Include="Assets\Scripts\Labels\GunLocation.cs" />
     <Compile Include="Assets\Scripts\Labels\GunPivot.cs" />
     <Compile Include="Assets\Scripts\Labels\JoyStickReference.cs" />
+    <Compile Include="Assets\Scripts\Labels\MaterialChange.cs" />
     <Compile Include="Assets\Scripts\Labels\MiniMapPlayer.cs" />
     <Compile Include="Assets\Scripts\Labels\Paint.cs" />
     <Compile Include="Assets\Scripts\Labels\Special.cs" />

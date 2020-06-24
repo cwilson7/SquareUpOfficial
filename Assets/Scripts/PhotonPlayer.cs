@@ -50,6 +50,7 @@ public class PhotonPlayer : MonoBehaviour
         if (Cube.cb == null) StartCoroutine(InformationDelay());
         else
         {
+            Debug.Log("making avatar");
             Transform[] spawnList = Cube.cb.CurrentFace.spawnPoints;
             int spawnPicker = Random.Range(0, spawnList.Length);
             myAvatar = PhotonNetwork.Instantiate(Path.Combine("PhotonPrefabs", "PlayerTestAvatar"), spawnList[spawnPicker].position, spawnList[spawnPicker].rotation, 0);

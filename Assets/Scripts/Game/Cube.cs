@@ -337,10 +337,13 @@ public class Cube : MonoBehaviour, IPunObservable
     }
     
     [PunRPC]
-    public void SendRotateInformation_RPC(bool inRotation, int ownerNr)
+    public void SendRotateInformation_RPC(bool inRot, int ownerNr)
     {
-        GameInfo.GI.CubeClone.inRotation = inRotation;
+        GameInfo.GI.CubeClone.inRotation = inRot;
         GameInfo.GI.CubeClone.ownerActorNr = ownerNr;
+
+        inRotation = inRot;
+        ownerActorNr = ownerNr;
     }
     
     [PunRPC]

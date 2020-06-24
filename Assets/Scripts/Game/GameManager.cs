@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     //Set values
     [SerializeField] private double percentOfPowerUpsWeapons;
     [SerializeField] private float powerUpMaxCooldown;
-    [SerializeField] private int maxPowerups = ;
+    [SerializeField] private int maxPowerups;
 
     //Tracked values
     [SerializeField] private float powerUpCooldown;

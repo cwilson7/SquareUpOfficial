@@ -1303,7 +1303,7 @@ Transform:
   m_GameObject: {fileID: 8186551026939270731}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0.5}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.99, y: 0.99, z: 1}
   m_Children:
   - {fileID: 1300163244716170962}
   - {fileID: 3491252685385161955}
@@ -1334,7 +1334,7 @@ MonoBehaviour:
   - {fileID: 4106461852601391447}
   face: {fileID: 0}
   num: 0
-  GravityMultiplier: 0.75
+  GravityMultiplier: 1
 --- !u!64 &7774909254170570228
 MeshCollider:
   m_ObjectHideFlags: 0

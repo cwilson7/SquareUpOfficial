@@ -57,7 +57,6 @@ GameObject:
   - component: {fileID: 7711541859279777694}
   - component: {fileID: 5897616120442807645}
   - component: {fileID: 2008065530047151829}
-  - component: {fileID: -5074106612889998926}
   m_Layer: 12
   m_Name: LevelCube
   m_TagString: Untagged
@@ -192,16 +191,3 @@ MonoBehaviour:
   m_SynchronizePosition: 1
   m_SynchronizeRotation: 1
   m_SynchronizeScale: 0
---- !u!65 &-5074106612889998926
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7711541859279777695}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.99999994, y: 0.99999994, z: 0.99999994}
-  m_Center: {x: 0, y: 0, z: 0}

@@ -9,12 +9,15 @@ public class Projectile : DamageDealer
 
     public void InitializeProjectile(float dmg, float impt, Vector3 vel, int owner)
     {
+        maxLifeTime = 5f;
         this.damage = dmg;
         this.impactMultiplier = impt;
         this.Velocity = vel;
         this.owner = owner;
-        maxLifeTime = 5f;
-        GetComponent<MeshRenderer>().sharedMaterial = LobbyController.lc.availableMaterials[(int)PhotonNetwork.CurrentRoom.GetPlayer(owner).CustomProperties["AssignedColor"]];
+        if (GetComponent<MeshRenderer>() != null)
+        {
+            GetComponent<MeshRenderer>().sharedMaterial = LobbyController.lc.availableMaterials[(int)PhotonNetwork.CurrentRoom.GetPlayer(owner).CustomProperties["AssignedColor"]];
+        }
     }
 
     void Start()

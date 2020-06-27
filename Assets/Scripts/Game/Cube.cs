@@ -275,7 +275,7 @@ public class Cube : MonoBehaviour, IPunObservable
             {
                 foreach (Light l in level.gameObject.GetComponentsInChildren<Light>())
                 {
-                    Debug.Log("light enabled");
+                    //Debug.Log("light enabled");
                     l.enabled = true;
                 }
             }
@@ -283,7 +283,7 @@ public class Cube : MonoBehaviour, IPunObservable
             {
                 foreach (Light l in level.gameObject.GetComponentsInChildren<Light>())
                 {
-                    Debug.Log("Light DIssabled");
+                    //Debug.Log("Light DIssabled");
                     l.enabled = false;
                 }
             }

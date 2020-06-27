@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class SharkController : Controller
 {
@@ -16,7 +17,8 @@ public class SharkController : Controller
         IsInSpecial = true;
         _Collider.enabled = false;
         anim.SetBool("Special", true);
-        //speed = 20;
+        speed = 20;
+        StartCoroutine(SpecialTimer());
     }
 
     public override void Movement()
@@ -52,48 +54,47 @@ public class SharkController : Controller
         }
         else
         {
-            //if (IsInSpecial && !Input.GetKeyDown(KeyCode.W) && !Input.GetKeyDown(KeyCode.S))
-            //{
-            //    Velocity.y = 0f;
-            //}
-            if (Input.GetKeyDown(KeyCode.W))
+            if (!IsInSpecial)
+            {
+                if (Input.GetKeyDown(KeyCode.W))
+                {
+                    TryJump();
+                }
+                if (Input.GetAxis("Horizontal") > 0 || Input.GetKeyDown(KeyCode.D))
+                {
+                    directionModifier = 1;
+                    gameObject.transform.rotation = Quaternion.Euler(0, 100, 0);
+                    anim.SetBool("Running", true);
+                }
+                if (Input.GetAxis("Horizontal") < 0 || Input.GetKeyDown(KeyCode.A))
+                {
+                    directionModifier = -1;
+                    gameObject.transform.rotation = Quaternion.Euler(0, -100, 0);
+                    anim.SetBool("Running", true);
+                }
+                if (Input.GetAxis("Horizontal") == 0)
+                {
+                    anim.SetBool("Running", false);
+                }
+                Velocity.x = Input.GetAxis("Horizontal");
+            }
+            else
+            {
+                gameObject.transform.rotation = Quaternion.Euler(-90,Mathf.Atan2(AimDirection.y,AimDirection.x) * (180/Mathf.PI),0);
+                Velocity.x = AimDirection.x;
+                Velocity.y = AimDirection.y;
+            }
+
+            if (Input.GetKeyDown(KeyCode.Space))
             {
                 if (IsInSpecial)
                 {
-                    Velocity.y = 1f;
-                    gameObject.transform.rotation = Quaternion.Euler(-90, 0, 0);
+                    ExitSpecial();
                 }
-                else TryJump();
-            }
-            if (Input.GetKeyDown(KeyCode.S) && IsInSpecial)
-            {
-                Velocity.y = -1f;
-                gameObject.transform.rotation = Quaternion.Euler(90, 0,180);
-            }
-            if (Input.GetAxis("Horizontal") > 0 || Input.GetKeyDown(KeyCode.D))
-            {
-                directionModifier = 1;
-                if(IsInSpecial) gameObject.transform.rotation = Quaternion.Euler(0, 100, -90);
-                else gameObject.transform.rotation = Quaternion.Euler(0, 100, 0);
-                anim.SetBool("Running", true);
-            }
-            if (Input.GetAxis("Horizontal") < 0 || Input.GetKeyDown(KeyCode.A))
-            {
-                directionModifier = -1;
-                if(IsInSpecial) gameObject.transform.rotation = Quaternion.Euler(0, -100, 90);
-                else gameObject.transform.rotation = Quaternion.Euler(0, -100, 0);
-                anim.SetBool("Running", true);
-            }
-            if (Input.GetAxis("Horizontal") == 0)
-            {
-                anim.SetBool("Running", false);
-            }
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                TrySpecial();
+                else TrySpecial();
             }
 
-            Velocity.x = Input.GetAxis("Horizontal");
+            
         }
 
 
@@ -118,4 +119,33 @@ public class SharkController : Controller
         }
         else if (!IsInSpecial) Velocity.y += Cube.cb.CurrentFace.GravityMultiplier * gravity * Time.deltaTime;
     }
+
+    IEnumerator SpecialTimer()
+    {
+        yield return new WaitForSeconds(5);
+        if (IsInSpecial)
+        {
+            _Collider.enabled = true;
+            IsInSpecial = false;
+            anim.SetBool("Special", false);
+            PV.RPC("Splash_RPC", RpcTarget.AllBuffered);
+        }
+    }
+
+    private void ExitSpecial()
+    {
+        _Collider.enabled = true;
+        IsInSpecial = false;
+        anim.SetBool("Special", false);
+        PV.RPC("Splash_RPC", RpcTarget.AllBuffered);
+    }
+
+    [PunRPC]
+    public void Splash_RPC()
+    {
+        GameObject splash = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/Weapons/" + "SharkSplash"), transform.position, Quaternion.Euler(new Vector3(-90, 0, 0)));
+        splash.GetComponent<Projectile>().InitializeProjectile(100, 5, Vector3.zero, actorNr);
+        splash.GetComponent<Projectile>().maxLifeTime = .5f;
+    }
+
 }

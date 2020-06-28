@@ -157,8 +157,10 @@
     <Compile Include="Assets\Scripts\RoomListing.cs" />
     <Compile Include="Assets\Scripts\SettingsInit.cs" />
     <Compile Include="Assets\Scripts\SexyCubeOfDestinyMouseTrack.cs" />
+    <Compile Include="Assets\Scripts\SpecialAbilities\AboveSticky.cs" />
     <Compile Include="Assets\Scripts\SpecialAbilities\Bob\GraplingHook.cs" />
     <Compile Include="Assets\Scripts\SpecialAbilities\Bob\HookDetector.cs" />
+    <Compile Include="Assets\Scripts\SpecialAbilities\SideSticky.cs" />
     <Compile Include="Assets\Scripts\Utilities.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />

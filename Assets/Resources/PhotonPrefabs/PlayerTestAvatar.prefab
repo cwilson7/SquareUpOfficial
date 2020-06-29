@@ -5031,7 +5031,7 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   ObservedComponents:
-  - {fileID: 5394339779264537352}
+  - {fileID: -7095289599236880044}
   - {fileID: 6374201829056692465}
   viewIdField: 0
   InstantiationId: 0
@@ -5074,11 +5074,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7553275058234249101}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 28901c8b9b01c5148b66843589c816e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MinimumLagDistance: 0.11
 --- !u!114 &5394339779264537352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5086,7 +5087,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7553275058234249101}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
   m_Name: 

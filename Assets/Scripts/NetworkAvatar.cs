@@ -7,11 +7,16 @@ using System;
 
 public class NetworkAvatar : MonoBehaviourPun, IPunObservable
 {
+    [SerializeField] private float MinimumLagDistance;
+    
     private PhotonView PV;
     protected Vector3 remotePlayerPosition;
+    protected Vector3 remotePlayerVelocity;
 
     CharacterController cc;
     Controller controller;
+
+    Vector3 NetworkedVelocity = Vector3.zero;
 
     float currentTime = 0;
     double currentPacketTime = 0;
@@ -22,6 +27,11 @@ public class NetworkAvatar : MonoBehaviourPun, IPunObservable
     {
         PV = GetComponent<PhotonView>();
         cc = GetComponent<CharacterController>();
+        //controller = GetComponent<Controller>();
+    }
+
+    private void SetController()
+    {
         controller = GetComponent<Controller>();
     }
 
@@ -30,10 +40,12 @@ public class NetworkAvatar : MonoBehaviourPun, IPunObservable
         if(stream.IsWriting)
         {
             stream.SendNext(transform.position);
+            if (controller != null) stream.SendNext(controller.Velocity);
         }
         else
         {
             remotePlayerPosition = (Vector3)stream.ReceiveNext();
+            if (controller != null) remotePlayerVelocity = (Vector3)stream.ReceiveNext();
 
             currentTime = 0.0f;
             lastPacketTime = currentPacketTime;
@@ -45,12 +57,49 @@ public class NetworkAvatar : MonoBehaviourPun, IPunObservable
     // Update is called once per frame
     void FixedUpdate()
     {
-        if (PV.IsMine) return;
+        if (PV.IsMine || GetComponent<Controller>() == null) return;
+        if (controller == null) SetController();
+        if (!controller.controllerInitialized) return;
+        else RecieveNetworkMovement();
+    }
+
+    private void RecieveNetworkMovement()
+    {
+        Vector3 LagDistance = remotePlayerPosition - transform.position;
+        if (LagDistance.magnitude > 5f)
+        {
+            transform.position = remotePlayerPosition;
+        }
+        /*
+        //NetworkedVelocity.y = controller.Velocity.y;
+        if (Mathf.Abs(LagDistance.x) < MinimumLagDistance)
+        {
+            NetworkedVelocity.x = 0;
+        }
+        else {
+            if (LagDistance.x > 0)
+            {
+                //move to right
+                NetworkedVelocity.x = 1;
+            }
+            else
+            {
+                //move to left
+                NetworkedVelocity.x = -1;
+            }
+        }
+        //just track y
+        transform.position = new Vector3(transform.position.x, remotePlayerPosition.y, remotePlayerPosition.z);
+        */
+        controller.Move(remotePlayerVelocity);//(NetworkedVelocity);
+    }
         
+        
+        /*
         Vector3 lagDistance = remotePlayerPosition - transform.position;
         double timeToReachGoal = currentPacketTime - lastPacketTime;
         currentTime += Time.deltaTime;
-        if(lagDistance.magnitude > 5f)
+        if (lagDistance.magnitude > 5f)
         {
             transform.position = remotePlayerPosition;
         }
@@ -79,4 +128,5 @@ public class NetworkAvatar : MonoBehaviourPun, IPunObservable
             }
         }
     }
+    */
 }

@@ -309,8 +309,9 @@ public abstract class Controller : MonoBehaviour
         }
 
 
-        Vector3 move = new Vector3(Velocity.x, Velocity.y, 0f);
-        cc.Move((move * speed + impact * 10f) * Time.deltaTime);
+        Move(Velocity);
+        //Vector3 move = new Vector3(Velocity.x, Velocity.y, 0f);
+        //cc.Move((move * speed + impact * 10f) * Time.deltaTime);
 
         //lock Z Pos
         transform.position = new Vector3(transform.position.x, transform.position.y, Cube.cb.CurrentFace.spawnPoints[0].position.z);
@@ -318,6 +319,13 @@ public abstract class Controller : MonoBehaviour
         //Account for impact from being hit by weapon
         impact = Vector3.Lerp(impact, Vector3.zero, 5 * Time.deltaTime);
     }
+
+    public void Move(Vector3 _velocity)
+    {
+        Vector3 move = new Vector3(_velocity.x, _velocity.y, 0f);
+        cc.Move((move * speed + impact * 10f) * Time.deltaTime);
+    }
+
     public void TrySpecial()
     {
         if (specialCooldown <= 0)

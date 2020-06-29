@@ -4986,7 +4986,6 @@ GameObject:
   - component: {fileID: 230725977286613779}
   - component: {fileID: 6391912281978112192}
   - component: {fileID: -7095289599236880044}
-  - component: {fileID: 5394339779264537352}
   - component: {fileID: 6374201829056692465}
   m_Layer: 0
   m_Name: PlayerTestAvatar
@@ -5079,22 +5078,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28901c8b9b01c5148b66843589c816e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MinimumLagDistance: 0.11
---- !u!114 &5394339779264537352
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7553275058234249101}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizePosition: 1
-  m_SynchronizeRotation: 1
-  m_SynchronizeScale: 0
+  m_SynchronizeVelocity: 1
+  m_TeleportEnabled: 0
+  m_TeleportIfDistanceGreaterThan: 3
 --- !u!114 &6374201829056692465
 MonoBehaviour:
   m_ObjectHideFlags: 0

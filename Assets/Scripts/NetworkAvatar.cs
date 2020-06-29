@@ -5,8 +5,98 @@ using Photon.Pun;
 using Photon.Realtime;
 using System;
 
+
+[RequireComponent(typeof(PhotonView))]
+[RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(Controller))]
+[AddComponentMenu("Photon Networking/Photon Character Controller View")]
+
 public class NetworkAvatar : MonoBehaviourPun, IPunObservable
 {
+    private float m_Distance;
+
+    private CharacterController myCC;
+
+    private Controller m_controller;
+
+    private PhotonView PV;
+
+    private Vector3 m_NetworkPosition;
+
+    private Quaternion m_NetworkRotation;
+
+    public bool m_SynchronizeVelocity = true;
+
+    public bool m_TeleportEnabled = false;
+    public float m_TeleportIfDistanceGreaterThan = 3.0f;
+
+    public void Awake()
+    {
+        this.myCC = GetComponent<CharacterController>();
+        this.PV = GetComponent<PhotonView>();
+
+        this.m_NetworkPosition = new Vector3();
+        this.m_NetworkRotation = new Quaternion();
+    }
+
+    public void FixedUpdate()
+    {
+        if (m_controller == null) SetController();
+        if (!m_controller.controllerInitialized) return;
+        if (!this.PV.IsMine)
+        {
+            this.myCC.transform.rotation = this.m_NetworkRotation;//Quaternion.RotateTowards(this.myCC.transform.rotation, this.m_NetworkRotation, 1.0f / PhotonNetwork.SerializationRate);
+            this.myCC.transform.position = Vector3.MoveTowards(this.myCC.transform.position, this.m_NetworkPosition, this.m_Distance * (1.0f / PhotonNetwork.SerializationRate));
+        }
+    }
+
+    public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
+    {
+        if (stream.IsWriting)
+        {
+            stream.SendNext(this.myCC.transform.position);
+            stream.SendNext(this.myCC.transform.rotation);
+
+            if (this.m_SynchronizeVelocity)
+            {
+                stream.SendNext(this.myCC.velocity);
+            }
+        }
+        else
+        {
+            this.m_NetworkPosition = (Vector3)stream.ReceiveNext();
+            this.m_NetworkRotation = (Quaternion)stream.ReceiveNext();
+
+            if (this.m_TeleportEnabled)
+            {
+                if (Vector3.Distance(this.myCC.transform.position, this.m_NetworkPosition) > this.m_TeleportIfDistanceGreaterThan)
+                {
+                    this.myCC.transform.position = this.m_NetworkPosition;
+                }
+            }
+
+            if (this.m_SynchronizeVelocity)
+            {
+                float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTime));
+
+                //set velocity
+                if (m_controller != null) this.m_controller.Velocity = (Vector3)stream.ReceiveNext();
+
+                this.m_NetworkPosition += this.myCC.velocity * lag;
+
+                this.m_Distance = Vector3.Distance(this.myCC.transform.position, this.m_NetworkPosition);
+            }
+        }
+    }
+
+    private void SetController()
+    {
+        this.m_controller = GetComponent<Controller>();
+    }
+}
+    
+    
+    /*
     [SerializeField] private float MinimumLagDistance;
     
     private PhotonView PV;
@@ -90,43 +180,6 @@ public class NetworkAvatar : MonoBehaviourPun, IPunObservable
         }
         //just track y
         transform.position = new Vector3(transform.position.x, remotePlayerPosition.y, remotePlayerPosition.z);
-        */
         controller.Move(remotePlayerVelocity);//(NetworkedVelocity);
     }
-        
-        
-        /*
-        Vector3 lagDistance = remotePlayerPosition - transform.position;
-        double timeToReachGoal = currentPacketTime - lastPacketTime;
-        currentTime += Time.deltaTime;
-        if (lagDistance.magnitude > 5f)
-        {
-            transform.position = remotePlayerPosition;
-        }
-
-        CheckForMove(lagDistance, timeToReachGoal);
-        cc.Move((controller.Velocity * controller.speed + controller.impact * 10f) * Time.deltaTime);
-        controller.impact = Vector3.Lerp(controller.impact, Vector3.zero, 5 * Time.deltaTime);
-    }
-
-    private void CheckForMove(Vector3 lagDistance, double timeToReachGoal)
-    {
-        
-        if (Mathf.Abs(lagDistance.x) < 0.11f)
-        {
-            controller.Velocity.x = 0f;
-        }
-        else
-        {
-            if (lagDistance.x > 0)
-            {
-                controller.Velocity.x = 1f;
-            }
-            else if (lagDistance.x < 0)
-            {
-                controller.Velocity.x = -1f;
-            }
-        }
-    }
     */
-}

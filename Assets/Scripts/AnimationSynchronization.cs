@@ -25,7 +25,7 @@ public class AnimationSynchronization : MonoBehaviour, IPunObservable
         if (GetComponent<Controller>() == null || !GetComponent<Controller>().controllerInitialized) return;
         if (controller == null) SetController();
         if (PV.IsMine) return;
-        //GhostAnimate(aim, isRunning, hasGun, jumping, meleeing, specialing);
+        GhostAnimate(aim, isRunning, hasGun);
     }
 
     private void SetController()

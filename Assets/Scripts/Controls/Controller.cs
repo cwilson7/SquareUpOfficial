@@ -133,7 +133,6 @@ public abstract class Controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         if (!controllerInitialized || GameInfo.GI.TimeStopped || isDead) return;
         Gravity();
 

@@ -80,7 +80,8 @@ public class SharkController : Controller
             }
             else
             {
-                gameObject.transform.rotation = Quaternion.Euler(-90,Mathf.Atan2(AimDirection.y,AimDirection.x) * (180/Mathf.PI),0);
+                if (AimDirection.x > 0) gameObject.transform.localRotation = Quaternion.Euler(Mathf.Rad2Deg * Mathf.Atan(-AimDirection.y / AimDirection.x),90,-90);
+                else gameObject.transform.localRotation = Quaternion.Euler(180+Mathf.Rad2Deg * Mathf.Atan(-AimDirection.y / AimDirection.x),90,-90);
                 Velocity.x = AimDirection.x;
                 Velocity.y = AimDirection.y;
             }

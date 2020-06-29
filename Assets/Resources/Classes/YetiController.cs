@@ -84,8 +84,8 @@ public class YetiController : Controller
             else
             {
                 directionModifier = 1;
-                gameObject.transform.rotation = Quaternion.Euler(0, 100, 0);
-                gameObject.transform.rotation = Quaternion.Euler(-90, 0,Mathf.Atan2(AimDirection.y, AimDirection.x) * (180 / Mathf.PI));
+                if (AimDirection.x > 0) gameObject.transform.localRotation = Quaternion.Euler(Mathf.Rad2Deg * Mathf.Atan(-AimDirection.y / AimDirection.x), 90, -90);
+                else gameObject.transform.localRotation = Quaternion.Euler(180 + Mathf.Rad2Deg * Mathf.Atan(-AimDirection.y / AimDirection.x), 90, -90);
                 Velocity.x = AimDirection.x;
                 Velocity.y = AimDirection.y;
             }

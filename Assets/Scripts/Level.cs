@@ -4,20 +4,14 @@ using UnityEngine;
 
 public class Level : MonoBehaviour
 {
-    public Transform[] spawnPoints, weaponSpawnPoints, otherPowerUpSpawnPoints;
+    public Transform[] spawnPoints, powerUpSpawnPoints;
     public Transform face;
     public int num;
     public float GravityMultiplier;
 
+    //DEPRECATED
     public Transform[] ReturnArrayFromID(int id)
     {
-        switch(id)
-        {
-            case 1:
-                return weaponSpawnPoints;
-            case 2:
-                return otherPowerUpSpawnPoints;
-        }
-        return null;
+        return powerUpSpawnPoints;
     }
 }

@@ -71,7 +71,7 @@ public class GameManager : MonoBehaviour
     private void PowerUpSelection(int idOfList)
     {
         List<GameObject> pwrUpList = GameInfo.GI.ReturnListFromID(idOfList);
-        Transform[] pwrUpLocs = Cube.cb.CurrentFace.ReturnArrayFromID(idOfList);
+        Transform[] pwrUpLocs = Cube.cb.CurrentFace.powerUpSpawnPoints; //ReturnArrayFromID(idOfList);
         int newID = GenerateIDForPowerUp();
         int locID = RandomInteger(0, pwrUpLocs.Length);
         //if locid has something generate new random number
@@ -118,7 +118,7 @@ public class GameManager : MonoBehaviour
     public void InstantiatePowerUp_RPC(int listID, int locID, int pwrUpID, int newID)
     {
         List<GameObject> pwrUpList = GameInfo.GI.ReturnListFromID(listID);
-        Transform[] pwrUpLocs = Cube.cb.CurrentFace.ReturnArrayFromID(listID);
+        Transform[] pwrUpLocs = Cube.cb.CurrentFace.powerUpSpawnPoints; //ReturnArrayFromID(listID);
         GameObject pwrUp = Instantiate(pwrUpList[pwrUpID], pwrUpLocs[locID]);
         pwrUp.GetComponent<PowerUp>().id = newID;
         currentPowerUps.Add(newID, pwrUp);

@@ -46,6 +46,9 @@ public abstract class Controller : MonoBehaviour
 
     public Animator anim;
 
+    private SkinnedMeshRenderer[] mRenderers;
+
+
     #region SET VALUES
 
     public virtual void InitializePlayerController()
@@ -102,6 +105,27 @@ public abstract class Controller : MonoBehaviour
         controllerInitialized = true;
         if (PV.IsMine) MultiplayerSettings.multiplayerSettings.SetCustomPlayerProperties("ControllerInitialized", true);
 
+        mRenderers = GetComponentsInChildren<SkinnedMeshRenderer>();
+       //SetRendererAlphas(0.1f);
+
+    }
+    public void SetRendererAlphas(float alpha)
+    {
+        for (int i = 0; i < mRenderers.Length; i++)
+        {
+            for (int j = 0; j < mRenderers[i].sharedMaterials.Length; j++)
+            {
+                Material standardShaderMaterial = mRenderers[i].materials[j];
+                standardShaderMaterial.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+                standardShaderMaterial.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+                standardShaderMaterial.SetInt("_ZWrite", 0);
+                standardShaderMaterial.DisableKeyword("_ALPHATEST_ON");
+                standardShaderMaterial.EnableKeyword("_ALPHABLEND_ON");
+                standardShaderMaterial.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+                standardShaderMaterial.renderQueue = 3000;
+                mRenderers[i].materials[j] = standardShaderMaterial;
+            }
+        }
     }
 
     #endregion
@@ -109,6 +133,7 @@ public abstract class Controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         if (!controllerInitialized || GameInfo.GI.TimeStopped || isDead) return;
         Gravity();
 

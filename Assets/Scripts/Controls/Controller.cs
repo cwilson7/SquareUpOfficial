@@ -37,7 +37,7 @@ public abstract class Controller : MonoBehaviour
     //Tracked variables
     public Vector3 Velocity, impact;
     public int jumpNum;
-    public double HP;
+    public Healthbar health;
     public Vector3 AimDirection;
     public bool controllerInitialized = false;
     public bool isDead = false;
@@ -63,7 +63,10 @@ public abstract class Controller : MonoBehaviour
         groundDetectionRadius = 0.5f;
         maxJumps = 2;
         distanceFromGround = 0.5f;
-        HP = 100;
+        health = GameObject.Find("Healthbar1").GetComponent<Healthbar>();
+        //health.maximumHealth = 100;
+        //ealth.health = 100;
+        //health.m
         punchPower = 10f;
         punchImpact = 1.5f;
         punchCooldown = 1;
@@ -177,7 +180,7 @@ public abstract class Controller : MonoBehaviour
     {
         float vertDistance = Mathf.Abs(transform.position.y - Cube.cb.CurrentFace.face.position.y);
         float horizDistance = Mathf.Abs(transform.position.x - Cube.cb.CurrentFace.face.position.x);
-        if (horizDistance > boundaryDist || vertDistance > boundaryDist || HP <= 0.0)
+        if (horizDistance > boundaryDist || vertDistance > boundaryDist || health.health <= 0.0)
         {
             Die();
         }
@@ -204,7 +207,7 @@ public abstract class Controller : MonoBehaviour
     {
         if (PV.IsMine)
         {
-            HP = 100;
+            health.health = 100;
             isDead = false;
             Velocity = Vector3.zero;
         }
@@ -424,7 +427,7 @@ public abstract class Controller : MonoBehaviour
     [PunRPC]
     public void LoseHealth_RPC(double lostHP)
     {
-        HP -= lostHP;
+        health.health -= (float)lostHP;
     }
 
     [PunRPC]

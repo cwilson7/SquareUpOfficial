@@ -4,9 +4,18 @@ MonoImporter:
   externalObjects: {}
   serializedVersion: 2
   defaultReferences:
+  - PV: {instanceID: 0}
+  - PaintExplosionSystem: {instanceID: 0}
+  - cc: {instanceID: 0}
   - baseOfCharacterPrefab: {fileID: 737844320632843185, guid: b76dabd7d4602c149927ce83a2d80552,
       type: 3}
+  - _Collider: {instanceID: 0}
   - currentWeapon: {instanceID: 0}
+  - Fist: {instanceID: 0}
+  - mmPlayer: {instanceID: 0}
+  - baseOfCharacter: {instanceID: 0}
+  - health: {fileID: 114359963609766598, guid: d16a19242f7da6d4794facdc63b9c915, type: 3}
+  - anim: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

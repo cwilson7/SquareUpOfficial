@@ -1739,7 +1739,7 @@ MonoBehaviour:
   Velocity: {x: 0, y: 0, z: 0}
   impact: {x: 0, y: 0, z: 0}
   jumpNum: 0
-  HP: 0
+  health: {fileID: 114359963609766598, guid: d16a19242f7da6d4794facdc63b9c915, type: 3}
   AimDirection: {x: 0, y: 0, z: 0}
   controllerInitialized: 0
   isDead: 0
@@ -1747,6 +1747,8 @@ MonoBehaviour:
   hasGun: 0
   directionModifier: 0
   anim: {fileID: 0}
+  IsInSpecial: 0
+  SpecialTime: 0
 --- !u!95 &-182120753320162106
 Animator:
   serializedVersion: 3

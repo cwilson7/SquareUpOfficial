@@ -118,6 +118,7 @@ public class Cube : MonoBehaviour, IPunObservable
     {
         currFaceID = levelNum;
         CurrentFace = LevelsOnCube[currFaceID];
+        SetLevelObjects();
     }
 
     float rubberBandX(float x, float y)
@@ -265,7 +266,7 @@ public class Cube : MonoBehaviour, IPunObservable
         }
     }
 
-    private void setLevelObjects()
+    private void SetLevelObjects()
     {
         //Lights 
         foreach (Level level in LevelsOnCube)
@@ -274,30 +275,15 @@ public class Cube : MonoBehaviour, IPunObservable
             {
                 foreach (Light l in level.gameObject.GetComponentsInChildren<Light>())
                 {
+                    //Debug.Log("light enabled");
                     l.enabled = true;
                 }
-                //Gravity
-                if (level.gameObject.name == "Ocean(Clone)")
-                {
-                    Debug.Log("oceanLevel");
-                    foreach(Controller p in level.gameObject.GetComponentsInChildren<Controller>())
-                    {
-                        p.gravity = p.gravity/2;
-                    }
-                }
-                else
-                {
-                    foreach (Controller p in level.gameObject.GetComponentsInChildren<Controller>())
-                    {
-                        p.gravity = p.gravity * 2;
-                    }
-                }
-                //
             }
             else
             {
                 foreach (Light l in level.gameObject.GetComponentsInChildren<Light>())
                 {
+                    //Debug.Log("Light DIssabled");
                     l.enabled = false;
                 }
             }
@@ -371,7 +357,7 @@ public class Cube : MonoBehaviour, IPunObservable
                 if (GameInfo.GI.cubeCloned) GameInfo.GI.CubeClone.currFaceID = level.num;
             }
         }
-        setLevelObjects();
+        SetLevelObjects();
     }
 
 
@@ -431,7 +417,7 @@ public class Cube : MonoBehaviour, IPunObservable
         {
             face.SetParent(transform);
         }
-        setLevelObjects();
+        SetLevelObjects();
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

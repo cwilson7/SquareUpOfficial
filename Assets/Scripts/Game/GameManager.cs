@@ -101,7 +101,7 @@ public class GameManager : MonoBehaviour
 
     public void DestroyAllPowerUps()
     {
-        Debug.Log("length of power up list: " + currentPowerUps.Count);
+        //Debug.Log("length of power up list: " + currentPowerUps.Count);
         int keyLength = currentPowerUps.Count;
         List<int> keys = new List<int>();
         foreach (int key in currentPowerUps.Keys) keys.Add(key);

@@ -66,6 +66,8 @@ MonoBehaviour:
   - SpecialAnimation_RPC
   - SyncTriggers_RPC
   - NewCurrentFace_RPC
+  - Splash_RPC
+  - Avalanche_RPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

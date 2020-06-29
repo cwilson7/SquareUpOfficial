@@ -50,7 +50,7 @@ MonoBehaviour:
   fireCooldown: 0
   bltSpeed: 2000
   recoil: 5
-  impact: 1
+  impact: 5
   owner: 0
   totalAmmo: 2
   ammoLeft: 2

@@ -68,6 +68,7 @@ MonoBehaviour:
   - NewCurrentFace_RPC
   - Splash_RPC
   - Avalanche_RPC
+  - Jaw_RPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

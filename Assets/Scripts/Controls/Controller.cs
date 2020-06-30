@@ -394,9 +394,11 @@ public abstract class Controller : MonoBehaviour
     #region Collision/ Trigger 
     private void OnCollisionEnter(Collision other)
     {
+        /*
         GameObject otherGO = other.gameObject;
         if (otherGO.tag == "Projectile")
         {
+            Debug.Log("bro i got shot");
             Projectile proj = otherGO.GetComponent<Projectile>();
             if (proj.owner == actorNr) return;
 
@@ -409,6 +411,23 @@ public abstract class Controller : MonoBehaviour
             impact += proj.impactMultiplier * proj.Velocity.normalized;
             Destroy(otherGO);
         }
+        */
+    }
+
+    public void CollideWithBullet(Projectile proj)
+    {
+        Debug.Log("bro i got shot");
+        //Projectile proj = otherGO.GetComponent<Projectile>();
+        if (proj.owner == actorNr) return;
+
+        if (PV.IsMine)
+        {
+            LoseHealth(proj.damage);
+            OnDamgeTaken?.Invoke(proj, this);
+            GameInfo.GI.StatChange(proj.owner, "bulletsLanded");
+        }
+        impact += proj.impactMultiplier * proj.Velocity.normalized;
+        Destroy(proj.gameObject);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -450,6 +469,7 @@ public abstract class Controller : MonoBehaviour
     [PunRPC]
     public void FireWeapon_RPC(Vector3 Direction, float dmg, float impt, float bltSpd, int ownr, string projName)
     {
+        if (currentWeapon.FiringPoint == null) return;
         Direction.z = 0f;
         GameObject bullet = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/Weapons/" + projName), currentWeapon.FiringPoint.position, Quaternion.identity);
         bullet.GetComponent<Projectile>().InitializeProjectile(dmg, impt, Direction * (float)bltSpd, ownr);

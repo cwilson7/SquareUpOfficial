@@ -129,7 +129,7 @@ public class SharkController : Controller
             _Collider.enabled = true;
             IsInSpecial = false;
             anim.SetBool("Special", false);
-            PV.RPC("Splash_RPC", RpcTarget.AllBuffered);
+            PV.RPC("Jaw_RPC", RpcTarget.AllBuffered,actorNr);
         }
     }
 
@@ -138,15 +138,14 @@ public class SharkController : Controller
         _Collider.enabled = true;
         IsInSpecial = false;
         anim.SetBool("Special", false);
-        PV.RPC("Splash_RPC", RpcTarget.AllBuffered);
+        PV.RPC("Jaw_RPC", RpcTarget.AllBuffered,actorNr);
     }
 
     [PunRPC]
-    public void Splash_RPC()
+    public void Jaw_RPC(int actNum)
     {
-        GameObject splash = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/Weapons/" + "SharkSplash"), transform.position, Quaternion.Euler(new Vector3(-90, 0, 0)));
-        splash.GetComponent<Projectile>().InitializeProjectile(100, 5, Vector3.zero, actorNr);
-        splash.GetComponent<Projectile>().maxLifeTime = .5f;
+        GameObject jaw = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/Weapons/" + "SharkJaw"), transform.position - new Vector3(0,0,0), Quaternion.Euler(0,180,0));
+        jaw.GetComponent<Damager>().setValues(100, 5, actNum,0.25f);
     }
 
 }

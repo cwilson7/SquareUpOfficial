@@ -394,7 +394,6 @@ public abstract class Controller : MonoBehaviour
     #region Collision/ Trigger 
     private void OnCollisionEnter(Collision other)
     {
-        /*
         GameObject otherGO = other.gameObject;
         if (otherGO.tag == "Projectile")
         {
@@ -411,9 +410,8 @@ public abstract class Controller : MonoBehaviour
             impact += proj.impactMultiplier * proj.Velocity.normalized;
             Destroy(otherGO);
         }
-        */
     }
-
+    /*
     public void CollideWithBullet(Projectile proj)
     {
         Debug.Log("bro i got shot");
@@ -429,6 +427,7 @@ public abstract class Controller : MonoBehaviour
         impact += proj.impactMultiplier * proj.Velocity.normalized;
         Destroy(proj.gameObject);
     }
+    */
 
     private void OnTriggerEnter(Collider other)
     {

@@ -36,6 +36,7 @@ public class Projectile : DamageDealer
         GetComponent<Rigidbody>().velocity = Velocity;
     }
 
+    /*
     private void OnCollisionEnter(Collision collision)
     {
         GameObject otherGO = collision.gameObject;
@@ -45,6 +46,7 @@ public class Projectile : DamageDealer
         }
         
     }
+    */
 
     private void OnDrawGizmos()
     {

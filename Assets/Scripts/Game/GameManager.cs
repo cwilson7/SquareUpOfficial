@@ -71,7 +71,7 @@ public class GameManager : MonoBehaviour
     private void PowerUpSelection(int idOfList)
     {
         List<GameObject> pwrUpList = GameInfo.GI.ReturnListFromID(idOfList);
-        Transform[] pwrUpLocs = Cube.cb.CurrentFace.powerUpSpawnPoints; //ReturnArrayFromID(idOfList);
+        Transform[] pwrUpLocs = Cube.cb.CurrentFace.powerUpSpawnPoints;
         int newID = GenerateIDForPowerUp();
         int locID = RandomInteger(0, pwrUpLocs.Length);
         //if locid has something generate new random number
@@ -101,7 +101,6 @@ public class GameManager : MonoBehaviour
 
     public void DestroyAllPowerUps()
     {
-        //Debug.Log("length of power up list: " + currentPowerUps.Count);
         int keyLength = currentPowerUps.Count;
         List<int> keys = new List<int>();
         foreach (int key in currentPowerUps.Keys) keys.Add(key);

@@ -41,7 +41,11 @@ public class NetworkAvatar : MonoBehaviourPun, IPunObservable
 
     public void FixedUpdate()
     {
-        if (m_controller == null) SetController();
+        if (m_controller == null)
+        {
+            SetController();
+            return;
+        }
         if (!m_controller.controllerInitialized) return;
         if (!this.PV.IsMine)
         {

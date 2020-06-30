@@ -11,8 +11,8 @@ public class Level : MonoBehaviour
 
     private void Start()
     {
-        spawnPoints = ArrayOfChildren(transform.FindChild("PlayerSpawnPoints"));
-        powerUpSpawnPoints = ArrayOfChildren(transform.FindChild("PowerUpSpawnPoints"));
+        spawnPoints = ArrayOfChildren(transform.Find("PlayerSpawnPoints"));
+        powerUpSpawnPoints = ArrayOfChildren(transform.Find("PowerUpSpawnPoints"));
     }
 
     private Transform[] ArrayOfChildren(Transform kid)

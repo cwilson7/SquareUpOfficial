@@ -427,6 +427,15 @@ public abstract class Controller : MonoBehaviour
             }
             impact += fist.impactMultiplier * fist.Velocity.normalized;
         }
+        if(other.tag == "Damager")
+        {
+            Damager thing = other.GetComponent<Damager>();
+            if (thing.owner == actorNr) return;
+            if (PV.IsMine)
+            {
+                LoseHealth(thing.damage);
+            }
+        }
     }
 
     #endregion

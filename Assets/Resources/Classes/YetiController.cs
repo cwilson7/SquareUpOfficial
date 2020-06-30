@@ -5,27 +5,54 @@ using Photon.Pun;
 
 public class YetiController : Controller
 {
-    public bool IsInSpecial;
-    public float SpecialTime;
+    public float specialForce;
+    public bool isInSpecial;
     public override void InitializePlayerController()
     {
         base.InitializePlayerController();
-        IsInSpecial = false;
-        SpecialTime = 5;
+        specialForce = 5f;
     }
 
     public override void SpecialAbility()
     {
-        IsInSpecial = true;
-        _Collider.enabled = false;
+        isInSpecial = true;
         anim.SetBool("Special", true);
-        speed = 20;
+        Vector3 dir = AimDirection;
+        dir.z = 0;
+        PV.RPC("Avalanche_RPC", RpcTarget.AllBuffered,dir);
+        if (AimDirection.x > 0) gameObject.transform.localRotation = Quaternion.Euler(Mathf.Rad2Deg * Mathf.Atan(-AimDirection.y / AimDirection.x), 90, -90);
+        else gameObject.transform.localRotation = Quaternion.Euler(180 + Mathf.Rad2Deg * Mathf.Atan(-AimDirection.y / AimDirection.x), 90, -90);
+        Velocity.y = AimDirection.y*specialForce;
+        Velocity.x = AimDirection.x*specialForce;
         StartCoroutine(SpecialTimer());
-        PV.RPC("Avalanche_RPC", RpcTarget.AllBuffered);
+        Move(Velocity);
+    }
+
+    [PunRPC]
+    public void Avalanche_RPC(Vector3 AimDir)
+    {
+        if (AimDir.x > 0)
+        {
+            GameObject avalanche = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/Weapons/" + "YetiBend"), transform.position, Quaternion.Euler(new Vector3(0, 0, 90+Mathf.Rad2Deg * Mathf.Atan(AimDir.y / AimDir.x))));
+            avalanche.GetComponent<YetiBend>().aimDirection = AimDir;
+        }
+        else
+        {
+            GameObject avalanche = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/Weapons/" + "YetiBend"), transform.position, Quaternion.Euler(new Vector3(0, 0, 270 + Mathf.Rad2Deg * Mathf.Atan(AimDir.y / AimDir.x))));
+            avalanche.GetComponent<YetiBend>().aimDirection = AimDir;
+        }
+    }
+
+    IEnumerator SpecialTimer()
+    {
+        yield return new WaitForSeconds(.25f);
+        isInSpecial = false;
+        anim.SetBool("Special", false);
     }
 
     public override void Movement()
     {
+
         if (iPhone)
         {
             //Vertical movement
@@ -57,7 +84,7 @@ public class YetiController : Controller
         }
         else
         {
-            if (!IsInSpecial)
+            if (!isInSpecial)
             {
                 if (Input.GetKeyDown(KeyCode.W))
                 {
@@ -79,32 +106,18 @@ public class YetiController : Controller
                 {
                     anim.SetBool("Running", false);
                 }
-                Velocity.x = Input.GetAxis("Horizontal");
-            }
-            else
-            {
-                directionModifier = 1;
-                if (AimDirection.x > 0) gameObject.transform.localRotation = Quaternion.Euler(Mathf.Rad2Deg * Mathf.Atan(-AimDirection.y / AimDirection.x), 90, -90);
-                else gameObject.transform.localRotation = Quaternion.Euler(180 + Mathf.Rad2Deg * Mathf.Atan(-AimDirection.y / AimDirection.x), 90, -90);
-                Velocity.x = AimDirection.x;
-                Velocity.y = AimDirection.y;
-            }
-
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                if (IsInSpecial)
+                if (Input.GetKeyDown(KeyCode.Space))
                 {
-                    ExitSpecial();
+                    TrySpecial();
                 }
-                else TrySpecial();
+                else Velocity.x = Input.GetAxis("Horizontal");
             }
-
-
         }
 
 
-        Vector3 move = new Vector3(Velocity.x, Velocity.y, 0f);
-        cc.Move((move * speed + impact * 10f) * Time.deltaTime);
+        Move(Velocity);
+        //Vector3 move = new Vector3(Velocity.x, Velocity.y, 0f);
+        //cc.Move((move * speed + impact * 10f) * Time.deltaTime);
 
         //lock Z Pos
         transform.position = new Vector3(transform.position.x, transform.position.y, Cube.cb.CurrentFace.spawnPoints[0].position.z);
@@ -115,39 +128,16 @@ public class YetiController : Controller
 
     public override void Gravity()
     {
-        LayerMask ground = LayerMask.GetMask("Platform");
-        bool isGrounded = Physics.CheckSphere(baseOfCharacter.position, groundDetectionRadius, ground);
-        if (isGrounded && Velocity.y < 0 && !IsInSpecial)
+        if (!isInSpecial)
         {
-            Velocity.y = 0f;
-            jumpNum = maxJumps;
+            LayerMask ground = LayerMask.GetMask("Platform");
+            bool isGrounded = Physics.CheckSphere(baseOfCharacter.position, groundDetectionRadius, ground);
+            if (isGrounded && Velocity.y < 0)
+            {
+                Velocity.y = 0f;
+                jumpNum = maxJumps;
+            }
+            else Velocity.y += Cube.cb.CurrentFace.GravityMultiplier * gravity * Time.deltaTime;
         }
-        else if (!IsInSpecial) Velocity.y += Cube.cb.CurrentFace.GravityMultiplier * gravity * Time.deltaTime;
-    }
-
-    IEnumerator SpecialTimer()
-    {
-        yield return new WaitForSeconds(SpecialTime);
-        if (IsInSpecial)
-        {
-            _Collider.enabled = true;
-            IsInSpecial = false;
-            anim.SetBool("Special", false);
-        }
-    }
-
-    private void ExitSpecial()
-    {
-        _Collider.enabled = true;
-        IsInSpecial = false;
-        anim.SetBool("Special", false);
-    }
-
-    [PunRPC]
-    public void Avalanche_RPC()
-    {
-        GameObject avalanche = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/Weapons/" + "Avalanche"), transform.position, Quaternion.Euler(new Vector3(-90, 0, 0)));
-        avalanche.transform.parent = gameObject.transform;
-        avalanche.GetComponent<Projectile>().InitializeProjectile(50, 5, Vector3.zero, actorNr);
     }
 }

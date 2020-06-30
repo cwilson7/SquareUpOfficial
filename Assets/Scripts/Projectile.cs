@@ -36,18 +36,6 @@ public class Projectile : DamageDealer
         GetComponent<Rigidbody>().velocity = Velocity;
     }
 
-    /*
-    private void OnCollisionEnter(Collision collision)
-    {
-        GameObject otherGO = collision.gameObject;
-        if (otherGO.GetComponent<Controller>() != null)
-        {
-            otherGO.GetComponent<Controller>().CollideWithBullet(this);
-        }
-        
-    }
-    */
-
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;

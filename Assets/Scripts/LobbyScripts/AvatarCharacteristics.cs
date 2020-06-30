@@ -12,4 +12,17 @@ public class AvatarCharacteristics : MonoBehaviour
             m.gameObject.GetComponent<SkinnedMeshRenderer>().sharedMaterial = mat;
         }
     }
+
+    public Color CurrentColor()
+    {
+        return gameObject.GetComponentInChildren<MaterialChange>().gameObject.GetComponent<Renderer>().sharedMaterial.color;
+    }
+
+    public void UpdateMaterial(Color col)
+    {
+        foreach (MaterialChange m in gameObject.GetComponentsInChildren<MaterialChange>())
+        {
+            m.gameObject.GetComponent<Renderer>().material.color = col;
+        }
+    }
 }

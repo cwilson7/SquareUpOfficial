@@ -6,7 +6,6 @@ using UnityEditor;
 using System;
 using System.IO;
 using CustomUtilities;
-using UnityEditor.SceneManagement;
 
 public abstract class Controller : MonoBehaviour
 {
@@ -39,7 +38,8 @@ public abstract class Controller : MonoBehaviour
     //Tracked variables
     public Vector3 Velocity, impact;
     public int jumpNum;
-    public Healthbar health;
+    //public Healthbar health;
+    public float HP;
     public Vector3 AimDirection;
     public bool controllerInitialized = false;
     public bool isDead = false;
@@ -72,11 +72,17 @@ public abstract class Controller : MonoBehaviour
         groundDetectionRadius = 0.5f;
         maxJumps = 2;
         distanceFromGround = 0.5f;
-        health = GameObject.Find("Healthbar1").GetComponent<Healthbar>();
-        //health.maximumHealth = 100;
-        //ealth.health = 100;
-        //health.m
-        punchPower = 10f;
+        //health = GameObject.Find("Healthbar1").GetComponent<Healthbar>(); // <-  bad code
+        //what we should do
+        //per score, instantiate some "healthbar" based on the character/ color, in some order across screen
+        //or "drain" color from players as they lose health
+        //so in an update function on controller, set 
+        // myMaterial.color = Color.Lerp(myColor, gray, [value btwn 0 and 1, 0 returns the first color and 1 returns the second])
+        //all we need is an float HP (btwn 0 and 1). max HP is 1 and min is 0
+        //lose health reduces health by .01 or whatever
+        //so we have myMaterial.color = Color.Lerp(myColor, gray, 1 - HP)
+        HP = 1f;
+        punchPower = 0.1f;
         punchImpact = 1.5f;
         punchCooldown = 1;
         specialCooldown = 1;
@@ -136,11 +142,14 @@ public abstract class Controller : MonoBehaviour
 
     #endregion
 
+    #region Update Functions
+
     // Update is called once per frame
     void Update()
     {
         if (!controllerInitialized || GameInfo.GI.TimeStopped || isDead) return;
         Gravity();
+        TrackHP();
 
         if (!PV.IsMine) return;             
         Movement();
@@ -158,6 +167,12 @@ public abstract class Controller : MonoBehaviour
         if (specialCooldown >= 0) specialCooldown -= Time.deltaTime;
     }
 
+    private void TrackHP()
+    {
+        AvatarCharacteristics ColorInfo = GetComponentInChildren<AvatarCharacteristics>();
+        ColorInfo.UpdateMaterial(Color.Lerp(LobbyController.lc.availableMaterials[(int)PhotonNetwork.CurrentRoom.GetPlayer(actorNr).CustomProperties["AssignedColor"]].color, Color.black, 1 - HP));
+    }
+
     private void HandleAnimationValues()
     {
         //set values for aimx and aimy
@@ -168,6 +183,8 @@ public abstract class Controller : MonoBehaviour
         if (Mathf.Abs(Velocity.x) > 0) isRunning = true;
         else isRunning = false;
     }
+
+    #endregion
 
     #region Mouse Tracking / Combat
     private void MouseCombat()
@@ -210,7 +227,7 @@ public abstract class Controller : MonoBehaviour
     {
         float vertDistance = Mathf.Abs(transform.position.y - Cube.cb.CurrentFace.face.position.y);
         float horizDistance = Mathf.Abs(transform.position.x - Cube.cb.CurrentFace.face.position.x);
-        if (horizDistance > boundaryDist || vertDistance > boundaryDist || health.health <= 0.0)
+        if (horizDistance > boundaryDist || vertDistance > boundaryDist || HP <= 0f)//|| health.health <= 0.0)
         {
             Die();
         }
@@ -237,7 +254,9 @@ public abstract class Controller : MonoBehaviour
     {
         if (PV.IsMine)
         {
-            health.health = 100;
+            //health.health = 100;
+            GetComponentInChildren<AvatarCharacteristics>().SetMaterial(LobbyController.lc.availableMaterials[(int)PhotonNetwork.CurrentRoom.GetPlayer(actorNr).CustomProperties["AssignedColor"]]);
+            HP = 1f;
             isDead = false;
             Velocity = Vector3.zero;
         }
@@ -403,7 +422,6 @@ public abstract class Controller : MonoBehaviour
         GameObject otherGO = other.gameObject;
         if (otherGO.tag == "Projectile")
         {
-            Debug.Log("bro i got shot");
             Projectile proj = otherGO.GetComponent<Projectile>();
             if (proj.owner == actorNr) return;
 
@@ -417,23 +435,6 @@ public abstract class Controller : MonoBehaviour
             Destroy(otherGO);
         }
     }
-    /*
-    public void CollideWithBullet(Projectile proj)
-    {
-        Debug.Log("bro i got shot");
-        //Projectile proj = otherGO.GetComponent<Projectile>();
-        if (proj.owner == actorNr) return;
-
-        if (PV.IsMine)
-        {
-            LoseHealth(proj.damage);
-            OnDamgeTaken?.Invoke(proj, this);
-            GameInfo.GI.StatChange(proj.owner, "bulletsLanded");
-        }
-        impact += proj.impactMultiplier * proj.Velocity.normalized;
-        Destroy(proj.gameObject);
-    }
-    */
 
     private void OnTriggerEnter(Collider other)
     {
@@ -466,7 +467,7 @@ public abstract class Controller : MonoBehaviour
 
     #region RPC
 
-    public void LoseHealth(double lostHP)
+    public void LoseHealth(float lostHP)
     {
         PV.RPC("LoseHealth_RPC", RpcTarget.AllBuffered, lostHP);
     }
@@ -491,9 +492,10 @@ public abstract class Controller : MonoBehaviour
     }
 
     [PunRPC]
-    public void LoseHealth_RPC(double lostHP)
+    public void LoseHealth_RPC(float lostHP)
     {
-        health.health -= (float)lostHP;
+        //health.health -= (float)lostHP;
+        HP -= lostHP;
     }
 
     [PunRPC]

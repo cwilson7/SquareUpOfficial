@@ -5,6 +5,8 @@ using Photon.Pun;
 using UnityEditor;
 using System;
 using System.IO;
+using CustomUtilities;
+using UnityEditor.SceneManagement;
 
 public abstract class Controller : MonoBehaviour
 {
@@ -54,7 +56,11 @@ public abstract class Controller : MonoBehaviour
     public virtual void InitializePlayerController()
     {
         PV = GetComponent<PhotonView>();
-        _Collider = GetComponentInChildren<AvatarCharacteristics>().gameObject.GetComponent<BoxCollider>();
+        BoxCollider toClone = GetComponentInChildren<AvatarCharacteristics>().gameObject.GetComponent<BoxCollider>();
+        _Collider = gameObject.AddComponent<BoxCollider>();
+        _Collider.size = toClone.size * toClone.transform.localScale.x;
+        _Collider.center = (toClone.center * toClone.transform.localScale.x + toClone.transform.localPosition);
+        toClone.enabled = false;
 
         impact = Vector3.zero;
         AimDirection = Vector2.zero;

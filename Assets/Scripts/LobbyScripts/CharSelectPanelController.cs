@@ -2,15 +2,18 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHandler
 {
+    //some list of panels which is characterPages
+    
     [SerializeField] private GameObject charPanel, playerListPanel;
     [SerializeField] private float offsetFromLeftEdge, percentThreshold, easing;
-    private List<CharPage> characterPages;
+    [SerializeField] private List<CharPage> characterPages;
     private Vector3 panelLocation;
     private int panelCounter;
     public Hashtable displayedCharacters;
@@ -29,12 +32,19 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
     }
 
     private void GenerateCharacterPanel(int charID)
-    {
+    {       
         GameObject newPanel = Instantiate(charPanel, gameObject.transform.position, Quaternion.identity, gameObject.transform);
-        newPanel.GetComponent<RectTransform>().anchoredPosition = new Vector2 ((charID + 0.5f) * charPanel.GetComponent<RectTransform>().rect.width, newPanel.GetComponent<RectTransform>().anchoredPosition.y);
+        if (charID < LobbyController.lc.charAvatars.Count - 1)
+        {
+            newPanel.GetComponent<RectTransform>().anchoredPosition = new Vector2((charID + 0.5f) * charPanel.GetComponent<RectTransform>().rect.width, newPanel.GetComponent<RectTransform>().anchoredPosition.y);
+            characterPages.Add(newPanel.GetComponent<CharPage>());
+        }
+        else
+        {
+            newPanel.GetComponent<RectTransform>().anchoredPosition = new Vector2(characterPages[0].gameObject.GetComponent<RectTransform>().anchoredPosition.x - charPanel.GetComponent<RectTransform>().rect.width, newPanel.GetComponent<RectTransform>().anchoredPosition.y);
+            characterPages.Insert(0, newPanel.GetComponent<CharPage>());
+        }
         newPanel.GetComponent<CharPage>().ShowDetails(charID);
-        characterPages.Add(newPanel.GetComponent<CharPage>());
-
         GameObject myChar = (GameObject)displayedCharacters[charID];
     }
 
@@ -82,6 +92,28 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
         }
     }
 
+    void ShiftPanels(float percentage)
+    {
+        if (percentage > 0)
+        {
+            Vector2 lastPageLoc = characterPages[characterPages.Count-1].gameObject.GetComponent<RectTransform>().anchoredPosition;
+            CharPage tmp = characterPages[0];
+            characterPages.Add(tmp);
+            characterPages.RemoveAt(0);
+            RectTransform trans = tmp.gameObject.GetComponent<RectTransform>();
+            trans.anchoredPosition = new Vector2(lastPageLoc.x + trans.rect.width, trans.anchoredPosition.y);
+        }
+        if (percentage < 0)
+        {
+            Vector2 firstPageLoc = characterPages[0].gameObject.GetComponent<RectTransform>().anchoredPosition;
+            CharPage tmp = characterPages[characterPages.Count-1];
+            characterPages.Insert(0, tmp);
+            characterPages.RemoveAt(characterPages.Count-1);
+            RectTransform trans = tmp.gameObject.GetComponent<RectTransform>();
+            trans.anchoredPosition = new Vector2(firstPageLoc.x - trans.rect.width, trans.anchoredPosition.y);
+        }
+    }
+
     public void OnEndDrag(PointerEventData data)
     {
         if (!(bool)MultiplayerSettings.multiplayerSettings.localPlayerValues["PlayerReady"])
@@ -90,15 +122,18 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
             if (Mathf.Abs(percentage) >= percentThreshold)
             {
                 Vector3 newLocation = panelLocation;
-                if (percentage > 0 && (panelCounter < LobbyController.lc.charAvatars.Count))
+                ShiftPanels(percentage);
+                if (percentage > 0)
                 {
                     newLocation += new Vector3(-Screen.width, 0, 0);
-                    panelCounter += 1;
+                    if (panelCounter < LobbyController.lc.charAvatars.Count) panelCounter += 1;
+                    else panelCounter = 1;
                 }
-                else if (percentage < 0 && (panelCounter > 0))
+                else if (percentage < 0)
                 {
                     newLocation += new Vector3(Screen.width, 0, 0);
-                    panelCounter -= 1;
+                    if (panelCounter > 1) panelCounter -= 1;
+                    else panelCounter = LobbyController.lc.charAvatars.Count;
                 }
 
                 SexyTransition(transform.position, newLocation, easing, easing);
@@ -146,6 +181,7 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
 
     public void SendToPlayerList()
     {
+        playerListPanel.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
         foreach (CharPage page in characterPages)
         {
             page.SetPanelActive(false);

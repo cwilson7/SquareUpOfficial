@@ -45,6 +45,7 @@ public class GameManager : MonoBehaviour
 
     private void HandleTimers()
     {
+        if (Cube.cb.CurrentFace.powerUpSpawnPoints != null) maxPowerups = Cube.cb.CurrentFace.powerUpSpawnPoints.Length;
         if (currentPowerUps.Count >= maxPowerups || GameInfo.GI.TimeStopped) return;
         if (powerUpCooldown >= 0) powerUpCooldown -= Time.deltaTime;
     }
@@ -73,10 +74,18 @@ public class GameManager : MonoBehaviour
         List<GameObject> pwrUpList = GameInfo.GI.ReturnListFromID(idOfList);
         Transform[] pwrUpLocs = Cube.cb.CurrentFace.powerUpSpawnPoints;
         int newID = GenerateIDForPowerUp();
-        int locID = RandomInteger(0, pwrUpLocs.Length);
+        int locID = GenerateUniqueLocationID(pwrUpLocs);
         //if locid has something generate new random number
         int itemID = RandomInteger(0, pwrUpList.Count);
         PV.RPC("InstantiatePowerUp_RPC", RpcTarget.AllBuffered, idOfList, locID, itemID, newID);
+    }
+
+    private int GenerateUniqueLocationID(Transform[] pwrUpLocs)
+    {
+        Debug.Log("generating location");
+        int id = RandomInteger(0, pwrUpLocs.Length);
+        if (pwrUpLocs[id].childCount > 0) return GenerateUniqueLocationID(pwrUpLocs);
+        else return id;
     }
 
     private int GenerateIDForPowerUp()

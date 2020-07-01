@@ -146,11 +146,14 @@ public class GameManager : MonoBehaviour
     public void EquipWeapon_RPC(int actor, string weaponName)
     {
         Score playerInfo = (Score)GameInfo.GI.scoreTable[actor];
-        GameObject wpn = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/Weapons/" + weaponName), playerInfo.playerAvatar.GetComponentInChildren<GunPivot>().transform.position, Quaternion.identity);
-        wpn.transform.SetParent(playerInfo.playerAvatar.GetComponentInChildren<GunPivot>().transform);
+        //GameObject wpn = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/Weapons/" + weaponName), playerInfo.playerAvatar.GetComponentInChildren<GunPivot>().transform.position, Quaternion.identity);
+        GameObject wpn = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/Weapons/" + weaponName), playerInfo.playerAvatar.GetComponentInChildren<GunLocation>().transform.position, Quaternion.identity);
+        //wpn.transform.SetParent(playerInfo.playerAvatar.GetComponentInChildren<GunPivot>().transform);
+        wpn.transform.SetParent(playerInfo.playerAvatar.transform);
         wpn.GetComponent<Weapon>().owner = actor;
         wpn.GetComponent<Weapon>().GunLocation = playerInfo.playerAvatar.GetComponentInChildren<GunLocation>().transform;
         playerInfo.playerAvatar.GetComponent<Controller>().currentWeapon = wpn.GetComponent<Weapon>();
+        //wpn.transform.rotation = new Vector3()
     }
 
     [PunRPC]

@@ -19,9 +19,6 @@ ModelImporter:
       74: 6392853791061812894
     second: Armature|IdleGU
   - first:
-      74: -7418038056908941935
-    second: Armature|JawClose
-  - first:
       74: 1079665108409675491
     second: Armature|Jump
   - first:

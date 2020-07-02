@@ -79,7 +79,8 @@ public class Cube : MonoBehaviour, IPunObservable
         GameInfo.GI.StopTime();
         inRotation = true;
         PV.RPC("SendRotateInformation_RPC", RpcTarget.AllBuffered, inRotation, ownerActorNr);
-        gameObject.transform.position = cubeRot + new Vector3(0, 0, DistanceFromCameraForRotation);
+        gameObject.transform.position = gameObject.transform.position + new Vector3(0, 0, DistanceFromCameraForRotation);
+        gameObject.transform.rotation = cubeRot;
     }
 
     void StopRotation()

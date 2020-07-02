@@ -8,6 +8,7 @@ public class Weapon : MonoBehaviour
 {
     private PhotonView PV;
     private Controller ParentController;
+    private AnimationSynchronization AS;
 
     public float damage, fireRate, fireCooldown, bltSpeed, recoil;
     public float impact;
@@ -20,7 +21,7 @@ public class Weapon : MonoBehaviour
         GameObject parentAvatar = Utils.FindParentWithClass<Controller>(transform).gameObject;
         PV = parentAvatar.GetComponent<PhotonView>();
         ParentController = parentAvatar.GetComponent<Controller>();
-        //GunPivot = GetComponentInParent<GunPivot>().gameObject.transform;
+        AS = ParentController.GetComponentInChildren<AnimationSynchronization>();
         ammoLeft = totalAmmo;
         fireCooldown = 0f;
     }
@@ -28,39 +29,37 @@ public class Weapon : MonoBehaviour
     private void FixedUpdate()
     {
         if (fireCooldown >= 0) fireCooldown -= Time.deltaTime;
-        TrackMousePosition(ParentController.AimDirection);
-        transform.position = GunLocation.position;
+        if (PV.IsMine) TrackMousePosition(ParentController.AimDirection, ParentController.directionModifier == 1, false);
+        else TrackMousePosition(AS.aim, AS.directionModifier == 1, true);
     }
 
-    public void TrackMousePosition(Vector3 Direction)
+    public void TrackMousePosition(Vector3 Direction, bool directionCheck, bool lerp)
     {
-        if (!PV.IsMine) return;
-        //Debug.Log("W "+GunPivot.transform.parent.position); 
-        //Debug.Log("L "+GunPivot.transform.parent.localPosition);
-        //GunPivot.transform.position = GunPivot.transform.parent.TransformPoint(GunPivot.transform.parent.position);
-        /*if (ParentController.directionModifier == 1)
+        if (directionCheck)
         {
-            if (Direction.x > 0) GunPivot.localRotation = Quaternion.Euler(180 + Mathf.Rad2Deg * Mathf.Atan(Direction.y / Direction.x), 180, 90);
-            else GunPivot.localRotation = Quaternion.Euler(Mathf.Rad2Deg * Mathf.Atan(Direction.y / Direction.x), 180, 90);
+            if (Direction.x > 0) SetTransform(0, -90, Mathf.Rad2Deg * Mathf.Atan(Direction.y / Direction.x), lerp);
+            else SetTransform(0, -90, 180 + Mathf.Rad2Deg * Mathf.Atan(Direction.y / Direction.x), lerp);
         }
         else
         {
-            if (Direction.x > 0) GunPivot.localRotation = Quaternion.Euler(Mathf.Rad2Deg * Mathf.Atan(-Direction.y / Direction.x), 180, 90);
-            else GunPivot.localRotation = Quaternion.Euler(180+Mathf.Rad2Deg * Mathf.Atan(-Direction.y / Direction.x), 180, 90);
-        }*/
-        if (ParentController.directionModifier == 1)
+            if (Direction.x > 0) SetTransform(0, -90, 180 + Mathf.Rad2Deg * Mathf.Atan(-Direction.y / Direction.x), lerp);
+            else SetTransform(0, -90, Mathf.Rad2Deg * Mathf.Atan(-Direction.y / Direction.x), lerp);
+        }
+    }
+
+    private void SetTransform(float x, float y, float z, bool lerp)
+    {
+        if (!lerp)
         {
-            //if (Direction.x > 0) transform.localRotation = Quaternion.Euler(270 + Mathf.Rad2Deg * Mathf.Atan(Direction.y / Direction.x), 90, -90);
-            //else transform.localRotation = Quaternion.Euler(90+Mathf.Rad2Deg * Mathf.Atan(Direction.y / Direction.x), 90, -90);
-            if (Direction.x > 0) transform.localRotation = Quaternion.Euler(0,-90,Mathf.Rad2Deg * Mathf.Atan(Direction.y / Direction.x));
-            else transform.localRotation = Quaternion.Euler(0,-90,180+  Mathf.Rad2Deg * Mathf.Atan(Direction.y / Direction.x));
+            transform.position = GunLocation.position;
+            transform.localRotation = Quaternion.Euler(x, y, z);
         }
         else
         {
-            //if (Direction.x > 0) transform.localRotation = Quaternion.Euler(90+Mathf.Rad2Deg * Mathf.Atan(-Direction.y / Direction.x), 90, -90);
-            //else transform.localRotation = Quaternion.Euler(270+Mathf.Rad2Deg * Mathf.Atan(-Direction.y / Direction.x), 90, -90);
-            if (Direction.x > 0) transform.localRotation = Quaternion.Euler(0, -90,180+Mathf.Rad2Deg * Mathf.Atan(-Direction.y / Direction.x));
-            else transform.localRotation = Quaternion.Euler(0, -90, Mathf.Rad2Deg * Mathf.Atan(-Direction.y / Direction.x));
+            transform.position = Vector3.MoveTowards(transform.position, GunLocation.position, 1.0f / PhotonNetwork.SerializationRate);
+            Quaternion desiredRotation = Quaternion.Euler(x, y, z);
+            float angle = Quaternion.Angle(transform.rotation, desiredRotation);
+            transform.localRotation = Quaternion.RotateTowards(Quaternion.Euler(transform.localRotation.eulerAngles), desiredRotation, angle * (1.0f / PhotonNetwork.SerializationRate));
         }
     }
 

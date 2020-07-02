@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3443287396202796749}
-  - component: {fileID: 2092911207944387957}
   m_Layer: 0
   m_Name: Bone.041
   m_TagString: Untagged
@@ -32,18 +31,6 @@ Transform:
   m_Father: {fileID: 3985933618212806485}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2092911207944387957
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 70318392879376529}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3bbd2a24996479143bcb00362596fce9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &75547035376668536
 GameObject:
   m_ObjectHideFlags: 0
@@ -1278,6 +1265,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3312495252590324880}
+  - component: {fileID: 4945049074175228061}
   m_Layer: 0
   m_Name: Bone.028_end
   m_TagString: Untagged
@@ -1299,6 +1287,18 @@ Transform:
   m_Father: {fileID: 7796961985580626203}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4945049074175228061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3305158291720900069}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3bbd2a24996479143bcb00362596fce9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3503144048819058199
 GameObject:
   m_ObjectHideFlags: 0
@@ -1739,7 +1739,7 @@ MonoBehaviour:
   Velocity: {x: 0, y: 0, z: 0}
   impact: {x: 0, y: 0, z: 0}
   jumpNum: 0
-  health: {fileID: 114359963609766598, guid: d16a19242f7da6d4794facdc63b9c915, type: 3}
+  HP: 0
   AimDirection: {x: 0, y: 0, z: 0}
   controllerInitialized: 0
   isDead: 0
@@ -1747,8 +1747,8 @@ MonoBehaviour:
   hasGun: 0
   directionModifier: 0
   anim: {fileID: 0}
-  IsInSpecial: 0
-  SpecialTime: 0
+  specialForce: 0
+  isInSpecial: 0
 --- !u!95 &-182120753320162106
 Animator:
   serializedVersion: 3

@@ -19,6 +19,7 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
     public Hashtable displayedCharacters;
     public Camera charDisplayCamera;
     public Material defaultMaterial;
+    private int swipeCounter = 0;
     
     // Start is called before the first frame update
     void Start()
@@ -125,12 +126,14 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
                 ShiftPanels(percentage);
                 if (percentage > 0)
                 {
+                    swipeCounter += 1;
                     newLocation += new Vector3(-Screen.width, 0, 0);
                     if (panelCounter < LobbyController.lc.charAvatars.Count) panelCounter += 1;
                     else panelCounter = 1;
                 }
                 else if (percentage < 0)
                 {
+                    swipeCounter -= 1;
                     newLocation += new Vector3(Screen.width, 0, 0);
                     if (panelCounter > 1) panelCounter -= 1;
                     else panelCounter = LobbyController.lc.charAvatars.Count;
@@ -186,7 +189,7 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
         {
             page.SetPanelActive(false);
         }
-        SexyTransition(transform.position, panelLocation = playerListPanel.transform.position + new Vector3((1 + panelCounter)*Screen.width, 0 ,0), easing, easing);
+        SexyTransition(transform.position, panelLocation += new Vector3((swipeCounter)*Screen.width, 0, 0), easing, easing);
         panelCounter = 0;
     }
 

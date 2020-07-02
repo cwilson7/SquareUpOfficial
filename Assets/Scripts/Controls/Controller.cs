@@ -38,7 +38,6 @@ public abstract class Controller : MonoBehaviour
     //Tracked variables
     public Vector3 Velocity, impact;
     public int jumpNum;
-    //public Healthbar health;
     public float HP;
     public Vector3 AimDirection;
     public bool controllerInitialized = false;
@@ -60,6 +59,8 @@ public abstract class Controller : MonoBehaviour
         _Collider = gameObject.AddComponent<BoxCollider>();
         _Collider.size = toClone.size * toClone.transform.localScale.x;
         _Collider.center = (toClone.center * toClone.transform.localScale.x + toClone.transform.localPosition);
+        _Collider.transform.position = toClone.transform.position;
+        _Collider.transform.rotation = toClone.transform.rotation;
         toClone.enabled = false;
 
         impact = Vector3.zero;
@@ -72,15 +73,6 @@ public abstract class Controller : MonoBehaviour
         groundDetectionRadius = 0.5f;
         maxJumps = 2;
         distanceFromGround = 0.5f;
-        //health = GameObject.Find("Healthbar1").GetComponent<Healthbar>(); // <-  bad code
-        //what we should do
-        //per score, instantiate some "healthbar" based on the character/ color, in some order across screen
-        //or "drain" color from players as they lose health
-        //so in an update function on controller, set 
-        // myMaterial.color = Color.Lerp(myColor, gray, [value btwn 0 and 1, 0 returns the first color and 1 returns the second])
-        //all we need is an float HP (btwn 0 and 1). max HP is 1 and min is 0
-        //lose health reduces health by .01 or whatever
-        //so we have myMaterial.color = Color.Lerp(myColor, gray, 1 - HP)
         HP = 1f;
         punchPower = 0.1f;
         punchImpact = 1.5f;
@@ -117,27 +109,7 @@ public abstract class Controller : MonoBehaviour
         controllerInitialized = true;
         if (PV.IsMine) MultiplayerSettings.multiplayerSettings.SetCustomPlayerProperties("ControllerInitialized", true);
 
-        mRenderers = GetComponentsInChildren<SkinnedMeshRenderer>();
-       //SetRendererAlphas(0.1f);
 
-    }
-    public void SetRendererAlphas(float alpha)
-    {
-        for (int i = 0; i < mRenderers.Length; i++)
-        {
-            for (int j = 0; j < mRenderers[i].sharedMaterials.Length; j++)
-            {
-                Material standardShaderMaterial = mRenderers[i].materials[j];
-                standardShaderMaterial.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
-                standardShaderMaterial.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
-                standardShaderMaterial.SetInt("_ZWrite", 0);
-                standardShaderMaterial.DisableKeyword("_ALPHATEST_ON");
-                standardShaderMaterial.EnableKeyword("_ALPHABLEND_ON");
-                standardShaderMaterial.DisableKeyword("_ALPHAPREMULTIPLY_ON");
-                standardShaderMaterial.renderQueue = 3000;
-                mRenderers[i].materials[j] = standardShaderMaterial;
-            }
-        }
     }
 
     #endregion
@@ -151,17 +123,21 @@ public abstract class Controller : MonoBehaviour
         Gravity();
         TrackHP();
 
-        if (!PV.IsMine) return;             
-        Movement();
-        HandleDeaths();
-        HandleAnimationValues();
-        if (!iPhone)
+        if (!PV.IsMine) return;
+        else
         {
-            TrackMouse();
-            MouseCombat();
+            Movement();
+            HandleDeaths();
+            HandleAnimationValues();
+            if (!iPhone)
+            {
+                TrackMouse();
+                MouseCombat();
+            }
         }
         
     }
+
     private void FixedUpdate()
     {
         if (specialCooldown >= 0) specialCooldown -= Time.deltaTime;
@@ -227,7 +203,7 @@ public abstract class Controller : MonoBehaviour
     {
         float vertDistance = Mathf.Abs(transform.position.y - Cube.cb.CurrentFace.face.position.y);
         float horizDistance = Mathf.Abs(transform.position.x - Cube.cb.CurrentFace.face.position.x);
-        if (horizDistance > boundaryDist || vertDistance > boundaryDist || HP <= 0f)//|| health.health <= 0.0)
+        if (horizDistance > boundaryDist || vertDistance > boundaryDist || HP <= 0f)
         {
             Die();
         }
@@ -254,12 +230,11 @@ public abstract class Controller : MonoBehaviour
     {
         if (PV.IsMine)
         {
-            //health.health = 100;
-            GetComponentInChildren<AvatarCharacteristics>().SetMaterial(LobbyController.lc.availableMaterials[(int)PhotonNetwork.CurrentRoom.GetPlayer(actorNr).CustomProperties["AssignedColor"]]);
-            HP = 1f;
             isDead = false;
             Velocity = Vector3.zero;
         }
+        GetComponentInChildren<AvatarCharacteristics>().SetMaterial(LobbyController.lc.availableMaterials[(int)PhotonNetwork.CurrentRoom.GetPlayer(actorNr).CustomProperties["AssignedColor"]]);
+        HP = 1f;
         SetAllComponents(true);
         //spawn effect
     }
@@ -362,20 +337,18 @@ public abstract class Controller : MonoBehaviour
 
 
         Move(Velocity);
-        //Vector3 move = new Vector3(Velocity.x, Velocity.y, 0f);
-        //cc.Move((move * speed + impact * 10f) * Time.deltaTime);
-
-        //lock Z Pos
-        transform.position = new Vector3(transform.position.x, transform.position.y, Cube.cb.CurrentFace.spawnPoints[0].position.z);
-
-        //Account for impact from being hit by weapon
-        impact = Vector3.Lerp(impact, Vector3.zero, 5 * Time.deltaTime);
     }
 
     public void Move(Vector3 _velocity)
     {
         Vector3 move = new Vector3(_velocity.x, _velocity.y, 0f);
         cc.Move((move * speed + impact * 10f) * Time.deltaTime);
+
+        //lock Z Pos
+        transform.position = new Vector3(transform.position.x, transform.position.y, Cube.cb.CurrentFace.spawnPoints[0].position.z);
+
+        //Account for impact from being hit by weapon
+        impact = Vector3.Lerp(impact, Vector3.zero, 5 * Time.deltaTime);
     }
 
     public void TrySpecial()
@@ -494,7 +467,6 @@ public abstract class Controller : MonoBehaviour
     [PunRPC]
     public void LoseHealth_RPC(float lostHP)
     {
-        //health.health -= (float)lostHP;
         HP -= lostHP;
     }
 

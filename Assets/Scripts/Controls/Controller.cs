@@ -48,6 +48,7 @@ public abstract class Controller : MonoBehaviour
     public Animator anim;
 
 
+
     #region SET VALUES
 
     public virtual void InitializePlayerController()

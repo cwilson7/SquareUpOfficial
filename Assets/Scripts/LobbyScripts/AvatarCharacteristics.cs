@@ -4,25 +4,26 @@ using UnityEngine;
 
 public class AvatarCharacteristics : MonoBehaviour
 {
+    public int[] indexesOfMaterial;
     public void SetMaterial(Material mat)
     {
-        foreach (MaterialChange m in gameObject.GetComponentsInChildren<MaterialChange>())
+        GameObject model = GetComponentInChildren<MaterialChange>().gameObject;
+        foreach (int index in indexesOfMaterial)
         {
-            //m.gameObject.GetComponent<SkinnedMeshRenderer>().sharedMaterials = new Material[1];
-            m.gameObject.GetComponent<SkinnedMeshRenderer>().sharedMaterial = mat;
+            Material[] clone = model.GetComponent<Renderer>().materials;
+            clone[index] = mat;
+            model.GetComponent<Renderer>().materials = clone;
         }
-    }
-
-    public Color CurrentColor()
-    {
-        return gameObject.GetComponentInChildren<MaterialChange>().gameObject.GetComponent<Renderer>().sharedMaterial.color;
     }
 
     public void UpdateMaterial(Color col)
     {
-        foreach (MaterialChange m in gameObject.GetComponentsInChildren<MaterialChange>())
+        GameObject model = GetComponentInChildren<MaterialChange>().gameObject;
+        foreach (int index in indexesOfMaterial)
         {
-            m.gameObject.GetComponent<Renderer>().material.color = col;
+            Material[] clone = model.GetComponent<Renderer>().materials;
+            clone[index].color = col;
+            model.GetComponent<Renderer>().materials = clone;
         }
     }
 }

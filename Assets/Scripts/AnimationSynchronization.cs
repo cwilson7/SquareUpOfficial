@@ -11,8 +11,8 @@ public class AnimationSynchronization : MonoBehaviour, IPunObservable
     private PhotonView PV;
     private Controller controller;
     private Animator animator;
-    private Vector3 aim;
-    private int directionModifier;
+    public Vector3 aim;
+    public int directionModifier;
     private bool isRunning, hasGun, jumping, meleeing, specialing;
 
     private void Start()
@@ -36,18 +36,14 @@ public class AnimationSynchronization : MonoBehaviour, IPunObservable
 
     private void GhostAnimate(Vector3 aim, bool running, bool gun)
     {
-        animator.SetFloat("AimX", aim.x * directionModifier);
-        animator.SetFloat("AimY", aim.y);
+        Vector3 oldAim = new Vector3(animator.GetFloat("AimX"), animator.GetFloat("AimY"), 0f);
+        float distance = Vector3.Distance(oldAim, aim);
+        Vector3 smoothAim = Vector3.MoveTowards(oldAim, aim, distance * (1.0f / PhotonNetwork.SerializationRate));
+        animator.SetFloat("AimX", smoothAim.x * directionModifier);
+        animator.SetFloat("AimY", smoothAim.y);
         animator.SetBool("Running", running);
         animator.SetBool("Gun", gun);
-        //PV.RPC("SyncTriggers_RPC", RpcTarget.AllBuffered,melee,jump,special);
     }
-    //what needs to happen for animations
-    //set float for aimx, aimy
-    //Set bool running, bool for gun
-    //set trigger jump or melee
-    //set triggers will happen in RPC functions
-    //bool and float will be set onserialization
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
@@ -67,6 +63,7 @@ public class AnimationSynchronization : MonoBehaviour, IPunObservable
             directionModifier = (int)stream.ReceiveNext();
         }
     }
+
     [PunRPC]
     private void SyncTriggers_RPC(bool melee, bool jump, bool special)
     {

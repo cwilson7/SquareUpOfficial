@@ -426,13 +426,15 @@ public class Cube : MonoBehaviour, IPunObservable
     {
         if(stream.IsWriting)
         {
-            stream.SendNext(transform.rotation);
+            stream.SendNext(cubeRot);
         }
         else if(stream.IsReading)
         {
             if (GameInfo.GI.cubeCloned)
             {
-                GameInfo.GI.CubeClone.cubeRot = (Quaternion)stream.ReceiveNext();
+                Quaternion networkRotation = (Quaternion)stream.ReceiveNext();
+                GameInfo.GI.CubeClone.cubeRot = networkRotation;
+                cubeRot = networkRotation;
             }
         }
     }

@@ -48,7 +48,7 @@ MonoBehaviour:
   damage: 1
   fireRate: 0.1
   fireCooldown: 0
-  bltSpeed: 2000
+  bltSpeed: 0.5
   recoil: 0
   impact: 1
   owner: 0

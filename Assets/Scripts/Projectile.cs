@@ -28,12 +28,17 @@ public class Projectile : DamageDealer
     // Update is called once per frame
     void Update()
     {
+        //GetComponent<Rigidbody>().velocity = Velocity;
+    }
+
+    private void FixedUpdate()
+    {
+        transform.position += Velocity / Time.deltaTime;
         lifeTime += Time.deltaTime;
         if (lifeTime > maxLifeTime)
         {
             Destroy(gameObject);
         }
-        GetComponent<Rigidbody>().velocity = Velocity;
     }
 
     private void OnDrawGizmos()

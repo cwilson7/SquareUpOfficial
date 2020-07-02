@@ -47,8 +47,6 @@ public abstract class Controller : MonoBehaviour
 
     public Animator anim;
 
-    private SkinnedMeshRenderer[] mRenderers;
-
 
     #region SET VALUES
 

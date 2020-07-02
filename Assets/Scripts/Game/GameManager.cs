@@ -82,7 +82,6 @@ public class GameManager : MonoBehaviour
 
     private int GenerateUniqueLocationID(Transform[] pwrUpLocs)
     {
-        Debug.Log("generating location");
         int id = RandomInteger(0, pwrUpLocs.Length);
         if (pwrUpLocs[id].childCount > 0) return GenerateUniqueLocationID(pwrUpLocs);
         else return id;

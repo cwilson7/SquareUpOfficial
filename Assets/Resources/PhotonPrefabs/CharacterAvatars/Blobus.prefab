@@ -1105,7 +1105,7 @@ Transform:
   m_GameObject: {fileID: 7950663923195314664}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 0.6}
   m_Children:
   - {fileID: 7251707755082610805}
   - {fileID: 9036072514237915700}
@@ -1176,6 +1176,8 @@ MonoBehaviour:
   hasGun: 0
   directionModifier: 0
   anim: {fileID: 0}
+  warpDistance: 0
+  warpDelay: 0
 --- !u!95 &-1633395547217521611
 Animator:
   serializedVersion: 3

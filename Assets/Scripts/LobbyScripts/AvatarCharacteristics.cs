@@ -8,7 +8,7 @@ public class AvatarCharacteristics : MonoBehaviour
     {
         foreach (MaterialChange m in gameObject.GetComponentsInChildren<MaterialChange>())
         {
-            m.gameObject.GetComponent<SkinnedMeshRenderer>().sharedMaterials = new Material[1];
+            //m.gameObject.GetComponent<SkinnedMeshRenderer>().sharedMaterials = new Material[1];
             m.gameObject.GetComponent<SkinnedMeshRenderer>().sharedMaterial = mat;
         }
     }

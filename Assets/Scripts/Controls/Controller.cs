@@ -433,6 +433,21 @@ public abstract class Controller : MonoBehaviour
                 LoseHealth(thing.damage);
             }
         }
+        if (other.tag == "Projectile")
+        {
+            GameObject otherGO = other.gameObject;
+            Projectile proj = otherGO.GetComponent<Projectile>();
+            //if (proj.owner == actorNr) return;
+
+            if (PV.IsMine)
+            {
+                LoseHealth(proj.damage);
+                OnDamgeTaken?.Invoke(proj, this);
+                GameInfo.GI.StatChange(proj.owner, "bulletsLanded");
+            }
+            impact += proj.impactMultiplier * proj.Velocity.normalized;
+            Destroy(otherGO);
+        }
     }
 
     #endregion

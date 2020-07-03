@@ -39,7 +39,7 @@ public class GameInfo : MonoBehaviour
         cubeCloned = true;
         Utils.PopulateList<GameObject>(WeaponPowerUps, "PhotonPrefabs/PowerUps/WeaponPowerUps");
         Utils.PopulateList<GameObject>(PowerUps, "PhotonPrefabs/PowerUps/OtherPowerUps");
-        Utils.PopulateList<RuntimeAnimatorController>(AnimatorControllers, "PhotonPrefabs/AnimatorControllers");
+        //Utils.PopulateList<RuntimeAnimatorController>(AnimatorControllers, "PhotonPrefabs/AnimatorControllers");
         InitializeScoreTable();
     }
 

@@ -595,6 +595,7 @@ MonoBehaviour:
   face: {fileID: 0}
   num: 0
   GravityMultiplier: 1
+  theme: {fileID: 8300000, guid: 7eca4d05ddc911f44b986348c5bcd838, type: 3}
 --- !u!64 &7917412924099703520
 MeshCollider:
   m_ObjectHideFlags: 0

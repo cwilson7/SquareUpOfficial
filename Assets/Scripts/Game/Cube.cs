@@ -6,9 +6,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using CustomUtilities;
 using System.Linq;
+using System;
 
 public class Cube : MonoBehaviour, IPunObservable
 {
+    public static event Action<Level> CubeRotated;
+
     //FOR TESTING
     public bool testing;
     public GameObject TestingLevel;
@@ -24,6 +27,7 @@ public class Cube : MonoBehaviour, IPunObservable
     public Quaternion cubeRot;
     public int DistanceFromCameraForRotation = 65;
     public int ownerActorNr;
+    private Level prevFace;
 
     private Vector2 targetXY, actualXY;
 
@@ -75,6 +79,7 @@ public class Cube : MonoBehaviour, IPunObservable
     {
         if (PhotonNetwork.CurrentRoom.GetPlayer(actorNr) == null) return;
         PV.TransferOwnership(PhotonNetwork.CurrentRoom.GetPlayer(actorNr));
+        prevFace = CurrentFace;
         GameManager.Manager.DestroyAllPowerUps();
         ownerActorNr = actorNr;
         GameInfo.GI.StopTime();
@@ -87,6 +92,7 @@ public class Cube : MonoBehaviour, IPunObservable
     void StopRotation()
     {
         SetClosestFace();
+        if (CurrentFace != prevFace) CubeRotated?.Invoke(CurrentFace);
         GameInfo.GI.StartTime();
         inRotation = false;
         PV.RPC("SendRotateInformation_RPC", RpcTarget.AllBuffered, inRotation, ownerActorNr);
@@ -246,7 +252,7 @@ public class Cube : MonoBehaviour, IPunObservable
     private int GenerateRandomLevelID()
     {
         int max = LevelPool.Count;
-        int id = Random.Range(0, max);
+        int id = UnityEngine.Random.Range(0, max);
         if (InstantiatedLevelIDs.Contains(id))
         {
             return GenerateRandomLevelID();

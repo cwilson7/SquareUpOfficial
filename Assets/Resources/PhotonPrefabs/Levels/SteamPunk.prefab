@@ -431,6 +431,7 @@ MonoBehaviour:
   face: {fileID: 0}
   num: 0
   GravityMultiplier: 1
+  theme: {fileID: 8300000, guid: db774354a78fa45419e0dc50a91b1910, type: 3}
 --- !u!1 &8571475346748610032
 GameObject:
   m_ObjectHideFlags: 0

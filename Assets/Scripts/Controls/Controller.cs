@@ -389,8 +389,10 @@ public abstract class Controller : MonoBehaviour
     #endregion
 
     #region Collision/ Trigger 
+    
     private void OnCollisionEnter(Collision other)
     {
+        
         GameObject otherGO = other.gameObject;
         if (otherGO.tag == "Projectile")
         {
@@ -410,6 +412,7 @@ public abstract class Controller : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("triggered");
         if (other.tag == "Fist")
         {
             Fist fist = other.GetComponent<Fist>();
@@ -424,20 +427,12 @@ public abstract class Controller : MonoBehaviour
             }
             impact += fist.impactMultiplier * fist.Velocity.normalized;
         }
-        if(other.tag == "Damager")
-        {
-            Damager thing = other.GetComponent<Damager>();
-            if (thing.owner == actorNr) return;
-            if (PV.IsMine)
-            {
-                LoseHealth(thing.damage);
-            }
-        }
+        /*
         if (other.tag == "Projectile")
         {
             GameObject otherGO = other.gameObject;
             Projectile proj = otherGO.GetComponent<Projectile>();
-            //if (proj.owner == actorNr) return;
+            if (proj.owner == actorNr) return;
 
             if (PV.IsMine)
             {
@@ -447,6 +442,16 @@ public abstract class Controller : MonoBehaviour
             }
             impact += proj.impactMultiplier * proj.Velocity.normalized;
             Destroy(otherGO);
+        }
+        */
+        if (other.tag == "Damager")
+        {
+            Damager thing = other.GetComponent<Damager>();
+            if (thing.owner == actorNr) return;
+            if (PV.IsMine)
+            {
+                LoseHealth(thing.damage);
+            }
         }
     }
 

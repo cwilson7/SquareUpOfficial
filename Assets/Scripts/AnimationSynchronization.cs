@@ -13,7 +13,8 @@ public class AnimationSynchronization : MonoBehaviour, IPunObservable
     private Animator animator;
     public Vector3 aim;
     public int directionModifier;
-    private bool isRunning, hasGun, jumping, meleeing, specialing;
+    private bool isRunning, hasGun, jumping, specialing;
+    private int melee;
 
     private void Start()
     {
@@ -25,7 +26,7 @@ public class AnimationSynchronization : MonoBehaviour, IPunObservable
         if (GetComponent<Controller>() == null || !GetComponent<Controller>().controllerInitialized) return;
         if (controller == null) SetController();
         if (PV.IsMine) return;
-        GhostAnimate(aim, isRunning, hasGun);
+        GhostAnimate(aim, isRunning, hasGun,melee);
     }
 
     private void SetController()
@@ -34,7 +35,7 @@ public class AnimationSynchronization : MonoBehaviour, IPunObservable
         animator = controller.anim;
     }
 
-    private void GhostAnimate(Vector3 aim, bool running, bool gun)
+    private void GhostAnimate(Vector3 aim, bool running, bool gun, int melee)
     {
         Vector3 oldAim = new Vector3(animator.GetFloat("AimX"), animator.GetFloat("AimY"), 0f);
         float distance = Vector3.Distance(oldAim, aim);
@@ -43,6 +44,7 @@ public class AnimationSynchronization : MonoBehaviour, IPunObservable
         animator.SetFloat("AimY", smoothAim.y);
         animator.SetBool("Running", running);
         animator.SetBool("Gun", gun);
+        animator.SetInteger("Melee", melee);
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -65,12 +67,8 @@ public class AnimationSynchronization : MonoBehaviour, IPunObservable
     }
 
     [PunRPC]
-    private void SyncTriggers_RPC(bool melee, bool jump, bool special)
+    private void SyncTriggers_RPC(bool jump, bool special)
     {
-        if (melee)
-        {
-            animator.SetTrigger("Melee");
-        }
         if (jump)
         {
             animator.SetTrigger("Jump");

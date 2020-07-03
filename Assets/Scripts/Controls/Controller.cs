@@ -30,7 +30,7 @@ public abstract class Controller : MonoBehaviour
     public float speed, gravity, jumpHeightMultiplier, groundDetectionRadius, distanceFromGround;
     public int maxJumps;
     public Transform baseOfCharacter;
-    public float punchPower, punchImpact, punchCooldown, specialCooldown;
+    public float punchPower, punchImpact, punchCooldown, punchCDTime, specialCooldown, specialCDTime;
     [SerializeField] float respawnDelay, boundaryDist;
     public float fistActiveTime, fistRadius;
     private float ogMass;
@@ -46,7 +46,9 @@ public abstract class Controller : MonoBehaviour
     public int directionModifier;
 
     public Animator anim;
-
+    public int numOfClicks;
+    public float lastClickTime;
+    public float maxClickDelay;
 
 
     #region SET VALUES
@@ -71,7 +73,9 @@ public abstract class Controller : MonoBehaviour
         punchPower = 0.1f;
         punchImpact = 1.5f;
         punchCooldown = 1;
+        punchCDTime = 0f;
         specialCooldown = 1;
+        specialCDTime = 0f;
         respawnDelay = 3f;
         boundaryDist = 100f;
         fistActiveTime = 0.5f;
@@ -79,6 +83,9 @@ public abstract class Controller : MonoBehaviour
         fistRadius = 5f;
         actorNr = GetComponent<PhotonView>().OwnerActorNr;
         ogMass = rb.mass;
+        numOfClicks = 0;
+        lastClickTime = 0;
+        maxClickDelay = 0.5f;
 
         PaintExplosionSystem = GetComponentInChildren<ParticleSystem>();
         
@@ -137,7 +144,8 @@ public abstract class Controller : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (specialCooldown >= 0) specialCooldown -= Time.deltaTime;
+        if (specialCDTime >= 0) specialCDTime -= Time.deltaTime;
+        if (punchCDTime >= 0) punchCDTime -= Time.deltaTime;
     }
 
     private void BlockMovement()
@@ -168,11 +176,20 @@ public abstract class Controller : MonoBehaviour
     #region Mouse Tracking / Combat
     private void MouseCombat()
     {
+        if (Time.time - lastClickTime > maxClickDelay && numOfClicks > 0)
+        {
+            numOfClicks = 0;
+            punchCDTime = punchCooldown;
+            PV.RPC("RPC_MeleeAttack", RpcTarget.AllBuffered, AimDirection, actorNr, numOfClicks);
+        }
+
         if (Input.GetMouseButtonDown(0))
         {
-            if (currentWeapon == null && Fist.cooldown <= 0)
+            if (currentWeapon == null && punchCDTime <= 0)
             {
-                Punch();
+                lastClickTime = Time.time;
+                numOfClicks++;
+                Punch(numOfClicks);
             }
             else if (currentWeapon != null)
             {
@@ -192,10 +209,10 @@ public abstract class Controller : MonoBehaviour
         anim.SetFloat("AimY", AimDirection.y);
     }
 
-    private void Punch()
+    private void Punch(int numPunch)
     {
         GameInfo.GI.StatChange(actorNr, "punchesThrown");
-        PV.RPC("RPC_MeleAttack", RpcTarget.AllBuffered, AimDirection, actorNr);
+        PV.RPC("RPC_MeleeAttack", RpcTarget.AllBuffered, AimDirection, actorNr, numPunch);
     }
 
     #endregion
@@ -491,11 +508,18 @@ public abstract class Controller : MonoBehaviour
     }
 
     [PunRPC]
-    public void RPC_MeleAttack(Vector3 aimDir, int actorNumber)
+    public void RPC_MeleeAttack(Vector3 aimDir, int actorNumber, int punchNum)
     {
         Score playerInfo = (Score)GameInfo.GI.scoreTable[actorNumber];
-        playerInfo.playerAvatar.GetComponent<Controller>().anim.SetTrigger("Melee");
-        playerInfo.playerAvatar.GetComponent<Controller>().Fist.Punch();
+        playerInfo.playerAvatar.GetComponent<Controller>().anim.SetInteger("Melee",punchNum);
+        playerInfo.playerAvatar.GetComponent<Controller>().Fist.isActive = true;
+    }
+    [PunRPC]
+    public void RPC_MeleeEnd(bool enabled, int actorNumber, int punchNum)
+    {
+        Score playerInfo = (Score)GameInfo.GI.scoreTable[actorNumber];
+        playerInfo.playerAvatar.GetComponent<Controller>().anim.SetInteger("Melee", punchNum);
+        playerInfo.playerAvatar.GetComponent<Controller>().Fist.isActive = false; ;
     }
 
     [PunRPC]

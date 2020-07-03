@@ -9,22 +9,16 @@ public class Fist : DamageDealer
     Controller ParentController;
     SphereCollider collide;
 
-    public float cooldown, timeBtwnPunches;
     public Transform fistLocation;
     private float activeTime;
     private Vector3 PrevPos;
+    public bool isActive;
+    private bool currentState;
 
     public void FixedUpdate()
     {
-        if (cooldown >= 0) cooldown -= Time.deltaTime;
         if (gameObject.tag != "Fist") return;
-    }
-
-    public void Punch()
-    {
-        SetCollider(true);
-        cooldown = timeBtwnPunches;
-        StartCoroutine(FistDrag());
+        if (isActive != currentState) SetCollider(isActive); 
     }
 
     public void InitializeFist(Controller parentController)
@@ -35,26 +29,19 @@ public class Fist : DamageDealer
         collide.radius = ParentController.fistRadius / armature.transform.localScale.magnitude;
         collide.isTrigger = true;
         SetCollider(false);
+        currentState = false;
 
         damage = ParentController.punchPower;
         impactMultiplier = ParentController.punchImpact;
         owner = ParentController.actorNr;
-        cooldown = ParentController.punchCooldown;
-        timeBtwnPunches = cooldown;
-        activeTime = ParentController.fistActiveTime;
         PrevPos = transform.position;
         gameObject.tag = "Fist";
-    }
-
-    public IEnumerator FistDrag()
-    {
-        yield return new WaitForSeconds(activeTime);
-        SetCollider(false);
     }
 
     public void SetCollider(bool isActive)
     {
         collide.enabled = isActive;
+        currentState = isActive;
     }
 
     private void OnDrawGizmos()

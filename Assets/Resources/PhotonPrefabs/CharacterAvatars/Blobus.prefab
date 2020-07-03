@@ -143,7 +143,7 @@ BoxCollider:
   m_GameObject: {fileID: 656624823039280655}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 5.373173, y: 4.428016, z: 3.1140163}
   m_Center: {x: -0.1561736, y: 1.9455643, z: 0.058416523}
@@ -162,7 +162,6 @@ MonoBehaviour:
   iPhone: 0
   PV: {fileID: 0}
   PaintExplosionSystem: {fileID: 0}
-  cc: {fileID: 0}
   baseOfCharacterPrefab: {fileID: 0}
   _Collider: {fileID: 0}
   currentWeapon: {fileID: 0}

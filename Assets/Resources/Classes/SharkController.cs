@@ -15,7 +15,7 @@ public class SharkController : Controller
     public override void SpecialAbility()
     {
         IsInSpecial = true;
-        _Collider.enabled = false;
+        //_Collider.enabled = false;
         anim.SetBool("Special", true);
         speed = 20;
         StartCoroutine(SpecialTimer());
@@ -38,7 +38,7 @@ public class SharkController : Controller
         yield return new WaitForSeconds(5);
         if (IsInSpecial)
         {
-            _Collider.enabled = true;
+            //_Collider.enabled = true;
             IsInSpecial = false;
             anim.SetBool("Special", false);
             PV.RPC("Jaw_RPC", RpcTarget.AllBuffered,actorNr);
@@ -47,7 +47,7 @@ public class SharkController : Controller
 
     private void ExitSpecial()
     {
-        _Collider.enabled = true;
+        //_Collider.enabled = true;
         IsInSpecial = false;
         anim.SetBool("Special", false);
         PV.RPC("Jaw_RPC", RpcTarget.AllBuffered,actorNr);

@@ -16,7 +16,6 @@ public abstract class Controller : MonoBehaviour
     public PhotonView PV;
     public ParticleSystem PaintExplosionSystem;
     [SerializeField] private GameObject baseOfCharacterPrefab;
-    public BoxCollider _Collider;
     private Rigidbody rb;
 
     public Weapon currentWeapon;
@@ -55,13 +54,6 @@ public abstract class Controller : MonoBehaviour
     public virtual void InitializePlayerController()
     {
         PV = GetComponent<PhotonView>();
-        BoxCollider toClone = GetComponentInChildren<AvatarCharacteristics>().gameObject.GetComponent<BoxCollider>();
-        _Collider = gameObject.AddComponent<BoxCollider>();
-        _Collider.size = toClone.size * toClone.transform.localScale.x;
-        _Collider.center = (toClone.center * toClone.transform.localScale.x + toClone.transform.localPosition);
-        _Collider.transform.position = toClone.transform.position;
-        _Collider.transform.rotation = toClone.transform.rotation;
-        toClone.enabled = false;
 
         rb = GetComponent<Rigidbody>();
 
@@ -71,7 +63,7 @@ public abstract class Controller : MonoBehaviour
         //Default values for all players
         speed = 15f;
         gravity = -9.8f;
-        jumpHeightMultiplier = 1f;
+        jumpHeightMultiplier = 50f;
         groundDetectionRadius = 0.5f;
         maxJumps = 2;
         distanceFromGround = 0.5f;
@@ -85,8 +77,6 @@ public abstract class Controller : MonoBehaviour
         fistActiveTime = 0.5f;
         directionModifier = 1;
         fistRadius = 5f;
-        _Collider.isTrigger = true;
-        _Collider.enabled = true;
         actorNr = GetComponent<PhotonView>().OwnerActorNr;
         ogMass = rb.mass;
 
@@ -153,6 +143,7 @@ public abstract class Controller : MonoBehaviour
     private void BlockMovement()
     {
         if (rb.useGravity) rb.useGravity = false;
+        rb.velocity = Vector3.zero;
     }
 
     private void TrackHP()
@@ -276,14 +267,15 @@ public abstract class Controller : MonoBehaviour
     public virtual void Gravity()
     {
         if (!rb.useGravity) rb.useGravity = true;
-        rb.mass = ogMass * Cube.cb.CurrentFace.GravityMultiplier;
-        LayerMask ground = LayerMask.GetMask("Platform");
-        bool isGrounded = Physics.CheckSphere(baseOfCharacter.position, groundDetectionRadius, ground);
-        if (isGrounded && Velocity.y < 0)
-        {
-            Velocity.y = 0f;
-            jumpNum = maxJumps;
-        }
+        if (rb.velocity.y < 0.5 && rb.velocity.y > -0.5) jumpNum = maxJumps;
+        //rb.mass = ogMass * Cube.cb.CurrentFace.GravityMultiplier;
+        //LayerMask ground = LayerMask.GetMask("Platform");
+        //bool isGrounded = Physics.CheckSphere(baseOfCharacter.position, groundDetectionRadius, ground);
+        //if (isGrounded && Velocity.y < 0)
+        //{
+        //    Velocity.y = 0f;
+        //    jumpNum = maxJumps;
+        //}
     }
 
     public virtual void Movement()
@@ -357,8 +349,7 @@ public abstract class Controller : MonoBehaviour
 
     public void Move(Vector3 _velocity)
     {       
-        Vector3 moveDir = new Vector3(_velocity.x, _velocity.y, 0f);
-        rb.velocity += moveDir * speed + impact;
+        rb.velocity = new Vector3(_velocity.x * speed + impact.x, rb.velocity.y + impact.y, 0f);
 
         //lock Z Pos
         transform.position = new Vector3(transform.position.x, transform.position.y, Cube.cb.CurrentFace.spawnPoints[0].position.z);
@@ -383,7 +374,8 @@ public abstract class Controller : MonoBehaviour
     public void JumpAction()
     {
         anim.SetTrigger("Jump");
-        Velocity.y = Mathf.Sqrt(jumpHeightMultiplier * -1f * gravity);
+        //rb.AddForce(jumpHeightMultiplier * Vector3.up);
+        rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y + jumpHeightMultiplier, 0f);
         jumpNum -= 1;
     }
     #endregion
@@ -444,23 +436,6 @@ public abstract class Controller : MonoBehaviour
             }
             impact += fist.impactMultiplier * fist.Velocity.normalized;
         }
-        /*
-        if (other.tag == "Projectile")
-        {
-            GameObject otherGO = other.gameObject;
-            Projectile proj = otherGO.GetComponent<Projectile>();
-            if (proj.owner == actorNr) return;
-
-            if (PV.IsMine)
-            {
-                LoseHealth(proj.damage);
-                OnDamgeTaken?.Invoke(proj, this);
-                GameInfo.GI.StatChange(proj.owner, "bulletsLanded");
-            }
-            impact += proj.impactMultiplier * proj.Velocity.normalized;
-            Destroy(otherGO);
-        }
-        */
         if (other.tag == "Damager")
         {
             Damager thing = other.GetComponent<Damager>();
@@ -550,14 +525,6 @@ public abstract class Controller : MonoBehaviour
 
     #region Coroutines
     #endregion
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.green;
-        BoxCollider _Collider = GetComponent<BoxCollider>();
-        if (_Collider == null) return;
-        Gizmos.DrawWireCube(_Collider.transform.position + _Collider.center, _Collider.size);
-    }
 
     public abstract void SpecialAbility();
 }

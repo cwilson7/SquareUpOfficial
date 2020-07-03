@@ -4988,6 +4988,8 @@ GameObject:
   - component: {fileID: 7934084828216822118}
   - component: {fileID: 1956145468306576649}
   - component: {fileID: 7697128728284401797}
+  - component: {fileID: 5408831916525806195}
+  - component: {fileID: 5308247207386958806}
   m_Layer: 0
   m_Name: PlayerTestAvatar
   m_TagString: Player
@@ -5031,8 +5033,8 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   ObservedComponents:
+  - {fileID: 5308247207386958806}
   - {fileID: 6374201829056692465}
-  - {fileID: 1956145468306576649}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -5109,3 +5111,33 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxStepHeight: 0.4
   stepSearchOvershoot: 0.01
+--- !u!114 &5408831916525806195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7553275058234249101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 627855c7f81362d41938ffe0b1475957, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizePosition: 1
+  m_SynchronizeRotation: 1
+  m_SynchronizeScale: 0
+--- !u!114 &5308247207386958806
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7553275058234249101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28901c8b9b01c5148b66843589c816e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SynchronizeVelocity: 1
+  m_TeleportEnabled: 0
+  m_TeleportIfDistanceGreaterThan: 3

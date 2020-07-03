@@ -7,15 +7,16 @@ using System;
 
 
 [RequireComponent(typeof(PhotonView))]
-[RequireComponent(typeof(CharacterController))]
-[RequireComponent(typeof(Controller))]
+//[RequireComponent(typeof(CharacterController))]
+//[RequireComponent(typeof(Controller))]
 [AddComponentMenu("Photon Networking/Photon Character Controller View")]
 
 public class NetworkAvatar : MonoBehaviourPun, IPunObservable
 {
     private float m_Distance;
 
-    private CharacterController myCC;
+    //private CharacterController myCC;
+    private Rigidbody myCC;
 
     private Controller m_controller;
 
@@ -32,7 +33,8 @@ public class NetworkAvatar : MonoBehaviourPun, IPunObservable
 
     public void Awake()
     {
-        this.myCC = GetComponent<CharacterController>();
+        //this.myCC = GetComponent<CharacterController>();
+        this.myCC = GetComponent<Rigidbody>();
         this.PV = GetComponent<PhotonView>();
 
         this.m_NetworkPosition = new Vector3();
@@ -84,7 +86,7 @@ public class NetworkAvatar : MonoBehaviourPun, IPunObservable
                 float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTime));
 
                 //set velocity
-                if (m_controller != null) this.m_controller.Velocity = (Vector3)stream.ReceiveNext();
+                if (m_controller != null) myCC.velocity = (Vector3)stream.ReceiveNext();//this.m_controller.Velocity = (Vector3)stream.ReceiveNext();
 
                 this.m_NetworkPosition += this.myCC.velocity * lag;
 

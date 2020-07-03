@@ -24,11 +24,11 @@ public class BobController : Controller
 
     public void Warp(Vector3 place)
     {
-        cc.enabled = false;
-        cc.gameObject.transform.position = place;
-        cc.enabled = true;
-        Velocity.y = 0;
-        jumpNum = maxJumps;
+        //cc.enabled = false;
+        //cc.gameObject.transform.position = place;
+        //cc.enabled = true;
+        //Velocity.y = 0;
+        //jumpNum = maxJumps;
     }
 
     [PunRPC]

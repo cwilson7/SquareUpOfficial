@@ -15,9 +15,9 @@ public abstract class Controller : MonoBehaviour
 
     public PhotonView PV;
     public ParticleSystem PaintExplosionSystem;
-    public CharacterController cc;
     [SerializeField] private GameObject baseOfCharacterPrefab;
     public BoxCollider _Collider;
+    private Rigidbody rb;
 
     public Weapon currentWeapon;
     public Fist Fist;
@@ -34,6 +34,7 @@ public abstract class Controller : MonoBehaviour
     public float punchPower, punchImpact, punchCooldown, specialCooldown;
     [SerializeField] float respawnDelay, boundaryDist;
     public float fistActiveTime, fistRadius;
+    private float ogMass;
 
     //Tracked variables
     public Vector3 Velocity, impact;
@@ -62,6 +63,8 @@ public abstract class Controller : MonoBehaviour
         _Collider.transform.rotation = toClone.transform.rotation;
         toClone.enabled = false;
 
+        rb = GetComponent<Rigidbody>();
+
         impact = Vector3.zero;
         AimDirection = Vector2.zero;
 
@@ -85,10 +88,10 @@ public abstract class Controller : MonoBehaviour
         _Collider.isTrigger = true;
         _Collider.enabled = true;
         actorNr = GetComponent<PhotonView>().OwnerActorNr;
+        ogMass = rb.mass;
 
         PaintExplosionSystem = GetComponentInChildren<ParticleSystem>();
         
-        cc = GetComponent<CharacterController>();
         currentWeapon = GetComponent<Weapon>();
         moveStick = JoyStickReference.joyStick.gameObject.GetComponent<FloatingJoystick>();
 
@@ -118,7 +121,12 @@ public abstract class Controller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!controllerInitialized || GameInfo.GI.TimeStopped || isDead) return;
+        if (!controllerInitialized) return;
+        if (GameInfo.GI.TimeStopped || isDead)
+        {
+            BlockMovement();
+            return;
+        }
         Gravity();
         TrackHP();
 
@@ -140,6 +148,11 @@ public abstract class Controller : MonoBehaviour
     private void FixedUpdate()
     {
         if (specialCooldown >= 0) specialCooldown -= Time.deltaTime;
+    }
+
+    private void BlockMovement()
+    {
+        if (rb.useGravity) rb.useGravity = false;
     }
 
     private void TrackHP()
@@ -262,6 +275,8 @@ public abstract class Controller : MonoBehaviour
     #region Movement Functions
     public virtual void Gravity()
     {
+        if (!rb.useGravity) rb.useGravity = true;
+        rb.mass = ogMass * Cube.cb.CurrentFace.GravityMultiplier;
         LayerMask ground = LayerMask.GetMask("Platform");
         bool isGrounded = Physics.CheckSphere(baseOfCharacter.position, groundDetectionRadius, ground);
         if (isGrounded && Velocity.y < 0)
@@ -269,12 +284,17 @@ public abstract class Controller : MonoBehaviour
             Velocity.y = 0f;
             jumpNum = maxJumps;
         }
-        else Velocity.y += Cube.cb.CurrentFace.GravityMultiplier * gravity * Time.deltaTime;
     }
 
     public virtual void Movement()
     {
+        HandleInputs(iPhone);
 
+        Move(Velocity);
+    }
+
+    protected void HandleInputs(bool iPhone)
+    {
         if (iPhone)
         {
             //Vertical movement
@@ -333,15 +353,12 @@ public abstract class Controller : MonoBehaviour
 
             Velocity.x = Input.GetAxis("Horizontal");
         }
-
-
-        Move(Velocity);
     }
 
     public void Move(Vector3 _velocity)
-    {
-        Vector3 move = new Vector3(_velocity.x, _velocity.y, 0f);
-        cc.Move((move * speed + impact * 10f) * Time.deltaTime);
+    {       
+        Vector3 moveDir = new Vector3(_velocity.x, _velocity.y, 0f);
+        rb.velocity += moveDir * speed + impact;
 
         //lock Z Pos
         transform.position = new Vector3(transform.position.x, transform.position.y, Cube.cb.CurrentFace.spawnPoints[0].position.z);

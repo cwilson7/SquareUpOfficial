@@ -27,11 +27,11 @@ public class BlobusController : Controller
 
     public void Warp()
     {
-        cc.enabled = false;
-        AimDirection.z = 0;
-        cc.gameObject.transform.position = cc.gameObject.transform.position + AimDirection*warpDistance;
-        cc.enabled = true;
-        Velocity.y = 0;
-        jumpNum = maxJumps;
+        //cc.enabled = false;
+        //AimDirection.z = 0;
+        //cc.gameObject.transform.position = cc.gameObject.transform.position + AimDirection*warpDistance;
+        //cc.enabled = true;
+        //Velocity.y = 0;
+        //jumpNum = maxJumps;
     }
 }

@@ -92,7 +92,7 @@ public class Cube : MonoBehaviour, IPunObservable
     void StopRotation()
     {
         SetClosestFace();
-        if (CurrentFace != prevFace) CubeRotated?.Invoke(CurrentFace);
+        if (CurrentFace != prevFace) PV.RPC("InvokeMusicChange_RPC", RpcTarget.AllBuffered);
         GameInfo.GI.StartTime();
         inRotation = false;
         PV.RPC("SendRotateInformation_RPC", RpcTarget.AllBuffered, inRotation, ownerActorNr);
@@ -426,6 +426,12 @@ public class Cube : MonoBehaviour, IPunObservable
             face.SetParent(transform);
         }
         SetLevelObjects();
+    }
+
+    [PunRPC]
+    public void InvokeMusicChange_RPC()
+    {
+        CubeRotated?.Invoke(CurrentFace);
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

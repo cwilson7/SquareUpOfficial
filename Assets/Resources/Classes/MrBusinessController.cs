@@ -8,7 +8,7 @@ public class MrBusinessController : Controller
     public override void InitializePlayerController()
     {
         base.InitializePlayerController();
-        paper = GetComponentInChildren<Special>().gameObject.GetComponent<SkinnedMeshRenderer>();
+        //paper = GetComponentInChildren<Special>().gameObject.GetComponent<SkinnedMeshRenderer>();
     }
 
     public override void SpecialAbility()

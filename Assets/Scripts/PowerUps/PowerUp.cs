@@ -15,10 +15,15 @@ public abstract class PowerUp : MonoBehaviour
     {
     }
 
-    private void OnTriggerEnter(Collider other)
+    //private void OnTriggerEnter(Collider other)
+    //{
+    //    if (other.gameObject.tag != "Player") return;
+    //    PickUp(other.gameObject.GetComponent<PhotonView>().OwnerActorNr);
+    //}
+    private void OnCollisionEnter(Collision other)
     {
-        if (other.tag != "Player") return;
-        PickUp(other.GetComponent<PhotonView>().OwnerActorNr);
+        if (other.gameObject.tag != "Player") return;
+        PickUp(other.gameObject.GetComponent<PhotonView>().OwnerActorNr);
     }
 
     protected void PickUp(int actorNr)

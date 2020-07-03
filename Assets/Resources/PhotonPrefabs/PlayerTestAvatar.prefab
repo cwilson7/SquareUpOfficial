@@ -5107,3 +5107,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad38a5cb0102213469ba1fe9474f7430, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxStepHeight: 0.4
+  stepSearchOvershoot: 0.01

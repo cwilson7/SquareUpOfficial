@@ -24,10 +24,11 @@ public class Fist : DamageDealer
     public void InitializeFist(Controller parentController)
     {
         ParentController = parentController;
-        collide = gameObject.AddComponent<SphereCollider>();
+        //collide = gameObject.AddComponent<SphereCollider>();
         GameObject armature = Utils.FindParentWithClass<Armature>(transform).gameObject;
-        collide.radius = ParentController.fistRadius / armature.transform.localScale.magnitude;
-        collide.isTrigger = true;
+        //collide.radius = ParentController.fistRadius / armature.transform.localScale.magnitude;
+        //collide.isTrigger = true;
+        collide = GetComponent<SphereCollider>();
         SetCollider(false);
         currentState = false;
 

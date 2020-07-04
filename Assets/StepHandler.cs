@@ -12,15 +12,21 @@ public class StepHandler : MonoBehaviour
     //Remember 1 unit is 1 meter (the physics engine was made with this ratio in mind)
 
     [Header("Steps")]
-    public float maxStepHeight = 0.4f;              ///< The maximum a player can set upwards in units when they hit a wall that's potentially a step
-    public float stepSearchOvershoot = 0.01f;       ///< How much to overshoot into the direction a potential step in units when testing. High values prevent player from walking up small steps but may cause problems.
+    public float maxStepHeight = 0.4f;              //< The maximum a player can set upwards in units when they hit a wall that's potentially a step
+    public float stepSearchOvershoot = 0.01f;       //< How much to overshoot into the direction a potential step in units when testing. High values prevent player from walking up small steps but may cause problems.
 
     private List<ContactPoint> allCPs = new List<ContactPoint>();
     private Vector3 lastVelocity;
+    public Rigidbody rb;
+
+    private void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
 
     void FixedUpdate()
     {
-        Vector3 velocity = this.GetComponent<Rigidbody>().velocity;
+        Vector3 velocity = rb.velocity;
 
         //Filter through the ContactPoints to see if we're grounded and to see if we can step up
         ContactPoint groundCP = default(ContactPoint);
@@ -34,8 +40,9 @@ public class StepHandler : MonoBehaviour
         //Steps
         if (stepUp)
         {
-            this.GetComponent<Rigidbody>().position += stepUpOffset;
-            this.GetComponent<Rigidbody>().velocity = lastVelocity;
+            Debug.Log("Step "+stepUpOffset);
+            rb.position += stepUpOffset;
+            rb.velocity = lastVelocity;
         }
 
         allCPs.Clear();
@@ -63,7 +70,7 @@ public class StepHandler : MonoBehaviour
         foreach (ContactPoint cp in allCPs)
         {
             //Pointing with some up direction
-            if (cp.normal.y > 0.0001f && (found == false || cp.normal.y > groundCP.normal.y))
+            if (cp.normal.y > 0.001f && (found == false || cp.normal.y > groundCP.normal.y))
             {
                 groundCP = cp;
                 found = true;
@@ -83,7 +90,7 @@ public class StepHandler : MonoBehaviour
 
         //No chance to step if the player is not moving
         Vector2 velocityXZ = new Vector2(currVelocity.x, currVelocity.z);
-        if (velocityXZ.sqrMagnitude < 0.0001f)
+        if (velocityXZ.sqrMagnitude < 0.001f)
             return false;
 
         foreach (ContactPoint cp in allCPs)
@@ -120,8 +127,8 @@ public class StepHandler : MonoBehaviour
         //( 3 ) Check to see if there's actually a place to step in front of us
         //Fires one Raycast
         RaycastHit hitInfo;
-        float stepHeight = groundCP.point.y + maxStepHeight + 0.0001f;
-        Vector3 stepTestInvDir = new Vector3(-stepTestCP.normal.x, 0, -stepTestCP.normal.z).normalized;
+        float stepHeight = groundCP.point.y + maxStepHeight + 0.001f;
+        Vector3 stepTestInvDir = new Vector3(-stepTestCP.normal.x, -stepTestCP.normal.y,0).normalized;
         Vector3 origin = new Vector3(stepTestCP.point.x, stepHeight, stepTestCP.point.z) + (stepTestInvDir * stepSearchOvershoot);
         Vector3 direction = Vector3.down;
         if (!(stepCol.Raycast(new Ray(origin, direction), out hitInfo, maxStepHeight)))
@@ -130,7 +137,7 @@ public class StepHandler : MonoBehaviour
         }
 
         //We have enough info to calculate the points
-        Vector3 stepUpPoint = new Vector3(stepTestCP.point.x, hitInfo.point.y + 0.0001f, stepTestCP.point.z) + (stepTestInvDir * stepSearchOvershoot);
+        Vector3 stepUpPoint = new Vector3(stepTestCP.point.x, hitInfo.point.y + 0.001f, stepTestCP.point.z) + (stepTestInvDir * stepSearchOvershoot);
         Vector3 stepUpPointOffset = stepUpPoint - new Vector3(stepTestCP.point.x, groundCP.point.y, stepTestCP.point.z);
 
         //We passed all the checks! Calculate and return the point!

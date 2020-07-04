@@ -180,7 +180,7 @@ public abstract class Controller : MonoBehaviour
         {
             numOfClicks = 0;
             punchCDTime = punchCooldown;
-            PV.RPC("RPC_MeleeAttack", RpcTarget.AllBuffered, AimDirection, actorNr, numOfClicks);
+            PV.RPC("RPC_MeleeEnd", RpcTarget.AllBuffered, actorNr, numOfClicks);
         }
 
         if (Input.GetMouseButtonDown(0))
@@ -284,10 +284,11 @@ public abstract class Controller : MonoBehaviour
     public virtual void Gravity()
     {
         if (!rb.useGravity) rb.useGravity = true;
-        if (rb.velocity.y < 0.5 && rb.velocity.y > -0.5) jumpNum = maxJumps;
+        //if (rb.velocity.y < 0.5 && rb.velocity.y > -0.5) jumpNum = maxJumps;
         //rb.mass = ogMass * Cube.cb.CurrentFace.GravityMultiplier;
-        //LayerMask ground = LayerMask.GetMask("Platform");
-        //bool isGrounded = Physics.CheckSphere(baseOfCharacter.position, groundDetectionRadius, ground);
+        LayerMask ground = LayerMask.GetMask("Platform");
+        bool isGrounded = Physics.CheckSphere(baseOfCharacter.position, groundDetectionRadius, ground);
+        if(isGrounded && rb.velocity.y < 0.5 && rb.velocity.y > -0.5) jumpNum = maxJumps;
         //if (isGrounded && Velocity.y < 0)
         //{
         //    Velocity.y = 0f;
@@ -392,7 +393,7 @@ public abstract class Controller : MonoBehaviour
     {
         anim.SetTrigger("Jump");
         //rb.AddForce(jumpHeightMultiplier * Vector3.up);
-        rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y + jumpHeightMultiplier, 0f);
+        rb.velocity = new Vector3(rb.velocity.x, jumpHeightMultiplier, 0f);
         jumpNum -= 1;
     }
     #endregion
@@ -515,7 +516,7 @@ public abstract class Controller : MonoBehaviour
         playerInfo.playerAvatar.GetComponent<Controller>().Fist.isActive = true;
     }
     [PunRPC]
-    public void RPC_MeleeEnd(bool enabled, int actorNumber, int punchNum)
+    public void RPC_MeleeEnd(int actorNumber, int punchNum)
     {
         Score playerInfo = (Score)GameInfo.GI.scoreTable[actorNumber];
         playerInfo.playerAvatar.GetComponent<Controller>().anim.SetInteger("Melee", punchNum);

@@ -56,6 +56,7 @@ public class AnimationSynchronization : MonoBehaviour, IPunObservable
             stream.SendNext(controller.isRunning);
             stream.SendNext(controller.hasGun);
             stream.SendNext(controller.directionModifier);
+            stream.SendNext(controller.numOfClicks);
         }
         else if (stream.IsReading)
         {
@@ -63,6 +64,7 @@ public class AnimationSynchronization : MonoBehaviour, IPunObservable
             isRunning = (bool)stream.ReceiveNext();
             hasGun = (bool)stream.ReceiveNext();
             directionModifier = (int)stream.ReceiveNext();
+            melee = (int)stream.ReceiveNext();
         }
     }
 

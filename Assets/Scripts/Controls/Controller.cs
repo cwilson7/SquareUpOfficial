@@ -316,7 +316,7 @@ public abstract class Controller : MonoBehaviour
             //Horizontal movement
             if (moveStick.Horizontal >= 0.2)
             {
-                Debug.Log("Move");
+                //Debug.Log("Move");
                 Velocity.x = 1;
                 //anim.SetBool("Run", true);
                 gameObject.transform.rotation = Quaternion.Euler(0, 90, 0);
@@ -439,7 +439,6 @@ public abstract class Controller : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Debug.Log("triggered");
         if (other.tag == "Fist")
         {
             Fist fist = other.GetComponent<Fist>();
@@ -448,6 +447,7 @@ public abstract class Controller : MonoBehaviour
 
             if (PV.IsMine)
             {
+                Debug.Log("melee");
                 LoseHealth(fist.damage);
                 OnDamgeTaken?.Invoke(fist, this);
                 GameInfo.GI.StatChange(fist.owner, "punchesLanded");
@@ -497,6 +497,7 @@ public abstract class Controller : MonoBehaviour
     public void LoseHealth_RPC(float lostHP)
     {
         HP -= lostHP;
+        anim.SetTrigger("Recoil");
     }
 
     [PunRPC]

@@ -96,19 +96,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e96e0cbcd0dcda4d91c58003f310077, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!65 &6823507930095291954
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1503771206570714081}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 0
-  serializedVersion: 2
-  m_Size: {x: 0.0179929, y: 0.029129146, z: 0.009999999}
-  m_Center: {x: 0.00032795468, y: 0.014991841, z: 0.00000010770164}
 --- !u!136 &539618828005342041
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -123,6 +110,19 @@ CapsuleCollider:
   m_Height: 0.0475
   m_Direction: 1
   m_Center: {x: 0, y: 0.006, z: 0}
+--- !u!65 &6823507930095291954
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1503771206570714081}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 0
+  serializedVersion: 2
+  m_Size: {x: 0.0179929, y: 0.029129146, z: 0.009999999}
+  m_Center: {x: 0.00032795468, y: 0.014991841, z: 0.00000010770164}
 --- !u!65 &2071167223322044404
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -185,6 +185,19 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
+  m_Radius: 0.006
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!135 &7840848490280461039
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1503771206570716100}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
   m_Radius: 0.005
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &7524219793480585698
@@ -224,6 +237,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -8943461380802292291, guid: 3797117724e34cb4abc2a14c83b1f89a,
+        type: 3}
+      propertyPath: m_TagString
+      value: Fist
+      objectReference: {fileID: 0}
     - target: {fileID: -4216859302048453862, guid: 3797117724e34cb4abc2a14c83b1f89a,
         type: 3}
       propertyPath: m_LocalPosition.x

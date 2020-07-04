@@ -42,7 +42,7 @@ public class Cube : MonoBehaviour, IPunObservable
     void Update()
     {
         if (inRotation && PV.IsMine) RotateHandler();
-        if (cubeRot != null) Debug.Log("cubeRotation is: " + cubeRot);
+        //if (cubeRot != null) Debug.Log("cubeRotation is: " + cubeRot);
     }
 
     #region Cube Rotation

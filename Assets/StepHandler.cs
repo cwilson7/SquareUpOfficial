@@ -40,7 +40,7 @@ public class StepHandler : MonoBehaviour
         //Steps
         if (stepUp)
         {
-            Debug.Log("Step "+stepUpOffset);
+            //Debug.Log("Step "+stepUpOffset);
             rb.position += stepUpOffset;
             rb.velocity = lastVelocity;
         }

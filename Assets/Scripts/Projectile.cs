@@ -18,6 +18,9 @@ public class Projectile : DamageDealer
         {
             GetComponent<MeshRenderer>().sharedMaterial = LobbyController.lc.availableMaterials[(int)PhotonNetwork.CurrentRoom.GetPlayer(owner).CustomProperties["AssignedColor"]];
         }
+        Vector3 pos = transform.position;
+        pos.z = Cube.cb.CurrentFace.spawnPoints[0].position.z;
+        transform.position = pos;
     }
 
     void Start()

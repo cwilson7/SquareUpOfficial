@@ -146,6 +146,7 @@ public abstract class Controller : MonoBehaviour
     {
         if (specialCDTime >= 0) specialCDTime -= Time.deltaTime;
         if (punchCDTime >= 0) punchCDTime -= Time.deltaTime;
+        if (rb.velocity.y < 0) rb.velocity += Vector3.up * Physics.gravity.y * 0.5f * Time.deltaTime;
     }
 
     private void BlockMovement()

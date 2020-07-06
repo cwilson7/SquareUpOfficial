@@ -9,16 +9,16 @@ public class Fist : DamageDealer
     Controller ParentController;
     SphereCollider collide;
 
-    public Transform fistLocation;
     private float activeTime;
-    private Vector3 PrevPos;
     public bool isActive;
     private bool currentState;
+    public Vector3 startLoc;
 
     public void FixedUpdate()
     {
         if (gameObject.tag != "Fist") return;
         if (isActive != currentState) SetCollider(isActive); 
+
     }
 
     public void InitializeFist(Controller parentController)
@@ -35,7 +35,7 @@ public class Fist : DamageDealer
         damage = ParentController.punchPower;
         impactMultiplier = ParentController.punchImpact;
         owner = ParentController.actorNr;
-        PrevPos = transform.position;
+        startLoc = transform.position;
         gameObject.tag = "Fist";
     }
 

@@ -13,19 +13,19 @@ public class MonkeyController : Controller
     public override void InitializePlayerController()
     {
         base.InitializePlayerController();
-        sideWallCheck = GetComponentInChildren<SideSticky>().gameObject.transform;
-        celingWallCheck = GetComponentInChildren<AboveSticky>().gameObject.transform;
-        stickyDetectionRadius = .25f;
-        specialCooldown = .1f;
+        //sideWallCheck = GetComponentInChildren<SideSticky>().gameObject.transform;
+        //celingWallCheck = GetComponentInChildren<AboveSticky>().gameObject.transform;
+        //stickyDetectionRadius = .25f;
+        //specialCooldown = .1f;
     }
-
+    
     public override void SpecialAbility()
     {
-        hookable = true;
-        anim.SetBool("Flip",true);
-        StartCoroutine(SpecialTimer(1f));
+        //hookable = true;
+        //anim.SetBool("Flip",true);
+        //StartCoroutine(SpecialTimer(1f));
     }
-
+    /*
     public override void Gravity()
     {
         LayerMask ground = LayerMask.GetMask("Platform");
@@ -67,5 +67,5 @@ public class MonkeyController : Controller
             hookable = false;
         }
         else StartCoroutine(SpecialTimer(0.25f));
-    }
+    }*/
 }

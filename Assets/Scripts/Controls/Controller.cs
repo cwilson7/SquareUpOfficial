@@ -144,6 +144,7 @@ public abstract class Controller : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!controllerInitialized) return;
         if (specialCDTime >= 0) specialCDTime -= Time.deltaTime;
         if (punchCDTime >= 0) punchCDTime -= Time.deltaTime;
         if (rb.velocity.y < 0) rb.velocity += Vector3.up * Physics.gravity.y * 0.5f * Time.deltaTime;
@@ -429,7 +430,8 @@ public abstract class Controller : MonoBehaviour
 
             if (PV.IsMine)
             {
-                LoseHealth(proj.damage);
+                bool fromLeft = proj.Velocity.x > 0;
+                LoseHealth(proj.damage,fromLeft);
                 OnDamgeTaken?.Invoke(proj, this);
                 GameInfo.GI.StatChange(proj.owner, "bulletsLanded");
             }
@@ -448,12 +450,14 @@ public abstract class Controller : MonoBehaviour
 
             if (PV.IsMine)
             {
-                Debug.Log("melee");
-                LoseHealth(fist.damage);
+                //Debug.Log("melee");
+                bool fromLeft = fist.startLoc.x < transform.position.x;
+                LoseHealth(fist.damage,fromLeft);
                 OnDamgeTaken?.Invoke(fist, this);
                 GameInfo.GI.StatChange(fist.owner, "punchesLanded");
             }
-            impact += fist.impactMultiplier * fist.Velocity.normalized;
+            
+            //impact += fist.impactMultiplier * fist.Velocity.normalized;
         }
         if (other.tag == "Damager")
         {
@@ -461,7 +465,7 @@ public abstract class Controller : MonoBehaviour
             if (thing.owner == actorNr) return;
             if (PV.IsMine)
             {
-                LoseHealth(thing.damage);
+                //LoseHealth(thing.damage);
             }
         }
     }
@@ -470,9 +474,9 @@ public abstract class Controller : MonoBehaviour
 
     #region RPC
 
-    public void LoseHealth(float lostHP)
+    public void LoseHealth(float lostHP, bool fromLeft)
     {
-        PV.RPC("LoseHealth_RPC", RpcTarget.AllBuffered, lostHP);
+        PV.RPC("LoseHealth_RPC", RpcTarget.AllBuffered, lostHP,fromLeft);
     }
 
     [PunRPC]
@@ -495,10 +499,19 @@ public abstract class Controller : MonoBehaviour
     }
 
     [PunRPC]
-    public void LoseHealth_RPC(float lostHP)
+    public void LoseHealth_RPC(float lostHP,bool fromLeft)
     {
         HP -= lostHP;
-        anim.SetTrigger("Recoil");
+        if (fromLeft)
+        {
+            if(directionModifier == 1) anim.SetTrigger("RecoilF");
+            else anim.SetTrigger("RecoilB");
+        }
+        else
+        {
+            if (directionModifier == 1) anim.SetTrigger("RecoilB");
+            else anim.SetTrigger("RecoilF");
+        }
     }
 
     [PunRPC]

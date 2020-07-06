@@ -13,7 +13,7 @@ public class AnimationSynchronization : MonoBehaviour, IPunObservable
     private Animator animator;
     public Vector3 aim;
     public int directionModifier;
-    private bool isRunning, hasGun, jumping, specialing;
+    private bool isRunning, hasGun, jumping, specialing, hitRight,hitLeft;
     private int melee;
 
     private void Start()
@@ -26,7 +26,7 @@ public class AnimationSynchronization : MonoBehaviour, IPunObservable
         if (GetComponent<Controller>() == null || !GetComponent<Controller>().controllerInitialized) return;
         if (controller == null) SetController();
         if (PV.IsMine) return;
-        GhostAnimate(aim, isRunning, hasGun,melee);
+        GhostAnimate(aim, isRunning, hasGun, melee);
     }
 
     private void SetController()

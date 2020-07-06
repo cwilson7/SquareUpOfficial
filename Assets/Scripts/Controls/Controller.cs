@@ -298,7 +298,7 @@ public abstract class Controller : MonoBehaviour
         //if (rb.velocity.y < 0.5 && rb.velocity.y > -0.5) jumpNum = maxJumps;
         //rb.mass = ogMass * Cube.cb.CurrentFace.GravityMultiplier;
         LayerMask ground = LayerMask.GetMask("Platform");
-        isGrounded = Physics.CheckSphere(baseOfCharacter.position, groundDetectionRadius, ground);
+        isGrounded = Physics.CheckSphere(baseOfCharacter.position, groundDetectionRadius + 0.5f, ground);
         if(isGrounded && rb.velocity.y < 0.5 && rb.velocity.y > -0.5) jumpNum = maxJumps;
         //if (isGrounded && Velocity.y < 0)
         //{

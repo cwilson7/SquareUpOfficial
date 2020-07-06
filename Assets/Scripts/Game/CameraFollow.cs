@@ -44,6 +44,8 @@ public class CameraFollow : MonoBehaviour
     {
         if (Cube.cb == null) return;
 
+        //some buffer for the y desired pos
+
         Vector3 desiredPos = player.transform.position + offset;
         Vector3 center = Cube.cb.CurrentFace.face.position;
         float horizDist = Mathf.Abs(desiredPos.x - center.x);

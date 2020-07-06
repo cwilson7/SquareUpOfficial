@@ -44,11 +44,16 @@ public abstract class Controller : MonoBehaviour
     public bool isDead = false;
     public bool isRunning, hasGun;
     public int directionModifier;
+    private bool isGrounded;
+    public bool sliding;
+    public float rayDist = 1f;
+    public float slideLimit = 45;
 
     public Animator anim;
     public int numOfClicks;
     public float lastClickTime;
     public float maxClickDelay;
+
 
 
     #region SET VALUES
@@ -86,6 +91,11 @@ public abstract class Controller : MonoBehaviour
         numOfClicks = 0;
         lastClickTime = 0;
         maxClickDelay = 0.5f;
+        isGrounded = false;
+
+        sliding = false;
+        rayDist = 1f;
+        slideLimit = 45;
 
         PaintExplosionSystem = GetComponentInChildren<ParticleSystem>();
         
@@ -117,6 +127,10 @@ public abstract class Controller : MonoBehaviour
 
     // Update is called once per frame
     void Update()
+    {   
+    }
+
+    private void FixedUpdate()
     {
         if (!controllerInitialized) return;
         if (GameInfo.GI.TimeStopped || isDead)
@@ -130,6 +144,7 @@ public abstract class Controller : MonoBehaviour
         if (!PV.IsMine) return;
         else
         {
+            //rayCastChecks();
             Movement();
             HandleDeaths();
             HandleAnimationValues();
@@ -139,12 +154,6 @@ public abstract class Controller : MonoBehaviour
                 MouseCombat();
             }
         }
-        
-    }
-
-    private void FixedUpdate()
-    {
-        if (!controllerInitialized) return;
         if (specialCDTime >= 0) specialCDTime -= Time.deltaTime;
         if (punchCDTime >= 0) punchCDTime -= Time.deltaTime;
         if (rb.velocity.y < 0) rb.velocity += Vector3.up * Physics.gravity.y * 0.5f * Time.deltaTime;
@@ -289,7 +298,7 @@ public abstract class Controller : MonoBehaviour
         //if (rb.velocity.y < 0.5 && rb.velocity.y > -0.5) jumpNum = maxJumps;
         //rb.mass = ogMass * Cube.cb.CurrentFace.GravityMultiplier;
         LayerMask ground = LayerMask.GetMask("Platform");
-        bool isGrounded = Physics.CheckSphere(baseOfCharacter.position, groundDetectionRadius, ground);
+        isGrounded = Physics.CheckSphere(baseOfCharacter.position, groundDetectionRadius, ground);
         if(isGrounded && rb.velocity.y < 0.5 && rb.velocity.y > -0.5) jumpNum = maxJumps;
         //if (isGrounded && Velocity.y < 0)
         //{
@@ -340,23 +349,33 @@ public abstract class Controller : MonoBehaviour
         {
             if (Input.GetKeyDown(KeyCode.W))
             {
+                FreezePositons(false, false);
                 TryJump();
             }
             if (Input.GetAxis("Horizontal") > 0 || Input.GetKeyDown(KeyCode.D))
             {
+                FreezePositons(false, false);
                 directionModifier = 1;
                 gameObject.transform.rotation = Quaternion.Euler(0, 100, 0);
                 anim.SetBool("Running", true);
+
             }
             if (Input.GetAxis("Horizontal") < 0 || Input.GetKeyDown(KeyCode.A))
             {
+                FreezePositons(false, false);
                 directionModifier = -1;
                 gameObject.transform.rotation = Quaternion.Euler(0, -100, 0);
                 anim.SetBool("Running", true);
+
             }
             if (Input.GetAxis("Horizontal") == 0)
             {
                 anim.SetBool("Running", false);
+                if (isGrounded)
+                {
+                    FreezePositons(true, true);
+                }
+                
             }
             if (Input.GetKeyDown(KeyCode.Space))
             {
@@ -368,7 +387,7 @@ public abstract class Controller : MonoBehaviour
     }
 
     public void Move(Vector3 _velocity)
-    {       
+    {
         rb.velocity = new Vector3(_velocity.x * speed + impact.x, rb.velocity.y + impact.y, 0f);
 
         //lock Z Pos
@@ -393,10 +412,51 @@ public abstract class Controller : MonoBehaviour
 
     public void JumpAction()
     {
+        isGrounded = false;
         anim.SetTrigger("Jump");
         //rb.AddForce(jumpHeightMultiplier * Vector3.up);
         rb.velocity = new Vector3(rb.velocity.x, jumpHeightMultiplier, 0f);
         jumpNum -= 1;
+    }
+
+    private void rayCastChecks()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, -Vector3.up, out hit, rayDist) && isGrounded)
+        {
+            Debug.Log("Onground and raycast hit");
+            if (Vector3.Angle(hit.normal, Vector3.up) > slideLimit)
+            {
+                sliding = true;
+                Debug.Log("Should Slide");
+                rb.velocity = new Vector3(rb.velocity.x, hit.normal.y * -1, rb.velocity.z);
+                Velocity.x = hit.normal.x;
+            }
+            else
+            {
+                rb.velocity = new Vector3(0, rb.velocity.y, 0);
+            }
+        }
+    }
+
+    private void FreezePositons(bool x, bool y)
+    {
+        if (x)
+        {
+            if (y)
+            {
+                rb.constraints = RigidbodyConstraints.FreezeAll;
+            }
+            else rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+        }
+        else
+        {
+            if (y)
+            {
+                rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ;
+            }
+            else rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionZ;
+        }
     }
     #endregion
 

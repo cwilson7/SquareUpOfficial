@@ -419,26 +419,6 @@ public abstract class Controller : MonoBehaviour
         jumpNum -= 1;
     }
 
-    private void rayCastChecks()
-    {
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, -Vector3.up, out hit, rayDist) && isGrounded)
-        {
-            Debug.Log("Onground and raycast hit");
-            if (Vector3.Angle(hit.normal, Vector3.up) > slideLimit)
-            {
-                sliding = true;
-                Debug.Log("Should Slide");
-                rb.velocity = new Vector3(rb.velocity.x, hit.normal.y * -1, rb.velocity.z);
-                Velocity.x = hit.normal.x;
-            }
-            else
-            {
-                rb.velocity = new Vector3(0, rb.velocity.y, 0);
-            }
-        }
-    }
-
     private void FreezePositons(bool x, bool y)
     {
         if (x)

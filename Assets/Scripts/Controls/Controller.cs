@@ -531,12 +531,14 @@ public abstract class Controller : MonoBehaviour
             Fist fist = other.GetComponent<Fist>();
             if (fist.owner == actorNr) return;
             fist.SetCollider(false);
+            bool fromLeft = fist.startLoc.x < transform.position.x;
+
+            if (fist.owner == PhotonNetwork.LocalPlayer.ActorNumber) Flinch(fromLeft);
 
             if (PV.IsMine)
             {
-                //Debug.Log("melee");
-                bool fromLeft = fist.startLoc.x < transform.position.x;
                 LoseHealth(fist.damage);
+                PV.RPC("Flinch_RPC", RpcTarget.AllBuffered, fromLeft);
                 OnDamgeTaken?.Invoke(fist, this);
                 GameInfo.GI.StatChange(fist.owner, "punchesLanded");
             }

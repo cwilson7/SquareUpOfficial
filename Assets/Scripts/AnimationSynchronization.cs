@@ -13,6 +13,7 @@ public class AnimationSynchronization : MonoBehaviour, IPunObservable
     private Animator animator;
     public Vector3 aim;
     public int directionModifier;
+    public bool flinched;
     private bool isRunning, hasGun, jumping, specialing, hitRight,hitLeft;
     private int melee;
 

@@ -219,6 +219,27 @@ public abstract class Controller : MonoBehaviour
         }
     }
 
+    void Flinch(bool fromLeft)
+    {
+        int mod;
+        if (PV.IsMine) mod = directionModifier;
+        else
+        {
+            mod = GetComponent<AnimationSynchronization>().directionModifier;
+            GetComponent<AnimationSynchronization>().flinched = true;
+        }
+        if (fromLeft)
+        {
+            if (mod == 1) anim.SetTrigger("RecoilF");
+            else anim.SetTrigger("RecoilB");
+        }
+        else
+        {
+            if (mod == 1) anim.SetTrigger("RecoilB");
+            else anim.SetTrigger("RecoilF");
+        }
+    }
+
     public void TrackMouse()
     {
         Vector3 MouseWorldPos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
@@ -463,11 +484,14 @@ public abstract class Controller : MonoBehaviour
         {
             Projectile proj = otherGO.GetComponent<Projectile>();
             if (proj.owner == actorNr) return;
+            bool fromLeft = proj.Velocity.x > 0;
+
+            if (proj.owner == PhotonNetwork.LocalPlayer.ActorNumber) Flinch(fromLeft);
 
             if (PV.IsMine)
             {
-                bool fromLeft = proj.Velocity.x > 0;
-                LoseHealth(proj.damage,fromLeft);
+                LoseHealth(proj.damage);
+                PV.RPC("Flinch_RPC", RpcTarget.AllBuffered, fromLeft);
                 OnDamgeTaken?.Invoke(proj, this);
                 GameInfo.GI.StatChange(proj.owner, "bulletsLanded");
             }
@@ -505,7 +529,7 @@ public abstract class Controller : MonoBehaviour
             {
                 //Debug.Log("melee");
                 bool fromLeft = fist.startLoc.x < transform.position.x;
-                LoseHealth(fist.damage,fromLeft);
+                LoseHealth(fist.damage);
                 OnDamgeTaken?.Invoke(fist, this);
                 GameInfo.GI.StatChange(fist.owner, "punchesLanded");
             }
@@ -527,9 +551,9 @@ public abstract class Controller : MonoBehaviour
 
     #region RPC
 
-    public void LoseHealth(float lostHP, bool fromLeft)
+    public void LoseHealth(float lostHP)
     {
-        PV.RPC("LoseHealth_RPC", RpcTarget.AllBuffered, lostHP,fromLeft);
+        PV.RPC("LoseHealth_RPC", RpcTarget.AllBuffered, lostHP);
     }
 
     [PunRPC]
@@ -552,19 +576,17 @@ public abstract class Controller : MonoBehaviour
     }
 
     [PunRPC]
-    public void LoseHealth_RPC(float lostHP,bool fromLeft)
+    public void LoseHealth_RPC(float lostHP)
     {
         HP -= lostHP;
-        if (fromLeft)
-        {
-            if(directionModifier == 1) anim.SetTrigger("RecoilF");
-            else anim.SetTrigger("RecoilB");
-        }
-        else
-        {
-            if (directionModifier == 1) anim.SetTrigger("RecoilB");
-            else anim.SetTrigger("RecoilF");
-        }
+    }
+
+    [PunRPC]
+    public void Flinch_RPC(bool fromLeft)
+    {
+        //if i already flinched from this attack, return
+        if (GetComponent<AnimationSynchronization>().flinched) GetComponent<AnimationSynchronization>().flinched = false;
+        else Flinch(fromLeft);
     }
 
     [PunRPC]

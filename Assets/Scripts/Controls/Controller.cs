@@ -115,6 +115,8 @@ public abstract class Controller : MonoBehaviour
 
         anim = GetComponentInChildren<Animator>();
 
+        //rb.inertiaTensor = rb.inertiaTensor + new Vector3(rb.inertiaTensor.x * 100, rb.inertiaTensor.y * 100, rb.inertiaTensor.z * 100);
+
         controllerInitialized = true;
         if (PV.IsMine) MultiplayerSettings.multiplayerSettings.SetCustomPlayerProperties("ControllerInitialized", true);
 
@@ -154,6 +156,7 @@ public abstract class Controller : MonoBehaviour
 
     private void FixedUpdate()
     {
+        if (!controllerInitialized) return;
         if (specialCDTime >= 0) specialCDTime -= Time.deltaTime;
         if (punchCDTime >= 0) punchCDTime -= Time.deltaTime;
         if (rb.velocity.y < 0) rb.velocity += Vector3.up * Physics.gravity.y * 0.5f * Time.deltaTime;
@@ -426,6 +429,8 @@ public abstract class Controller : MonoBehaviour
                 rb.constraints = RigidbodyConstraints.FreezeAll;
             }
             else rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+
+            rb.useGravity = false;
         }
         else
         {

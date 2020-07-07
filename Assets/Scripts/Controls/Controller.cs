@@ -547,7 +547,7 @@ public abstract class Controller : MonoBehaviour
         SetAllComponents(false);
         Transform[] list = Cube.cb.CurrentFace.spawnPoints;
         transform.position = list[locID].position;
-        transform.rotation = list[locID].rotation;
+        //transform.rotation = list[locID].rotation;
         StartCoroutine(SpawnDelay());
     }
 
@@ -581,14 +581,14 @@ public abstract class Controller : MonoBehaviour
     {
         Score playerInfo = (Score)GameInfo.GI.scoreTable[actorNumber];
         playerInfo.playerAvatar.GetComponent<Controller>().anim.SetInteger("Melee",punchNum);
-        playerInfo.playerAvatar.GetComponent<Controller>().Fist.isActive = true;
+        playerInfo.playerAvatar.GetComponent<Controller>().Fist.SetCollider(true);
     }
     [PunRPC]
     public void RPC_MeleeEnd(int actorNumber, int punchNum)
     {
         Score playerInfo = (Score)GameInfo.GI.scoreTable[actorNumber];
         playerInfo.playerAvatar.GetComponent<Controller>().anim.SetInteger("Melee", punchNum);
-        playerInfo.playerAvatar.GetComponent<Controller>().Fist.isActive = false; ;
+        playerInfo.playerAvatar.GetComponent<Controller>().Fist.SetCollider(false);
     }
 
     [PunRPC]

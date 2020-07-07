@@ -68,10 +68,10 @@ public abstract class Controller : MonoBehaviour
         AimDirection = Vector2.zero;
 
         //Default values for all players
-        speed = 15f;
+        speed = 25f;
         gravity = -9.8f;
         jumpHeightMultiplier = 50f;
-        groundDetectionRadius = 0.5f;
+        groundDetectionRadius = 0.75f;
         maxJumps = 2;
         distanceFromGround = 0.5f;
         HP = 1f;
@@ -125,12 +125,8 @@ public abstract class Controller : MonoBehaviour
 
     #region Update Functions
 
-    // Update is called once per frame
+    // OnlyThings which cant go in fixed update
     void Update()
-    {   
-    }
-
-    private void FixedUpdate()
     {
         if (!controllerInitialized) return;
         if (GameInfo.GI.TimeStopped || isDead)
@@ -154,6 +150,10 @@ public abstract class Controller : MonoBehaviour
                 MouseCombat();
             }
         }
+    }
+
+    private void FixedUpdate()
+    {
         if (specialCDTime >= 0) specialCDTime -= Time.deltaTime;
         if (punchCDTime >= 0) punchCDTime -= Time.deltaTime;
         if (rb.velocity.y < 0) rb.velocity += Vector3.up * Physics.gravity.y * 0.5f * Time.deltaTime;
@@ -298,8 +298,8 @@ public abstract class Controller : MonoBehaviour
         //if (rb.velocity.y < 0.5 && rb.velocity.y > -0.5) jumpNum = maxJumps;
         //rb.mass = ogMass * Cube.cb.CurrentFace.GravityMultiplier;
         LayerMask ground = LayerMask.GetMask("Platform");
-        isGrounded = Physics.CheckSphere(baseOfCharacter.position, groundDetectionRadius + 0.5f, ground);
-        if(isGrounded && rb.velocity.y < 0.5 && rb.velocity.y > -0.5) jumpNum = maxJumps;
+        isGrounded = Physics.CheckSphere(baseOfCharacter.position, groundDetectionRadius, ground);
+        if(isGrounded && rb.velocity.y < 0.5) jumpNum = maxJumps;
         //if (isGrounded && Velocity.y < 0)
         //{
         //    Velocity.y = 0f;
@@ -347,11 +347,6 @@ public abstract class Controller : MonoBehaviour
         }
         else
         {
-            if (Input.GetKeyDown(KeyCode.W))
-            {
-                FreezePositons(false, false);
-                TryJump();
-            }
             if (Input.GetAxis("Horizontal") > 0 || Input.GetKeyDown(KeyCode.D))
             {
                 FreezePositons(false, false);
@@ -373,15 +368,18 @@ public abstract class Controller : MonoBehaviour
                 anim.SetBool("Running", false);
                 if (isGrounded)
                 {
-                    FreezePositons(true, true);
+                    FreezePositons(true, false);
                 }
-                
+            }
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                FreezePositons(false, false);
+                TryJump();
             }
             if (Input.GetKeyDown(KeyCode.Space))
             {
                 TrySpecial();
             }
-
             Velocity.x = Input.GetAxis("Horizontal");
         }
     }

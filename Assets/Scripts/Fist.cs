@@ -11,6 +11,11 @@ public class Fist : DamageDealer
 
     public Vector3 startLoc;
 
+    private void Update()
+    {
+        if (collide.enabled == false) startLoc = transform.position;
+    }
+
     public void InitializeFist(Controller parentController)
     {
         ParentController = parentController;

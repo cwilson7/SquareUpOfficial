@@ -222,11 +222,17 @@ public abstract class Controller : MonoBehaviour
     void Flinch(bool fromLeft)
     {
         int mod;
-        if (PV.IsMine) mod = directionModifier;
+        Debug.Log("flinch is being called");
+        if (PV.IsMine)
+        {
+            mod = directionModifier;
+            Debug.Log("I am flinching");
+        }
         else
         {
             mod = GetComponent<AnimationSynchronization>().directionModifier;
-            GetComponent<AnimationSynchronization>().flinched = true;
+            GetComponent<AnimationSynchronization>().SetFlinch();
+            Debug.Log("someone else is flinching");
         }
         if (fromLeft)
         {
@@ -444,7 +450,8 @@ public abstract class Controller : MonoBehaviour
             }
             else rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
 
-            rb.useGravity = false;
+            //rb.useGravity = false;
+            
         }
         else
         {

@@ -30,6 +30,18 @@ public class AnimationSynchronization : MonoBehaviour, IPunObservable
         GhostAnimate(aim, isRunning, hasGun, melee);
     }
 
+    public void SetFlinch()
+    {
+        flinched = true;
+        StartCoroutine(FlinchTimer());
+    }
+
+    IEnumerator FlinchTimer()
+    {
+        yield return new WaitForSeconds(3 * 1f / PhotonNetwork.SerializationRate);
+        flinched = false;
+    }
+
     private void SetController()
     {
         controller = GetComponent<Controller>();

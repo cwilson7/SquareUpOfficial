@@ -57,11 +57,4 @@ public class YetiController : Controller
         Move(Velocity);
     }
 
-    public override void Gravity()
-    {
-        if (!isInSpecial)
-        {
-            base.Gravity();
-        }
-    }
 }

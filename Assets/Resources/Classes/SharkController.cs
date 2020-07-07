@@ -28,11 +28,6 @@ public class SharkController : Controller
         Move(Velocity);
     }
 
-    public override void Gravity()
-    {
-        if (!IsInSpecial) base.Gravity();
-    }
-
     IEnumerator SpecialTimer()
     {
         yield return new WaitForSeconds(5);

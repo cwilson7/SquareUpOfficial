@@ -66,6 +66,9 @@ MonoBehaviour:
   isRunning: 0
   hasGun: 0
   directionModifier: 0
+  sliding: 0
+  rayDist: 1
+  slideLimit: 45
   anim: {fileID: 0}
   numOfClicks: 0
   lastClickTime: 0
@@ -124,6 +127,18 @@ CapsuleCollider:
   m_Height: 0.038
   m_Direction: 1
   m_Center: {x: 0, y: 0.01, z: 0}
+--- !u!114 &5208239682524528652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8194536570786808942}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a045a602d3d3cdb4abcf6435b8489249, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!135 &2550031100827913236
 SphereCollider:
   m_ObjectHideFlags: 0

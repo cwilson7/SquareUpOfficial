@@ -82,6 +82,7 @@ public class GameInfo : MonoBehaviour
             if (!(bool)player.CustomProperties["LoadedIn"])
             {
                 allReady = false;
+                break;
             }
         }
         if (allReady)

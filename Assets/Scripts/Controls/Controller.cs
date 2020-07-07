@@ -17,6 +17,7 @@ public abstract class Controller : MonoBehaviour
     public ParticleSystem PaintExplosionSystem;
     [SerializeField] private GameObject baseOfCharacterPrefab;
     private Rigidbody rb;
+    private SphereCollider GroundCollider;
 
     public Weapon currentWeapon;
     public Fist Fist;
@@ -113,6 +114,8 @@ public abstract class Controller : MonoBehaviour
         baseOfCharacter = GetComponentInChildren<BaseOfCharacter>().gameObject.transform;
         baseOfCharacter.transform.position = new Vector3(baseOfCharacter.position.x, baseOfCharacter.position.y - distanceFromGround, baseOfCharacter.transform.position.z);
 
+        GroundCollider = GetComponentInChildren<GroundColliderBone>().gameObject.GetComponent<SphereCollider>();
+
         anim = GetComponentInChildren<Animator>();
 
         //rb.inertiaTensor = rb.inertiaTensor + new Vector3(rb.inertiaTensor.x * 100, rb.inertiaTensor.y * 100, rb.inertiaTensor.z * 100);
@@ -131,12 +134,7 @@ public abstract class Controller : MonoBehaviour
     void Update()
     {
         if (!controllerInitialized) return;
-        if (GameInfo.GI.TimeStopped || isDead)
-        {
-            BlockMovement();
-            return;
-        }
-        Gravity();
+        if (CheckForTimeStop()) return;
         TrackHP();
 
         if (!PV.IsMine) return;
@@ -162,10 +160,19 @@ public abstract class Controller : MonoBehaviour
         if (rb.velocity.y < 0) rb.velocity += Vector3.up * Physics.gravity.y * 0.5f * Time.deltaTime;
     }
 
-    private void BlockMovement()
+    private bool CheckForTimeStop()
     {
-        if (rb.useGravity) rb.useGravity = false;
-        rb.velocity = Vector3.zero;
+        if (GameInfo.GI.TimeStopped || isDead)
+        {
+            rb.useGravity = false;
+            rb.velocity = Vector3.zero;
+            return true;
+        }
+        else
+        {
+            rb.useGravity = true;
+            return false;
+        }
     }
 
     private void TrackHP()
@@ -295,20 +302,6 @@ public abstract class Controller : MonoBehaviour
     #endregion
 
     #region Movement Functions
-    public virtual void Gravity()
-    {
-        if (!rb.useGravity) rb.useGravity = true;
-        //if (rb.velocity.y < 0.5 && rb.velocity.y > -0.5) jumpNum = maxJumps;
-        //rb.mass = ogMass * Cube.cb.CurrentFace.GravityMultiplier;
-        LayerMask ground = LayerMask.GetMask("Platform");
-        isGrounded = Physics.CheckSphere(baseOfCharacter.position, groundDetectionRadius, ground);
-        if(isGrounded && rb.velocity.y < 0.5) jumpNum = maxJumps;
-        //if (isGrounded && Velocity.y < 0)
-        //{
-        //    Velocity.y = 0f;
-        //    jumpNum = maxJumps;
-        //}
-    }
 
     public virtual void Movement()
     {
@@ -464,7 +457,7 @@ public abstract class Controller : MonoBehaviour
     
     private void OnCollisionEnter(Collision other)
     {
-        
+        GroundCheck(other);
         GameObject otherGO = other.gameObject;
         if (otherGO.tag == "Projectile")
         {
@@ -481,6 +474,23 @@ public abstract class Controller : MonoBehaviour
             impact += proj.impactMultiplier * proj.Velocity.normalized;
             Destroy(otherGO);
         }
+    }
+
+    void GroundCheck(Collision collision)
+    {
+        bool touchingGround = false;
+        if (collision.collider.gameObject.layer == 8) {
+            foreach (ContactPoint cp in collision.contacts)
+            {
+                if (cp.thisCollider == GroundCollider)
+                {
+                    touchingGround = true;
+                    break;
+                }
+            }
+        }
+        isGrounded = touchingGround;
+        if (isGrounded) jumpNum = maxJumps;
     }
 
     private void OnTriggerEnter(Collider other)

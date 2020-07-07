@@ -13,6 +13,7 @@ public class Fist : DamageDealer
 
     private void Update()
     {
+        if (ParentController == null || !ParentController.controllerInitialized) return;
         if (collide.enabled == false) startLoc = transform.position;
     }
 

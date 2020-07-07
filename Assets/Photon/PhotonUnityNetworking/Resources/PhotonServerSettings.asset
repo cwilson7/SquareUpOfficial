@@ -69,6 +69,7 @@ MonoBehaviour:
   - SwitchToCubeClone_RPC
   - SyncStart_RPC
   - SyncTriggers_RPC
+  - Flinch_RPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

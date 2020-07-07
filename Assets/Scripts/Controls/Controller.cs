@@ -222,17 +222,11 @@ public abstract class Controller : MonoBehaviour
     void Flinch(bool fromLeft)
     {
         int mod;
-        Debug.Log("flinch is being called");
-        if (PV.IsMine)
-        {
-            mod = directionModifier;
-            Debug.Log("I am flinching");
-        }
+        if (PV.IsMine) mod = directionModifier;
         else
         {
             mod = GetComponent<AnimationSynchronization>().directionModifier;
             GetComponent<AnimationSynchronization>().SetFlinch();
-            Debug.Log("someone else is flinching");
         }
         if (fromLeft)
         {
@@ -497,31 +491,14 @@ public abstract class Controller : MonoBehaviour
 
             if (PV.IsMine)
             {
+                OnDamgeTaken?.Invoke(proj, this);
                 LoseHealth(proj.damage);
                 PV.RPC("Flinch_RPC", RpcTarget.AllBuffered, fromLeft);
-                OnDamgeTaken?.Invoke(proj, this);
                 GameInfo.GI.StatChange(proj.owner, "bulletsLanded");
             }
-            impact += proj.impactMultiplier * proj.Velocity.normalized;
+            //impact += proj.impactMultiplier * proj.Velocity.normalized;
             Destroy(otherGO);
         }
-    }
-
-    void GroundCheck(Collision collision)
-    {
-        bool touchingGround = false;
-        if (collision.collider.gameObject.layer == 8) {
-            foreach (ContactPoint cp in collision.contacts)
-            {
-                if (cp.thisCollider == GroundCollider)
-                {
-                    touchingGround = true;
-                    break;
-                }
-            }
-        }
-        isGrounded = touchingGround;
-        if (isGrounded) jumpNum = maxJumps;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -537,23 +514,32 @@ public abstract class Controller : MonoBehaviour
 
             if (PV.IsMine)
             {
+                OnDamgeTaken?.Invoke(fist, this);
                 LoseHealth(fist.damage);
                 PV.RPC("Flinch_RPC", RpcTarget.AllBuffered, fromLeft);
-                OnDamgeTaken?.Invoke(fist, this);
                 GameInfo.GI.StatChange(fist.owner, "punchesLanded");
             }
             
             //impact += fist.impactMultiplier * fist.Velocity.normalized;
         }
-        if (other.tag == "Damager")
+    }
+
+    void GroundCheck(Collision collision)
+    {
+        bool touchingGround = false;
+        if (collision.collider.gameObject.layer == 8)
         {
-            Damager thing = other.GetComponent<Damager>();
-            if (thing.owner == actorNr) return;
-            if (PV.IsMine)
+            foreach (ContactPoint cp in collision.contacts)
             {
-                //LoseHealth(thing.damage);
+                if (cp.thisCollider == GroundCollider)
+                {
+                    touchingGround = true;
+                    break;
+                }
             }
         }
+        isGrounded = touchingGround;
+        if (isGrounded) jumpNum = maxJumps;
     }
 
     #endregion

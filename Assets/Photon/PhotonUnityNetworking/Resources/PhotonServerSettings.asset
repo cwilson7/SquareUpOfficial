@@ -70,6 +70,8 @@ MonoBehaviour:
   - SyncStart_RPC
   - SyncTriggers_RPC
   - Flinch_RPC
+  - ResetColorInfo_RPC
+  - UpdateAllCharacters_RPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

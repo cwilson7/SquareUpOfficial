@@ -25,9 +25,9 @@ public class PlayerListController : MonoBehaviourPunCallbacks
     public override void OnPlayerEnteredRoom(Player player)
     {
         PlayerListing listing = Instantiate(playerListingPrefab, transform);
-        if(listing != null)
+        if (listing != null)
         {
-            listing.SetPlayerListing(player);
+            listing.SetPlayerListing(player, false);
             playerListings.Add(listing);
         }
     }
@@ -35,10 +35,10 @@ public class PlayerListController : MonoBehaviourPunCallbacks
     public override void OnPlayerLeftRoom(Player player)
     {
         int index = playerListings.FindIndex(x => x.Player == player);
-        if(index  != -1)
+        if (index != -1)
         {
             Destroy(playerListings[index].gameObject);
-            playerListings.RemoveAt(index);        
+            playerListings.RemoveAt(index);
         }
     }
 
@@ -48,24 +48,24 @@ public class PlayerListController : MonoBehaviourPunCallbacks
         resetCharBtn.onClick.AddListener(ResetPlayerInfo);
         playerListings = new List<PlayerListing>();
 
-        foreach(Player p in PhotonNetwork.PlayerList)
+        foreach (Player p in PhotonNetwork.PlayerList)
         {
             PlayerListing listing = Instantiate(playerListingPrefab, transform);
-            listing.SetPlayerListing(p);
+            listing.SetPlayerListing(p, false);
             playerListings.Add(listing);
         }
     }
 
-    public void UpdatePlayerListingsAndUsedColorList(Player p)
+    public void UpdatePlayerListingsAndUsedColorList(Player p, bool showColor)
     {
-        GetComponent<PhotonView>().RPC("SetPlayerInfo_RPC", RpcTarget.AllBuffered, p.ActorNumber);
+        GetComponent<PhotonView>().RPC("SetPlayerInfo_RPC", RpcTarget.AllBuffered, p.ActorNumber, showColor);
     }
 
     private void ResetPlayerInfo()
     {
         MultiplayerSettings.multiplayerSettings.SetCustomPlayerProperties("PlayerReady", false);
         MultiplayerSettings.multiplayerSettings.SetCustomPlayerProperties("SelectedCharacter", -1);
-        cspc.UpdateCurrentDisplayedCharacter();
+        //cspc.UpdateCharacterInformation();//UpdateCurrentDisplayedCharacter();
         cspc.SendToFirstCharacterPanel();
         StartCoroutine(InformationDelay());
     }
@@ -75,22 +75,23 @@ public class PlayerListController : MonoBehaviourPunCallbacks
         yield return new WaitForSeconds(0.5f);
         Player local = PhotonNetwork.LocalPlayer;
         if ((int)MultiplayerSettings.multiplayerSettings.localPlayerValues["AssignedColor"] != (int)local.CustomProperties["AssignedColor"] || (int)MultiplayerSettings.multiplayerSettings.localPlayerValues["SelectedCharacter"] != (int)local.CustomProperties["SelectedCharacter"]) StartCoroutine(InformationDelay());
-        else UpdatePlayerListingsAndUsedColorList(local);
+        else UpdatePlayerListingsAndUsedColorList(local, false);
     }
 
     [PunRPC]
-    private void SetPlayerInfo_RPC(int actorNumber)
+    private void SetPlayerInfo_RPC(int actorNumber, bool showColor)
     {
         Player p = PhotonNetwork.CurrentRoom.GetPlayer(actorNumber);
 
-        if (!LobbyController.lc.selectedMaterialIDs.Contains((int)p.CustomProperties["AssignedColor"])) {
+        if (!LobbyController.lc.selectedMaterialIDs.Contains((int)p.CustomProperties["AssignedColor"]))
+        {
             LobbyController.lc.selectedMaterialIDs.Add((int)p.CustomProperties["AssignedColor"]);
         }
 
         int index = playerListings.FindIndex(x => x.Player == p);
         if (index != -1)
         {
-            playerListings[index].SetPlayerListing(p);
+            playerListings[index].SetPlayerListing(p, showColor);
         }
     }
 }

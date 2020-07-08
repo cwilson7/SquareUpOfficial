@@ -1,16 +1,16 @@
 ﻿using Photon.Pun;
+using Photon.Realtime;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHandler
 {
     //some list of panels which is characterPages
-    
+
     [SerializeField] private GameObject charPanel, playerListPanel;
     [SerializeField] private float offsetFromLeftEdge, percentThreshold, easing;
     [SerializeField] private List<CharPage> characterPages;
@@ -20,7 +20,7 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
     public Camera charDisplayCamera;
     public Material defaultMaterial;
     private int swipeCounter = 0;
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -32,8 +32,55 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
         }
     }
 
+    public bool CheckForDuplicateMaterials()
+    {
+        List<int> colors = new List<int>();
+        int dups;
+        foreach (Player entry in PhotonNetwork.CurrentRoom.Players.Values)
+        {
+            int color = (int)entry.CustomProperties["AssignedColor"];
+            if (color != -1) colors.Add(color);
+        }
+        if (colors.Count() != colors.Distinct().Count())
+        {
+            List<int> duplicates = colors.GroupBy(x => x).Where(g => g.Count() > 1).Select(y => y.Key).ToList();
+            dups = duplicates.Count();
+            foreach (Player player in PhotonNetwork.CurrentRoom.Players.Values)
+            {
+                if (duplicates.Contains((int)player.CustomProperties["AssignedColor"]))
+                {
+                    ResetColorInfo(player);
+                    dups -= 1;
+                    if (dups == 0) break;
+                }
+            }
+            return true;
+        }
+        else return false;
+    }
+
+    private void ResetColorInfo(Player player)
+    {
+        int newID = GenerateRandomColorID();
+        ExitGames.Client.Photon.Hashtable customProperties = player.CustomProperties;
+        customProperties["AssignedColor"] = newID;
+        player.SetCustomProperties(customProperties);
+        LobbyController.lc.photonView.RPC("ResetColorInfo_RPC", RpcTarget.AllBuffered, player.ActorNumber, newID);
+    }
+
+    private int GenerateRandomColorID()
+    {
+        int maxColors = Mathf.Min(MultiplayerSettings.multiplayerSettings.maxPlayers, LobbyController.lc.availableMaterials.Count);
+        int color = UnityEngine.Random.Range(0, maxColors);
+        if (LobbyController.lc.selectedMaterialIDs.Contains(color))
+        {
+            return GenerateRandomColorID();
+        }
+        else return color;
+    }
+
     private void GenerateCharacterPanel(int charID)
-    {       
+    {
         GameObject newPanel = Instantiate(charPanel, gameObject.transform.position, Quaternion.identity, gameObject.transform);
         if (charID < LobbyController.lc.charAvatars.Count - 1)
         {
@@ -65,10 +112,11 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
 
     public void UpdateCurrentDisplayedCharacter()
     {
+
         GameObject charToDisplay = null;
         foreach (GameObject character in displayedCharacters.Values)
         {
-            if((int) MultiplayerSettings.multiplayerSettings.localPlayerValues["AssignedColor"] == -1) character.GetComponent<AvatarCharacteristics>().SetMaterial(defaultMaterial);
+            if ((int)MultiplayerSettings.multiplayerSettings.localPlayerValues["AssignedColor"] == -1) character.GetComponent<AvatarCharacteristics>().SetMaterial(defaultMaterial);
             else character.GetComponent<AvatarCharacteristics>().SetMaterial(LobbyController.lc.availableMaterials[(int)MultiplayerSettings.multiplayerSettings.localPlayerValues["AssignedColor"]]);
         }
         if ((bool)MultiplayerSettings.multiplayerSettings.localPlayerValues["PlayerReady"])
@@ -77,11 +125,11 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
             charToDisplay = (GameObject)displayedCharacters[(int)MultiplayerSettings.multiplayerSettings.localPlayerValues["SelectedCharacter"]];
             charToDisplay.GetComponent<AvatarCharacteristics>().SetMaterial(assignedMat);
         }
-        else if (displayedCharacters.ContainsKey(panelCounter-1))
+        else if (displayedCharacters.ContainsKey(panelCounter - 1))
         {
-            charToDisplay = (GameObject)displayedCharacters[panelCounter-1];           
+            charToDisplay = (GameObject)displayedCharacters[panelCounter - 1];
         }
-        if(charToDisplay != null) charToDisplay.SetActive(true);
+        if (charToDisplay != null) charToDisplay.SetActive(true);
     }
 
     public void OnDrag(PointerEventData data)
@@ -97,7 +145,7 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
     {
         if (percentage > 0)
         {
-            Vector2 lastPageLoc = characterPages[characterPages.Count-1].gameObject.GetComponent<RectTransform>().anchoredPosition;
+            Vector2 lastPageLoc = characterPages[characterPages.Count - 1].gameObject.GetComponent<RectTransform>().anchoredPosition;
             CharPage tmp = characterPages[0];
             characterPages.Add(tmp);
             characterPages.RemoveAt(0);
@@ -107,9 +155,9 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
         if (percentage < 0)
         {
             Vector2 firstPageLoc = characterPages[0].gameObject.GetComponent<RectTransform>().anchoredPosition;
-            CharPage tmp = characterPages[characterPages.Count-1];
+            CharPage tmp = characterPages[characterPages.Count - 1];
             characterPages.Insert(0, tmp);
-            characterPages.RemoveAt(characterPages.Count-1);
+            characterPages.RemoveAt(characterPages.Count - 1);
             RectTransform trans = tmp.gameObject.GetComponent<RectTransform>();
             trans.anchoredPosition = new Vector2(firstPageLoc.x - trans.rect.width, trans.anchoredPosition.y);
         }
@@ -151,13 +199,13 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
 
     private void SexyTransition(Vector3 startpos, Vector3 endpos, float panelSeconds, float carouselSeconds)
     {
-        if(!(bool)MultiplayerSettings.multiplayerSettings.localPlayerValues["PlayerReady"]) StartCoroutine(SexyTransitionCarousel(carouselSeconds));
+        if (!(bool)MultiplayerSettings.multiplayerSettings.localPlayerValues["PlayerReady"]) StartCoroutine(SexyTransitionCarousel(carouselSeconds));
         StartCoroutine(SexyTransitionPanels(startpos, endpos, panelSeconds));
     }
 
     IEnumerator SexyTransitionPanels(Vector3 startpos, Vector3 endpos, float seconds)
     {
-        float t = 0f; 
+        float t = 0f;
         while (t <= 1.0)
         {
             t += Time.deltaTime / seconds;
@@ -189,7 +237,7 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
         {
             page.SetPanelActive(false);
         }
-        SexyTransition(transform.position, panelLocation += new Vector3((swipeCounter)*Screen.width, 0, 0), easing, easing);
+        SexyTransition(transform.position, panelLocation += new Vector3((swipeCounter) * Screen.width, 0, 0), easing, easing);
         panelCounter = 0;
     }
 

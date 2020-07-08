@@ -8,13 +8,13 @@ using UnityEngine.SceneManagement;
 public class LobbyController : MonoBehaviourPunCallbacks
 {
     public static LobbyController lc;
-    
+
     public List<GameObject> charAvatars;
     public List<Material> availableMaterials;
     public List<int> selectedMaterialIDs;
     public List<int> IDsOfDisconnectedPlayers;
     public int currMasterID;
-    
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -90,7 +90,7 @@ public class LobbyController : MonoBehaviourPunCallbacks
             if (!IDsOfDisconnectedPlayers.Contains(otherPlayer.ActorNumber)) IDsOfDisconnectedPlayers.Add(otherPlayer.ActorNumber);
         }
         int myColorID = (int)otherPlayer.CustomProperties["AssignedColor"];
-        if(LobbyController.lc.selectedMaterialIDs.Contains(myColorID))
+        if (LobbyController.lc.selectedMaterialIDs.Contains(myColorID))
         {
             LobbyController.lc.selectedMaterialIDs.Remove(myColorID);
         }
@@ -117,5 +117,19 @@ public class LobbyController : MonoBehaviourPunCallbacks
             }
         }
         //display migrating host text
+    }
+
+    [PunRPC]
+    public void UpdateAllCharacters_RPC()
+    {
+        GameObject.Find("PlayerList").GetComponent<PlayerListController>().UpdatePlayerListingsAndUsedColorList(PhotonNetwork.LocalPlayer, true);
+        GameObject.Find("CharSelectPanelContainer").GetComponent<CharSelectPanelController>().UpdateCurrentDisplayedCharacter();
+    }
+
+    [PunRPC]
+    public void ResetColorInfo_RPC(int actorNr, int colorID)
+    {
+        if (PhotonNetwork.LocalPlayer.ActorNumber != actorNr) return;
+        MultiplayerSettings.multiplayerSettings.localPlayerValues["AssignedColor"] = colorID;
     }
 }

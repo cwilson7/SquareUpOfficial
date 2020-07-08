@@ -9,7 +9,7 @@ public class LobbyGameController : MonoBehaviour
 {
     public TMP_Text waitingTxt;
     private bool allReady;
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -19,7 +19,7 @@ public class LobbyGameController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(PhotonNetwork.IsConnected && (bool)PhotonNetwork.LocalPlayer.CustomProperties["PlayerReady"] && !allReady) CheckIfAllReady();
+        if (PhotonNetwork.IsConnected && (bool)PhotonNetwork.LocalPlayer.CustomProperties["PlayerReady"] && !allReady) CheckIfAllReady();
     }
 
     private void CheckIfAllReady()
@@ -38,10 +38,11 @@ public class LobbyGameController : MonoBehaviour
 
     IEnumerator StartingGame()
     {
-        Debug.Log("Starting game");
         //Aesthetic changes
+        while (GameObject.Find("CharSelectPanelContainer").GetComponent<CharSelectPanelController>().CheckForDuplicateMaterials()) { }
+        LobbyController.lc.gameObject.GetComponent<PhotonView>().RPC("UpdateAllCharacters_RPC", RpcTarget.AllBuffered);
         PhotonNetwork.CurrentRoom.IsOpen = false;
-        yield return new WaitForSeconds(5f);        
+        yield return new WaitForSeconds(5f);
         LobbyController.lc.StartGame();
     }
 }

@@ -10,7 +10,7 @@ public class PlayerListing : MonoBehaviour
 
     public Player Player { get; private set; }
 
-    public void SetPlayerListing(Player p)
+    public void SetPlayerListing(Player p, bool showColor)
     {
         Player = p;
         playerLabel.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, transform.parent.GetComponent<RectTransform>().rect.width);
@@ -18,7 +18,7 @@ public class PlayerListing : MonoBehaviour
         playerLabel.font = MultiplayerSettings.multiplayerSettings.font;
         if ((bool)p.CustomProperties["PlayerReady"])
         {
-            playerLabel.color = LobbyController.lc.availableMaterials[(int)p.CustomProperties["AssignedColor"]].color;
+            if (showColor) playerLabel.color = LobbyController.lc.availableMaterials[(int)p.CustomProperties["AssignedColor"]].color;
             playerLabel.text += " - " + LobbyController.lc.charAvatars[(int)p.CustomProperties["SelectedCharacter"]].name;
         }
         else

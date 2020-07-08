@@ -119,6 +119,15 @@ public class LobbyController : MonoBehaviourPunCallbacks
         //display migrating host text
     }
 
+    IEnumerator WaitForColorInfo()
+    {
+        yield return new WaitForSeconds(0.5f);
+        if (PhotonNetwork.LocalPlayer.CustomProperties["AssignedColor"] != MultiplayerSettings.multiplayerSettings.localPlayerValues["AssignedColor"])
+        {
+            StartCoroutine(WaitForColorInfo());
+        }
+    }
+
     [PunRPC]
     public void UpdateAllCharacters_RPC()
     {
@@ -131,5 +140,9 @@ public class LobbyController : MonoBehaviourPunCallbacks
     {
         if (PhotonNetwork.LocalPlayer.ActorNumber != actorNr) return;
         MultiplayerSettings.multiplayerSettings.localPlayerValues["AssignedColor"] = colorID;
+        if (PhotonNetwork.LocalPlayer.CustomProperties["AssignedColor"] != MultiplayerSettings.multiplayerSettings.localPlayerValues["AssignedColor"])
+        {
+            StartCoroutine(WaitForColorInfo());
+        }
     }
 }

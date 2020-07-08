@@ -45,7 +45,7 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
         {
             Debug.Log("I found duplicate colors");
             List<int> duplicates = colors.GroupBy(x => x).Where(g => g.Count() > 1).Select(y => y.Key).ToList();
-            Debug.Log("The duplicate color IDs are {" + duplicates + "}");
+            Debug.Log("The duplicate color IDs are {" + duplicates.ToArray() + "}");
             dups = duplicates.Count();
             foreach (Player player in PhotonNetwork.CurrentRoom.Players.Values)
             {
@@ -116,7 +116,6 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
 
     public void UpdateCurrentDisplayedCharacter()
     {
-
         GameObject charToDisplay = null;
         foreach (GameObject character in displayedCharacters.Values)
         {

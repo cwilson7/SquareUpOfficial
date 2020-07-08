@@ -130,6 +130,7 @@ public class LobbyController : MonoBehaviourPunCallbacks
     public void ResetColorInfo_RPC(int actorNr, int colorID)
     {
         if (PhotonNetwork.LocalPlayer.ActorNumber != actorNr) return;
-        MultiplayerSettings.multiplayerSettings.localPlayerValues["AssignedColor"] = colorID;
+        MultiplayerSettings.multiplayerSettings.SetCustomPlayerProperties("AssignedColor", colorID);
+        //MultiplayerSettings.multiplayerSettings.localPlayerValues["AssignedColor"] = colorID;
     }
 }

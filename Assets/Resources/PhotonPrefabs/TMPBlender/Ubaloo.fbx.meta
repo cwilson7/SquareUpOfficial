@@ -290,15 +290,15 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.5819936
-        functionName: MeleeEnd
+      - time: 0
+        functionName: MeleeStart
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0
-        functionName: MeleeStart
+      - time: 0.5434084
+        functionName: MeleeEnd
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
@@ -333,15 +333,15 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.5819936
-        functionName: MeleeEnd
+      - time: 0
+        functionName: MeleeStart
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0
-        functionName: MeleeStart
+      - time: 0.5369775
+        functionName: MeleeEnd
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
@@ -376,15 +376,15 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.5755627
-        functionName: MeleeEnd
+      - time: 0
+        functionName: MeleeStart
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0
-        functionName: MeleeStart
+      - time: 0.54019296
+        functionName: MeleeEnd
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0

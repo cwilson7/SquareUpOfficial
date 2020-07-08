@@ -79,10 +79,8 @@ public class GameInfo : MonoBehaviour
         allReady = true;
         foreach (Player player in PhotonNetwork.PlayerList)
         {
-            Debug.Log("checking if all ready");
             if (!(bool)player.CustomProperties["LoadedIn"])
             {
-                Debug.Log("someone isn't loaded in");
                 allReady = false;
                 break;
             }

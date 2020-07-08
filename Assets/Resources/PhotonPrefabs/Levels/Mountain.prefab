@@ -412,7 +412,7 @@ MonoBehaviour:
   face: {fileID: 0}
   num: 0
   GravityMultiplier: 1
-  theme: {fileID: 8300000, guid: 49ba8f7ecd4f6e140987cc1d4b1c079b, type: 3}
+  theme: {fileID: 8300000, guid: 7eca4d05ddc911f44b986348c5bcd838, type: 3}
 --- !u!1 &3595842605221882326
 GameObject:
   m_ObjectHideFlags: 0

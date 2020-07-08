@@ -43,12 +43,15 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
         }
         if (colors.Count() != colors.Distinct().Count())
         {
+            Debug.Log("I found duplicate colors");
             List<int> duplicates = colors.GroupBy(x => x).Where(g => g.Count() > 1).Select(y => y.Key).ToList();
+            Debug.Log("The duplicate color IDs are {" + duplicates + "}");
             dups = duplicates.Count();
             foreach (Player player in PhotonNetwork.CurrentRoom.Players.Values)
             {
                 if (duplicates.Contains((int)player.CustomProperties["AssignedColor"]))
                 {
+                    Debug.Log("player number " + player.ActorNumber + " has a duplicate color");
                     ResetColorInfo(player);
                     dups -= 1;
                     if (dups == 0) break;
@@ -62,6 +65,7 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
     private void ResetColorInfo(Player player)
     {
         int newID = GenerateRandomColorID();
+        Debug.Log("Setting player " + player.ActorNumber + " color to " + newID);
         ExitGames.Client.Photon.Hashtable customProperties = player.CustomProperties;
         customProperties["AssignedColor"] = newID;
         player.SetCustomProperties(customProperties);

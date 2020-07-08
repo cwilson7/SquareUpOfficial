@@ -17,7 +17,6 @@ public class MiniMapPlayer : MonoBehaviour
         ParentController = GetComponentInParent<Controller>();
         PV = GetComponentInParent<PhotonView>();
         PV.RPC("SetUpMiniMap_RPC", RpcTarget.AllBuffered, ParentController.actorNr);
-        Debug.Log("i am setting loadded in to true biottttttch");
         MultiplayerSettings.multiplayerSettings.SetCustomPlayerProperties("LoadedIn", true);
     }
 

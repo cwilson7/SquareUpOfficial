@@ -49,8 +49,10 @@ public abstract class Controller : MonoBehaviour
     public bool sliding;
     public float rayDist = 1f;
     public float slideLimit = 45;
+    public bool blockInput;
 
     public Animator anim;
+    public AnimtionEventHandler eventHandler;
     public int numOfClicks;
     public float lastClickTime;
     public float maxClickDelay;
@@ -93,6 +95,7 @@ public abstract class Controller : MonoBehaviour
         lastClickTime = 0;
         maxClickDelay = 0.5f;
         isGrounded = false;
+        blockInput = false;
 
         sliding = false;
         rayDist = 1f;
@@ -117,6 +120,8 @@ public abstract class Controller : MonoBehaviour
         GroundCollider = GetComponentInChildren<GroundColliderBone>().gameObject.GetComponent<SphereCollider>();
 
         anim = GetComponentInChildren<Animator>();
+        eventHandler = GetComponentInChildren<AnimtionEventHandler>();
+        eventHandler.InitializeEventHandler(this);
 
         //rb.inertiaTensor = rb.inertiaTensor + new Vector3(rb.inertiaTensor.x * 100, rb.inertiaTensor.y * 100, rb.inertiaTensor.z * 100);
 
@@ -204,7 +209,7 @@ public abstract class Controller : MonoBehaviour
             PV.RPC("RPC_MeleeEnd", RpcTarget.AllBuffered, actorNr, numOfClicks);
         }
 
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && !blockInput)
         {
             if (currentWeapon == null && punchCDTime <= 0)
             {
@@ -362,7 +367,7 @@ public abstract class Controller : MonoBehaviour
                 gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
             }
         }
-        else
+        else if(!blockInput)
         {
             if (Input.GetAxis("Horizontal") > 0 || Input.GetKeyDown(KeyCode.D))
             {

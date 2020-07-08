@@ -5065,6 +5065,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aim: {x: 0, y: 0, z: 0}
   directionModifier: 0
+  flinched: 0
 --- !u!54 &7934084828216822118
 Rigidbody:
   m_ObjectHideFlags: 0

@@ -66,9 +66,12 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
     {
         int newID = GenerateRandomColorID();
         Debug.Log("Setting player " + player.ActorNumber + " color to " + newID);
+        player.CustomProperties["AssignedColor"] = newID;
+        /*
         ExitGames.Client.Photon.Hashtable customProperties = player.CustomProperties;
         customProperties["AssignedColor"] = newID;
         player.SetCustomProperties(customProperties);
+        */
         LobbyController.lc.photonView.RPC("ResetColorInfo_RPC", RpcTarget.AllBuffered, player.ActorNumber, newID);
     }
 

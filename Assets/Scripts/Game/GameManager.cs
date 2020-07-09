@@ -55,6 +55,8 @@ public class GameManager : MonoBehaviour
     {
         if (powerUpCooldown < 0f)
         {
+            powerUpCooldown = powerUpMaxCooldown;
+            if (!PhotonNetwork.IsMasterClient) return;
             if (RandomPercent() <= percentOfPowerUpsWeapons)
             {
                 //instantiate weapon power up
@@ -65,7 +67,6 @@ public class GameManager : MonoBehaviour
                 //instantiate power up
                 PowerUpSelection(2);
             }
-            powerUpCooldown = powerUpMaxCooldown;
         }
     }
 

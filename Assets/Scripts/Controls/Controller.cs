@@ -45,11 +45,12 @@ public abstract class Controller : MonoBehaviour
     public bool isDead = false;
     public bool isRunning, hasGun;
     public int directionModifier;
-    private bool isGrounded;
+    public bool isGrounded;
     public bool sliding;
     public float rayDist = 1f;
     public float slideLimit = 45;
     public bool blockInput;
+    public bool isFalling;
 
     public Animator anim;
     public AnimtionEventHandler eventHandler;
@@ -96,6 +97,7 @@ public abstract class Controller : MonoBehaviour
         maxClickDelay = 0.5f;
         isGrounded = false;
         blockInput = false;
+        isFalling = false;
 
         sliding = false;
         rayDist = 1f;
@@ -163,6 +165,16 @@ public abstract class Controller : MonoBehaviour
         if (specialCDTime >= 0) specialCDTime -= Time.deltaTime;
         if (punchCDTime >= 0) punchCDTime -= Time.deltaTime;
         if (rb.velocity.y < 0) rb.velocity += Vector3.up * Physics.gravity.y * 0.5f * Time.deltaTime;
+        if(rb.velocity.y < -5)
+        {
+            isFalling = true;
+            anim.SetBool("Falling", true);
+        }
+        else
+        {
+            isFalling = false;
+            anim.SetBool("Falling", false);
+        }
     }
 
     private bool CheckForTimeStop()
@@ -528,6 +540,7 @@ public abstract class Controller : MonoBehaviour
             //impact += fist.impactMultiplier * fist.Velocity.normalized;
         }
     }
+
 
     void GroundCheck(Collision collision)
     {

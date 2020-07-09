@@ -389,7 +389,7 @@ public abstract class Controller : MonoBehaviour
         {
             if (Input.GetAxis("Horizontal") > 0 || Input.GetKeyDown(KeyCode.D))
             {
-                FreezePositons(false);
+                FreezePositions(false);
                 directionModifier = 1;
                 gameObject.transform.rotation = Quaternion.Euler(0, 100, 0);
                 anim.SetBool("Running", true);
@@ -397,7 +397,7 @@ public abstract class Controller : MonoBehaviour
             }
             if (Input.GetAxis("Horizontal") < 0 || Input.GetKeyDown(KeyCode.A))
             {
-                FreezePositons(false);
+                FreezePositions(false);
                 directionModifier = -1;
                 gameObject.transform.rotation = Quaternion.Euler(0, -100, 0);
                 anim.SetBool("Running", true);
@@ -408,12 +408,12 @@ public abstract class Controller : MonoBehaviour
                 anim.SetBool("Running", false);
                 if (isGrounded)
                 {
-                    FreezePositons(true);
+                    FreezePositions(true);
                 }
             }
             if (Input.GetKeyDown(KeyCode.W))
             {
-                FreezePositons(false);
+                FreezePositions(false);
                 TryJump();
             }
             if (Input.GetKeyDown(KeyCode.Space))
@@ -457,7 +457,7 @@ public abstract class Controller : MonoBehaviour
         jumpNum -= 1;
     }
 
-    public void FreezePositons(bool freeze)
+    public void FreezePositions(bool freeze)
     {
         if (freeze) rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;            
         else rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionZ;

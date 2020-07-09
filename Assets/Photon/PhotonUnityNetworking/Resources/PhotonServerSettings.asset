@@ -25,7 +25,7 @@ MonoBehaviour:
     AuthMode: 0
     EnableLobbyStatistics: 0
     NetworkLogging: 1
-  DevRegion: us
+  DevRegion: cae
   PunLogging: 0
   EnableSupportLogger: 0
   RunInBackground: 1
@@ -42,6 +42,7 @@ MonoBehaviour:
   - Fire
   - FireWarpMissile_RPC
   - FireWeapon_RPC
+  - Flinch_RPC
   - GameStart_RPC
   - InitializeCharacter_RPC
   - InitializeCube_RPC
@@ -53,6 +54,7 @@ MonoBehaviour:
   - LoseHealth_RPC
   - LoseWeapon_RPC
   - NewCurrentFace_RPC
+  - ResetColorInfo_RPC
   - RespawnSpaceship
   - RPC_MeleeAttack
   - RPC_MeleeEnd
@@ -69,9 +71,8 @@ MonoBehaviour:
   - SwitchToCubeClone_RPC
   - SyncStart_RPC
   - SyncTriggers_RPC
-  - Flinch_RPC
-  - ResetColorInfo_RPC
   - UpdateAllCharacters_RPC
+  - SetPlayerValuesTest_RPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

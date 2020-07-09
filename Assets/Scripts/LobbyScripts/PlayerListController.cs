@@ -67,20 +67,21 @@ public class PlayerListController : MonoBehaviourPunCallbacks
         MultiplayerSettings.multiplayerSettings.SetCustomPlayerProperties("SelectedCharacter", -1);
         //cspc.UpdateCharacterInformation();//UpdateCurrentDisplayedCharacter();
         cspc.SendToFirstCharacterPanel();
-        StartCoroutine(InformationDelay());
+        StartCoroutine(InformationDelay(false));
     }
 
-    public IEnumerator InformationDelay()
+    public IEnumerator InformationDelay(bool showColor)
     {
         yield return new WaitForSeconds(0.5f);
         Player local = PhotonNetwork.LocalPlayer;
-        if ((int)MultiplayerSettings.multiplayerSettings.localPlayerValues["AssignedColor"] != (int)local.CustomProperties["AssignedColor"] || (int)MultiplayerSettings.multiplayerSettings.localPlayerValues["SelectedCharacter"] != (int)local.CustomProperties["SelectedCharacter"]) StartCoroutine(InformationDelay());
-        else UpdatePlayerListingsAndUsedColorList(local, false);
+        if ((int)MultiplayerSettings.multiplayerSettings.localPlayerValues["AssignedColor"] != (int)local.CustomProperties["AssignedColor"] || (int)MultiplayerSettings.multiplayerSettings.localPlayerValues["SelectedCharacter"] != (int)local.CustomProperties["SelectedCharacter"]) StartCoroutine(InformationDelay(showColor));
+        else UpdatePlayerListingsAndUsedColorList(local, showColor);
     }
 
     [PunRPC]
     private void SetPlayerInfo_RPC(int actorNumber, bool showColor)
     {
+        
         Player p = PhotonNetwork.CurrentRoom.GetPlayer(actorNumber);
 
         if (!LobbyController.lc.selectedMaterialIDs.Contains((int)p.CustomProperties["AssignedColor"]))

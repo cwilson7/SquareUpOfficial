@@ -39,10 +39,17 @@ public class LobbyGameController : MonoBehaviour
     IEnumerator StartingGame()
     {
         //Aesthetic changes
-        GameObject.Find("CharSelectPanelContainer").GetComponent<CharSelectPanelController>().CheckForDuplicateMaterials();
-        LobbyController.lc.gameObject.GetComponent<PhotonView>().RPC("UpdateAllCharacters_RPC", RpcTarget.AllBuffered);
-        PhotonNetwork.CurrentRoom.IsOpen = false;
-        yield return new WaitForSeconds(5f);
-        LobbyController.lc.StartGame();
+        yield return new WaitForSeconds(1f);
+        if (GameObject.Find("CharSelectPanelContainer").GetComponent<CharSelectPanelController>().CheckForDuplicateMaterials())
+        {
+            StartCoroutine(StartingGame());
+        }
+        else
+        {
+            LobbyController.lc.gameObject.GetComponent<PhotonView>().RPC("UpdateAllCharacters_RPC", RpcTarget.AllBuffered);
+            PhotonNetwork.CurrentRoom.IsOpen = false;
+            yield return new WaitForSeconds(5f);
+            LobbyController.lc.StartGame();
+        }
     }
 }

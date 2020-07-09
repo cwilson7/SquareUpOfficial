@@ -34,6 +34,7 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
 
     public bool CheckForDuplicateMaterials()
     {
+        Debug.Log("checking for duplicates");
         List<int> colors = new List<int>();
         int dups;
         foreach (Player entry in PhotonNetwork.CurrentRoom.Players.Values)
@@ -57,9 +58,15 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
                     if (dups == 0) break;
                 }
             }
-            return true;
+            return true;//StartCoroutine(WaitForInfo());
         }
         else return false;
+    }
+
+    IEnumerator WaitForInfo()
+    {
+        yield return new WaitForSeconds(1f);
+        CheckForDuplicateMaterials();
     }
 
     private void ResetColorInfo(Player player)
@@ -82,7 +89,11 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
         {
             return GenerateRandomColorID();
         }
-        else return color;
+        else
+        {
+            LobbyController.lc.selectedMaterialIDs.Add(color);
+            return color;
+        }
     }
 
     private void GenerateCharacterPanel(int charID)

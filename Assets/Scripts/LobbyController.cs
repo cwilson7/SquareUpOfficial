@@ -122,15 +122,31 @@ public class LobbyController : MonoBehaviourPunCallbacks
     [PunRPC]
     public void UpdateAllCharacters_RPC()
     {
-        GameObject.Find("PlayerList").GetComponent<PlayerListController>().UpdatePlayerListingsAndUsedColorList(PhotonNetwork.LocalPlayer, true);
+        StartCoroutine(GameObject.Find("PlayerList").GetComponent<PlayerListController>().InformationDelay(true));//UpdatePlayerListingsAndUsedColorList(PhotonNetwork.LocalPlayer, true);
         GameObject.Find("CharSelectPanelContainer").GetComponent<CharSelectPanelController>().UpdateCurrentDisplayedCharacter();
     }
 
     [PunRPC]
     public void ResetColorInfo_RPC(int actorNr, int colorID)
     {
+        //StartCoroutine(GameObject.Find("PlayerList").GetComponent<PlayerListController>().InformationDelay(true));
         if (PhotonNetwork.LocalPlayer.ActorNumber != actorNr) return;
         MultiplayerSettings.multiplayerSettings.SetCustomPlayerProperties("AssignedColor", colorID);
         //MultiplayerSettings.multiplayerSettings.localPlayerValues["AssignedColor"] = colorID;
+    }
+
+    [PunRPC]
+    public void SetPlayerValuesTest_RPC()
+    {
+        PlayerListController plc = GameObject.Find("PlayerList").GetComponent<PlayerListController>();
+        CharSelectPanelController cspc = GameObject.Find("CharSelectPanelContainer").GetComponent<CharSelectPanelController>();
+
+        cspc.SendToPlayerList();
+        MultiplayerSettings.multiplayerSettings.SetCustomPlayerProperties("PlayerReady", true);
+        MultiplayerSettings.multiplayerSettings.SetCustomPlayerProperties("SelectedCharacter", 5);
+        if ((int)PhotonNetwork.LocalPlayer.CustomProperties["AssignedColor"] == -1) MultiplayerSettings.multiplayerSettings.SetCustomPlayerProperties("AssignedColor", 0);
+        //cspc.UpdateCurrentDisplayedCharacter();
+        //lbc.waitingTxt.enabled = (bool)MultiplayerSettings.multiplayerSettings.localPlayerValues["PlayerReady"];
+        StartCoroutine(plc.InformationDelay(false));
     }
 }

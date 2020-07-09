@@ -12,6 +12,7 @@ public class CharPage : MonoBehaviour
     [SerializeField] private float distanceFromCamera;
     [SerializeField] public GameObject myPanel;
     [SerializeField] private List<GameObject> panelElements;
+    public Button test;
 
     private int myCharID;
     private PlayerListController plc;
@@ -22,6 +23,7 @@ public class CharPage : MonoBehaviour
     private void Awake()
     {
         charSelectBtn.onClick.AddListener(SetPlayerInfo);
+        test.onClick.AddListener(TestButton);
         plc = GameObject.Find("PlayerList").GetComponent<PlayerListController>();
         cspc = GameObject.Find("CharSelectPanelContainer").GetComponent<CharSelectPanelController>();
         lbc = GameObject.Find("GameController").GetComponent<LobbyGameController>();
@@ -59,6 +61,11 @@ public class CharPage : MonoBehaviour
         }
     }
 
+    public void TestButton()
+    {
+        LobbyController.lc.photonView.RPC("SetPlayerValuesTest_RPC", RpcTarget.All);
+    }
+
     private void SetPlayerInfo()
     {
         cspc.SendToPlayerList();
@@ -67,7 +74,7 @@ public class CharPage : MonoBehaviour
         if((int)PhotonNetwork.LocalPlayer.CustomProperties["AssignedColor"] == -1) MultiplayerSettings.multiplayerSettings.SetCustomPlayerProperties("AssignedColor", GenerateRandomColorID());        
         //cspc.UpdateCurrentDisplayedCharacter();
         lbc.waitingTxt.enabled = (bool)MultiplayerSettings.multiplayerSettings.localPlayerValues["PlayerReady"];
-        StartCoroutine(plc.InformationDelay());
+        StartCoroutine(plc.InformationDelay(false));
     }
 
     private int GenerateRandomColorID()

@@ -162,15 +162,16 @@ public abstract class Controller : MonoBehaviour
     private void FixedUpdate()
     {
         if (!controllerInitialized) return;
+        HandleFallingAnimations();
+        if (!PV.IsMine) return;
         if (specialCDTime >= 0) specialCDTime -= Time.deltaTime;
         if (punchCDTime >= 0) punchCDTime -= Time.deltaTime;
         if (rb.velocity.y < 0) rb.velocity += Vector3.up * Physics.gravity.y * 0.5f * Time.deltaTime;
-        HandleFallingAnimations();
     }
 
     void HandleFallingAnimations()
     {
-        if (rb.velocity.y < 0 && !isGrounded)
+        if (rb.velocity.y < -1 && !isGrounded)
         {
             isFalling = true;
             anim.SetBool("Falling", true);
@@ -388,7 +389,7 @@ public abstract class Controller : MonoBehaviour
         {
             if (Input.GetAxis("Horizontal") > 0 || Input.GetKeyDown(KeyCode.D))
             {
-                FreezePositons(false, false);
+                FreezePositons(false);
                 directionModifier = 1;
                 gameObject.transform.rotation = Quaternion.Euler(0, 100, 0);
                 anim.SetBool("Running", true);
@@ -396,7 +397,7 @@ public abstract class Controller : MonoBehaviour
             }
             if (Input.GetAxis("Horizontal") < 0 || Input.GetKeyDown(KeyCode.A))
             {
-                FreezePositons(false, false);
+                FreezePositons(false);
                 directionModifier = -1;
                 gameObject.transform.rotation = Quaternion.Euler(0, -100, 0);
                 anim.SetBool("Running", true);
@@ -407,12 +408,12 @@ public abstract class Controller : MonoBehaviour
                 anim.SetBool("Running", false);
                 if (isGrounded)
                 {
-                    FreezePositons(true, false);
+                    FreezePositons(true);
                 }
             }
             if (Input.GetKeyDown(KeyCode.W))
             {
-                FreezePositons(false, false);
+                FreezePositons(false);
                 TryJump();
             }
             if (Input.GetKeyDown(KeyCode.Space))
@@ -456,27 +457,10 @@ public abstract class Controller : MonoBehaviour
         jumpNum -= 1;
     }
 
-    private void FreezePositons(bool x, bool y)
+    public void FreezePositons(bool freeze)
     {
-        if (x)
-        {
-            if (y)
-            {
-                rb.constraints = RigidbodyConstraints.FreezeAll;
-            }
-            else rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
-
-            //rb.useGravity = false;
-            
-        }
-        else
-        {
-            if (y)
-            {
-                rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezePositionZ;
-            }
-            else rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionZ;
-        }
+        if (freeze) rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;            
+        else rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionZ;
     }
     #endregion
 

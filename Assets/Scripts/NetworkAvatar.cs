@@ -20,6 +20,8 @@ public class NetworkAvatar : MonoBehaviourPun, IPunObservable
 
     private Controller m_controller;
 
+    private Vector3 controllerVelocity;
+
     private PhotonView PV;
 
     private Vector3 m_NetworkPosition;
@@ -53,6 +55,11 @@ public class NetworkAvatar : MonoBehaviourPun, IPunObservable
         {
             this.myCC.transform.rotation = this.m_NetworkRotation;//Quaternion.RotateTowards(this.myCC.transform.rotation, this.m_NetworkRotation, 1.0f / PhotonNetwork.SerializationRate);
             this.myCC.transform.position = Vector3.MoveTowards(this.myCC.transform.position, this.m_NetworkPosition, this.m_Distance * (1.0f / PhotonNetwork.SerializationRate));
+            if (controllerVelocity.x != 0)
+            {
+                m_controller.FreezePositons(false);
+            }
+            else m_controller.FreezePositons(true);
         }
     }
 
@@ -62,6 +69,7 @@ public class NetworkAvatar : MonoBehaviourPun, IPunObservable
         {
             stream.SendNext(this.myCC.transform.position);
             stream.SendNext(this.myCC.transform.rotation);
+            if (m_controller != null) stream.SendNext(m_controller.Velocity);
 
             if (this.m_SynchronizeVelocity)
             {
@@ -72,6 +80,7 @@ public class NetworkAvatar : MonoBehaviourPun, IPunObservable
         {
             this.m_NetworkPosition = (Vector3)stream.ReceiveNext();
             this.m_NetworkRotation = (Quaternion)stream.ReceiveNext();
+            if (m_controller != null) controllerVelocity = (Vector3)stream.ReceiveNext();
 
             if (this.m_TeleportEnabled)
             {

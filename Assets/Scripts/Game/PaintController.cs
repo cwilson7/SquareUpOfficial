@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-using System.Runtime.InteropServices;
 
 public class PaintController : MonoBehaviour
 {
@@ -14,14 +13,8 @@ public class PaintController : MonoBehaviour
         Controller.OnDamgeTaken += SplatterPaint;
     }
 
-    void OnPaintSplattered()
-    {
-        //notify game info
-    }
-
     void SplatterPaint(DamageDealer projInfo, Controller player)
     {
-        OnPaintSplattered();
         int attackerActorNumber = projInfo.owner;
         int attackerMatID = (int)PhotonNetwork.CurrentRoom.GetPlayer(attackerActorNumber).CustomProperties["AssignedColor"];
         int damagedActorNumber = player.actorNr;

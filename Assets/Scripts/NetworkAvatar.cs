@@ -69,7 +69,7 @@ public class NetworkAvatar : MonoBehaviourPun, IPunObservable
     {
         Vector3 direction = (m_NetworkPosition - transform.position).normalized;
         myRB.velocity = new Vector3(direction.x * m_controller.speed, myRB.velocity.y, 0f);
-        if (Mathf.Abs(m_NetworkPosition.y - transform.position.y) > 10)
+        if (Mathf.Abs(m_NetworkPosition.y - transform.position.y) > 30)
         {
             myRB.MovePosition(m_NetworkPosition);
         }

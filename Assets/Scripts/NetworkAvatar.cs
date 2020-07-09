@@ -15,8 +15,8 @@ public class NetworkAvatar : MonoBehaviourPun, IPunObservable
 {
     private float m_Distance;
 
-    //private CharacterController myCC;
-    private Rigidbody myCC;
+    //private CharacterController myRB;
+    private Rigidbody myRB;
 
     private Controller m_controller;
 
@@ -35,8 +35,8 @@ public class NetworkAvatar : MonoBehaviourPun, IPunObservable
 
     public void Awake()
     {
-        //this.myCC = GetComponent<CharacterController>();
-        this.myCC = GetComponent<Rigidbody>();
+        //this.myRB = GetComponent<CharacterController>();
+        this.myRB = GetComponent<Rigidbody>();
         this.PV = GetComponent<PhotonView>();
 
         this.m_NetworkPosition = new Vector3();
@@ -53,13 +53,14 @@ public class NetworkAvatar : MonoBehaviourPun, IPunObservable
         if (!m_controller.controllerInitialized) return;
         if (!this.PV.IsMine)
         {
-            this.myCC.transform.rotation = this.m_NetworkRotation;//Quaternion.RotateTowards(this.myCC.transform.rotation, this.m_NetworkRotation, 1.0f / PhotonNetwork.SerializationRate);
-            this.myCC.transform.position = Vector3.MoveTowards(this.myCC.transform.position, this.m_NetworkPosition, this.m_Distance * (1.0f / PhotonNetwork.SerializationRate));
+            this.myRB.transform.rotation = this.m_NetworkRotation;//Quaternion.RotateTowards(this.myRB.transform.rotation, this.m_NetworkRotation, 1.0f / PhotonNetwork.SerializationRate);
+            //this.myRB.transform.position = Vector3.MoveTowards(this.myRB.transform.position, this.m_NetworkPosition, this.m_Distance * (1.0f / PhotonNetwork.SerializationRate));
+            this.myRB.MovePosition(this.m_NetworkPosition);
             if (controllerVelocity.x != 0)
             {
-                m_controller.FreezePositons(false);
+                m_controller.FreezePositions(false);
             }
-            else m_controller.FreezePositons(true);
+            else m_controller.FreezePositions(true);
         }
     }
 
@@ -67,13 +68,13 @@ public class NetworkAvatar : MonoBehaviourPun, IPunObservable
     {
         if (stream.IsWriting)
         {
-            stream.SendNext(this.myCC.transform.position);
-            stream.SendNext(this.myCC.transform.rotation);
+            stream.SendNext(this.myRB.transform.position);
+            stream.SendNext(this.myRB.transform.rotation);
             if (m_controller != null) stream.SendNext(m_controller.Velocity);
 
             if (this.m_SynchronizeVelocity)
             {
-                stream.SendNext(this.myCC.velocity);
+                stream.SendNext(this.myRB.velocity);
             }
         }
         else
@@ -84,9 +85,9 @@ public class NetworkAvatar : MonoBehaviourPun, IPunObservable
 
             if (this.m_TeleportEnabled)
             {
-                if (Vector3.Distance(this.myCC.transform.position, this.m_NetworkPosition) > this.m_TeleportIfDistanceGreaterThan)
+                if (Vector3.Distance(this.myRB.transform.position, this.m_NetworkPosition) > this.m_TeleportIfDistanceGreaterThan)
                 {
-                    this.myCC.transform.position = this.m_NetworkPosition;
+                    this.myRB.transform.position = this.m_NetworkPosition;
                 }
             }
 
@@ -95,11 +96,11 @@ public class NetworkAvatar : MonoBehaviourPun, IPunObservable
                 float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTime));
 
                 //set velocity
-                if (m_controller != null) myCC.velocity = (Vector3)stream.ReceiveNext();//this.m_controller.Velocity = (Vector3)stream.ReceiveNext();
+                if (m_controller != null) myRB.velocity = (Vector3)stream.ReceiveNext();//this.m_controller.Velocity = (Vector3)stream.ReceiveNext();
 
-                this.m_NetworkPosition += this.myCC.velocity * lag;
+                this.m_NetworkPosition += this.myRB.velocity * lag;
 
-                this.m_Distance = Vector3.Distance(this.myCC.transform.position, this.m_NetworkPosition);
+                this.m_Distance = Vector3.Distance(this.myRB.transform.position, this.m_NetworkPosition);
             }
         }
     }

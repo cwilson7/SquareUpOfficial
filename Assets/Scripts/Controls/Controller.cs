@@ -165,7 +165,12 @@ public abstract class Controller : MonoBehaviour
         if (specialCDTime >= 0) specialCDTime -= Time.deltaTime;
         if (punchCDTime >= 0) punchCDTime -= Time.deltaTime;
         if (rb.velocity.y < 0) rb.velocity += Vector3.up * Physics.gravity.y * 0.5f * Time.deltaTime;
-        if(rb.velocity.y < -5)
+        HandleFallingAnimations();
+    }
+
+    void HandleFallingAnimations()
+    {
+        if (rb.velocity.y < 0 && !isGrounded)
         {
             isFalling = true;
             anim.SetBool("Falling", true);
@@ -444,7 +449,7 @@ public abstract class Controller : MonoBehaviour
 
     public void JumpAction()
     {
-        isGrounded = false;
+        //isGrounded = false;
         anim.SetTrigger("Jump");
         //rb.AddForce(jumpHeightMultiplier * Vector3.up);
         rb.velocity = new Vector3(rb.velocity.x, jumpHeightMultiplier, 0f);
@@ -496,7 +501,8 @@ public abstract class Controller : MonoBehaviour
     
     private void OnCollisionEnter(Collision other)
     {
-        GroundCheck(other);
+        //GroundCheck(other);
+        if (GroundCheck(other, true)) jumpNum = maxJumps;
         GameObject otherGO = other.gameObject;
         if (otherGO.tag == "Projectile")
         {
@@ -516,6 +522,16 @@ public abstract class Controller : MonoBehaviour
             //impact += proj.impactMultiplier * proj.Velocity.normalized;
             Destroy(otherGO);
         }
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        GroundCheck(collision, true);
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        GroundCheck(collision, false);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -542,8 +558,32 @@ public abstract class Controller : MonoBehaviour
     }
 
 
-    void GroundCheck(Collision collision)
+    bool GroundCheck(Collision collision, bool onGround)
     {
+        if (collision.collider.gameObject.layer == 8)
+        {
+            if (!onGround)
+            {
+                isGrounded = onGround;
+                return false;
+            }
+            else
+            {
+                foreach (ContactPoint cp in collision.contacts)
+                {
+                    if (cp.thisCollider == GroundCollider)
+                    {
+                        isGrounded = onGround;
+                        return true;
+                        //break;
+                    }
+                }
+                return false;
+            }
+        }
+        else return false;
+        //if (onGround) jumpNum = maxJumps;
+        /*
         bool touchingGround = false;
         if (collision.collider.gameObject.layer == 8)
         {
@@ -558,6 +598,7 @@ public abstract class Controller : MonoBehaviour
         }
         isGrounded = touchingGround;
         if (isGrounded) jumpNum = maxJumps;
+        */
     }
 
     #endregion

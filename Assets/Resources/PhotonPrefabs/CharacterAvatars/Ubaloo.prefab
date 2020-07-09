@@ -1,5 +1,18 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!135 &7845531078012750252
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8331141065783674648}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 2
+  m_Center: {x: 0, y: 1.75, z: 0}
 --- !u!95 &6215610414746586478
 Animator:
   serializedVersion: 3
@@ -66,10 +79,12 @@ MonoBehaviour:
   isRunning: 0
   hasGun: 0
   directionModifier: 0
+  isGrounded: 0
   sliding: 0
   rayDist: 1
   slideLimit: 45
   blockInput: 0
+  isFalling: 0
   anim: {fileID: 0}
   eventHandler: {fileID: 0}
   numOfClicks: 0
@@ -94,31 +109,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   indexesOfMaterial: 01000000
---- !u!114 &4002307957303562469
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8331141065783674648}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adda4de3cc16c684caec654867af9b21, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!135 &7845531078012750252
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8331141065783674648}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 2
-  m_Center: {x: 0, y: 1.75, z: 0}
 --- !u!114 &2118645630147155371
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129,6 +119,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a045a602d3d3cdb4abcf6435b8489249, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4002307957303562469
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8331141065783674648}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adda4de3cc16c684caec654867af9b21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &5116768727194231466
@@ -169,19 +171,6 @@ SphereCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.011
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!135 &6437394936553105590
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5956580882356538683}
-  m_Material: {fileID: 13400000, guid: 589301a1043a00a4facc5fc62793e002, type: 2}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.01
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &1871548711032859834
 MonoBehaviour:

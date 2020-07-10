@@ -4990,6 +4990,7 @@ GameObject:
   - component: {fileID: 7697128728284401797}
   - component: {fileID: 5408831916525806195}
   - component: {fileID: 5308247207386958806}
+  - component: {fileID: -4772409583596154050}
   m_Layer: 0
   m_Name: PlayerTestAvatar
   m_TagString: Player
@@ -5143,3 +5144,22 @@ MonoBehaviour:
   m_SynchronizeVelocity: 1
   m_TeleportEnabled: 0
   m_TeleportIfDistanceGreaterThan: 3
+--- !u!114 &-4772409583596154050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7553275058234249101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 39404453644a60f44af0ad6e3b05c4d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  allSounds:
+  - name: Slap
+    clip: {fileID: 8300000, guid: 30c617036dd191241a00e8c6db288e01, type: 3}
+    volume: 1
+    pitch: 1.5
+    source: {fileID: 0}
+  audioSource: {fileID: 0}

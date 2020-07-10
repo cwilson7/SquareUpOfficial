@@ -6,11 +6,13 @@ public class AnimtionEventHandler : MonoBehaviour
 {
     Controller parentController;
     public float meleeSlow;
+    public AudioSource ads;
     // Start is called before the first frame update
     public void InitializeEventHandler(Controller pc)
     {
         parentController = pc;
         meleeSlow = 0.35f;
+        //ads = GameObject.Find("AudioManager");
     } 
 
     // Update is called once per frame

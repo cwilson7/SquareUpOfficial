@@ -58,6 +58,9 @@ public abstract class Controller : MonoBehaviour
     public float lastClickTime;
     public float maxClickDelay;
 
+    public AudioHandler audioHandler;
+    public string audioKey;
+
 
 
     #region SET VALUES
@@ -124,6 +127,8 @@ public abstract class Controller : MonoBehaviour
         anim = GetComponentInChildren<Animator>();
         eventHandler = GetComponentInChildren<AnimtionEventHandler>();
         eventHandler.InitializeEventHandler(this);
+
+        audioHandler = GetComponent<AudioHandler>();
 
         //rb.inertiaTensor = rb.inertiaTensor + new Vector3(rb.inertiaTensor.x * 100, rb.inertiaTensor.y * 100, rb.inertiaTensor.z * 100);
 
@@ -490,6 +495,7 @@ public abstract class Controller : MonoBehaviour
         GameObject otherGO = other.gameObject;
         if (otherGO.tag == "Projectile")
         {
+            audioHandler.Play("", "Slap");
             Projectile proj = otherGO.GetComponent<Projectile>();
             if (proj.owner == actorNr) return;
             bool fromLeft = proj.Velocity.x > 0;
@@ -522,6 +528,7 @@ public abstract class Controller : MonoBehaviour
     {
         if (other.tag == "Fist")
         {
+            audioHandler.Play("" , "Slap");
             Fist fist = other.GetComponent<Fist>();
             if (fist.owner == actorNr) return;
             fist.SetCollider(false);

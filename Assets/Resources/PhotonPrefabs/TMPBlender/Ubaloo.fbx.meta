@@ -299,7 +299,8 @@ ModelImporter:
       - time: 0
         functionName: MeleeStart
         data: 
-        objectReferenceParameter: {instanceID: 0}
+        objectReferenceParameter: {fileID: 11500000, guid: b1a5b2225480dd147a5338d44290182a,
+          type: 3}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0

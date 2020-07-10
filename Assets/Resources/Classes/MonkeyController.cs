@@ -13,6 +13,8 @@ public class MonkeyController : Controller
     public override void InitializePlayerController()
     {
         base.InitializePlayerController();
+        audioKey = "Ubaloo";
+        audioHandler.InitializeAudio(audioKey);
         //sideWallCheck = GetComponentInChildren<SideSticky>().gameObject.transform;
         //celingWallCheck = GetComponentInChildren<AboveSticky>().gameObject.transform;
         //stickyDetectionRadius = .25f;

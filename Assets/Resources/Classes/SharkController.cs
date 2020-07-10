@@ -10,17 +10,19 @@ public class SharkController : Controller
     {
         base.InitializePlayerController();
         IsInSpecial = false;
+        audioKey = "Sharkito";
+        audioHandler.InitializeAudio(audioKey);
     }
 
     public override void SpecialAbility()
     {
-        IsInSpecial = true;
+        /*IsInSpecial = true;
         //_Collider.enabled = false;
         anim.SetBool("Special", true);
         speed = 20;
-        StartCoroutine(SpecialTimer());
+        StartCoroutine(SpecialTimer());*/
     }
-
+    /*
     public override void Movement()
     {
         if (!IsInSpecial) HandleInputs(iPhone);
@@ -53,6 +55,6 @@ public class SharkController : Controller
     {
         GameObject jaw = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/Weapons/" + "SharkJaw"), transform.position - new Vector3(0,0,0), Quaternion.Euler(0,180,0));
         jaw.GetComponent<Damager>().setValues(100, 5, actNum,0.25f);
-    }
+    }*/
 
 }

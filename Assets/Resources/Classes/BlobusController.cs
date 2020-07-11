@@ -11,6 +11,8 @@ public class BlobusController : Controller
         base.InitializePlayerController();
         warpDistance = 5;
         warpDelay = 0.1f;
+        audioKey = "Blobus";
+        audioHandler.InitializeAudio(audioKey);
     }
 
     public override void SpecialAbility()

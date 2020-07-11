@@ -8,6 +8,8 @@ public class GooseController : Controller
     {
         base.InitializePlayerController();
         maxJumps = 4;
+        audioKey = "Reginald";
+        audioHandler.InitializeAudio(audioKey);
     }
 
     public override void SpecialAbility()

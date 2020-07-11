@@ -9,6 +9,8 @@ public class MrBusinessController : Controller
     {
         base.InitializePlayerController();
         //paper = GetComponentInChildren<Special>().gameObject.GetComponent<SkinnedMeshRenderer>();
+        audioKey = "MrBusiness";
+        audioHandler.InitializeAudio(audioKey);
     }
 
     public override void SpecialAbility()
@@ -21,8 +23,8 @@ public class MrBusinessController : Controller
     IEnumerator PaperRenderer()
     {
         yield return new WaitForSeconds(.1f);
-        paper.enabled = true;
+        //paper.enabled = true;
         yield return new WaitForSeconds(1f);
-        paper.enabled = false;
+        //paper.enabled = false;
     }
 }

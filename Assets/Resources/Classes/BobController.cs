@@ -9,17 +9,19 @@ public class BobController : Controller
     public override void InitializePlayerController()
     {
         base.InitializePlayerController();
-        hook = gameObject.GetComponentInChildren<GraplingHook>();
-        hook.parentController = this;
+        //hook = gameObject.GetComponentInChildren<GraplingHook>();
+        //hook.parentController = this;
+        audioKey = "Bob";
+        audioHandler.InitializeAudio(audioKey);
     }
 
     public override void SpecialAbility()
     {
-        anim.SetTrigger("Special");
+       /* anim.SetTrigger("Special");
         hook.aimDirection.x = AimDirection.x;
         hook.aimDirection.y = AimDirection.y;
         hook.aimDirection.z = 0f; //AimDirection.z;
-        PV.RPC("FireWarpMissile_RPC", RpcTarget.AllBuffered, hook.aimDirection);
+        PV.RPC("FireWarpMissile_RPC", RpcTarget.AllBuffered, hook.aimDirection);*/
     }
 
     public void Warp(Vector3 place)
@@ -34,6 +36,6 @@ public class BobController : Controller
     [PunRPC]
     public void FireWarpMissile_RPC(Vector3 Direction)
     {
-        hook.Fire(Direction);
+       // hook.Fire(Direction);
     }
 }

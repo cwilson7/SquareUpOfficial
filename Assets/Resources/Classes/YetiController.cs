@@ -11,6 +11,8 @@ public class YetiController : Controller
     {
         base.InitializePlayerController();
         specialForce = 5f;
+        audioKey = "Yeti";
+        audioHandler.InitializeAudio(audioKey);
     }
 
     public override void SpecialAbility()

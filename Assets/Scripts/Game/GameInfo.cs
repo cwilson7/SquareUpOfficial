@@ -28,11 +28,11 @@ public class GameInfo : MonoBehaviour
     {
         GI = this;
         scoreTable = new Hashtable();
+        PV = GetComponent<PhotonView>();
     }
 
     public void InitializeGameInfo()
     {
-        PV = GetComponent<PhotonView>();
         TimeStopped = true;
         started= false;
         CubeClone = CopyCube(Cube.cb);

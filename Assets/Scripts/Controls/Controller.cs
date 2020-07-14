@@ -596,6 +596,12 @@ public abstract class Controller : MonoBehaviour
 
     #region RPC
 
+    [PunRPC]
+    public void AnimationSetPosition_RPC(Vector3 networkPos)
+    {
+        if (!PV.IsMine) transform.position = networkPos;
+    }
+
     public void LoseHealth(float lostHP)
     {
         PV.RPC("LoseHealth_RPC", RpcTarget.AllBuffered, lostHP);

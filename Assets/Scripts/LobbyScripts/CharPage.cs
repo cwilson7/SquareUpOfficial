@@ -7,12 +7,11 @@ using Photon.Pun;
 
 public class CharPage : MonoBehaviour
 {
-    [SerializeField] private TMP_Text charName;
+    [SerializeField] private TMP_Text charName, lockedText;
     [SerializeField] private Button charSelectBtn;
     [SerializeField] private float distanceFromCamera;
     [SerializeField] public GameObject myPanel;
     [SerializeField] private List<GameObject> panelElements;
-    public Button test;
 
     private int myCharID;
     private PlayerListController plc;
@@ -23,7 +22,6 @@ public class CharPage : MonoBehaviour
     private void Awake()
     {
         charSelectBtn.onClick.AddListener(SetPlayerInfo);
-        test.onClick.AddListener(TestButton);
         plc = GameObject.Find("PlayerList").GetComponent<PlayerListController>();
         cspc = GameObject.Find("CharSelectPanelContainer").GetComponent<CharSelectPanelController>();
         lbc = GameObject.Find("GameController").GetComponent<LobbyGameController>();
@@ -51,6 +49,15 @@ public class CharPage : MonoBehaviour
             trans.gameObject.layer = 9;
         }
         cspc.displayedCharacters.Add(charID, character);
+        if (ProgressionSystem.Instance.AvailableCharacters[charID].status == Status.Locked) SetToLockedPanel();
+    }
+
+    public void SetToLockedPanel()
+    {
+        panelElements.Add(lockedText.gameObject);
+        panelElements.Remove(GetComponentInChildren<Button>().gameObject);
+        lockedText.gameObject.SetActive(true);
+        GetComponentInChildren<Button>().gameObject.SetActive(false);
     }
 
     public void SetPanelActive(bool isActive)

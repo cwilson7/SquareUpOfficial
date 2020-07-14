@@ -1,5 +1,18 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!135 &2175286968392794967
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 880836532209574086}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 2.25
+  m_Center: {x: 0, y: 2.25, z: 0}
 --- !u!95 &-4598381459284448628
 Animator:
   serializedVersion: 3
@@ -32,6 +45,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   indexesOfMaterial: 01000000
+  MyLevel: {fileID: 4865601195487838244, guid: 3edaac64a82a06b408cffcfd5a1d6a55, type: 3}
+  skins:
+  - skinName: Default
+    status: 0
+    model: {fileID: 4046452051880423503}
+--- !u!114 &2654789763381751168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 880836532209574086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a045a602d3d3cdb4abcf6435b8489249, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3047901435444649200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 880836532209574086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adda4de3cc16c684caec654867af9b21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meleeSlow: 0
+  ads: {fileID: 0}
 --- !u!114 &4047463284271775393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -94,45 +138,6 @@ MonoBehaviour:
   audioKey: 
   specialForce: 0
   isInSpecial: 0
---- !u!114 &3047901435444649200
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 880836532209574086}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adda4de3cc16c684caec654867af9b21, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  meleeSlow: 0
-  ads: {fileID: 0}
---- !u!114 &2654789763381751168
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 880836532209574086}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a045a602d3d3cdb4abcf6435b8489249, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!135 &2175286968392794967
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 880836532209574086}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 2.25
-  m_Center: {x: 0, y: 2.25, z: 0}
 --- !u!114 &258243999740825123
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -7,9 +7,7 @@ using System;
 
 
 [RequireComponent(typeof(PhotonView))]
-//[RequireComponent(typeof(CharacterController))]
-//[RequireComponent(typeof(Controller))]
-[AddComponentMenu("Photon Networking/Photon Character Controller View")]
+[RequireComponent(typeof(Rigidbody))]
 
 public class NetworkAvatar : MonoBehaviourPun, IPunObservable
 {
@@ -54,9 +52,9 @@ public class NetworkAvatar : MonoBehaviourPun, IPunObservable
         if (!this.PV.IsMine)
         {
             this.myRB.transform.rotation = this.m_NetworkRotation;//Quaternion.RotateTowards(this.myRB.transform.rotation, this.m_NetworkRotation, 1.0f / PhotonNetwork.SerializationRate);
-            //this.myRB.transform.position = Vector3.MoveTowards(this.myRB.transform.position, this.m_NetworkPosition, this.m_Distance * (1.0f / PhotonNetwork.SerializationRate));
+            this.myRB.transform.position = Vector3.MoveTowards(this.myRB.transform.position, this.m_NetworkPosition, /*this.m_Distance * (1.0f / PhotonNetwork.SerializationRate)*/ Time.fixedDeltaTime);
             //this.myRB.velocity()
-            SetVelocity();
+            //SetVelocity();
             if (controllerVelocity.x != 0)
             {
                 m_controller.FreezePositions(false);
@@ -67,12 +65,16 @@ public class NetworkAvatar : MonoBehaviourPun, IPunObservable
 
     void SetVelocity()
     {
+        //lerp(1, 0, 0) = 1 lerp(1, 0, 1) = 0; Time.deltaTime = 1/60 * somenumber0 -> 1 1/3
+        transform.position = Vector3.Lerp(transform.position, m_NetworkPosition, Time.deltaTime * m_controller.speed);
+        /*
         Vector3 direction = (m_NetworkPosition - transform.position).normalized;
         myRB.velocity = new Vector3(direction.x * m_controller.speed, myRB.velocity.y, 0f);
         if (Mathf.Abs(m_NetworkPosition.y - transform.position.y) > 30)
         {
             myRB.MovePosition(m_NetworkPosition);
         }
+        */
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
@@ -85,7 +87,7 @@ public class NetworkAvatar : MonoBehaviourPun, IPunObservable
 
             if (this.m_SynchronizeVelocity)
             {
-                //stream.SendNext(this.myRB.velocity);
+                stream.SendNext(this.myRB.velocity);
             }
         }
         else
@@ -107,11 +109,11 @@ public class NetworkAvatar : MonoBehaviourPun, IPunObservable
                 float lag = Mathf.Abs((float)(PhotonNetwork.Time - info.SentServerTime));
 
                 //set velocity
-                //if (m_controller != null) myRB.velocity = (Vector3)stream.ReceiveNext();//this.m_controller.Velocity = (Vector3)stream.ReceiveNext();
+                if (m_controller != null) myRB.velocity = (Vector3)stream.ReceiveNext();//this.m_controller.Velocity = (Vector3)stream.ReceiveNext();
 
-                //this.m_NetworkPosition += this.myRB.velocity * lag;
+                this.m_NetworkPosition += this.myRB.velocity * lag;
 
-                //this.m_Distance = Vector3.Distance(this.myRB.transform.position, this.m_NetworkPosition);
+                this.m_Distance = Vector3.Distance(this.myRB.transform.position, this.m_NetworkPosition);
             }
         }
     }

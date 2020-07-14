@@ -5,6 +5,9 @@ using UnityEngine;
 public class AvatarCharacteristics : MonoBehaviour
 {
     public int[] indexesOfMaterial;
+    public Level MyLevel;
+    public List<CharacterSkin> skins; 
+
     public void SetMaterial(Material mat)
     {
         GameObject model = GetComponentInChildren<MaterialChange>().gameObject;

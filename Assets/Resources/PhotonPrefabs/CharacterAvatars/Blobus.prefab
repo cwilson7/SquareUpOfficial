@@ -1,5 +1,18 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!135 &8990174245332970868
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9214351577002888721}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.9
+  m_Center: {x: 0, y: 0.8, z: 0}
 --- !u!95 &2405640571165445815
 Animator:
   serializedVersion: 3
@@ -81,7 +94,7 @@ MonoBehaviour:
   audioKey: 
   warpDistance: 0
   warpDelay: 0
---- !u!114 &8114349260014213241
+--- !u!114 &3981764664928430529
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -90,10 +103,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 9214351577002888721}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a7e57b96aec248469e80b8e7c9930ad, type: 3}
+  m_Script: {fileID: 11500000, guid: a045a602d3d3cdb4abcf6435b8489249, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  indexesOfMaterial: 00000000
 --- !u!114 &4095018420500321763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -108,7 +120,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   meleeSlow: 0
   ads: {fileID: 0}
---- !u!114 &3981764664928430529
+--- !u!114 &8114349260014213241
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -117,22 +129,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 9214351577002888721}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a045a602d3d3cdb4abcf6435b8489249, type: 3}
+  m_Script: {fileID: 11500000, guid: 4a7e57b96aec248469e80b8e7c9930ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!135 &8990174245332970868
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9214351577002888721}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.9
-  m_Center: {x: 0, y: 0.8, z: 0}
+  indexesOfMaterial: 00000000
+  MyLevel: {fileID: 5853681100524729618, guid: ee205462690de104b84ce8c1f4be7b79, type: 3}
+  skins:
+  - skinName: Default
+    status: 0
+    model: {fileID: 7082181647374055556}
 --- !u!114 &4000517503409970988
 MonoBehaviour:
   m_ObjectHideFlags: 0

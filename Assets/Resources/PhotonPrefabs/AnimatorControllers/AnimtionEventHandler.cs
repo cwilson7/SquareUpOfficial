@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -27,8 +28,21 @@ public class AnimtionEventHandler : MonoBehaviour
     public void MeleeStart()
     {
         parentController.speed /= 4;
+        parentController.PV.RPC("AnimationSetPosition_RPC", RpcTarget.All, transform.position);
         StartCoroutine(MeleeSlow(meleeSlow));
     }
+
+    public void JumpStart()
+    {
+        parentController.PV.RPC("AnimationSetPosition_RPC", RpcTarget.All, transform.position);
+    }
+
+    public void JumpEnd()
+    {
+        parentController.PV.RPC("AnimationSetPosition_RPC", RpcTarget.All, transform.position);
+        Debug.Log("end of jump");
+    }
+
     private IEnumerator MeleeSlow(float delay)
     {
         yield return new WaitForSeconds(delay);

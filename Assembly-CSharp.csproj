@@ -172,6 +172,9 @@
     <Compile Include="Assets\Smooth Sync\Common\Required Internal Use Scripts\HalfHelper.cs" />
     <Compile Include="Assets\Smooth Sync\Common\Required Internal Use Scripts\MsgType.cs" />
     <Compile Include="Assets\Smooth Sync\Common\Required Internal Use Scripts\SyncMode.cs" />
+    <Compile Include="Assets\Smooth Sync\PUN2\Smooth Sync Asset\SmoothSyncPUN2.cs" />
+    <Compile Include="Assets\Smooth Sync\PUN2\Smooth Sync Asset\StatePUN2.cs" />
+    <Compile Include="Assets\Smooth Sync\PUN2\Smooth Sync Example Scene\Resources\SmoothSyncExamplePlayerControllerPUN2.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark02.cs" />

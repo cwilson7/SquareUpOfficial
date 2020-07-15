@@ -19,11 +19,11 @@ public class AnimtionEventHandler : MonoBehaviour
     // Update is called once per frame
     public void FlinchStart()
     {
-        parentController.blockInput = true;
+        //parentController.blockInput = true;
     }
     public void FlinchEnd()
     {
-        parentController.blockInput = false;
+        //parentController.blockInput = false;
     }
     public void MeleeStart()
     {
@@ -34,12 +34,12 @@ public class AnimtionEventHandler : MonoBehaviour
 
     public void JumpStart()
     {
-        parentController.PV.RPC("AnimationSetPosition_RPC", RpcTarget.All, transform.position);
+        //parentController.PV.RPC("AnimationSetPosition_RPC", RpcTarget.All, transform.position);
     }
 
     public void JumpEnd()
     {
-        parentController.PV.RPC("AnimationSetPosition_RPC", RpcTarget.All, transform.position);
+        //parentController.PV.RPC("AnimationSetPosition_RPC", RpcTarget.All, transform.position);
         Debug.Log("end of jump");
     }
 

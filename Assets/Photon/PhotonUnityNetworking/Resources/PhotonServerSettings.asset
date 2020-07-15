@@ -25,13 +25,14 @@ MonoBehaviour:
     AuthMode: 0
     EnableLobbyStatistics: 0
     NetworkLogging: 1
-  DevRegion: cae
+  DevRegion: us
   PunLogging: 0
   EnableSupportLogger: 0
   RunInBackground: 1
   StartInOfflineMode: 0
   RpcList:
   - AddStat_RPC
+  - AnimationSetPosition_RPC
   - Avalanche_RPC
   - ClickRpc
   - DestroyPowerUp_RPC
@@ -49,7 +50,6 @@ MonoBehaviour:
   - InitializeMyScore_RPC
   - InstantiatePowerUp_RPC
   - InvokeMusicChange_RPC
-  - Jaw_RPC
   - JumpAnimation_RPC
   - LoseHealth_RPC
   - LoseWeapon_RPC
@@ -63,6 +63,7 @@ MonoBehaviour:
   - SetFaces_RPC
   - SetLevels_RPC
   - SetPlayerInfo_RPC
+  - SetPlayerValuesTest_RPC
   - SetUpMiniMap_RPC
   - SpecialAnimation_RPC
   - SplatterPaint_RPC
@@ -72,8 +73,9 @@ MonoBehaviour:
   - SyncStart_RPC
   - SyncTriggers_RPC
   - UpdateAllCharacters_RPC
-  - SetPlayerValuesTest_RPC
-  - AnimationSetPosition_RPC
+  - RpcClearBuffer
+  - RpcNonServerOwnedTeleportFromServer
+  - RpcTeleport
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

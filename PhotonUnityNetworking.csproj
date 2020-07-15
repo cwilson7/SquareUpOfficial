@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{A82FEB91-ACE9-0D48-FF57-F47CA54ABDDA}</ProjectGuid>
+    <ProjectGuid>{164265F2-5E95-0A5C-3753-E47BC4016C6A}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>PhotonUnityNetworking</AssemblyName>
@@ -79,10 +79,10 @@
     <Compile Include="Assets\Photon\PhotonUnityNetworking\Code\Views\PhotonTransformViewClassic.cs" />
     <None Include="Assets\Photon\PhotonUnityNetworking\Code\PhotonUnityNetworking.asmdef" />
     <Reference Include="UnityEditor.UI">
-      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpOfficial/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpSimple/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpOfficial/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpSimple/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Users/sloan/Desktop/Chase/Unity Editor/2019.3.6f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -283,13 +283,13 @@
       <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/16.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
     <Reference Include="Photon3Unity3D">
-      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpOfficial/Assets/Photon/PhotonLibs/Photon3Unity3D.dll</HintPath>
+      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpSimple/Assets/Photon/PhotonLibs/Photon3Unity3D.dll</HintPath>
     </Reference>
     <Reference Include="websocket-sharp">
-      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpOfficial/Assets/Photon/PhotonLibs/WebSocket/websocket-sharp.dll</HintPath>
+      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpSimple/Assets/Photon/PhotonLibs/WebSocket/websocket-sharp.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.NRefactory">
-      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpOfficial/Library/PackageCache/com.unity.render-pipelines.core@7.1.8/Editor/ShaderGenerator/ICSharpCode.NRefactory.dll</HintPath>
+      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpSimple/Library/PackageCache/com.unity.render-pipelines.core@7.1.8/Editor/ShaderGenerator/ICSharpCode.NRefactory.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>C:/Users/sloan/Desktop/Chase/Unity Editor/2019.3.6f1/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
@@ -645,7 +645,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="PhotonRealtime.csproj">
-      <Project>{DD8D0020-36AA-21CA-20C1-2054537858CD}</Project>
+      <Project>{2EB9C85E-819E-7669-27F8-59E7BF9EFCE9}</Project>
       <Name>PhotonRealtime</Name>
     </ProjectReference>
   </ItemGroup>

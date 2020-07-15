@@ -49,14 +49,9 @@ public abstract class Controller : MonoBehaviour
     public bool sliding;
     public float rayDist = 1f;
     public float slideLimit = 45;
-    public bool blockInput;
     public bool isFalling;
 
     public Animator anim;
-    public AnimtionEventHandler eventHandler;
-    public int numOfClicks;
-    public float lastClickTime;
-    public float maxClickDelay;
 
     public AudioHandler audioHandler;
     public string audioKey;
@@ -95,11 +90,7 @@ public abstract class Controller : MonoBehaviour
         fistRadius = 5f;
         actorNr = GetComponent<PhotonView>().OwnerActorNr;
         ogMass = rb.mass;
-        numOfClicks = 0;
-        lastClickTime = 0;
-        maxClickDelay = 0.5f;
         isGrounded = false;
-        blockInput = false;
         isFalling = false;
 
         sliding = false;
@@ -125,8 +116,6 @@ public abstract class Controller : MonoBehaviour
         GroundCollider = GetComponentInChildren<GroundColliderBone>().gameObject.GetComponent<SphereCollider>();
 
         anim = GetComponentInChildren<Animator>();
-        eventHandler = GetComponentInChildren<AnimtionEventHandler>();
-        eventHandler.InitializeEventHandler(this);
 
         audioHandler = GetComponent<AudioHandler>();
 
@@ -225,20 +214,12 @@ public abstract class Controller : MonoBehaviour
     #region Mouse Tracking / Combat
     private void MouseCombat()
     {
-        if (Time.time - lastClickTime > maxClickDelay && numOfClicks > 0)
-        {
-            numOfClicks = 0;
-            punchCDTime = punchCooldown;
-            PV.RPC("RPC_MeleeEnd", RpcTarget.AllBuffered, actorNr, numOfClicks);
-        }
 
-        if (Input.GetMouseButtonDown(0) && !blockInput)
+        if (Input.GetMouseButtonDown(0))
         {
             if (currentWeapon == null && punchCDTime <= 0)
             {
-                lastClickTime = Time.time;
-                numOfClicks++;
-                Punch(numOfClicks);
+                PV.RPC("RPC_MeleeAttack", RpcTarget.AllBuffered, AimDirection, actorNr);
             }
             else if (currentWeapon != null)
             {
@@ -249,6 +230,7 @@ public abstract class Controller : MonoBehaviour
 
     void Flinch(bool fromLeft)
     {
+        /* REPLACE WITH IMPACT
         int mod;
         if (PV.IsMine) mod = directionModifier;
         else
@@ -258,14 +240,13 @@ public abstract class Controller : MonoBehaviour
         }
         if (fromLeft)
         {
-            if (mod == 1) anim.SetTrigger("RecoilF");
-            else anim.SetTrigger("RecoilB");
+
         }
         else
         {
-            if (mod == 1) anim.SetTrigger("RecoilB");
-            else anim.SetTrigger("RecoilF");
+
         }
+        */
     }
 
     public void TrackMouse()
@@ -275,8 +256,7 @@ public abstract class Controller : MonoBehaviour
         AimDirection = (MouseWorldPos - transform.position).normalized;
         AimDirection.z = transform.position.z;
 
-        anim.SetFloat("AimX", AimDirection.x * directionModifier);
-        anim.SetFloat("AimY", AimDirection.y);
+        //visual confirmation that gun is moving
     }
 
     private void Punch(int numPunch)
@@ -372,32 +352,27 @@ public abstract class Controller : MonoBehaviour
             //Horizontal movement
             if (moveStick.Horizontal >= 0.2)
             {
-                //Debug.Log("Move");
                 Velocity.x = 1;
-                //anim.SetBool("Run", true);
                 gameObject.transform.rotation = Quaternion.Euler(0, 90, 0);
             }
             else if (moveStick.Horizontal <= -0.2)
             {
                 Velocity.x = -1;
-                //anim.SetBool("Run", true);
                 gameObject.transform.rotation = Quaternion.Euler(0, -90, 0);
             }
             else
             {
                 Velocity.x = 0;
-                //anim.SetBool("Run", false);
                 gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
             }
         }
-        else if(!blockInput)
+        else 
         {
             if (Input.GetAxis("Horizontal") > 0 || Input.GetKeyDown(KeyCode.D))
             {
                 FreezePositions(false);
                 directionModifier = 1;
                 gameObject.transform.rotation = Quaternion.Euler(0, 100, 0);
-                anim.SetBool("Running", true);
 
             }
             if (Input.GetAxis("Horizontal") < 0 || Input.GetKeyDown(KeyCode.A))
@@ -405,12 +380,10 @@ public abstract class Controller : MonoBehaviour
                 FreezePositions(false);
                 directionModifier = -1;
                 gameObject.transform.rotation = Quaternion.Euler(0, -100, 0);
-                anim.SetBool("Running", true);
 
             }
             if (Input.GetAxis("Horizontal") == 0)
             {
-                anim.SetBool("Running", false);
                 if (isGrounded)
                 {
                     FreezePositions(true);
@@ -425,9 +398,12 @@ public abstract class Controller : MonoBehaviour
             {
                 TrySpecial();
             }
+            anim.SetFloat("Velocity", Mathf.Abs(rb.velocity.x));
             Velocity.x = Input.GetAxis("Horizontal");
         }
     }
+
+
 
     public void Move(Vector3 _velocity)
     {
@@ -455,9 +431,7 @@ public abstract class Controller : MonoBehaviour
 
     public void JumpAction()
     {
-        //isGrounded = false;
         anim.SetTrigger("Jump");
-        //rb.AddForce(jumpHeightMultiplier * Vector3.up);
         rb.velocity = new Vector3(rb.velocity.x, jumpHeightMultiplier, 0f);
         jumpNum -= 1;
     }
@@ -645,15 +619,14 @@ public abstract class Controller : MonoBehaviour
     {
         if (currentWeapon == null) return;
         currentWeapon.Remove();
-        anim.SetBool("Gun", false);
         currentWeapon = null;
     }
 
     [PunRPC]
-    public void RPC_MeleeAttack(Vector3 aimDir, int actorNumber, int punchNum)
+    public void RPC_MeleeAttack(Vector3 aimDir, int actorNumber)
     {
         Score playerInfo = (Score)GameInfo.GI.scoreTable[actorNumber];
-        playerInfo.playerAvatar.GetComponent<Controller>().anim.SetInteger("Melee",punchNum);
+        //PUNCH CODE ON FIST
         playerInfo.playerAvatar.GetComponent<Controller>().Fist.SetCollider(true);
     }
     [PunRPC]

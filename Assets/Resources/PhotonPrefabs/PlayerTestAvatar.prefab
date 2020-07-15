@@ -4984,10 +4984,9 @@ GameObject:
   - component: {fileID: 1008630218328219121}
   - component: {fileID: 6299201916958379825}
   - component: {fileID: 6391912281978112192}
-  - component: {fileID: 6374201829056692465}
   - component: {fileID: 7934084828216822118}
-  - component: {fileID: 5308247207386958806}
   - component: {fileID: -4772409583596154050}
+  - component: {fileID: 8857240145242137751}
   m_Layer: 0
   m_Name: PlayerTestAvatar
   m_TagString: Player
@@ -5031,8 +5030,7 @@ MonoBehaviour:
   Synchronization: 3
   OwnershipTransfer: 0
   ObservedComponents:
-  - {fileID: 5308247207386958806}
-  - {fileID: 6374201829056692465}
+  - {fileID: 8857240145242137751}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -5049,21 +5047,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   avatarOffset: 0.5
---- !u!114 &6374201829056692465
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7553275058234249101}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9b8e806294698a468f78546fc6a5484, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  aim: {x: 0, y: 0, z: 0}
-  directionModifier: 0
-  flinched: 0
 --- !u!54 &7934084828216822118
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -5080,21 +5063,6 @@ Rigidbody:
   m_Interpolate: 2
   m_Constraints: 120
   m_CollisionDetection: 3
---- !u!114 &5308247207386958806
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7553275058234249101}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28901c8b9b01c5148b66843589c816e0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SynchronizeVelocity: 1
-  m_TeleportEnabled: 0
-  m_TeleportIfDistanceGreaterThan: 3
 --- !u!114 &-4772409583596154050
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5114,3 +5082,52 @@ MonoBehaviour:
     pitch: 1.5
     source: {fileID: 0}
   audioSource: {fileID: 0}
+--- !u!114 &8857240145242137751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7553275058234249101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8069ffa6ab7df7340ad5ce0c3da47526, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interpolationBackTime: 0.12
+  extrapolationMode: 1
+  useExtrapolationTimeLimit: 1
+  extrapolationTimeLimit: 5
+  useExtrapolationDistanceLimit: 0
+  extrapolationDistanceLimit: 20
+  sendPositionThreshold: 0
+  sendRotationThreshold: 0
+  sendScaleThreshold: 0
+  sendVelocityThreshold: 0
+  sendAngularVelocityThreshold: 0
+  receivedPositionThreshold: 0
+  receivedRotationThreshold: 0
+  snapPositionThreshold: 0
+  snapRotationThreshold: 0
+  snapScaleThreshold: 0
+  positionLerpSpeed: 0.85
+  rotationLerpSpeed: 0.85
+  scaleLerpSpeed: 0.85
+  timeCorrectionSpeed: 0.1
+  snapTimeThreshold: 3
+  syncPosition: 0
+  syncRotation: 0
+  syncScale: 0
+  syncVelocity: 0
+  syncAngularVelocity: 0
+  isPositionCompressed: 0
+  isRotationCompressed: 0
+  isScaleCompressed: 0
+  isVelocityCompressed: 0
+  isAngularVelocityCompressed: 0
+  whenToUpdateTransform: 0
+  childObjectToSync: {fileID: 0}
+  setVelocityInsteadOfPositionOnNonOwners: 0
+  useLocalTransformOnly: 0
+  maxPositionDifferenceForVelocitySyncing: 10
+  receivedStatesCounter: 0

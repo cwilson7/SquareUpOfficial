@@ -14,8 +14,13 @@ public class AudioManager : MonoBehaviour
 
     void Start()
     {
-        if (AM != null) Destroy(this.gameObject);
-        AM = this;
+        if (AudioManager.AM != null)
+        {
+            Destroy(this);
+            Destroy(this.gameObject);
+            return;
+        }
+        AudioManager.AM = this;
         currentTheme = GetComponent<AudioSource>();
         SceneManager.sceneLoaded += SwitchThemeScene;
         Cube.CubeRotated += SwitchThemeLevel;
@@ -44,6 +49,7 @@ public class AudioManager : MonoBehaviour
 
             //game scene
             case 2:
+                if (AudioManager.AM == null) return;
                 StartCoroutine(WaitForCube());
                 if (Cube.cb == null) return;
                 Level level = Cube.cb.CurrentFace;

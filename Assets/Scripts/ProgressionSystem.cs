@@ -3,54 +3,65 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Runtime.Serialization.Formatters.Binary;
 using CustomUtilities;
+using System;
+using System.Runtime.InteropServices;
 
 [System.Serializable]
 public class ProgressionSystem : MonoBehaviour
 {
     public static ProgressionSystem Instance;
     public int SquareBucks;
-    public List<CharacterInfo> AvailableCharacters;
+    public Hashtable Characters;
     public List<CustomEffect> AvailableEffects;
 
     private void Awake()
     {
-        PlayerData LoadedInfo = SaveState.LoadInformation();
+        SetupSaveState();
+        DontDestroyOnLoad(this.gameObject);
+    }
+
+    public void SetupSaveState()
+    {
+        PlayerData LoadedInfo = null;//SaveState.LoadInformation();
         Instance = this;
         if (LoadedInfo == null) this.NewSave();
         else CopyLoadedInfo(LoadedInfo);
-        DontDestroyOnLoad(this.gameObject);
+
+        //SaveState.SaveInformation(this);
+        UnlockButton.ProgressionSystemChange += SaveState.SaveInformation;
+
     }
 
     public ProgressionSystem()
     {
-        AvailableCharacters = new List<CharacterInfo>();
         AvailableEffects = new List<CustomEffect>();
+        Characters = new Hashtable();
     }
 
     void NewSave()
     {
-        AvailableCharacters = NewCharacterInfoList();
+        Characters = NewCharacterInfoHash();
         SquareBucks = 500;
     }
 
     void CopyLoadedInfo(PlayerData LoadedInfo)
     {
-        this.AvailableCharacters = LoadedInfo.progressSystem.AvailableCharacters;
         this.SquareBucks = LoadedInfo.progressSystem.SquareBucks;
         this.AvailableEffects = LoadedInfo.progressSystem.AvailableEffects;
+        this.Characters = LoadedInfo.progressSystem.Characters;
     }
 
-    List<CharacterInfo> NewCharacterInfoList()
+    Hashtable NewCharacterInfoHash()
     {
-        List<CharacterInfo> ret = new List<CharacterInfo>();
+        Hashtable returnHash = new Hashtable();
         List<GameObject> Characters = new List<GameObject>();
         Utils.PopulateList<GameObject>(Characters, "PhotonPrefabs/CharacterAvatars");
         foreach (GameObject _char in Characters)
         {
-            CharacterInfo info = new CharacterInfo(_char.name, Status.Unlocked, _char.GetComponent<AvatarCharacteristics>().MyLevel, _char.GetComponent<AvatarCharacteristics>().skins);
-            ret.Add(info);
+            CharacterInfo info = new CharacterInfo(_char.name, Status.Unlocked, _char.GetComponent<AvatarCharacteristics>().MyLevels, _char.GetComponent<AvatarCharacteristics>().cosmetics);
+            returnHash.Add(info.characterName, info);
         }
-        return ret;
+        return returnHash;
     }
 }
 
@@ -59,24 +70,16 @@ public class CharacterInfo
 {
     public string characterName;
     public Status status;
-    public Level associatedLevel;
-    public List<CharacterSkin> skins;
+    public List<Level> associatedLevels;
+    public List<CosmeticItem> cosmetics;
 
-    public CharacterInfo(string _name, Status _status, Level _associatedLevel, List<CharacterSkin> _skins)
+    public CharacterInfo(string _name, Status _status, List<Level> _associatedLevels, List<CosmeticItem> _cosmetics)
     {
         characterName = _name;
         status = _status;
-        associatedLevel = _associatedLevel;
-        skins = _skins;
+        associatedLevels = _associatedLevels;
+        cosmetics = _cosmetics;
     }
-}
-
-[System.Serializable]
-public class CharacterSkin
-{
-    public string skinName;
-    public Status status;
-    public GameObject model;
 }
 
 public class CustomEffect : MonoBehaviour
@@ -85,6 +88,7 @@ public class CustomEffect : MonoBehaviour
 
 }
 
+[System.Serializable]
 public class PlayerData
 {
     public ProgressionSystem progressSystem;
@@ -95,11 +99,13 @@ public class PlayerData
     }
 }
 
+[System.Serializable]
 public static class SaveState
 {
     
     public static void SaveInformation (ProgressionSystem _ps)
     {
+        Debug.Log("progression state saved");
         BinaryFormatter formatter = new BinaryFormatter();
         string path = Application.persistentDataPath + "/Progress.balls";
         System.IO.FileStream stream = new System.IO.FileStream(path, System.IO.FileMode.Create);
@@ -117,9 +123,12 @@ public static class SaveState
         {
             BinaryFormatter formatter = new BinaryFormatter();
             System.IO.FileStream stream = new System.IO.FileStream(path, System.IO.FileMode.Open);
+
+            PlayerData data = (PlayerData)formatter.Deserialize(stream);
+            
             stream.Close();
 
-            return (PlayerData)formatter.Deserialize(stream);
+            return data;
         } 
         else
         {

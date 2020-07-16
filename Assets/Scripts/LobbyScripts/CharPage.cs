@@ -49,7 +49,9 @@ public class CharPage : MonoBehaviour
             trans.gameObject.layer = 9;
         }
         cspc.displayedCharacters.Add(charID, character);
-        if (ProgressionSystem.Instance.AvailableCharacters[charID].status == Status.Locked) SetToLockedPanel();
+
+        CharacterInfo info = (CharacterInfo)ProgressionSystem.Instance.Characters[LobbyController.lc.charAvatars[charID].name];
+        if (info.status == Status.Locked) SetToLockedPanel();
     }
 
     public void SetToLockedPanel()

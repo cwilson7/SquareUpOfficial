@@ -5,8 +5,8 @@ using UnityEngine;
 public class AvatarCharacteristics : MonoBehaviour
 {
     public int[] indexesOfMaterial;
-    public Level MyLevel;
-    public List<CharacterSkin> skins; 
+    public List<Level> MyLevels;
+    public List<CosmeticItem> cosmetics; 
 
     public void SetMaterial(Material mat)
     {

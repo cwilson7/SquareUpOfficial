@@ -20,7 +20,8 @@ public abstract class Controller : MonoBehaviour
     private SphereCollider GroundCollider;
 
     public Weapon currentWeapon;
-    public Fist Fist;
+    public Fist RFist;
+    public Fist LFist;
     public MiniMapPlayer mmPlayer;
 
     //Control UI
@@ -70,7 +71,7 @@ public abstract class Controller : MonoBehaviour
         AimDirection = Vector2.zero;
 
         //Default values for all players
-        speed = 25f;
+        speed = 20f;
         gravity = -9.8f;
         jumpHeightMultiplier = 50f;
         groundDetectionRadius = 0.75f;
@@ -88,14 +89,10 @@ public abstract class Controller : MonoBehaviour
         fistActiveTime = 0.5f;
         directionModifier = 1;
         fistRadius = 5f;
-        actorNr = GetComponent<PhotonView>().OwnerActorNr;
+        actorNr = PV.OwnerActorNr;
         ogMass = rb.mass;
         isGrounded = false;
         isFalling = false;
-
-        sliding = false;
-        rayDist = 1f;
-        slideLimit = 45;
 
         PaintExplosionSystem = GetComponentInChildren<ParticleSystem>();
         
@@ -105,8 +102,14 @@ public abstract class Controller : MonoBehaviour
         if (iPhone) SwipeDetector.OnSwipe += TouchCombat;
         if (!iPhone) moveStick.gameObject.SetActive(false);
 
-        Fist = GetComponentInChildren<Fist>();
-        Fist.InitializeFist(this);
+        GameObject rf = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/Fists/DashBase/" +"DashBaseFist"), GetComponentInChildren<RFist>().gameObject.transform.position, Quaternion.identity);
+        rf.transform.parent = GetComponentInChildren<RFist>().gameObject.transform;
+        GameObject lf = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/Fists/DashBase/" +"DashBaseFist"), GetComponentInChildren<LFist>().gameObject.transform.position, Quaternion.identity);
+        lf.transform.parent = GetComponentInChildren<LFist>().gameObject.transform;
+        RFist = rf.GetComponent<Fist>();
+        LFist = lf.GetComponent<Fist>();
+        RFist.InitializeFist(this);
+        LFist.InitializeFist(this);
 
         mmPlayer = GetComponentInChildren<MiniMapPlayer>();
 
@@ -168,12 +171,12 @@ public abstract class Controller : MonoBehaviour
         if (rb.velocity.y < -1 && !isGrounded)
         {
             isFalling = true;
-            anim.SetBool("Falling", true);
+            //anim.SetBool("Falling", true);
         }
         else
         {
             isFalling = false;
-            anim.SetBool("Falling", false);
+            //anim.SetBool("Falling", false);
         }
     }
 
@@ -219,7 +222,7 @@ public abstract class Controller : MonoBehaviour
         {
             if (currentWeapon == null && punchCDTime <= 0)
             {
-                PV.RPC("RPC_MeleeAttack", RpcTarget.AllBuffered, AimDirection, actorNr);
+                PV.RPC("RPC_MeleeAttack", RpcTarget.AllBuffered, AimDirection, actorNr,0);
             }
             else if (currentWeapon != null)
             {
@@ -623,18 +626,12 @@ public abstract class Controller : MonoBehaviour
     }
 
     [PunRPC]
-    public void RPC_MeleeAttack(Vector3 aimDir, int actorNumber)
+    public void RPC_MeleeAttack(Vector3 aimDir, int actorNumber, int whichFist)
     {
         Score playerInfo = (Score)GameInfo.GI.scoreTable[actorNumber];
         //PUNCH CODE ON FIST
-        playerInfo.playerAvatar.GetComponent<Controller>().Fist.SetCollider(true);
-    }
-    [PunRPC]
-    public void RPC_MeleeEnd(int actorNumber, int punchNum)
-    {
-        Score playerInfo = (Score)GameInfo.GI.scoreTable[actorNumber];
-        playerInfo.playerAvatar.GetComponent<Controller>().anim.SetInteger("Melee", punchNum);
-        playerInfo.playerAvatar.GetComponent<Controller>().Fist.SetCollider(false);
+        if (whichFist == 1) playerInfo.playerAvatar.GetComponent<Controller>().RFist.Punch(aimDir);
+        else playerInfo.playerAvatar.GetComponent<Controller>().LFist.Punch(aimDir);
     }
 
     [PunRPC]

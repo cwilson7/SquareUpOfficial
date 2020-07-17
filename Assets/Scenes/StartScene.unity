@@ -720,6 +720,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5168560915a2be442a061c35034e1259, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shopButton: {fileID: 1612867129}
   startButton: {fileID: 1463596464}
   loadingTxtPrefab: {fileID: 282374089698689900, guid: f29031e793a030243a9280cc134ce921,
     type: 3}

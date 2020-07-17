@@ -1,12 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Video;
 
 public class AvatarCharacteristics : MonoBehaviour
 {
     public int[] indexesOfMaterial;
     public List<Level> MyLevels;
-    public List<CosmeticItem> cosmetics; 
+    public List<CosmeticItem> cosmetics;
+    public VideoClip myDemo;
 
     public void SetMaterial(Material mat)
     {

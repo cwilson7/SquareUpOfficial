@@ -19,6 +19,13 @@ public class MultiplayerSettings : MonoBehaviour
 
     private void Awake()
     {
+        if (MultiplayerSettings.multiplayerSettings != null)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
+        else MultiplayerSettings.multiplayerSettings = this;
+        /*
         if(MultiplayerSettings.multiplayerSettings == null)
         {
             MultiplayerSettings.multiplayerSettings = this;
@@ -30,6 +37,7 @@ public class MultiplayerSettings : MonoBehaviour
                 Destroy(this.gameObject);
             }
         }
+        */
         DontDestroyOnLoad(this.gameObject);
     }
 

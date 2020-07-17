@@ -13,9 +13,13 @@ public class ProgressionSystem : MonoBehaviour
     public int SquareBucks;
     public Hashtable Characters;
     public List<CustomEffect> AvailableEffects;
-
     private void Awake()
     {
+        if (ProgressionSystem.Instance != null)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
         SetupSaveState();
         DontDestroyOnLoad(this.gameObject);
     }
@@ -28,8 +32,8 @@ public class ProgressionSystem : MonoBehaviour
         else CopyLoadedInfo(LoadedInfo);
 
         //SaveState.SaveInformation(this);
-        UnlockButton.ProgressionSystemChange += SaveState.SaveInformation;
-
+        //UnlockButton.ProgressionSystemChange += SaveState.SaveInformation;
+        //ShopController.SaveGane += SaveState.SaveInformation;
     }
 
     public ProgressionSystem()
@@ -58,7 +62,7 @@ public class ProgressionSystem : MonoBehaviour
         Utils.PopulateList<GameObject>(Characters, "PhotonPrefabs/CharacterAvatars");
         foreach (GameObject _char in Characters)
         {
-            CharacterInfo info = new CharacterInfo(_char.name, Status.Unlocked, _char.GetComponent<AvatarCharacteristics>().MyLevels, _char.GetComponent<AvatarCharacteristics>().cosmetics);
+            CharacterInfo info = new CharacterInfo(_char.name, Status.Locked, _char.GetComponent<AvatarCharacteristics>().MyLevels, _char.GetComponent<AvatarCharacteristics>().cosmetics);
             returnHash.Add(info.characterName, info);
         }
         return returnHash;

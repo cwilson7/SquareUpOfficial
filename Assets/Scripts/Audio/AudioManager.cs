@@ -14,6 +14,7 @@ public class AudioManager : MonoBehaviour
 
     void Start()
     {
+        if (AM != null) Destroy(this.gameObject);
         AM = this;
         currentTheme = GetComponent<AudioSource>();
         SceneManager.sceneLoaded += SwitchThemeScene;
@@ -61,6 +62,7 @@ public class AudioManager : MonoBehaviour
 
     void SwitchTrack(AudioClip track)
     {
+        if (AM == null) return;
         currentTheme.Stop();
         currentTheme.clip = track;
         currentTheme.Play();

@@ -6,12 +6,13 @@ using Photon.Realtime;
 using UnityEngine.UI;
 using System.Net;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class PhotonLobby : MonoBehaviourPunCallbacks
 {
     public static PhotonLobby lobby;
 
-    public GameObject startButton, loadingTxtPrefab, roomNotFoundTxtPrefab, roomListContent, joinRndLobbyBtn, chooseModePnl, startPnl, createRoomPnl, currentPnl;
+    public GameObject shopButton, startButton, loadingTxtPrefab, roomNotFoundTxtPrefab, roomListContent, joinRndLobbyBtn, chooseModePnl, startPnl, createRoomPnl, currentPnl;
     [SerializeField] Canvas canvas;
     private Hashtable loadingObjects;
 
@@ -29,7 +30,8 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
         Loading(true, startButton);
         // Once we move to server implementation, this needs to be changed to "PhotonNetwork.ConnectToMaster(IP of server, port of server, our decided name of server);"
         PhotonNetwork.AutomaticallySyncScene = true;
-        PhotonNetwork.ConnectUsingSettings();
+        if (!PhotonNetwork.IsConnected) PhotonNetwork.ConnectUsingSettings();
+        else Loading(false, startButton);
     }
 
     public override void OnConnectedToMaster()
@@ -150,6 +152,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
     private void Loading(bool isLoading, GameObject item)
     {
         item.SetActive(!isLoading);
+        shopButton.SetActive(!isLoading);
         GameObject loading = (GameObject)loadingObjects[item];
         loading.SetActive(isLoading);
     }
@@ -205,6 +208,12 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
         SetLoadingHash(startButton);
         SetLoadingHash(roomListContent);
         SetLoadingHash(joinRndLobbyBtn);
+    }
+
+    public void MoveToShopScene()
+    {
+        SceneManager.LoadScene("ShopScene");
+        Destroy(PhotonRoom.room.gameObject);
     }
     #endregion
 }

@@ -88,7 +88,9 @@ public class Fist : DamageDealer
 
     private void trackMouse(Vector3 aimDir)
     {
-        rb.position = aimDir*2;
+        //rb.position = aimDir*2;
+        //rb.
+        //rb.MovePosition(ParentController.currentWeapon.transform.position);
     }
 
     public void SetCollider(bool isActive) { collide.enabled = isActive; }

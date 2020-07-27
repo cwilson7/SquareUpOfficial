@@ -49,7 +49,7 @@ public class AudioManager : MonoBehaviour
 
             //game scene
             case 2:
-                if (AudioManager.AM == null) return;
+                if (AudioManager.AM != this) return;
                 StartCoroutine(WaitForCube());
                 if (Cube.cb == null) return;
                 Level level = Cube.cb.CurrentFace;

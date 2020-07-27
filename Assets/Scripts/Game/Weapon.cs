@@ -37,13 +37,13 @@ public class Weapon : MonoBehaviour
     {
         if (directionCheck)
         {
-            if (Direction.x > 0) SetTransform(0, -90, Mathf.Rad2Deg * Mathf.Atan(Direction.y / Direction.x), lerp);
-            else SetTransform(0, -90, 180 + Mathf.Rad2Deg * Mathf.Atan(Direction.y / Direction.x), lerp);
+            if (Direction.x > 0) SetTransform(180, -90, -180-Mathf.Rad2Deg * Mathf.Atan(Direction.y / -Direction.x), lerp);
+            else SetTransform(0, -90, Mathf.Rad2Deg * Mathf.Atan(Direction.y / -Direction.x), lerp);
         }
         else
         {
-            if (Direction.x > 0) SetTransform(0, -90, 180 + Mathf.Rad2Deg * Mathf.Atan(-Direction.y / Direction.x), lerp);
-            else SetTransform(0, -90, Mathf.Rad2Deg * Mathf.Atan(-Direction.y / Direction.x), lerp);
+            if (Direction.x > 0) SetTransform(0, -90, Mathf.Rad2Deg * Mathf.Atan(-Direction.y / -Direction.x), lerp);
+            else SetTransform(180, -90, -180 - Mathf.Rad2Deg * Mathf.Atan(-Direction.y / -Direction.x), lerp);
         }
     }
 

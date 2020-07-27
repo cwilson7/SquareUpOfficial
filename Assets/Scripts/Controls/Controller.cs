@@ -268,6 +268,12 @@ public abstract class Controller : MonoBehaviour
         PV.RPC("RPC_MeleeAttack", RpcTarget.AllBuffered, AimDirection, actorNr, numPunch);
     }
 
+    public void EquipWeapon()
+    {
+        RFist.SetHasGun(true);
+        LFist.SetHasGun(true);
+    }
+
     #endregion
 
     #region Death/ Respawn
@@ -623,6 +629,8 @@ public abstract class Controller : MonoBehaviour
         if (currentWeapon == null) return;
         currentWeapon.Remove();
         currentWeapon = null;
+        RFist.SetHasGun(false);
+        LFist.SetHasGun(false);
     }
 
     [PunRPC]

@@ -62,7 +62,8 @@ public class ProgressionSystem : MonoBehaviour
         Utils.PopulateList<GameObject>(Characters, "PhotonPrefabs/CharacterAvatars");
         foreach (GameObject _char in Characters)
         {
-            CharacterInfo info = new CharacterInfo(_char.name, Status.Unlocked, _char.GetComponent<AvatarCharacteristics>().MyLevels, _char.GetComponent<AvatarCharacteristics>().cosmetics);
+            AvatarCharacteristics AC = _char.GetComponent<AvatarCharacteristics>();
+            CharacterInfo info = new CharacterInfo(_char.name, Status.Unlocked, AC.MyLevels, AC.LoadCosmetics());
             returnHash.Add(info.characterName, info);
         }
         return returnHash;

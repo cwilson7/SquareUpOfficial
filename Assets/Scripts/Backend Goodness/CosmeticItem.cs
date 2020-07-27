@@ -7,21 +7,19 @@ public class CosmeticItem
 {
     public CosmeticType type;
     public GameObject model;
-    public Transform location;
 
-    public CosmeticItem(CosmeticType _type, GameObject _model, Transform _location)
+    public CosmeticItem(CosmeticType _type, GameObject _model)
     {
         type = _type;
         model = _model;
-        location = _location;
     }
 }
 
 public enum CosmeticType
 {
     Head,
-    Face, 
+    Face,
+    Accessory,
     Fist,
-    Foot, 
     Body
 }

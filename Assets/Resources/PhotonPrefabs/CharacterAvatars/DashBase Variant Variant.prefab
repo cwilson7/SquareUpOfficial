@@ -12,6 +12,11 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 639886661610140145, guid: 2d562000d0e34b24d817b0628bb8daea,
+        type: 3}
+      propertyPath: folders.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 2107699797787565478, guid: 2d562000d0e34b24d817b0628bb8daea,
         type: 3}
       propertyPath: m_ConnectedAnchor.x

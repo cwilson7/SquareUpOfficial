@@ -13,7 +13,7 @@ public class AvatarCharacteristics : MonoBehaviour
     [Tooltip("Enter only the name of specified character's cosmetics folder")]
     [SerializeField] private string CosmeticFolder;
 
-    [SerializeField] private Tuple<string, CosmeticType>[] folders;
+    [SerializeField] private CosmeticLoader[] folders;
 
     public List<CosmeticItem> LoadCosmetics()
     {

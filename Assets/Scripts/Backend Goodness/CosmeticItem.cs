@@ -15,6 +15,7 @@ public class CosmeticItem
     }
 }
 
+[System.Serializable]
 public enum CosmeticType
 {
     Head,
@@ -22,4 +23,11 @@ public enum CosmeticType
     Accessory,
     Fist,
     Body
+}
+
+[System.Serializable]
+public class CosmeticLoader
+{
+    string FolderName;
+    CosmeticType cosmeticType;
 }

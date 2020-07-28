@@ -5,13 +5,17 @@ using UnityEngine;
 [System.Serializable]
 public class CosmeticItem
 {
+    public string name;
     public CosmeticType type;
     public GameObject model;
+    public Status status;
 
-    public CosmeticItem(CosmeticType _type, GameObject _model)
+    public CosmeticItem(CosmeticType _type, GameObject _model, Status _status)
     {
+        name = _model.name;
         type = _type;
         model = _model;
+        status = _status;
     }
 }
 
@@ -28,6 +32,12 @@ public enum CosmeticType
 [System.Serializable]
 public class CosmeticLoader
 {
-    string FolderName;
-    CosmeticType cosmeticType;
+    public string FolderName;
+    public CosmeticType cosmeticType;
+
+    public CosmeticLoader(string path, CosmeticType _type)
+    {
+        FolderName = path;
+        cosmeticType = _type;
+    }
 }

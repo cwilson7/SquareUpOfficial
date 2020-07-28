@@ -12,10 +12,13 @@ public class ShopPanel : MonoBehaviour
     private VideoPlayer videoPlayer;
     [HideInInspector] public GameObject Character;
     [HideInInspector] public CharacterInfo charInfo;
+    public GameObject CosmeticPanel;
     private VideoClip demo;
     [SerializeField] private TMP_Text header;
+    public GameObject MainShopPnl;
 
     GameObject DisplayedCharacter;
+    Vector3 DisplayedCharacterOffset = new Vector3(1f, 0, 0);
 
     [SerializeField] private GameObject LockedPanel, UnlockedPanel;
 
@@ -25,6 +28,13 @@ public class ShopPanel : MonoBehaviour
         CharacterSetup();
         SetUpAbilityDemo();
         SetPanelLockedInfo();
+        SetUpCosmeticPanel();
+    }
+
+    private void SetUpCosmeticPanel()
+    {
+        CosmeticPanel.GetComponent<CosmeticPanel>().charInfo = charInfo;
+        CosmeticPanel.GetComponent<CosmeticPanel>().Initialize();
     }
 
     public void SetPanelLockedInfo()
@@ -87,5 +97,19 @@ public class ShopPanel : MonoBehaviour
     {
         ShopController.Instance.mainPanel.SetActive(true);
         DontDisplay();
+    }
+
+    public void OpenCosmeticsPanel()
+    {
+        CosmeticPanel.SetActive(true);
+        MainShopPnl.SetActive(false);
+        DisplayedCharacter.transform.position += DisplayedCharacterOffset;
+    }
+
+    public void CloseCosmeticsPanel()
+    {
+        CosmeticPanel.SetActive(false);
+        MainShopPnl.SetActive(true);
+        DisplayedCharacter.transform.position -= DisplayedCharacterOffset;
     }
 }

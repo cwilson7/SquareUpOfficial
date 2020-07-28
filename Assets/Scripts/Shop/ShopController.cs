@@ -18,7 +18,6 @@ public class ShopController : MonoBehaviour
     public GameObject mainPanel;
 
     public List<GameObject> characterPanels;
-    //int i = 0;
 
     void Start()
     {
@@ -31,21 +30,7 @@ public class ShopController : MonoBehaviour
             characterPanels.Add(GenerateShopPanel(charAvatars[j]));
         }
         mainPanel.GetComponent<MainPanel>().InitializeCharacterButtons();
-        //StartCoroutine(testing());
     }
-
-    /*
-    IEnumerator testing()
-    {
-        if (i == 0) characterPanels[0].GetComponent<ShopPanel>().Display();
-        yield return new WaitForSeconds(4f);
-        characterPanels[i].GetComponent<ShopPanel>().DontDisplay();
-        i += 1;
-        if (i > characterPanels.Count - 1) i = 0;
-        characterPanels[i].GetComponent<ShopPanel>().Display();
-        StartCoroutine(testing());
-    }
-    */
 
     GameObject GenerateShopPanel(GameObject _character)
     {

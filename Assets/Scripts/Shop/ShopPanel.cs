@@ -34,6 +34,7 @@ public class ShopPanel : MonoBehaviour
     private void SetUpCosmeticPanel()
     {
         CosmeticPanel.GetComponent<CosmeticPanel>().charInfo = charInfo;
+        CosmeticPanel.GetComponent<CosmeticPanel>().DisplayedCharacter = DisplayedCharacter;
         CosmeticPanel.GetComponent<CosmeticPanel>().Initialize();
     }
 

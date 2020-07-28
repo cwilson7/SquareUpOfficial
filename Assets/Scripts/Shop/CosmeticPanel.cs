@@ -14,6 +14,7 @@ public class CosmeticPanel : MonoBehaviour
         foreach (CosmeticOptionsHandler option in GetComponentsInChildren<CosmeticOptionsHandler>())
         {
             option.info = charInfo;
+            option.displayedCharacter = DisplayedCharacter;
             option.LoadGrid();
             option.gameObject.SetActive(false);
         }

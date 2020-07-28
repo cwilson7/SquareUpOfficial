@@ -6,6 +6,7 @@ using CustomUtilities;
 using System;
 using UnityEngine.Events;
 using UnityEditor;
+using WebSocketSharp;
 
 public class AvatarCharacteristics : MonoBehaviour
 {
@@ -65,28 +66,50 @@ public class AvatarCharacteristics : MonoBehaviour
 
     public void EquipCosmetic(CosmeticItem item)
     {
-        if (info.currentSet.cosmetics[item.type] != null)
-        {
-
-        }
         info.currentSet.UpdateSet(item);
         info.currentSet.SaveSet(info);
+        RemoveCosmetics();
         DisplayCosmetics();
     }
 
     public void RemoveCosmetics()
     {
-
+        foreach (KeyValuePair<CosmeticType, CosmeticItem> kvp in info.currentSet.cosmetics)
+        {
+            CosmeticItem item = info.currentSet.cosmetics[kvp.Key];
+            if (item.referencedObject != null) Destroy(item.referencedObject);
+        }
     }
 
     public void DisplayCosmetics()
     {
         foreach (KeyValuePair<CosmeticType, CosmeticItem> kvp in info.currentSet.cosmetics)
         {
-            if (kvp.Value == null) return;
-            Instantiate(kvp.Value.model);
+            if (!kvp.Value.name.IsNullOrEmpty())
+            {
+                CosmeticItem item = info.currentSet.cosmetics[kvp.Key];
+                item.referencedObject = Instantiate(kvp.Value.model, gameObject.transform);
+                item.referencedObject.layer = LayerMask.NameToLayer(LayerMask.LayerToName(gameObject.layer));
+                GetChildRecursive(this.gameObject);
+                item.referencedObject.tag = gameObject.tag;
+            }
         }
     }
+
+    private void GetChildRecursive(GameObject obj)
+    {
+        if (null == obj)
+            return;
+
+        foreach (Transform child in obj.transform)
+        {
+            if (null == child)
+                continue;
+            child.gameObject.layer = LayerMask.NameToLayer(LayerMask.LayerToName(gameObject.layer)); ;
+            GetChildRecursive(child.gameObject);
+        }
+    }
+
 }
 
 [System.Serializable]
@@ -110,7 +133,7 @@ public class CosmeticSet : ISerializationCallbackReceiver
     public void UpdateSet(CosmeticItem item)
     {
         if (!cosmetics.ContainsKey(item.type)) return;
-
+        
         cosmetics[item.type] = item;
     }
 

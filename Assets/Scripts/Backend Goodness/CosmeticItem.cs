@@ -9,6 +9,7 @@ public class CosmeticItem
     public CosmeticType type;
     public GameObject model;
     public Status status;
+    public GameObject referencedObject;
 
     public CosmeticItem(CosmeticType _type, GameObject _model, Status _status)
     {

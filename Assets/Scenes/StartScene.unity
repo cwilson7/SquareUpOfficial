@@ -1314,6 +1314,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6586790f9fea08e4688aab4a146769d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _keys: []
+  _values: []
   SquareBucks: 0
   AvailableEffects: []
 --- !u!1 &377810032

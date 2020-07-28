@@ -12,18 +12,21 @@ public class CosmeticOptionsHandler : MonoBehaviour
 
     [HideInInspector] public CharacterInfo info;
     [SerializeField] private CosmeticType cosmeticType;
+    [HideInInspector] public GameObject displayedCharacter;
 
     public void LoadGrid()
     {
         foreach (CosmeticItem item in info.cosmetics)
         {
-            if (item.type != cosmeticType) return;
-            GameObject optionGO = Instantiate(cosmeticOptionPrefab, cosmeticsGrid.transform);
-            optionGO.GetComponent<CosmeticOptionButton>().option = item;
-            optionGO.GetComponent<CosmeticOptionButton>().avatar = info.model.GetComponent<AvatarCharacteristics>();
+            if (item.type == cosmeticType)
+            {
+                GameObject optionGO = Instantiate(cosmeticOptionPrefab, cosmeticsGrid.transform);
+                optionGO.GetComponent<CosmeticOptionButton>().option = item;
+                optionGO.GetComponent<CosmeticOptionButton>().avatar = displayedCharacter.GetComponent<AvatarCharacteristics>();
 
-            if (item.status == Status.Locked) optionGO.GetComponentInChildren<TMP_Text>().text = "Locked.";
-            else optionGO.GetComponentInChildren<TMP_Text>().text = item.name;
+                if (item.status == Status.Locked) optionGO.GetComponentInChildren<TMP_Text>().text = "Locked.";
+                else optionGO.GetComponentInChildren<TMP_Text>().text = item.name;
+            }
         }
     }
 

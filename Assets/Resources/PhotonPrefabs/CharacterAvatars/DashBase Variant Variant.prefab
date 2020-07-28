@@ -12,6 +12,61 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 639886661610140145, guid: 2d562000d0e34b24d817b0628bb8daea,
+        type: 3}
+      propertyPath: folders.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 639886661610140145, guid: 2d562000d0e34b24d817b0628bb8daea,
+        type: 3}
+      propertyPath: folders.Array.data[1].cosmeticType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 639886661610140145, guid: 2d562000d0e34b24d817b0628bb8daea,
+        type: 3}
+      propertyPath: folders.Array.data[2].cosmeticType
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 639886661610140145, guid: 2d562000d0e34b24d817b0628bb8daea,
+        type: 3}
+      propertyPath: folders.Array.data[3].cosmeticType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 639886661610140145, guid: 2d562000d0e34b24d817b0628bb8daea,
+        type: 3}
+      propertyPath: folders.Array.data[4].cosmeticType
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 639886661610140145, guid: 2d562000d0e34b24d817b0628bb8daea,
+        type: 3}
+      propertyPath: folders.Array.data[0].FolderName
+      value: Head
+      objectReference: {fileID: 0}
+    - target: {fileID: 639886661610140145, guid: 2d562000d0e34b24d817b0628bb8daea,
+        type: 3}
+      propertyPath: folders.Array.data[1].FolderName
+      value: Face
+      objectReference: {fileID: 0}
+    - target: {fileID: 639886661610140145, guid: 2d562000d0e34b24d817b0628bb8daea,
+        type: 3}
+      propertyPath: folders.Array.data[2].FolderName
+      value: Acc
+      objectReference: {fileID: 0}
+    - target: {fileID: 639886661610140145, guid: 2d562000d0e34b24d817b0628bb8daea,
+        type: 3}
+      propertyPath: folders.Array.data[3].FolderName
+      value: Fists
+      objectReference: {fileID: 0}
+    - target: {fileID: 639886661610140145, guid: 2d562000d0e34b24d817b0628bb8daea,
+        type: 3}
+      propertyPath: folders.Array.data[4].FolderName
+      value: Body
+      objectReference: {fileID: 0}
+    - target: {fileID: 639886661610140145, guid: 2d562000d0e34b24d817b0628bb8daea,
+        type: 3}
+      propertyPath: CosmeticFolder
+      value: Dash Cosmetics
+      objectReference: {fileID: 0}
     - target: {fileID: 2107699797787565478, guid: 2d562000d0e34b24d817b0628bb8daea,
         type: 3}
       propertyPath: m_ConnectedAnchor.x

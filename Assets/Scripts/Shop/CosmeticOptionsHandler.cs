@@ -2,21 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using CustomUtilities;
+using TMPro;
 
 public class CosmeticOptionsHandler : MonoBehaviour
 {
     [SerializeField] private GridLayoutGroup cosmeticsGrid;
-    
-    [Tooltip("Enter only the name of the folder with desired cosmetic items")]
-    [SerializeField] private string CosmeticFolder;
-    private string CosmeticFolderPath;
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        CosmeticFolderPath = "PhotonPrefabs/Cosmetics/" + CosmeticFolder;
-    }
+    [SerializeField] private GameObject cosmeticOptionPrefab;
 
+    [HideInInspector] public CharacterInfo info;
+    [SerializeField] private CosmeticType cosmeticType;
+
+    public void LoadGrid()
+    {
+        foreach (CosmeticItem item in info.cosmetics)
+        {
+            if (item.type != cosmeticType) return;
+            GameObject optionGO = Instantiate(cosmeticOptionPrefab, cosmeticsGrid.transform);
+            if (item.status == Status.Locked) optionGO.GetComponentInChildren<TMP_Text>().text = "Locked.";
+            else optionGO.GetComponentInChildren<TMP_Text>().text = item.name;
+        }
+    }
 
     public void SliderFunction()
     {

@@ -27,7 +27,7 @@ public class MainPanel : MonoBehaviour
         GameObject bGO = Instantiate(CharacterButtonPrefab, GetComponentInChildren<HorizontalLayoutGroup>().gameObject.transform);
         Button _button = bGO.GetComponent<Button>();
         TMP_Text label = bGO.GetComponentInChildren<TMP_Text>();
-        label.text = _char.name;
+        label.text = _char.GetComponent<AvatarCharacteristics>().info.characterName;// .name;
         SelectCharacterPanelButton script = bGO.GetComponent<SelectCharacterPanelButton>();
         script.character = _char;
 

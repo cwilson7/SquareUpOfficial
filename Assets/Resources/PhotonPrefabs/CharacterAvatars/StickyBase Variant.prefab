@@ -212,11 +212,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a7e57b96aec248469e80b8e7c9930ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  info:
+    model: {fileID: 3133638312996776063}
+    characterName: Sticky
+    status: 0
+    associatedLevels: []
+    cosmetics: []
+    currentSet:
+      _keys: 0000000001000000020000000300000004000000
+      _values:
+      - {fileID: 0}
+      - {fileID: 0}
+      - {fileID: 0}
+      - {fileID: 0}
+      - {fileID: 0}
   indexesOfMaterial: 00000000
-  MyLevels: []
   myDemo: {fileID: 0}
-  CosmeticFolder: 
-  folders: []
+  CosmeticFolder: Sticky Cosmetics
+  folders:
+  - FolderName: Acc
+    cosmeticType: 2
+  - FolderName: Head
+    cosmeticType: 0
+  - FolderName: Body
+    cosmeticType: 4
+  - FolderName: Face
+    cosmeticType: 1
+  - FolderName: Fists
+    cosmeticType: 3
 --- !u!114 &-1106899015010251549
 MonoBehaviour:
   m_ObjectHideFlags: 0

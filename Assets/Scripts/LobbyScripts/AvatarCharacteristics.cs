@@ -5,12 +5,16 @@ using UnityEngine.Video;
 using CustomUtilities;
 using System;
 using UnityEngine.Events;
+using UnityEditor;
 
 public class AvatarCharacteristics : MonoBehaviour
 {
+    [Header("Character Data")]
+    public CharacterInfo info;
     public int[] indexesOfMaterial;
-    public List<Level> MyLevels;
     public VideoClip myDemo;
+
+    [Header("Cosmetic Folder Information")]
     [Tooltip("Enter only the name of specified character's cosmetics folder")]
     [SerializeField] private string CosmeticFolder;
 
@@ -58,10 +62,82 @@ public class AvatarCharacteristics : MonoBehaviour
             model.GetComponent<Renderer>().materials = clone;
         }
     }
+
+    public void EquipCosmetic(CosmeticItem item)
+    {
+        if (info.currentSet.cosmetics[item.type] != null)
+        {
+
+        }
+        info.currentSet.UpdateSet(item);
+        info.currentSet.SaveSet(info);
+        DisplayCosmetics();
+    }
+
+    public void RemoveCosmetics()
+    {
+
+    }
+
+    public void DisplayCosmetics()
+    {
+        foreach (KeyValuePair<CosmeticType, CosmeticItem> kvp in info.currentSet.cosmetics)
+        {
+            if (kvp.Value == null) return;
+            Instantiate(kvp.Value.model);
+        }
+    }
 }
 
-public class CosmeticSet
+[System.Serializable]
+public class CosmeticSet : ISerializationCallbackReceiver
 {
-    //we have some set of cosmetic items
-    //display these items on character and save in progression system
+    public List<CosmeticType> _keys = new List<CosmeticType>();
+    public List<CosmeticItem> _values = new List<CosmeticItem>();
+    
+    public Dictionary<CosmeticType, CosmeticItem> cosmetics;
+
+    public CosmeticSet()
+    {
+        cosmetics = new Dictionary<CosmeticType, CosmeticItem>();
+        var types = Enum.GetValues(typeof(CosmeticType));
+        foreach (CosmeticType type in types)
+        {
+            cosmetics.Add(type, null);
+        }
+    }
+
+    public void UpdateSet(CosmeticItem item)
+    {
+        if (!cosmetics.ContainsKey(item.type)) return;
+
+        cosmetics[item.type] = item;
+    }
+
+    public void SaveSet(CharacterInfo info)
+    {
+        CharacterInfo toSave = (CharacterInfo)ProgressionSystem.Instance.Characters[info.characterName];
+        toSave.currentSet = this;
+    }
+
+    public void OnBeforeSerialize()
+    {
+        _keys.Clear();
+        _values.Clear();
+
+        foreach (var kvp in cosmetics)
+        {
+            _keys.Add(kvp.Key);
+            _values.Add(kvp.Value);
+        }
+    }
+
+    public void OnAfterDeserialize()
+    {
+        cosmetics = new Dictionary<CosmeticType, CosmeticItem>();
+
+        for (int i = 0; i != Math.Min(_keys.Count, _values.Count); i++)
+            cosmetics.Add(_keys[i], _values[i]);
+    }
 }
+

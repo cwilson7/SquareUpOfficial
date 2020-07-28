@@ -39,7 +39,7 @@ public class CharPage : MonoBehaviour
         charName.font = MultiplayerSettings.multiplayerSettings.font;
         charSelectBtn.GetComponentInChildren<TMP_Text>().font = MultiplayerSettings.multiplayerSettings.font;
 
-        charName.text = LobbyController.lc.charAvatars[charID].name;
+        charName.text = LobbyController.lc.charAvatars[charID].GetComponent<AvatarCharacteristics>().info.characterName;// name;
         charSelectBtn.GetComponentInChildren<TMP_Text>().text = "Select";
 
         Transform characterDisplayPos = CarouselController.cc.carousel.GetComponent<CarouselBehaviour>().playerDisplayLocations[charID];  
@@ -50,7 +50,7 @@ public class CharPage : MonoBehaviour
         }
         cspc.displayedCharacters.Add(charID, character);
 
-        CharacterInfo info = (CharacterInfo)ProgressionSystem.Instance.Characters[LobbyController.lc.charAvatars[charID].name];
+        CharacterInfo info = (CharacterInfo)ProgressionSystem.Instance.Characters[LobbyController.lc.charAvatars[charID].GetComponent<AvatarCharacteristics>().info.characterName];
         if (info.status == Status.Locked) SetToLockedPanel();
     }
 

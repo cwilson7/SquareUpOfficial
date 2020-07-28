@@ -1,5 +1,17 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &2572693596203728650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2584718097265908841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abd1a677fe3c75744a6ec1ad8f9d27ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3821957445044356241
 GameObject:
   m_ObjectHideFlags: 0
@@ -198,11 +210,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a7e57b96aec248469e80b8e7c9930ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  info:
+    model: {fileID: 4314218243048257383}
+    characterName: Warp
+    status: 0
+    associatedLevels: []
+    cosmetics: []
+    currentSet:
+      _keys: 0000000001000000020000000300000004000000
+      _values:
+      - {fileID: 0}
+      - {fileID: 0}
+      - {fileID: 0}
+      - {fileID: 0}
+      - {fileID: 0}
   indexesOfMaterial: 00000000
-  MyLevels: []
   myDemo: {fileID: 0}
-  CosmeticFolder: 
-  folders: []
+  CosmeticFolder: Warp Cosmetics
+  folders:
+  - FolderName: Acc
+    cosmeticType: 2
+  - FolderName: Head
+    cosmeticType: 0
+  - FolderName: Body
+    cosmeticType: 4
+  - FolderName: Face
+    cosmeticType: 1
+  - FolderName: Fists
+    cosmeticType: 3
 --- !u!114 &3914435026831084904
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -213,18 +248,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a045a602d3d3cdb4abcf6435b8489249, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &2572693596203728650
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2584718097265908841}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abd1a677fe3c75744a6ec1ad8f9d27ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8636328239498576212

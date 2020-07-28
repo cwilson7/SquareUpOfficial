@@ -7,11 +7,16 @@ using System;
 using System.Runtime.InteropServices;
 
 [System.Serializable]
-public class ProgressionSystem : MonoBehaviour
+public class ProgressionSystem : MonoBehaviour, ISerializationCallbackReceiver
 {
+    [Header("Characters Info")]
+    public List<string> _keys;
+    public List<CharacterInfo> _values;
+
     public static ProgressionSystem Instance;
     public int SquareBucks;
-    public Hashtable Characters;
+    //public Hashtable Characters;
+    public Dictionary<string, CharacterInfo> Characters;
     public List<CustomEffect> AvailableEffects;
     private void Awake()
     {
@@ -39,7 +44,7 @@ public class ProgressionSystem : MonoBehaviour
     public ProgressionSystem()
     {
         AvailableEffects = new List<CustomEffect>();
-        Characters = new Hashtable();
+        Characters = new Dictionary<string, CharacterInfo>();//new Hashtable();
     }
 
     void NewSave()
@@ -55,35 +60,64 @@ public class ProgressionSystem : MonoBehaviour
         this.Characters = LoadedInfo.progressSystem.Characters;
     }
 
-    Hashtable NewCharacterInfoHash()
+    //Hashtable
+    Dictionary<string, CharacterInfo>  NewCharacterInfoHash()
     {
-        Hashtable returnHash = new Hashtable();
+        //Hashtable returnHash = new Hashtable();
+        Dictionary<string, CharacterInfo> returnHash = new Dictionary<string, CharacterInfo>();
         List<GameObject> Characters = new List<GameObject>();
         Utils.PopulateList<GameObject>(Characters, "PhotonPrefabs/CharacterAvatars");
         foreach (GameObject _char in Characters)
         {
             AvatarCharacteristics AC = _char.GetComponent<AvatarCharacteristics>();
-            CharacterInfo info = new CharacterInfo(_char.name, Status.Unlocked, AC.MyLevels, AC.LoadCosmetics());
-            returnHash.Add(info.characterName, info);
+            CharacterInfo info = AC.info;
+            info.cosmetics = AC.LoadCosmetics();
+            info.currentSet = new CosmeticSet();
+            info.model = _char;
+            //new CharacterInfo(_char.name, Status.Unlocked, AC.MyLevels, AC.LoadCosmetics(), new CosmeticSet());
+            returnHash.Add(info.characterName/*_char.name*/, info);
         }
         return returnHash;
+    }
+
+    public void OnBeforeSerialize()
+    {
+        _keys.Clear();
+        _values.Clear();
+
+        foreach (var kvp in Characters)
+        {
+            _keys.Add(kvp.Key);
+            _values.Add(kvp.Value);
+        }
+    }
+
+    public void OnAfterDeserialize()
+    {
+        Characters = new Dictionary<string, CharacterInfo>();
+
+        for (int i = 0; i != Math.Min(_keys.Count, _values.Count); i++)
+            Characters.Add(_keys[i], _values[i]);
     }
 }
 
 [System.Serializable]
 public class CharacterInfo
 {
+    public GameObject model;
     public string characterName;
     public Status status;
     public List<Level> associatedLevels;
     public List<CosmeticItem> cosmetics;
+    public CosmeticSet currentSet;
 
-    public CharacterInfo(string _name, Status _status, List<Level> _associatedLevels, List<CosmeticItem> _cosmetics)
+    public CharacterInfo(string _name, Status _status, List<Level> _associatedLevels, List<CosmeticItem> _cosmetics, CosmeticSet set)
     {
         characterName = _name;
         status = _status;
         associatedLevels = _associatedLevels;
         cosmetics = _cosmetics;
+        currentSet = set;
     }
 }
 

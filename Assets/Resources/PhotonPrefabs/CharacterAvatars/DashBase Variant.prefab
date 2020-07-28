@@ -100,8 +100,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a7e57b96aec248469e80b8e7c9930ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  info:
+    characterName: Dash
+    status: 1
+    associatedLevels: []
+    cosmetics: []
   indexesOfMaterial: 00000000
-  MyLevels: []
   myDemo: {fileID: 0}
   CosmeticFolder: Dash Cosmetics
   folders:

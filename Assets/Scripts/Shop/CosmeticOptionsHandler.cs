@@ -19,6 +19,9 @@ public class CosmeticOptionsHandler : MonoBehaviour
         {
             if (item.type != cosmeticType) return;
             GameObject optionGO = Instantiate(cosmeticOptionPrefab, cosmeticsGrid.transform);
+            optionGO.GetComponent<CosmeticOptionButton>().option = item;
+            optionGO.GetComponent<CosmeticOptionButton>().avatar = info.model.GetComponent<AvatarCharacteristics>();
+
             if (item.status == Status.Locked) optionGO.GetComponentInChildren<TMP_Text>().text = "Locked.";
             else optionGO.GetComponentInChildren<TMP_Text>().text = item.name;
         }

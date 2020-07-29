@@ -4,9 +4,6 @@ using UnityEngine;
 using UnityEngine.Video;
 using CustomUtilities;
 using System;
-using UnityEngine.Events;
-using UnityEditor;
-using WebSocketSharp;
 
 public class AvatarCharacteristics : MonoBehaviour
 {
@@ -85,18 +82,35 @@ public class AvatarCharacteristics : MonoBehaviour
     {
         foreach (KeyValuePair<CosmeticType, CosmeticItem> kvp in info.currentSet.cosmetics)
         {
-            if (!kvp.Value.name.IsNullOrEmpty())
+            if (kvp.Value.name.Length > 0)
             {
                 CosmeticItem item = info.currentSet.cosmetics[kvp.Key];
                 item.referencedObject = Instantiate(kvp.Value.model, gameObject.transform);
                 item.referencedObject.layer = LayerMask.NameToLayer(LayerMask.LayerToName(gameObject.layer));
-                GetChildRecursive(this.gameObject);
+                SetChildrenLayers(this.gameObject);
                 item.referencedObject.tag = gameObject.tag;
             }
         }
     }
 
-    private void GetChildRecursive(GameObject obj)
+    public void NetworkDisplayCosmetics(List<String> CurrentSetNames)
+    {
+        int count = CurrentSetNames.Count;
+        for (int i = 0; i < info.cosmetics.Count; i++)
+        {
+            if (count < 1) break;
+            if (!CurrentSetNames.Contains(info.cosmetics[i].name)) continue;
+
+            CosmeticItem item = info.cosmetics[i];
+            item.referencedObject = Instantiate(info.cosmetics[i].model, gameObject.transform);
+            item.referencedObject.layer = LayerMask.NameToLayer(LayerMask.LayerToName(gameObject.layer));
+            SetChildrenLayers(this.gameObject);
+            item.referencedObject.tag = gameObject.tag;
+            count--;
+        }
+    }
+
+    private void SetChildrenLayers(GameObject obj)
     {
         if (null == obj)
             return;
@@ -106,7 +120,7 @@ public class AvatarCharacteristics : MonoBehaviour
             if (null == child)
                 continue;
             child.gameObject.layer = LayerMask.NameToLayer(LayerMask.LayerToName(gameObject.layer)); ;
-            GetChildRecursive(child.gameObject);
+            SetChildrenLayers(child.gameObject);
         }
     }
 
@@ -141,6 +155,16 @@ public class CosmeticSet : ISerializationCallbackReceiver
     {
         CharacterInfo toSave = (CharacterInfo)ProgressionSystem.Instance.Characters[info.characterName];
         toSave.currentSet = this;
+    }
+
+    public List<string> NamesOfCosmetics()
+    {
+        List<string> names = new List<string>();
+        foreach (CosmeticItem item in cosmetics.Values)
+        {
+            if (item.name.Length > 0) names.Add(item.name);
+        }
+        return names;
     }
 
     public void OnBeforeSerialize()

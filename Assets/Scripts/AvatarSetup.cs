@@ -5,6 +5,7 @@ using Photon.Pun;
 using Photon.Realtime;
 using System;
 using System.Reflection;
+using System.Linq;
 
 public class AvatarSetup : MonoBehaviour
 {
@@ -21,11 +22,13 @@ public class AvatarSetup : MonoBehaviour
     public void InitializePlayerAvatar()
     {
         PV = GetComponent<PhotonView>();
-        if (PV.IsMine) PV.RPC("InitializeCharacter_RPC", RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer.ActorNumber);
+        GameObject myCharGO = (GameObject)LobbyController.lc.charAvatars[(int)PhotonNetwork.LocalPlayer.CustomProperties["SelectedCharacter"]];
+        CharacterInfo myCharInfo = ProgressionSystem.Instance.Characters[myCharGO.GetComponent<AvatarCharacteristics>().info.characterName];
+        if (PV.IsMine) PV.RPC("InitializeCharacter_RPC", RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer.ActorNumber, myCharInfo.currentSet.NamesOfCosmetics().ToArray());
     }
 
     [PunRPC]
-    private void InitializeCharacter_RPC(int actorNumber)
+    private void InitializeCharacter_RPC(int actorNumber, string[] cosmeticNames)
     {        
         Player p = PhotonNetwork.CurrentRoom.GetPlayer(actorNumber);
         int colorID = (int)p.CustomProperties["AssignedColor"];
@@ -37,7 +40,10 @@ public class AvatarSetup : MonoBehaviour
 
             avatarSkin = Instantiate(mySelectedCharacter, new Vector3(transform.position.x, transform.position.y - avatarOffset, transform.position.z), transform.rotation);
             avatarSkin.transform.SetParent(transform);
-            avatarSkin.GetComponent<AvatarCharacteristics>().SetMaterial(myAssignedColor);
+            AvatarCharacteristics AC = avatarSkin.GetComponent<AvatarCharacteristics>();
+            AC.SetMaterial(myAssignedColor);
+            if (PV.IsMine) AC.DisplayCosmetics();
+            else AC.NetworkDisplayCosmetics(cosmeticNames.ToList());
 
             AddPlayerController(avatarSkin);
             MultiplayerSettings.multiplayerSettings.SetCustomPlayerProperties("CharacterSpawned", true);

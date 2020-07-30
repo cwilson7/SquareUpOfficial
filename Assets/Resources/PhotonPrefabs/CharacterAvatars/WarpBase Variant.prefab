@@ -1,17 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &2572693596203728650
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2584718097265908841}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abd1a677fe3c75744a6ec1ad8f9d27ce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &3821957445044356241
 GameObject:
   m_ObjectHideFlags: 0
@@ -217,13 +205,7 @@ MonoBehaviour:
     associatedLevels: []
     cosmetics: []
     currentSet:
-      _keys: 0000000001000000020000000300000004000000
-      _values:
-      - {fileID: 0}
-      - {fileID: 0}
-      - {fileID: 0}
-      - {fileID: 0}
-      - {fileID: 0}
+      _values: []
   indexesOfMaterial: 00000000
   myDemo: {fileID: 0}
   CosmeticFolder: Warp Cosmetics
@@ -250,6 +232,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a045a602d3d3cdb4abcf6435b8489249, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3529018039209683827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5275202713562341874}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e96e0cbcd0dcda4d91c58003f310077, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2572693596203728650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2584718097265908841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abd1a677fe3c75744a6ec1ad8f9d27ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8636328239498576212
 GameObject:
   m_ObjectHideFlags: 0
@@ -259,9 +265,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8652903526576877867}
-  - component: {fileID: 3863624012273866775}
   - component: {fileID: 5749003629439872812}
   - component: {fileID: 3324889398402581753}
+  - component: {fileID: 1980142887540637270}
   m_Layer: 0
   m_Name: LFist
   m_TagString: Untagged
@@ -283,18 +289,6 @@ Transform:
   m_Father: {fileID: 974034787636364660}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3863624012273866775
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8636328239498576212}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 372d8d3f65b724146b8447e2f8674b99, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!54 &5749003629439872812
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -334,6 +328,18 @@ SpringJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &1980142887540637270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8636328239498576212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e0b84134a8195cc49b19d80c823b043e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5259856592851562094
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -412,6 +418,12 @@ GameObject:
 --- !u!4 &974034787636364660 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: 1ba62e2b560e9bc4db7a9200bb93c9b3,
+    type: 3}
+  m_PrefabInstance: {fileID: 5259856592851562094}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5275202713562341874 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 129350255495253916, guid: 1ba62e2b560e9bc4db7a9200bb93c9b3,
     type: 3}
   m_PrefabInstance: {fileID: 5259856592851562094}
   m_PrefabAsset: {fileID: 0}

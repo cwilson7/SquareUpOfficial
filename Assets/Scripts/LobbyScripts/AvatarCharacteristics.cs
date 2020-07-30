@@ -39,6 +39,8 @@ public class AvatarCharacteristics : MonoBehaviour
         return ReturnList;
     }
 
+    #region Edit Material Functions
+
     public void SetMaterial(Material mat)
     {
         GameObject model = GetComponentInChildren<MaterialChange>().gameObject;
@@ -60,6 +62,9 @@ public class AvatarCharacteristics : MonoBehaviour
             model.GetComponent<Renderer>().materials = clone;
         }
     }
+    #endregion
+
+    #region Cosmetic Display Functions
 
     public void EquipCosmetic(CosmeticItem item)
     {
@@ -80,34 +85,44 @@ public class AvatarCharacteristics : MonoBehaviour
 
     public void DisplayCosmetics()
     {
+        Dictionary<CosmeticType, CosmeticItem> dict = new Dictionary<CosmeticType, CosmeticItem>();
         foreach (KeyValuePair<CosmeticType, CosmeticItem> kvp in info.currentSet.cosmetics)
         {
             if (kvp.Value.name.Length > 0)
             {
                 CosmeticItem item = info.currentSet.cosmetics[kvp.Key];
-                item.referencedObject = Instantiate(kvp.Value.model, gameObject.transform);
-                item.referencedObject.layer = LayerMask.NameToLayer(LayerMask.LayerToName(gameObject.layer));
-                SetChildrenLayers(this.gameObject);
-                item.referencedObject.tag = gameObject.tag;
+                dict.Add(kvp.Key, InstantiateCosmetic(item));
             }
         }
+        info.currentSet.cosmetics = dict;
     }
 
     public void NetworkDisplayCosmetics(List<String> CurrentSetNames)
     {
         int count = CurrentSetNames.Count;
+        Dictionary<CosmeticType, CosmeticItem> dict = new Dictionary<CosmeticType, CosmeticItem>();
         for (int i = 0; i < info.cosmetics.Count; i++)
         {
             if (count < 1) break;
             if (!CurrentSetNames.Contains(info.cosmetics[i].name)) continue;
 
             CosmeticItem item = info.cosmetics[i];
-            item.referencedObject = Instantiate(info.cosmetics[i].model, gameObject.transform);
-            item.referencedObject.layer = LayerMask.NameToLayer(LayerMask.LayerToName(gameObject.layer));
-            SetChildrenLayers(this.gameObject);
-            item.referencedObject.tag = gameObject.tag;
+            dict.Add(info.cosmetics[i].type, InstantiateCosmetic(item));
             count--;
         }
+        info.currentSet.cosmetics = dict;
+    }
+    #endregion
+
+    #region Helper Functions
+    private CosmeticItem InstantiateCosmetic(CosmeticItem item)
+    {
+        Armature armature = GetComponentInChildren<Armature>();
+        item.referencedObject = Instantiate(item.model, gameObject.transform);
+        item.referencedObject.layer = LayerMask.NameToLayer(LayerMask.LayerToName(gameObject.layer));
+        SetChildrenLayers(this.gameObject);
+        item.referencedObject.tag = gameObject.tag;
+        return item;
     }
 
     private void SetChildrenLayers(GameObject obj)
@@ -123,14 +138,16 @@ public class AvatarCharacteristics : MonoBehaviour
             SetChildrenLayers(child.gameObject);
         }
     }
+    #endregion
 
 }
 
+#region Cosmetic Set Class
 [System.Serializable]
 public class CosmeticSet : ISerializationCallbackReceiver
 {
-    public List<CosmeticType> _keys = new List<CosmeticType>();
-    public List<CosmeticItem> _values = new List<CosmeticItem>();
+    [HideInInspector] public List<CosmeticType> _keys = new List<CosmeticType>();
+    public List<CosmeticItem> currentCosmetics = new List<CosmeticItem>();
     
     public Dictionary<CosmeticType, CosmeticItem> cosmetics;
 
@@ -146,14 +163,18 @@ public class CosmeticSet : ISerializationCallbackReceiver
 
     public void UpdateSet(CosmeticItem item)
     {
-        if (!cosmetics.ContainsKey(item.type)) return;
+        if (!cosmetics.ContainsKey(item.type))
+        {
+            Debug.Log("No cosmetic by the name of " + item.name + " found.");
+            return;
+        }
         
         cosmetics[item.type] = item;
     }
 
     public void SaveSet(CharacterInfo info)
     {
-        CharacterInfo toSave = (CharacterInfo)ProgressionSystem.Instance.Characters[info.characterName];
+        CharacterInfo toSave = ProgressionSystem.Instance.Characters[info.characterName];
         toSave.currentSet = this;
     }
 
@@ -162,7 +183,7 @@ public class CosmeticSet : ISerializationCallbackReceiver
         List<string> names = new List<string>();
         foreach (CosmeticItem item in cosmetics.Values)
         {
-            if (item.name.Length > 0) names.Add(item.name);
+            if (item != null && item.name.Length > 0) names.Add(item.name);
         }
         return names;
     }
@@ -170,12 +191,12 @@ public class CosmeticSet : ISerializationCallbackReceiver
     public void OnBeforeSerialize()
     {
         _keys.Clear();
-        _values.Clear();
+        currentCosmetics.Clear();
 
         foreach (var kvp in cosmetics)
         {
             _keys.Add(kvp.Key);
-            _values.Add(kvp.Value);
+            currentCosmetics.Add(kvp.Value);
         }
     }
 
@@ -183,8 +204,10 @@ public class CosmeticSet : ISerializationCallbackReceiver
     {
         cosmetics = new Dictionary<CosmeticType, CosmeticItem>();
 
-        for (int i = 0; i != Math.Min(_keys.Count, _values.Count); i++)
-            cosmetics.Add(_keys[i], _values[i]);
+        for (int i = 0; i != Math.Min(_keys.Count, currentCosmetics.Count); i++)
+            cosmetics.Add(_keys[i], currentCosmetics[i]);
     }
 }
+
+#endregion
 

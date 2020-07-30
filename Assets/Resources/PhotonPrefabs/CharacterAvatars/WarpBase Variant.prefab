@@ -205,7 +205,8 @@ MonoBehaviour:
     associatedLevels: []
     cosmetics: []
     currentSet:
-      _values: []
+      _keys: 
+      currentCosmetics: []
   indexesOfMaterial: 00000000
   myDemo: {fileID: 0}
   CosmeticFolder: Warp Cosmetics
@@ -232,13 +233,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a045a602d3d3cdb4abcf6435b8489249, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3529018039209683827
+--- !u!114 &2846075383648993020
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5275202713562341874}
+  m_GameObject: {fileID: 3832090514055281579}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e96e0cbcd0dcda4d91c58003f310077, type: 3}
@@ -421,9 +422,9 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 5259856592851562094}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &5275202713562341874 stripped
+--- !u!1 &3832090514055281579 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 129350255495253916, guid: 1ba62e2b560e9bc4db7a9200bb93c9b3,
+  m_CorrespondingSourceObject: {fileID: 9065906238872704453, guid: 1ba62e2b560e9bc4db7a9200bb93c9b3,
     type: 3}
   m_PrefabInstance: {fileID: 5259856592851562094}
   m_PrefabAsset: {fileID: 0}

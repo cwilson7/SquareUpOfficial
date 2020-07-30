@@ -119,6 +119,7 @@ public class AvatarCharacteristics : MonoBehaviour
     {
         Armature armature = GetComponentInChildren<Armature>();
         item.referencedObject = Instantiate(item.model, gameObject.transform);
+        item.referencedObject.transform.SetParent(armature.gameObject.transform);
         item.referencedObject.layer = LayerMask.NameToLayer(LayerMask.LayerToName(gameObject.layer));
         SetChildrenLayers(this.gameObject);
         item.referencedObject.tag = gameObject.tag;
@@ -163,11 +164,11 @@ public class CosmeticSet : ISerializationCallbackReceiver
 
     public void UpdateSet(CosmeticItem item)
     {
-        if (!cosmetics.ContainsKey(item.type))
+        /* if (!cosmetics.ContainsKey(item.type))
         {
             Debug.Log("No cosmetic by the name of " + item.name + " found.");
             return;
-        }
+        } */
         
         cosmetics[item.type] = item;
     }

@@ -107,7 +107,8 @@ MonoBehaviour:
     associatedLevels: []
     cosmetics: []
     currentSet:
-      _values: []
+      _keys: 
+      currentCosmetics: []
   indexesOfMaterial: 00000000
   myDemo: {fileID: 0}
   CosmeticFolder: Dash Cosmetics
@@ -148,13 +149,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a045a602d3d3cdb4abcf6435b8489249, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6365141706330056189
+--- !u!114 &6442154804037983003
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 609851811106361649}
+  m_GameObject: {fileID: 8389566269211822952}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e96e0cbcd0dcda4d91c58003f310077, type: 3}
@@ -421,9 +422,9 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 701765094022389421}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &609851811106361649 stripped
+--- !u!1 &8389566269211822952 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 129350255495253916, guid: 6a688ae724dae834799c5466874c8ed2,
+  m_CorrespondingSourceObject: {fileID: 9065906238872704453, guid: 6a688ae724dae834799c5466874c8ed2,
     type: 3}
   m_PrefabInstance: {fileID: 701765094022389421}
   m_PrefabAsset: {fileID: 0}

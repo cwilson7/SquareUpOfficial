@@ -10,20 +10,37 @@ public class AudioManager : MonoBehaviour
     public static AudioManager AM;
     
     private AudioSource currentTheme;
+    bool initalized = false;
+    public int lastBuildIndex;
     [SerializeField] private AudioClip mainTheme;
 
+
+    private void Awake()
+    {
+        Debug.Log(AudioManager.AM != this);
+        if (AM == null)
+        {
+            AM = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else if (AM != this)
+        {
+            Debug.Log("destroy stuff getting called");
+            Destroy(gameObject);
+        }
+    }
     void Start()
     {
-        if (AudioManager.AM != null)
-        {
-            Destroy(this);
-            Destroy(this.gameObject);
-            return;
-        }
-        AudioManager.AM = this;
+        Debug.Log("new adio manajer");
+        Debug.Log("more trash garbage gettting claaed");
+        initalized = true;
         currentTheme = GetComponent<AudioSource>();
+        currentTheme.enabled = true;
+        lastBuildIndex = 1000;
         SceneManager.sceneLoaded += SwitchThemeScene;
         Cube.CubeRotated += SwitchThemeLevel;
+        SwitchThemeScene(SceneManager.GetActiveScene(), LoadSceneMode.Additive);
+        Debug.Log(AudioManager.AM == null);
         DontDestroyOnLoad(this.gameObject);
     }
 
@@ -39,7 +56,13 @@ public class AudioManager : MonoBehaviour
         {
             //main scene
             case 0 :
-                SwitchTrack(mainTheme);
+                //if we are already playing the theme, return.
+                //problem is this gets deleted or something
+                if (lastBuildIndex != 0)
+                {
+                    SwitchTrack(mainTheme);
+                    lastBuildIndex = 0;
+                }
                 break;
 
             //lobby scene
@@ -54,7 +77,8 @@ public class AudioManager : MonoBehaviour
                 if (Cube.cb == null) return;
                 Level level = Cube.cb.CurrentFace;
                 if (level == null) return;
-                SwitchTrack(level.theme);   
+                SwitchTrack(level.theme);
+                lastBuildIndex = 2;
                     break;
         }
     }
@@ -69,6 +93,7 @@ public class AudioManager : MonoBehaviour
     void SwitchTrack(AudioClip track)
     {
         if (AM == null) return;
+        Debug.Log("switch track getting called");
         currentTheme.Stop();
         currentTheme.clip = track;
         currentTheme.Play();

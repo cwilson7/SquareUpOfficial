@@ -22,7 +22,7 @@ public class PhotonRoom : MonoBehaviourPunCallbacks, IInRoomCallbacks
         }
         else
         {
-            if (PhotonRoom.room != this)
+            if (PhotonRoom.room != (this))
             {
                 Destroy(PhotonRoom.room.gameObject);
                 PhotonRoom.room = this;

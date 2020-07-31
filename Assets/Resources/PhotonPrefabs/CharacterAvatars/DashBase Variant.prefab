@@ -101,16 +101,55 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   info:
-    model: {fileID: 0}
+    model: {fileID: 8835155049265383332}
     characterName: Dash
     status: 1
     associatedLevels: []
-    cosmetics: []
+    cosmetics:
+    - name: SharkFins
+      type: 0
+      model: {fileID: 3769846604305492019, guid: 563842526c7258a49893820ec91580b3,
+        type: 3}
+      status: 1
+      referencedObject: {fileID: 0}
+    - name: TestCloths
+      type: 4
+      model: {fileID: 3074656395015773973, guid: d8b22118856cb614b98fe3f3866d9254,
+        type: 3}
+      status: 1
+      referencedObject: {fileID: 0}
     currentSet:
-      _keys: 
-      currentCosmetics: []
+      _keys: 0000000001000000020000000300000004000000
+      currentCosmetics:
+      - name: 
+        type: 0
+        model: {fileID: 0}
+        status: 0
+        referencedObject: {fileID: 0}
+      - name: 
+        type: 0
+        model: {fileID: 0}
+        status: 0
+        referencedObject: {fileID: 0}
+      - name: 
+        type: 0
+        model: {fileID: 0}
+        status: 0
+        referencedObject: {fileID: 0}
+      - name: 
+        type: 0
+        model: {fileID: 0}
+        status: 0
+        referencedObject: {fileID: 0}
+      - name: 
+        type: 0
+        model: {fileID: 0}
+        status: 0
+        referencedObject: {fileID: 0}
   indexesOfMaterial: 00000000
   myDemo: {fileID: 0}
+  FistModel: {fileID: 3963649284627691831, guid: bba84b9b21003c94aaaeb74ddf760490,
+    type: 3}
   CosmeticFolder: Dash Cosmetics
   folders:
   - FolderName: Head
@@ -184,7 +223,6 @@ GameObject:
   - component: {fileID: 5578171749909494049}
   - component: {fileID: 2501418536052114044}
   - component: {fileID: 6466751800046077490}
-  - component: {fileID: 4968117111916378372}
   m_Layer: 0
   m_Name: LFist
   m_TagString: Untagged
@@ -234,29 +272,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 14
   m_CollisionDetection: 0
---- !u!145 &4968117111916378372
-SpringJoint:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1136021904700459812}
-  m_ConnectedBody: {fileID: 0}
-  m_Anchor: {x: 0, y: 0, z: 0}
-  m_AutoConfigureConnectedAnchor: 0
-  m_ConnectedAnchor: {x: 0, y: 0, z: -0.015}
-  serializedVersion: 2
-  m_Spring: 10
-  m_Damper: 0.2
-  m_MinDistance: 0
-  m_MaxDistance: 0
-  m_Tolerance: 0.025
-  m_BreakForce: Infinity
-  m_BreakTorque: Infinity
-  m_EnableCollision: 0
-  m_EnablePreprocessing: 1
-  m_MassScale: 1
-  m_ConnectedMassScale: 1
 --- !u!1 &7052495909792535432
 GameObject:
   m_ObjectHideFlags: 0
@@ -268,7 +283,6 @@ GameObject:
   - component: {fileID: 378576024810043710}
   - component: {fileID: 8793021875630119628}
   - component: {fileID: 1679100379212255103}
-  - component: {fileID: 7309466938573742413}
   m_Layer: 0
   m_Name: RFist
   m_TagString: Untagged
@@ -318,29 +332,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 14
   m_CollisionDetection: 0
---- !u!145 &7309466938573742413
-SpringJoint:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7052495909792535432}
-  m_ConnectedBody: {fileID: 0}
-  m_Anchor: {x: 0, y: 0, z: 0}
-  m_AutoConfigureConnectedAnchor: 0
-  m_ConnectedAnchor: {x: 0, y: 0, z: -0.015}
-  serializedVersion: 2
-  m_Spring: 10
-  m_Damper: 0.2
-  m_MinDistance: 0
-  m_MaxDistance: 0
-  m_Tolerance: 0.025
-  m_BreakForce: Infinity
-  m_BreakTorque: Infinity
-  m_EnableCollision: 0
-  m_EnablePreprocessing: 1
-  m_MassScale: 1
-  m_ConnectedMassScale: 1
 --- !u!1001 &701765094022389421
 PrefabInstance:
   m_ObjectHideFlags: 0

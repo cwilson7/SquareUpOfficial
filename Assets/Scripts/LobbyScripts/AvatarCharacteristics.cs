@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.Video;
 using CustomUtilities;
 using System;
+using UnityEngine.SceneManagement;
 
 public class AvatarCharacteristics : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class AvatarCharacteristics : MonoBehaviour
     public CharacterInfo info;
     public int[] indexesOfMaterial;
     public VideoClip myDemo;
+    public GameObject FistModel;
 
     [Header("Cosmetic Folder Information")]
     [Tooltip("Enter only the name of specified character's cosmetics folder")]
@@ -18,6 +20,17 @@ public class AvatarCharacteristics : MonoBehaviour
 
     [Tooltip("Enter name of folder and type of cosmetics that that folder houses")]
     [SerializeField] private CosmeticLoader[] folders;
+
+    private void Start()
+    {
+        //checks if current scene is not the game scene
+        if (SceneManager.GetActiveScene() != SceneManager.GetSceneByBuildIndex(2)) SpawnDummyFists();
+    }
+
+    private void SpawnDummyFists()
+    {
+
+    }
 
     //only called on new save
     public List<CosmeticItem> LoadCosmetics()
@@ -50,6 +63,11 @@ public class AvatarCharacteristics : MonoBehaviour
             clone[index] = mat;
             model.GetComponent<Renderer>().materials = clone;
         }
+    }
+
+    public void SetFistMaterial(GameObject fist, Material mat)
+    {
+        fist.GetComponent<Renderer>().material = mat;
     }
 
     public void UpdateMaterial(Color col)

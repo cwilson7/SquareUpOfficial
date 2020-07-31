@@ -42,7 +42,7 @@ public class AvatarSetup : MonoBehaviour
             avatarSkin.transform.SetParent(transform);
             AvatarCharacteristics AC = avatarSkin.GetComponent<AvatarCharacteristics>();
             AC.SetMaterial(myAssignedColor);
-            if (PV.IsMine) AC.DisplayCosmetics();
+            if (PV != null) AC.DisplayCosmetics();
             else AC.NetworkDisplayCosmetics(cosmeticNames.ToList());
 
             AddPlayerController(avatarSkin);

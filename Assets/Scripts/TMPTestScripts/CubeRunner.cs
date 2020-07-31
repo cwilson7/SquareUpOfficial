@@ -4,15 +4,25 @@ using UnityEngine;
 
 public class CubeRunner : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    // Update is called once per frame
+    Rigidbody rb;
+
+    private void Start()
     {
-        
+        rb = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        
+        if (Input.GetAxis("Horizontal") != 0)
+        {
+            rb.velocity = new Vector3(Input.GetAxis("Horizontal") * 10, rb.velocity.y, 0);
+        }
+        if (Input.GetAxis("Vertical") != 0)
+        {
+            rb.velocity = new Vector3(rb.velocity.x, 20, 0);
+        } 
     }
+
+
 }

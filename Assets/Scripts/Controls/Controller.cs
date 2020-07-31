@@ -102,14 +102,8 @@ public abstract class Controller : MonoBehaviour
         if (iPhone) SwipeDetector.OnSwipe += TouchCombat;
         if (!iPhone) moveStick.gameObject.SetActive(false);
 
-        GameObject rf = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/Fists/DashBase/" +"DashBaseFist"), GetComponentInChildren<RFist>().gameObject.transform.position, Quaternion.identity);
-        rf.transform.parent = GetComponentInChildren<RFist>().gameObject.transform;
-        GameObject lf = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/Fists/DashBase/" +"DashBaseFist"), GetComponentInChildren<LFist>().gameObject.transform.position, Quaternion.identity);
-        lf.transform.parent = GetComponentInChildren<LFist>().gameObject.transform;
-        RFist = rf.GetComponent<Fist>();
-        LFist = lf.GetComponent<Fist>();
-        RFist.InitializeFist(this);
-        LFist.InitializeFist(this);
+        RFist = SetUpFist(GetComponentInChildren<RFist>());
+        LFist = SetUpFist(GetComponentInChildren<LFist>());
 
         mmPlayer = GetComponentInChildren<MiniMapPlayer>();
 
@@ -128,6 +122,18 @@ public abstract class Controller : MonoBehaviour
         if (PV.IsMine) MultiplayerSettings.multiplayerSettings.SetCustomPlayerProperties("ControllerInitialized", true);
 
 
+    }
+
+    Fist SetUpFist(Component comp)
+    {
+        AvatarCharacteristics avatarData = GetComponentInChildren<AvatarCharacteristics>();
+        GameObject f = Instantiate(avatarData.FistModel, comp.gameObject.transform.position, Quaternion.Euler(90, 90, 90));
+        f.transform.parent = comp.gameObject.transform;
+        Fist Fist = f.GetComponent<Fist>();
+        avatarData.SetFistMaterial(f, LobbyController.lc.availableMaterials[(int)PhotonNetwork.CurrentRoom.GetPlayer(actorNr).CustomProperties["AssignedColor"]]);
+        Fist.InitializeFist(this);
+        
+        return Fist;
     }
 
     #endregion
@@ -270,8 +276,7 @@ public abstract class Controller : MonoBehaviour
 
     public void EquipWeapon()
     {
-        RFist.SetHasGun(true);
-        LFist.SetHasGun(true);
+
     }
 
     #endregion
@@ -515,7 +520,7 @@ public abstract class Controller : MonoBehaviour
             Fist fist = other.GetComponent<Fist>();
             if (fist.owner == actorNr) return;
             fist.SetCollider(false);
-            bool fromLeft = fist.startLoc.x < transform.position.x;
+            bool fromLeft = fist.Origin.position.x < transform.position.x;
 
             if (fist.owner == PhotonNetwork.LocalPlayer.ActorNumber) Flinch(fromLeft);
 
@@ -629,8 +634,6 @@ public abstract class Controller : MonoBehaviour
         if (currentWeapon == null) return;
         currentWeapon.Remove();
         currentWeapon = null;
-        RFist.SetHasGun(false);
-        LFist.SetHasGun(false);
     }
 
     [PunRPC]

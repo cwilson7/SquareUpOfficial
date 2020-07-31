@@ -1,5 +1,17 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &2572693596203728650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2584718097265908841}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abd1a677fe3c75744a6ec1ad8f9d27ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3821957445044356241
 GameObject:
   m_ObjectHideFlags: 0
@@ -84,6 +96,18 @@ SpringJoint:
   m_EnablePreprocessing: 1
   m_MassScale: 1
   m_ConnectedMassScale: 1
+--- !u!114 &2846075383648993020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3832090514055281579}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e96e0cbcd0dcda4d91c58003f310077, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!135 &-7846299449201045854
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -203,12 +227,57 @@ MonoBehaviour:
     characterName: Warp
     status: 0
     associatedLevels: []
-    cosmetics: []
+    cosmetics:
+    - name: Halo
+      type: 0
+      model: {fileID: 1737139595670950295, guid: 48bcca57e7c5e3048ad0d0522fc78b3d,
+        type: 3}
+      status: 1
+      referencedObject: {fileID: 0}
+    - name: AngelToga
+      type: 4
+      model: {fileID: 5213074244002782373, guid: 3103b4d71a199194a9c0151998b9f65e,
+        type: 3}
+      status: 1
+      referencedObject: {fileID: 0}
+    - name: AngelWings
+      type: 4
+      model: {fileID: 6725883125052964109, guid: d0b150acc7f076e4392cef8ce0b26f5e,
+        type: 3}
+      status: 1
+      referencedObject: {fileID: 0}
     currentSet:
-      _keys: 
-      currentCosmetics: []
+      _keys: 0000000001000000020000000300000004000000
+      currentCosmetics:
+      - name: 
+        type: 0
+        model: {fileID: 0}
+        status: 0
+        referencedObject: {fileID: 0}
+      - name: 
+        type: 0
+        model: {fileID: 0}
+        status: 0
+        referencedObject: {fileID: 0}
+      - name: 
+        type: 0
+        model: {fileID: 0}
+        status: 0
+        referencedObject: {fileID: 0}
+      - name: 
+        type: 0
+        model: {fileID: 0}
+        status: 0
+        referencedObject: {fileID: 0}
+      - name: 
+        type: 0
+        model: {fileID: 0}
+        status: 0
+        referencedObject: {fileID: 0}
   indexesOfMaterial: 00000000
   myDemo: {fileID: 0}
+  FistModel: {fileID: 6097840955771674184, guid: 34eb7c2ff56ad05439ab642ae47b4d8d,
+    type: 3}
   CosmeticFolder: Warp Cosmetics
   folders:
   - FolderName: Acc
@@ -231,30 +300,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a045a602d3d3cdb4abcf6435b8489249, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &2846075383648993020
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3832090514055281579}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e96e0cbcd0dcda4d91c58003f310077, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &2572693596203728650
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2584718097265908841}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abd1a677fe3c75744a6ec1ad8f9d27ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8636328239498576212

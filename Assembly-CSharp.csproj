@@ -64,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Boner.cs" />
+    <Compile Include="Assets\BonerFist.cs" />
     <Compile Include="Assets\CrystalFramework\Utility\Demos\SafeAreaDemo.cs" />
     <Compile Include="Assets\CrystalFramework\Utility\SafeArea.cs" />
     <Compile Include="Assets\IllegalGoods\Common\Required Internal Use Scripts\Half.cs" />

@@ -10,38 +10,21 @@ public class AudioManager : MonoBehaviour
     public static AudioManager AM;
     
     private AudioSource currentTheme;
-    bool initalized = false;
     public int lastBuildIndex;
     [SerializeField] private AudioClip mainTheme;
 
-
     private void Awake()
     {
-        Debug.Log(AudioManager.AM != this);
-        if (AM == null)
-        {
-            AM = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else if (AM != this)
-        {
-            Debug.Log("destroy stuff getting called");
-            Destroy(gameObject);
-        }
+        AudioManager.AM = this;
+        DontDestroyOnLoad(this.gameObject);
     }
+
     void Start()
     {
-        Debug.Log("new adio manajer");
-        Debug.Log("more trash garbage gettting claaed");
-        initalized = true;
         currentTheme = GetComponent<AudioSource>();
-        currentTheme.enabled = true;
-        lastBuildIndex = 1000;
+        lastBuildIndex = 0;
         SceneManager.sceneLoaded += SwitchThemeScene;
         Cube.CubeRotated += SwitchThemeLevel;
-        SwitchThemeScene(SceneManager.GetActiveScene(), LoadSceneMode.Additive);
-        Debug.Log(AudioManager.AM == null);
-        DontDestroyOnLoad(this.gameObject);
     }
 
     void SwitchThemeLevel(Level level)

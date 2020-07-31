@@ -15,6 +15,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
     public GameObject shopButton, startButton, loadingTxtPrefab, roomNotFoundTxtPrefab, roomListContent, joinRndLobbyBtn, chooseModePnl, startPnl, createRoomPnl, currentPnl;
     [SerializeField] Canvas canvas;
     private Hashtable loadingObjects;
+    public GameObject audioManager;
 
     private GameObject roomNotFoundTxt;
     private bool inPhotonLobby;
@@ -28,6 +29,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
     {
         InitializeLoadingUI();
         Loading(true, startButton);
+        if (AudioManager.AM == null) Instantiate(audioManager);
         // Once we move to server implementation, this needs to be changed to "PhotonNetwork.ConnectToMaster(IP of server, port of server, our decided name of server);"
         PhotonNetwork.AutomaticallySyncScene = true;
         if (!PhotonNetwork.IsConnected) PhotonNetwork.ConnectUsingSettings();

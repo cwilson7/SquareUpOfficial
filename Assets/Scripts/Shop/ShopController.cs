@@ -46,7 +46,5 @@ public class ShopController : MonoBehaviour
     {
         SceneManager.LoadScene("StartScene");
         SaveGame?.Invoke(ProgressionSystem.Instance);
-        //Destroy(ProgressionSystem.Instance.gameObject);
-        Destroy(AudioManager.AM.gameObject);
     }
 }

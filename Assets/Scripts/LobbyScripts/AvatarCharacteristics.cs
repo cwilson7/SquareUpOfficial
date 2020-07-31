@@ -164,19 +164,11 @@ public class CosmeticSet : ISerializationCallbackReceiver
 
     public void UpdateSet(CosmeticItem item)
     {
-<<<<<<< HEAD
         /* if (!cosmetics.ContainsKey(item.type))
         {
             Debug.Log("No cosmetic by the name of " + item.name + " found.");
             return;
         } */
-=======
-        /*if (!cosmetics.ContainsKey(item.type))
-        {
-            Debug.Log("No cosmetic by the name of " + item.name + " found.");
-            return;
-        }*/
->>>>>>> 63b38f2abf32295289f3048e63a6c2b293072340
         
         cosmetics[item.type] = item;
     }

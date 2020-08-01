@@ -20,8 +20,8 @@ public abstract class Controller : MonoBehaviour
     private SphereCollider GroundCollider;
 
     public Weapon currentWeapon;
-    public Fist RFist;
-    public Fist LFist;
+    public Fist RFist; //fist num 1
+    public Fist LFist; //fist num 0
     public MiniMapPlayer mmPlayer;
 
     //Control UI
@@ -32,7 +32,7 @@ public abstract class Controller : MonoBehaviour
     public float speed, gravity, jumpHeightMultiplier, groundDetectionRadius, distanceFromGround;
     public int maxJumps;
     public Transform baseOfCharacter;
-    public float punchPower, punchImpact, punchCooldown, punchCDTime, specialCooldown, specialCDTime;
+    public float punchPower, punchImpact, punchCooldown, specialCooldown, specialCDTime;
     [SerializeField] float respawnDelay, boundaryDist;
     public float fistActiveTime, fistRadius;
     private float ogMass;
@@ -81,7 +81,6 @@ public abstract class Controller : MonoBehaviour
         punchPower = 0.1f;
         punchImpact = 1.5f;
         punchCooldown = 1;
-        punchCDTime = 0f;
         specialCooldown = 1;
         specialCDTime = 0f;
         respawnDelay = 3f;
@@ -168,7 +167,6 @@ public abstract class Controller : MonoBehaviour
         HandleFallingAnimations();
         if (!PV.IsMine) return;
         if (specialCDTime >= 0) specialCDTime -= Time.deltaTime;
-        if (punchCDTime >= 0) punchCDTime -= Time.deltaTime;
         if (rb.velocity.y < 0) rb.velocity += Vector3.up * Physics.gravity.y * 0.5f * Time.deltaTime;
     }
 
@@ -226,14 +224,37 @@ public abstract class Controller : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            if (currentWeapon == null && punchCDTime <= 0)
+            if (currentWeapon == null)
             {
-                PV.RPC("RPC_MeleeAttack", RpcTarget.AllBuffered, AimDirection, actorNr,0);
+                if (LFist.punching && RFist.punching) return;
+                PV.RPC("RPC_MeleeAttack", RpcTarget.AllBuffered, AimDirection, actorNr, FistToPunch());
             }
             else if (currentWeapon != null)
             {
                 currentWeapon.Attack(AimDirection);
             }
+        }
+    }
+
+    int FistToPunch()
+    {
+        if (!LFist.punching && !RFist.punching)
+        {
+            System.Random rand = new System.Random();
+            double percent = rand.NextDouble();
+            if (percent > 0.5)
+            {
+                return 1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+        else
+        {
+            if (RFist.punching) return 1;
+            else return 0;
         }
     }
 

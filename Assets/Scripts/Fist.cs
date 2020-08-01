@@ -12,6 +12,11 @@ public class Fist : DamageDealer
 
     public bool hasGun;
 
+    float rotateSpeed = 300f;
+    Quaternion desiredRotation;
+    Quaternion defaultRotation = Quaternion.Euler(90, 90, 90);
+    float defaultRotationRadius = 0.5f;
+
     public Transform Origin;
     float maxRadiusPunch = 5f, punchReturnRadius = 1f;
     float followSpeed = 20f;
@@ -51,11 +56,6 @@ public class Fist : DamageDealer
 
     void DirectionHandler()
     {
-        float rotateSpeed = 300f;
-        Quaternion desiredRotation;
-        Quaternion defaultRotation = Quaternion.Euler(90, 90, 90);
-        float defaultRotationRadius = 0.5f;
-
         if ((Origin.position - transform.position).magnitude < defaultRotationRadius)
         {
             desiredRotation = defaultRotation;
@@ -63,13 +63,13 @@ public class Fist : DamageDealer
         else
         {
             float angle = Vector3.Angle(Vector3.down, transform.localPosition);
-            if (transform.localPosition.x > 0)
+            if (transform.position.x > Origin.position.x)
             {
-                desiredRotation = Quaternion.Euler(90 + angle, 90, 90);
+                desiredRotation = Quaternion.Euler(90 - angle, 90, 90);
             }
             else
             {
-                desiredRotation = Quaternion.Euler(90 - angle, 90, 90);
+                desiredRotation = Quaternion.Euler(90 + angle, 90, 90);
             }
         }
 

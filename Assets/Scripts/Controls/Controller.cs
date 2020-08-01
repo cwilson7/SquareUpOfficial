@@ -317,6 +317,7 @@ public abstract class Controller : MonoBehaviour
             isDead = false;
             Velocity = Vector3.zero;
         }
+        mmPlayer.gameObject.SetActive(true);
         GetComponentInChildren<AvatarCharacteristics>().SetMaterial(LobbyController.lc.availableMaterials[(int)PhotonNetwork.CurrentRoom.GetPlayer(actorNr).CustomProperties["AssignedColor"]]);
         HP = 1f;
         SetAllComponents(true);
@@ -608,6 +609,7 @@ public abstract class Controller : MonoBehaviour
     public void DieAndRespawn_RPC(int locID)
     {
         SetAllComponents(false);
+        mmPlayer.gameObject.SetActive(false);
         Transform[] list = Cube.cb.CurrentFace.spawnPoints;
         transform.position = list[locID].position;
         //transform.rotation = list[locID].rotation;

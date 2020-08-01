@@ -13,7 +13,7 @@ public class Fist : DamageDealer
     public bool hasGun;
 
     public Transform Origin;
-    float maxRadiusPunch = 4f, punchReturnRadius = 0.5f;
+    float maxRadiusPunch = 5f, punchReturnRadius = 1f;
     float followSpeed = 20f;
     float punchSpeed = 30f;
     bool punching = false, returning = false;
@@ -22,8 +22,11 @@ public class Fist : DamageDealer
     {
         if (ParentController == null || !ParentController.controllerInitialized) return;
         if (punching) PunchHandler();
-        if (!punching) DelayedFollow();
-        DirectionHandler();
+        if (!punching)
+        {
+            DelayedFollow();
+            DirectionHandler();
+        }
     }
 
     public void InitializeFist(Controller parentController)
@@ -48,7 +51,7 @@ public class Fist : DamageDealer
 
     void DirectionHandler()
     {
-        float rotateSpeed = 500f;
+        float rotateSpeed = 300f;
         Quaternion desiredRotation;
         Quaternion defaultRotation = Quaternion.Euler(90, 90, 90);
         float defaultRotationRadius = 0.5f;
@@ -59,14 +62,14 @@ public class Fist : DamageDealer
         }
         else
         {
-            float angle = Vector3.Angle(Vector3.down, transform.position);
-            if (transform.position.x >= Origin.position.x)
+            float angle = Vector3.Angle(Vector3.down, transform.localPosition);
+            if (transform.localPosition.x > 0)
             {
-                desiredRotation = Quaternion.Euler(90 - angle, 90, 90);
+                desiredRotation = Quaternion.Euler(90 + angle, 90, 90);
             }
             else
             {
-                desiredRotation = Quaternion.Euler(90 + angle, 90, 90);
+                desiredRotation = Quaternion.Euler(90 - angle, 90, 90);
             }
         }
 
@@ -100,15 +103,15 @@ public class Fist : DamageDealer
         punching = true;
         SetCollider(true);
         Vector3 direction = new Vector3(aim.x, aim.y, 0f);
-        rb.velocity = direction * punchSpeed;
+        rb.velocity = direction * punchSpeed + ParentController.gameObject.GetComponent<Rigidbody>().velocity;
         float angle = Vector3.Angle(Vector3.down, direction);
-        if (direction.x > Origin.position.x) 
+        if (direction.x > 0)//Origin.position.x)
         {
             rb.rotation = Quaternion.Euler(90 - angle, 90, 90);
         }
         else
         {
-            rb.rotation = Quaternion.Euler(90 + angle, 90, 90);
+            rb.rotation = Quaternion.Euler(80 + angle, 90, 90);
         }
     }
 

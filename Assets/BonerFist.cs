@@ -6,8 +6,8 @@ public class BonerFist : MonoBehaviour
 {    
     private Transform Origin;
     float maxRadiusPunch = 5f, punchReturnRadius = 0.5f;//, maxRadiusBounce, minRadiusBounce, originalMaxBounce = 1f, withinOrigin, speedBoundary = 4f;
-    float followSpeed = 10f;
-    float punchSpeed = 20f;
+    float followSpeed = 5f;
+    float punchSpeed = 10f;
     bool punching = false, returning = false;
     Vector3 mousePos;
     Rigidbody rb;
@@ -53,7 +53,7 @@ public class BonerFist : MonoBehaviour
             }
         }
 
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, desiredRotation, rotateSpeed * Time.deltaTime);
+        if (!punching) transform.rotation = Quaternion.RotateTowards(transform.rotation, desiredRotation, rotateSpeed * Time.deltaTime);
     }
 
     void TrackMouse()
@@ -88,6 +88,15 @@ public class BonerFist : MonoBehaviour
         punching = true;
         Vector3 direction = new Vector3(mousePos.x, mousePos.y, 0f);
         rb.velocity = direction * punchSpeed;
+        float angle = Vector3.Angle(Vector3.down, direction);
+        if (direction.x > Origin.position.x)
+        {
+            rb.rotation = Quaternion.Euler(90 - angle, 90, 90);
+        }
+        else
+        {
+            rb.rotation = Quaternion.Euler(90 + angle, 90, 90);
+        }
     }
 
     void ReturnFist()

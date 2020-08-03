@@ -76,6 +76,7 @@ MonoBehaviour:
   - RpcClearBuffer
   - RpcNonServerOwnedTeleportFromServer
   - RpcTeleport
+  - DamageReaction_RPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

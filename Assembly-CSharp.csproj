@@ -204,6 +204,7 @@
     <Compile Include="Assets\ShopCube.cs" />
     <Compile Include="Assets\SimpleHealthBar\Healthbar.cs" />
     <Compile Include="Assets\StepHandler.cs" />
+    <Compile Include="Assets\Synchronization.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark02.cs" />

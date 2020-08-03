@@ -259,25 +259,10 @@ public abstract class Controller : MonoBehaviour
         }
     }
 
-    void Flinch(bool fromLeft)
+    void DamageReaction(Vector3 _impact)
     {
-        /* REPLACE WITH IMPACT
-        int mod;
-        if (PV.IsMine) mod = directionModifier;
-        else
-        {
-            mod = GetComponent<AnimationSynchronization>().directionModifier;
-            GetComponent<AnimationSynchronization>().SetFlinch();
-        }
-        if (fromLeft)
-        {
-
-        }
-        else
-        {
-
-        }
-        */
+        rb.velocity += _impact;
+        //other stuff
     }
 
     public void TrackMouse()
@@ -509,15 +494,15 @@ public abstract class Controller : MonoBehaviour
             audioHandler.Play("", "Slap");
             Projectile proj = otherGO.GetComponent<Projectile>();
             if (proj.owner == actorNr) return;
-            bool fromLeft = proj.Velocity.x > 0;
+            Vector3 _impact = proj.impactMultiplier * proj.Velocity.normalized;
 
-            if (proj.owner == PhotonNetwork.LocalPlayer.ActorNumber) Flinch(fromLeft);
+            if (proj.owner == PhotonNetwork.LocalPlayer.ActorNumber) DamageReaction(_impact);
 
             if (PV.IsMine)
             {
                 OnDamgeTaken?.Invoke(proj, this);
                 LoseHealth(proj.damage);
-                PV.RPC("Flinch_RPC", RpcTarget.AllBuffered, fromLeft);
+                PV.RPC("DamageReaction_RPC", RpcTarget.AllBuffered, _impact);
                 GameInfo.GI.StatChange(proj.owner, "bulletsLanded");
             }
             //impact += proj.impactMultiplier * proj.Velocity.normalized;
@@ -543,19 +528,18 @@ public abstract class Controller : MonoBehaviour
             Fist fist = other.GetComponent<Fist>();
             if (fist.owner == actorNr) return;
             fist.SetCollider(false);
-            bool fromLeft = fist.Origin.position.x < transform.position.x;
+            Vector3 _impact = fist.impactMultiplier * fist.gameObject.GetComponent<Rigidbody>().velocity.normalized;
 
-            if (fist.owner == PhotonNetwork.LocalPlayer.ActorNumber) Flinch(fromLeft);
+            if (fist.owner == PhotonNetwork.LocalPlayer.ActorNumber) DamageReaction(_impact);
 
             if (PV.IsMine)
             {
                 OnDamgeTaken?.Invoke(fist, this);
                 LoseHealth(fist.damage);
-                PV.RPC("Flinch_RPC", RpcTarget.AllBuffered, fromLeft);
+                PV.RPC("DamageReaction_RPC", RpcTarget.AllBuffered, _impact);
                 GameInfo.GI.StatChange(fist.owner, "punchesLanded");
             }
-            
-            //impact += fist.impactMultiplier * fist.Velocity.normalized;
+
         }
     }
 
@@ -645,11 +629,10 @@ public abstract class Controller : MonoBehaviour
     }
 
     [PunRPC]
-    public void Flinch_RPC(bool fromLeft)
+    public void DamageReaction_RPC(Vector3 impact)
     {
-        //if i already flinched from this attack, return
-        if (GetComponent<AnimationSynchronization>().flinched) GetComponent<AnimationSynchronization>().flinched = false;
-        else Flinch(fromLeft);
+        if (GetComponent<NetworkAvatar>().reacted) GetComponent<NetworkAvatar>().reacted = false;
+        else DamageReaction(impact);
     }
 
     [PunRPC]

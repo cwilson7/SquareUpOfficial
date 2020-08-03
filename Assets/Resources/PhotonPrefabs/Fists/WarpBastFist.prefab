@@ -129,6 +129,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: WarpBastFist
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 8a6a3cbbe47bf1f428081ef2ed915d01,
+        type: 3}
+      propertyPath: m_TagString
+      value: Fist
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8a6a3cbbe47bf1f428081ef2ed915d01, type: 3}
 --- !u!1 &6097840955771674184 stripped

@@ -4987,6 +4987,7 @@ GameObject:
   - component: {fileID: 7934084828216822118}
   - component: {fileID: -4772409583596154050}
   - component: {fileID: 8857240145242137751}
+  - component: {fileID: 5046528485529499942}
   m_Layer: 0
   m_Name: PlayerTestAvatar
   m_TagString: Player
@@ -5131,3 +5132,15 @@ MonoBehaviour:
   useLocalTransformOnly: 0
   maxPositionDifferenceForVelocitySyncing: 10
   receivedStatesCounter: 0
+--- !u!114 &5046528485529499942
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7553275058234249101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80651071c30e7364cbfc2509c913294b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

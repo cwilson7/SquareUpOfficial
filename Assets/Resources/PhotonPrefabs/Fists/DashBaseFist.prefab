@@ -129,6 +129,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: DashBaseFist
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: fab98b3aab7ef8441bcbdb324249d8fe,
+        type: 3}
+      propertyPath: m_TagString
+      value: Fist
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fab98b3aab7ef8441bcbdb324249d8fe, type: 3}
 --- !u!1 &3963649284627691831 stripped

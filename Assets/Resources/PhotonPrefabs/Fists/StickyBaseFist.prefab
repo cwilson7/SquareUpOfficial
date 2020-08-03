@@ -129,6 +129,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: StickyBaseFist
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 61f5bb9d407b5564eaa85cb5bc0304b0,
+        type: 3}
+      propertyPath: m_TagString
+      value: Fist
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 61f5bb9d407b5564eaa85cb5bc0304b0, type: 3}
 --- !u!1 &238339316288021786 stripped

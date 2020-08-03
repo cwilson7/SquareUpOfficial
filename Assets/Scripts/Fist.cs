@@ -116,7 +116,6 @@ public class Fist : DamageDealer
             punching = true;
             SetCollider(true);
             rb.velocity = new Vector3(aim.x, aim.y, 0f).normalized * punchSpeed + ParentController.gameObject.GetComponent<Rigidbody>().velocity;
-            //rb.rotation = Quaternion.LookRotation(, Vector3.up);
             savedDirection = Vector3.zero;
         }
     }

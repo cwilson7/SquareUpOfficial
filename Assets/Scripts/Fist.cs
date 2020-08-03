@@ -14,7 +14,7 @@ public class Fist : DamageDealer
 
     Vector3 SavedDirection;
 
-    float rotateSpeed = 300f;
+    float rotateSpeed = 500f;
     Quaternion desiredRotation;
     Quaternion defaultRotation = Quaternion.Euler(90, 90, 90);
     float defaultRotationRadius = 0.5f;
@@ -57,27 +57,12 @@ public class Fist : DamageDealer
     void DelayedFollow()
     {
         rb.velocity = (Origin.position - transform.position) * followSpeed;
-        Debug.Log((Origin.position - transform.position));
     }
 
     void DirectionHandler()
     {
-        if ((Origin.position - transform.position).magnitude < defaultRotationRadius)
-        {
-            desiredRotation = defaultRotation;
-        }
-        else
-        {
-            float angle = Vector3.Angle(Vector3.down, transform.localPosition);
-            if (transform.position.x > Origin.position.x)
-            {
-                desiredRotation = Quaternion.Euler(90 - angle, 90, 90);
-            }
-            else
-            {
-                desiredRotation = Quaternion.Euler(90 + angle, 90, 90);
-            }
-        }
+        if ((Origin.position - transform.position).magnitude < defaultRotationRadius) desiredRotation = defaultRotation;
+        else desiredRotation = Direct(Vector3.zero, transform.localPosition, Direction.ToCenter);
 
         transform.rotation = Quaternion.RotateTowards(transform.rotation, desiredRotation, rotateSpeed * Time.deltaTime);
     }
@@ -118,15 +103,7 @@ public class Fist : DamageDealer
     {
         Vector3 direction = new Vector3(aim.x, aim.y, 0f);
         rb.velocity = direction * punchSpeed + ParentController.gameObject.GetComponent<Rigidbody>().velocity;
-        float angle = Vector3.Angle(Vector3.down, direction);
-        if (direction.x > 0)
-        {
-            rb.rotation = Quaternion.Euler(90 - angle, 90, 90);
-        }
-        else
-        {
-            rb.rotation = Quaternion.Euler(80 + angle, 90, 90);
-        }
+        rb.rotation = Direct(Vector3.zero, direction, Direction.FromCenter);
     }
 
     void Redirection()
@@ -146,6 +123,23 @@ public class Fist : DamageDealer
         {
             desiredRotation = Quaternion.Euler(90 - angle, 90, 90);
         }
+    }
+
+    Quaternion Direct(Vector3 center, Vector3 point, Direction direction)
+    {
+        Quaternion retQuat;
+        float angle = Vector3.Angle(Vector3.down, point);
+        if (point.x > center.x)
+        {
+            if (direction == Direction.FromCenter) retQuat = Quaternion.Euler(90 - angle, 90, 90);
+            else retQuat = Quaternion.Euler(90 + angle, 90, 90);
+        }
+        else
+        {
+            if (direction == Direction.FromCenter) retQuat = Quaternion.Euler(90 + angle, 90, 90);
+            else retQuat = Quaternion.Euler(90 - angle, 90, 90);
+        }
+        return retQuat;
     }
 
     public void SetCollider(bool isActive) { collide.enabled = isActive; }

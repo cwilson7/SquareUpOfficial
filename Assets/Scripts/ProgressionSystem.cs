@@ -183,3 +183,9 @@ public enum Status
     Locked,
     Unlocked
 }
+
+public enum Direction
+{
+    ToCenter,
+    FromCenter
+}

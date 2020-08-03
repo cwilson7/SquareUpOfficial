@@ -8,8 +8,8 @@ public class BonerFist : MonoBehaviour
     float maxRadiusPunch = 5f, punchReturnRadius = 0.5f;//, maxRadiusBounce, minRadiusBounce, originalMaxBounce = 1f, withinOrigin, speedBoundary = 4f;
     float followSpeed = 5f;
     float punchSpeed = 10f;
-    bool punching = false, returning = false;
-    Vector3 mousePos;
+    public bool punching = false, returning = false, redirecting = false;
+    Vector3 mousePos, savedDirection;
     Rigidbody rb;
 
     private void Start()
@@ -23,10 +23,11 @@ public class BonerFist : MonoBehaviour
     {
         // ArtificialSpring();
         TrackMouse();
-        if (Input.GetMouseButtonDown(0)) Punch();
-        if (punching) PunchHandler(); 
+        if (Input.GetMouseButtonDown(0)) Punch(new Vector3(mousePos.x, mousePos.y, 0f));
+        if (punching) PunchHandler();
         else DelayedFollow();
-        HandleRotation();
+
+        if (!redirecting) HandleRotation();
     }
 
     void HandleRotation()
@@ -42,15 +43,7 @@ public class BonerFist : MonoBehaviour
         }
         else
         {
-            float angle = Vector3.Angle(Vector3.down, transform.position);
-            if (transform.position.x >= Origin.position.x)
-            {
-                desiredRotation = Quaternion.Euler(90 - angle, 90, 90);
-            }
-            else
-            {
-                desiredRotation = Quaternion.Euler(90 + angle, 90, 90);
-            }
+            desiredRotation = Direct(Origin.position, transform.position, Direction.FromCenter);
         }
 
         if (!punching) transform.rotation = Quaternion.RotateTowards(transform.rotation, desiredRotation, rotateSpeed * Time.deltaTime);
@@ -71,32 +64,68 @@ public class BonerFist : MonoBehaviour
 
     void PunchHandler()
     {
-        if ((Origin.position - transform.position).magnitude > maxRadiusPunch) ReturnFist();
-        if (returning)
+        if (redirecting)
         {
-            ReturnFist();
-            if ((Origin.position - transform.position).magnitude < punchReturnRadius)
+            //send to origin
+            SendToOrigin();
+            if ((Origin.position - transform.position).magnitude < punchReturnRadius) { 
+                Punch(savedDirection);
+                redirecting = false;
+            }
+        }
+        else
+        {
+            if ((Origin.position - transform.position).magnitude > maxRadiusPunch) ReturnFist();
+            if (returning)
             {
-                punching = false;
-                returning = false;
+                ReturnFist();
+                if ((Origin.position - transform.position).magnitude < punchReturnRadius)
+                {
+                    punching = false;
+                    returning = false;
+                    savedDirection = Vector3.zero;
+                }
             }
         }
     }
 
-    void Punch()
+    void SendToOrigin()
+    {
+        Vector3 vec = Origin.position - transform.position;
+        rb.velocity = vec * punchSpeed * 10;
+        rb.rotation = Direct(Origin.position, transform.position, Direction.ToCenter);
+    }
+
+    void Punch(Vector3 direction)
     {
         punching = true;
-        Vector3 direction = new Vector3(mousePos.x, mousePos.y, 0f);
-        rb.velocity = direction * punchSpeed;
-        float angle = Vector3.Angle(Vector3.down, direction);
-        if (direction.x > Origin.position.x)
+        if ((Origin.position - transform.position).magnitude > punchReturnRadius)
         {
-            rb.rotation = Quaternion.Euler(90 - angle, 90, 90);
+            redirecting = true;
+            savedDirection = direction;
         }
         else
         {
-            rb.rotation = Quaternion.Euler(90 + angle, 90, 90);
+            rb.velocity = direction * punchSpeed;
+            rb.rotation = Direct(Origin.position, direction, Direction.FromCenter);
         }
+    }
+
+    Quaternion Direct (Vector3 origin, Vector3 point, Direction direction)
+    {
+        Quaternion retQuat;
+        float angle = Vector3.Angle(Vector3.down, point);
+        if (point.x > origin.x)
+        {
+            if (direction == Direction.FromCenter) retQuat = Quaternion.Euler(90 - angle, 90, 90);
+            else retQuat = Quaternion.Euler(90 + angle, 90, 90);
+        }
+        else
+        {
+            if (direction == Direction.FromCenter) retQuat = Quaternion.Euler(90 + angle, 90, 90);
+            else retQuat = Quaternion.Euler(90 - angle, 90, 90);
+        }
+        return retQuat;
     }
 
     void ReturnFist()

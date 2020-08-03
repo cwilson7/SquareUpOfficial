@@ -8,7 +8,7 @@ public class BonerFist : MonoBehaviour
     float maxRadiusPunch = 5f, punchReturnRadius = 0.5f;//, maxRadiusBounce, minRadiusBounce, originalMaxBounce = 1f, withinOrigin, speedBoundary = 4f;
     float followSpeed = 5f;
     float punchSpeed = 10f;
-    public bool punching = false, returning = false, redirecting = false;
+    public bool punching = false, returning = false, redirecting = false, following = true;
     Vector3 mousePos, savedDirection;
     Rigidbody rb;
 
@@ -23,11 +23,15 @@ public class BonerFist : MonoBehaviour
     {
         // ArtificialSpring();
         TrackMouse();
+        rb.rotation = Quaternion.LookRotation(-Origin.position, Vector3.up);
+        /*
         if (Input.GetMouseButtonDown(0)) Punch(new Vector3(mousePos.x, mousePos.y, 0f));
+        if (Input.GetMouseButtonDown(1)) following = !following;
         if (punching) PunchHandler();
-        else DelayedFollow();
+        else if (following) DelayedFollow();
 
         if (!redirecting) HandleRotation();
+        */
     }
 
     void HandleRotation()
@@ -54,7 +58,6 @@ public class BonerFist : MonoBehaviour
         Vector3 MouseWorldPos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
         MouseWorldPos.z = transform.position.z;
         mousePos = (MouseWorldPos - transform.position).normalized;
-        Debug.Log(mousePos);
     }
 
     void DelayedFollow()
@@ -92,8 +95,8 @@ public class BonerFist : MonoBehaviour
     void SendToOrigin()
     {
         Vector3 vec = Origin.position - transform.position;
-        rb.velocity = vec * punchSpeed * 10;
-        rb.rotation = Direct(Origin.position, transform.position, Direction.ToCenter);
+        rb.velocity = vec.normalized * punchSpeed * 10;
+        //rb.rotation = Direct(Origin.position, transform.position, Direction.ToCenter);
     }
 
     void Punch(Vector3 direction)

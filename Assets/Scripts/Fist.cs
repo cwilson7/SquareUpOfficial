@@ -12,7 +12,7 @@ public class Fist : DamageDealer
 
     public bool hasGun;
 
-    Vector3 SavedDirection;
+    Vector3 savedDirection;
 
     float rotateSpeed = 500f;
     Quaternion desiredRotation;
@@ -20,16 +20,15 @@ public class Fist : DamageDealer
     float defaultRotationRadius = 0.5f;
 
     public Transform Origin;
-    float maxRadiusPunch = 5f, punchReturnRadius = 1f;
+    float maxRadiusPunch = 5f, punchReturnRadius = 2f;
     float followSpeed = 20f;
     float punchSpeed = 30f;
     public bool punching = false, returning = false, redirecting = false;
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (ParentController == null || !ParentController.controllerInitialized) return;
         if (punching) PunchHandler();
-        //if (redirecting) Redirection();
         if (!punching)
         {
             DelayedFollow();
@@ -42,9 +41,9 @@ public class Fist : DamageDealer
         ParentController = parentController;
         collide = GetComponent<SphereCollider>();
         rb = GetComponent<Rigidbody>();
+        rb.interpolation = RigidbodyInterpolation.Interpolate;
         rb.centerOfMass = Vector3.zero;
         rb.inertiaTensorRotation = Quaternion.identity;
-        Origin = transform.parent;
         rb.useGravity = false;
         SetCollider(false);
 
@@ -62,22 +61,36 @@ public class Fist : DamageDealer
     void DirectionHandler()
     {
         if ((Origin.position - transform.position).magnitude < defaultRotationRadius) desiredRotation = defaultRotation;
-        else desiredRotation = Direct(Vector3.zero, transform.localPosition, Direction.ToCenter);
+        else desiredRotation = Quaternion.LookRotation(-(Origin.position - transform.position), Vector3.up);
 
         transform.rotation = Quaternion.RotateTowards(transform.rotation, desiredRotation, rotateSpeed * Time.deltaTime);
     }
 
     void PunchHandler()
     {
-        if ((Origin.position - transform.position).magnitude > maxRadiusPunch) ReturnFist();
-        if (returning)
+        if (redirecting)
         {
-            Vector3 direction = (Origin.position - transform.position).normalized;
-            rb.velocity = direction * punchSpeed;
-            if ((Origin.position - transform.position).magnitude < punchReturnRadius)
+            rb.velocity = (Origin.position - transform.position).normalized * punchSpeed * 2;
+            rb.rotation = Quaternion.LookRotation(Origin.position - transform.position, Vector3.up);
+            if ((Origin.position - transform.position).magnitude < defaultRotationRadius)
             {
-                punching = false;
-                returning = false;
+                redirecting = false;
+                Punch(savedDirection);
+            }
+        }
+        else
+        {
+            rb.rotation = Quaternion.LookRotation(- Origin.position + transform.position, Vector3.up);
+            if ((Origin.position - transform.position).magnitude > maxRadiusPunch) ReturnFist();
+            if (returning)
+            {
+                Vector3 direction = (Origin.position - transform.position).normalized;
+                rb.velocity = direction * punchSpeed;
+                if ((Origin.position - transform.position).magnitude < punchReturnRadius)
+                {
+                    punching = false;
+                    returning = false;
+                }
             }
         }
     }
@@ -92,54 +105,20 @@ public class Fist : DamageDealer
 
     public void Punch(Vector3 aim)
     {
-        punching = true;
-        SetCollider(true);
-        /*SavedDirection = aim;
-        if ((Origin.position - transform.position).magnitude > defaultRotationRadius) redirecting = true;
-        else*/ SendFist(aim);
-    }
-
-    void SendFist(Vector3 aim)
-    {
-        Vector3 direction = new Vector3(aim.x, aim.y, 0f);
-        rb.velocity = direction * punchSpeed + ParentController.gameObject.GetComponent<Rigidbody>().velocity;
-        rb.rotation = Direct(Vector3.zero, direction, Direction.FromCenter);
-    }
-
-    void Redirection()
-    {
-        rb.velocity = (Origin.position - transform.position) * punchSpeed + ParentController.gameObject.GetComponent<Rigidbody>().velocity;
-        float angle = Vector3.Angle(Vector3.down, transform.position);
-        if ((Origin.position - transform.position).magnitude < defaultRotationRadius)
+        if (!punching && (Origin.position - transform.position).magnitude > defaultRotationRadius)
         {
-            SendFist(SavedDirection);
-            redirecting = false;
-        }
-        if (transform.position.x > Origin.position.x)
-        {
-            desiredRotation = Quaternion.Euler(90 + angle, 90, 90);
+            savedDirection = aim;
+            redirecting = true;
+            punching = true;
         }
         else
         {
-            desiredRotation = Quaternion.Euler(90 - angle, 90, 90);
+            punching = true;
+            SetCollider(true);
+            rb.velocity = new Vector3(aim.x, aim.y, 0f).normalized * punchSpeed + ParentController.gameObject.GetComponent<Rigidbody>().velocity;
+            //rb.rotation = Quaternion.LookRotation(, Vector3.up);
+            savedDirection = Vector3.zero;
         }
-    }
-
-    Quaternion Direct(Vector3 center, Vector3 point, Direction direction)
-    {
-        Quaternion retQuat;
-        float angle = Vector3.Angle(Vector3.down, point);
-        if (point.x > center.x)
-        {
-            if (direction == Direction.FromCenter) retQuat = Quaternion.Euler(90 - angle, 90, 90);
-            else retQuat = Quaternion.Euler(90 + angle, 90, 90);
-        }
-        else
-        {
-            if (direction == Direction.FromCenter) retQuat = Quaternion.Euler(90 + angle, 90, 90);
-            else retQuat = Quaternion.Euler(90 - angle, 90, 90);
-        }
-        return retQuat;
     }
 
     public void SetCollider(bool isActive) { collide.enabled = isActive; }

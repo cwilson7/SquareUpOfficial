@@ -18,6 +18,7 @@ public class GameInfo : MonoBehaviour
     public int cubeOwner;
     public List<GameObject> WeaponPowerUps, PowerUps;
     public List<RuntimeAnimatorController> AnimatorControllers;
+    public GameObject FistContainer;
 
     private bool started = false, setScoreTable = false, stopUpdateCalls = false;
 

@@ -127,8 +127,9 @@ public abstract class Controller : MonoBehaviour
     {
         AvatarCharacteristics avatarData = GetComponentInChildren<AvatarCharacteristics>();
         GameObject f = Instantiate(avatarData.FistModel, comp.gameObject.transform.position, Quaternion.Euler(90, 90, 90));
-        f.transform.parent = comp.gameObject.transform;
+        f.transform.parent = GameInfo.GI.FistContainer.transform;//comp.gameObject.transform;
         Fist Fist = f.GetComponent<Fist>();
+        Fist.Origin = comp.gameObject.transform;
         avatarData.SetFistMaterial(f, LobbyController.lc.availableMaterials[(int)PhotonNetwork.CurrentRoom.GetPlayer(actorNr).CustomProperties["AssignedColor"]]);
         Fist.InitializeFist(this);
         

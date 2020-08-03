@@ -70,7 +70,7 @@ public class Fist : DamageDealer
     {
         if (redirecting)
         {
-            rb.velocity = (Origin.position - transform.position).normalized * punchSpeed * 2;
+            rb.velocity = (Origin.position - transform.position).normalized * punchSpeed * 1.5f;
             rb.rotation = Quaternion.LookRotation(Origin.position - transform.position, Vector3.up);
             if ((Origin.position - transform.position).magnitude < defaultRotationRadius)
             {

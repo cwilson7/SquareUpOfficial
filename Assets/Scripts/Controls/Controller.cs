@@ -79,7 +79,7 @@ public abstract class Controller : MonoBehaviour
         distanceFromGround = 0.5f;
         HP = 1f;
         punchPower = 0.1f;
-        punchImpact = 1.5f;
+        punchImpact =0.75f;
         punchCooldown = 1;
         specialCooldown = 1;
         specialCDTime = 0f;

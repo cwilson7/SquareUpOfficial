@@ -130,7 +130,7 @@ public abstract class Controller : MonoBehaviour
         f.transform.parent = GameInfo.GI.FistContainer.transform;//comp.gameObject.transform;
         Fist Fist = f.GetComponent<Fist>();
         Fist.Origin = comp.gameObject.transform;
-        avatarData.SetFistMaterial(f, LobbyController.lc.availableMaterials[(int)PhotonNetwork.CurrentRoom.GetPlayer(actorNr).CustomProperties["AssignedColor"]]);
+        avatarData.SetFistMaterial(f, LobbyController.lc.availableMaterials[(int)PhotonNetwork.CurrentRoom.GetPlayer(actorNr).CustomProperties["AssignedColor"]].color);
         Fist.InitializeFist(this);
         
         return Fist;
@@ -202,8 +202,10 @@ public abstract class Controller : MonoBehaviour
 
     private void TrackHP()
     {
+        Color newCol = Color.Lerp(LobbyController.lc.availableMaterials[(int)PhotonNetwork.CurrentRoom.GetPlayer(actorNr).CustomProperties["AssignedColor"]].color, Color.black, 1 - HP);
         AvatarCharacteristics ColorInfo = GetComponentInChildren<AvatarCharacteristics>();
-        ColorInfo.UpdateMaterial(Color.Lerp(LobbyController.lc.availableMaterials[(int)PhotonNetwork.CurrentRoom.GetPlayer(actorNr).CustomProperties["AssignedColor"]].color, Color.black, 1 - HP));
+        ColorInfo.UpdateMaterial(newCol);
+        ColorInfo.SetFistMaterial(LFist.gameObject, newCol);
     }
 
     private void HandleAnimationValues()
@@ -261,7 +263,7 @@ public abstract class Controller : MonoBehaviour
 
     void DamageReaction(Vector3 _impact)
     {
-        rb.velocity += _impact;
+        impact += _impact;
         //other stuff
     }
 

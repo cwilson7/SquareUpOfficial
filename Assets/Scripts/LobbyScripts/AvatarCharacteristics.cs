@@ -65,9 +65,9 @@ public class AvatarCharacteristics : MonoBehaviour
         }
     }
 
-    public void SetFistMaterial(GameObject fist, Material mat)
+    public void SetFistMaterial(GameObject fist, Color _color)
     {
-        fist.GetComponent<Renderer>().material = mat;
+        fist.GetComponent<Renderer>().material.color = _color;
     }
 
     public void UpdateMaterial(Color col)

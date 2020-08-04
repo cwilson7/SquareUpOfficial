@@ -15,7 +15,7 @@ public class NetworkAvatar : MonoBehaviourPun, IPunObservable
 
     private PhotonView PV;
 
-    public bool reacted;
+    public bool reacted = false;
 
     public void Awake()
     {

@@ -12,14 +12,16 @@ using System;
 public class NetworkAvatar : MonoBehaviourPun, IPunObservable
 {
     private Controller m_controller;
+    Rigidbody rb;
 
     private PhotonView PV;
 
-    public bool reacted = false;
+    bool netRunning, netHasGun;
 
     public void Awake()
     {
         this.PV = GetComponent<PhotonView>();
+        rb = GetComponent<Rigidbody>();
     }
 
     public void FixedUpdate()
@@ -30,6 +32,12 @@ public class NetworkAvatar : MonoBehaviourPun, IPunObservable
             return;
         }
         if (!m_controller.controllerInitialized) return;
+        if (PV.IsMine) return;
+    }
+
+    void ImpactHandler()
+    {
+        rb.velocity += m_controller.impact;
     }
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)

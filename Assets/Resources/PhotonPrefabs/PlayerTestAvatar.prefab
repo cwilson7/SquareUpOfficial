@@ -4988,6 +4988,7 @@ GameObject:
   - component: {fileID: -4772409583596154050}
   - component: {fileID: 8857240145242137751}
   - component: {fileID: 5046528485529499942}
+  - component: {fileID: 4883067216096930254}
   m_Layer: 0
   m_Name: PlayerTestAvatar
   m_TagString: Player
@@ -5032,6 +5033,7 @@ MonoBehaviour:
   OwnershipTransfer: 0
   ObservedComponents:
   - {fileID: 8857240145242137751}
+  - {fileID: 4883067216096930254}
   viewIdField: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
@@ -5095,7 +5097,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8069ffa6ab7df7340ad5ce0c3da47526, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interpolationBackTime: 0.12
+  interpolationBackTime: 0.05
   extrapolationMode: 1
   useExtrapolationTimeLimit: 1
   extrapolationTimeLimit: 5
@@ -5111,16 +5113,16 @@ MonoBehaviour:
   snapPositionThreshold: 0
   snapRotationThreshold: 0
   snapScaleThreshold: 0
-  positionLerpSpeed: 0.85
-  rotationLerpSpeed: 0.85
+  positionLerpSpeed: 0.95
+  rotationLerpSpeed: 0.95
   scaleLerpSpeed: 0.85
-  timeCorrectionSpeed: 0.1
+  timeCorrectionSpeed: 0.2
   snapTimeThreshold: 3
   syncPosition: 0
-  syncRotation: 0
-  syncScale: 0
-  syncVelocity: 0
-  syncAngularVelocity: 0
+  syncRotation: 5
+  syncScale: 7
+  syncVelocity: 1
+  syncAngularVelocity: 7
   isPositionCompressed: 0
   isRotationCompressed: 0
   isScaleCompressed: 0
@@ -5128,7 +5130,7 @@ MonoBehaviour:
   isAngularVelocityCompressed: 0
   whenToUpdateTransform: 1
   childObjectToSync: {fileID: 0}
-  setVelocityInsteadOfPositionOnNonOwners: 1
+  setVelocityInsteadOfPositionOnNonOwners: 0
   useLocalTransformOnly: 0
   maxPositionDifferenceForVelocitySyncing: 10
   receivedStatesCounter: 0
@@ -5142,5 +5144,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 80651071c30e7364cbfc2509c913294b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4883067216096930254
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7553275058234249101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28901c8b9b01c5148b66843589c816e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

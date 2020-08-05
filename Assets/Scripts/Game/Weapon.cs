@@ -29,12 +29,18 @@ public class Weapon : MonoBehaviour
     private void FixedUpdate()
     {
         if (fireCooldown >= 0) fireCooldown -= Time.deltaTime;
-        if (PV.IsMine) TrackMousePosition(ParentController.AimDirection, ParentController.directionModifier == 1, false);
-        else TrackMousePosition(AS.aim, AS.directionModifier == 1, true);
+        if (PV.IsMine) TrackMousePosition();//ParentController.AimDirection, ParentController.directionModifier == 1, false);
+        //else TrackMousePosition(AS.aim, AS.directionModifier == 1, true);
     }
 
-    public void TrackMousePosition(Vector3 Direction, bool directionCheck, bool lerp)
+    public void TrackMousePosition()//Vector3 Direction, bool directionCheck, bool lerp)
     {
+        Quaternion desiredRotation;
+
+        desiredRotation = Quaternion.LookRotation(transform.position - GunLocation.position, Vector3.up);
+
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, desiredRotation, 500 * Time.deltaTime);
+        /*
         if (directionCheck)
         {
             if (Direction.x > 0) SetTransform(180, -90, -180-Mathf.Rad2Deg * Mathf.Atan(Direction.y / -Direction.x), lerp);
@@ -45,6 +51,7 @@ public class Weapon : MonoBehaviour
             if (Direction.x > 0) SetTransform(0, -90, Mathf.Rad2Deg * Mathf.Atan(-Direction.y / -Direction.x), lerp);
             else SetTransform(180, -90, -180 - Mathf.Rad2Deg * Mathf.Atan(-Direction.y / -Direction.x), lerp);
         }
+        */
     }
 
     private void SetTransform(float x, float y, float z, bool lerp)

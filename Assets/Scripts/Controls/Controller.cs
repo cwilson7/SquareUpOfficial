@@ -10,12 +10,10 @@ using CustomUtilities;
 public abstract class Controller : MonoBehaviour
 {
     public static event Action<DamageDealer, Controller> OnDamgeTaken;
-    
-    public bool iPhone = false;
+
+    public ParticleSystem PaintExplosionSystem;
 
     public PhotonView PV;
-    public ParticleSystem PaintExplosionSystem;
-    [SerializeField] private GameObject baseOfCharacterPrefab;
     private Rigidbody rb;
     private SphereCollider GroundCollider;
 
@@ -29,28 +27,21 @@ public abstract class Controller : MonoBehaviour
 
     //Initial Player movement variables
     public int actorNr;
-    public float speed, gravity, jumpHeightMultiplier, groundDetectionRadius, distanceFromGround;
+    public float speed, gravity, jumpHeightMultiplier, distanceFromGround;
     public int maxJumps;
     public Transform baseOfCharacter;
-    public float punchPower, punchImpact, punchCooldown, specialCooldown, specialCDTime;
+    public float punchPower, punchImpact;
     [SerializeField] float respawnDelay, boundaryDist;
-    public float fistActiveTime, fistRadius;
-    private float ogMass;
 
     //Tracked variables
-    public Vector3 Velocity, impact;
+    public Vector3 impact;
     public int jumpNum;
     public float HP;
     public Vector3 AimDirection;
     public bool controllerInitialized = false;
     public bool isDead = false;
     public bool isRunning, hasGun;
-    public int directionModifier;
     public bool isGrounded;
-    public bool sliding;
-    public float rayDist = 1f;
-    public float slideLimit = 45;
-    public bool isFalling;
 
     public Animator anim;
 
@@ -67,6 +58,8 @@ public abstract class Controller : MonoBehaviour
 
         rb = GetComponent<Rigidbody>();
 
+        PaintExplosionSystem = GetComponentInChildren<ParticleSystem>();
+
         impact = Vector3.zero;
         AimDirection = Vector2.zero;
 
@@ -74,32 +67,20 @@ public abstract class Controller : MonoBehaviour
         speed = 20f;
         gravity = -9.8f;
         jumpHeightMultiplier = 50f;
-        groundDetectionRadius = 0.75f;
         maxJumps = 2;
         distanceFromGround = 0.5f;
         HP = 1f;
         punchPower = 0.1f;
-        punchImpact =0.75f;
-        punchCooldown = 1;
-        specialCooldown = 1;
-        specialCDTime = 0f;
+        punchImpact =0.25f;
         respawnDelay = 3f;
         boundaryDist = 100f;
-        fistActiveTime = 0.5f;
-        directionModifier = 1;
-        fistRadius = 5f;
         actorNr = PV.OwnerActorNr;
-        ogMass = rb.mass;
         isGrounded = false;
-        isFalling = false;
-
-        PaintExplosionSystem = GetComponentInChildren<ParticleSystem>();
         
         currentWeapon = GetComponent<Weapon>();
         moveStick = JoyStickReference.joyStick.gameObject.GetComponent<FloatingJoystick>();
 
-        if (iPhone) SwipeDetector.OnSwipe += TouchCombat;
-        if (!iPhone) moveStick.gameObject.SetActive(false);
+        moveStick.gameObject.SetActive(false);
 
         RFist = SetUpFist(GetComponentInChildren<RFist>());
         LFist = SetUpFist(GetComponentInChildren<LFist>());
@@ -115,11 +96,10 @@ public abstract class Controller : MonoBehaviour
 
         audioHandler = GetComponent<AudioHandler>();
 
-        //rb.inertiaTensor = rb.inertiaTensor + new Vector3(rb.inertiaTensor.x * 100, rb.inertiaTensor.y * 100, rb.inertiaTensor.z * 100);
-
         controllerInitialized = true;
         if (PV.IsMine) MultiplayerSettings.multiplayerSettings.SetCustomPlayerProperties("ControllerInitialized", true);
-
+        PV.RefreshRpcMonoBehaviourCache();
+        PhotonNetwork.UseRpcMonoBehaviourCache = true;
 
     }
 
@@ -127,7 +107,7 @@ public abstract class Controller : MonoBehaviour
     {
         AvatarCharacteristics avatarData = GetComponentInChildren<AvatarCharacteristics>();
         GameObject f = Instantiate(avatarData.FistModel, comp.gameObject.transform.position, Quaternion.Euler(90, 90, 90));
-        f.transform.parent = GameInfo.GI.FistContainer.transform;//comp.gameObject.transform;
+        f.transform.parent = GameInfo.GI.FistContainer.transform;
         Fist Fist = f.GetComponent<Fist>();
         Fist.Origin = comp.gameObject.transform;
         avatarData.SetFistMaterial(f, LobbyController.lc.availableMaterials[(int)PhotonNetwork.CurrentRoom.GetPlayer(actorNr).CustomProperties["AssignedColor"]].color);
@@ -139,50 +119,24 @@ public abstract class Controller : MonoBehaviour
     #endregion
 
     #region Update Functions
-
-    // OnlyThings which cant go in fixed update
-    void Update()
+    private void Update()
+    {
+        if (!controllerInitialized) return;
+        if (!PV.IsMine) return;
+        Movement();
+    }
+    private void FixedUpdate()
     {
         if (!controllerInitialized) return;
         if (CheckForTimeStop()) return;
         TrackHP();
 
         if (!PV.IsMine) return;
-        else
-        {
-            //rayCastChecks();
-            Movement();
-            HandleDeaths();
-            HandleAnimationValues();
-            if (!iPhone)
-            {
-                TrackMouse();
-                MouseCombat();
-            }
-        }
-    }
-
-    private void FixedUpdate()
-    {
-        if (!controllerInitialized) return;
-        HandleFallingAnimations();
-        if (!PV.IsMine) return;
-        if (specialCDTime >= 0) specialCDTime -= Time.deltaTime;
-        if (rb.velocity.y < 0) rb.velocity += Vector3.up * Physics.gravity.y * 0.5f * Time.deltaTime;
-    }
-
-    void HandleFallingAnimations()
-    {
-        if (rb.velocity.y < -1 && !isGrounded)
-        {
-            isFalling = true;
-            //anim.SetBool("Falling", true);
-        }
-        else
-        {
-            isFalling = false;
-            //anim.SetBool("Falling", false);
-        }
+        //Movement();
+        HandleDeaths();
+        HandleAnimationValues();
+        TrackMouse();
+        MouseCombat();
     }
 
     private bool CheckForTimeStop()
@@ -206,6 +160,7 @@ public abstract class Controller : MonoBehaviour
         AvatarCharacteristics ColorInfo = GetComponentInChildren<AvatarCharacteristics>();
         ColorInfo.UpdateMaterial(newCol);
         ColorInfo.SetFistMaterial(LFist.gameObject, newCol);
+        ColorInfo.SetFistMaterial(RFist.gameObject, newCol);
     }
 
     private void HandleAnimationValues()
@@ -215,7 +170,7 @@ public abstract class Controller : MonoBehaviour
         if (currentWeapon != null) hasGun = true;
         else if (currentWeapon == null) hasGun = false;
 
-        if (Mathf.Abs(Velocity.x) > 0) isRunning = true;
+        if (Mathf.Abs(rb.velocity.x) > 0) isRunning = true;
         else isRunning = false;
     }
 
@@ -231,6 +186,7 @@ public abstract class Controller : MonoBehaviour
             {
                 if (LFist.punching && RFist.punching) return;
                 PV.RPC("RPC_MeleeAttack", RpcTarget.AllBuffered, AimDirection, actorNr, FistToPunch());
+                PhotonNetwork.SendAllOutgoingCommands();
             }
             else if (currentWeapon != null)
             {
@@ -264,6 +220,8 @@ public abstract class Controller : MonoBehaviour
     void DamageReaction(Vector3 _impact)
     {
         impact += _impact;
+
+        Debug.Log("should be reacting to damage");
         //other stuff
     }
 
@@ -324,7 +282,7 @@ public abstract class Controller : MonoBehaviour
         if (PV.IsMine)
         {
             isDead = false;
-            Velocity = Vector3.zero;
+            rb.velocity = Vector3.zero;
         }
         mmPlayer.gameObject.SetActive(true);
         GetComponentInChildren<AvatarCharacteristics>().SetMaterial(LobbyController.lc.availableMaterials[(int)PhotonNetwork.CurrentRoom.GetPlayer(actorNr).CustomProperties["AssignedColor"]]);
@@ -358,80 +316,33 @@ public abstract class Controller : MonoBehaviour
 
     public virtual void Movement()
     {
-        HandleInputs(iPhone);
+        Move(HandleInputs());
 
-        Move(Velocity);
+        if (rb.velocity.y < 0) rb.velocity += Vector3.up * Physics.gravity.y * 0.5f * Time.deltaTime;
     }
 
-    protected void HandleInputs(bool iPhone)
+    protected float HandleInputs()
     {
-        if (iPhone)
-        {
-            //Vertical movement
-            if (moveStick.Vertical >= 0.8)
-            {
-                TryJump();
-            }
+        float inputX = Input.GetAxis("Horizontal");
+        bool inputY = Input.GetKeyDown(KeyCode.W);
 
-            //Horizontal movement
-            if (moveStick.Horizontal >= 0.2)
-            {
-                Velocity.x = 1;
-                gameObject.transform.rotation = Quaternion.Euler(0, 90, 0);
-            }
-            else if (moveStick.Horizontal <= -0.2)
-            {
-                Velocity.x = -1;
-                gameObject.transform.rotation = Quaternion.Euler(0, -90, 0);
-            }
-            else
-            {
-                Velocity.x = 0;
-                gameObject.transform.rotation = Quaternion.Euler(0, 0, 0);
-            }
-        }
-        else 
-        {
-            if (Input.GetAxis("Horizontal") > 0 || Input.GetKeyDown(KeyCode.D))
-            {
-                FreezePositions(false);
-                directionModifier = 1;
-                gameObject.transform.rotation = Quaternion.Euler(0, 100, 0);
 
-            }
-            if (Input.GetAxis("Horizontal") < 0 || Input.GetKeyDown(KeyCode.A))
-            {
-                FreezePositions(false);
-                directionModifier = -1;
-                gameObject.transform.rotation = Quaternion.Euler(0, -100, 0);
+        if (inputX != 0) FreezePositions(false);
+        else if (isGrounded) FreezePositions(true);
 
-            }
-            if (Input.GetAxis("Horizontal") == 0)
-            {
-                if (isGrounded)
-                {
-                    FreezePositions(true);
-                }
-            }
-            if (Input.GetKeyDown(KeyCode.W))
-            {
-                FreezePositions(false);
-                TryJump();
-            }
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                TrySpecial();
-            }
-            anim.SetFloat("Velocity", Mathf.Abs(rb.velocity.x));
-            Velocity.x = Input.GetAxis("Horizontal");
-        }
+        if (inputX > 0) gameObject.transform.rotation = Quaternion.Euler(0, 100, 0);
+        if (inputX < 0) gameObject.transform.rotation = Quaternion.Euler(0, -100, 0);
+        if (inputY) { TryJump(); }
+
+        anim.SetFloat("Velocity", Mathf.Abs(rb.velocity.x));
+        return inputX;
     }
 
 
 
-    public void Move(Vector3 _velocity)
+    public void Move(float input)
     {
-        rb.velocity = new Vector3(_velocity.x * speed + impact.x, rb.velocity.y + impact.y, 0f);
+        rb.velocity = new Vector3(input * speed + impact.x, rb.velocity.y + impact.y, 0f);
 
         //lock Z Pos
         transform.position = new Vector3(transform.position.x, transform.position.y, Cube.cb.CurrentFace.spawnPoints[0].position.z);
@@ -440,17 +351,12 @@ public abstract class Controller : MonoBehaviour
         impact = Vector3.Lerp(impact, Vector3.zero, 5 * Time.deltaTime);
     }
 
-    public void TrySpecial()
-    {
-        if (specialCooldown <= 0)
-        {
-            PV.RPC("SpecialAnimation_RPC", RpcTarget.AllBuffered, actorNr);
-        }
-    }
     public void TryJump()
     {
         if (jumpNum <= 0) return;
+        FreezePositions(false);
         PV.RPC("JumpAnimation_RPC", RpcTarget.AllBuffered, actorNr);
+        PhotonNetwork.SendAllOutgoingCommands();
     }
 
     public void JumpAction()
@@ -463,24 +369,7 @@ public abstract class Controller : MonoBehaviour
     public void FreezePositions(bool freeze)
     {
         if (freeze) rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;            
-        else rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionZ;
-    }
-    #endregion
-
-    #region Touch Functions
-    public virtual void TouchCombat(SwipeData data)
-    {
-        Vector3 AttackDirection = data.StartPos - data.EndPos;
-        AimDirection = AttackDirection;
-        if (currentWeapon == null)
-        {
-            //animate fist
-            //call RPC melee attack
-        }
-        else
-        {
-            currentWeapon.Attack(AimDirection);
-        }
+        else rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionZ; 
     }
     #endregion
 
@@ -488,7 +377,6 @@ public abstract class Controller : MonoBehaviour
     
     private void OnCollisionEnter(Collision other)
     {
-        //GroundCheck(other);
         if (GroundCheck(other, true)) jumpNum = maxJumps;
         GameObject otherGO = other.gameObject;
         if (otherGO.tag == "Projectile")
@@ -498,13 +386,12 @@ public abstract class Controller : MonoBehaviour
             if (proj.owner == actorNr) return;
             Vector3 _impact = proj.impactMultiplier * proj.Velocity.normalized;
 
-            if (proj.owner == PhotonNetwork.LocalPlayer.ActorNumber) DamageReaction(_impact);
-
             if (PV.IsMine)
             {
-                OnDamgeTaken?.Invoke(proj, this);
+                //OnDamgeTaken?.Invoke(proj, this);
                 LoseHealth(proj.damage);
                 PV.RPC("DamageReaction_RPC", RpcTarget.AllBuffered, _impact);
+                PhotonNetwork.SendAllOutgoingCommands();
                 GameInfo.GI.StatChange(proj.owner, "bulletsLanded");
             }
             //impact += proj.impactMultiplier * proj.Velocity.normalized;
@@ -525,20 +412,19 @@ public abstract class Controller : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (other.tag == "Fist")
-        {
-            audioHandler.Play("" , "Slap");
+        {          
             Fist fist = other.GetComponent<Fist>();
             if (fist.owner == actorNr) return;
+            audioHandler.Play("", "Slap");
             fist.SetCollider(false);
-            Vector3 _impact = fist.impactMultiplier * fist.gameObject.GetComponent<Rigidbody>().velocity.normalized;
-
-            if (fist.owner == PhotonNetwork.LocalPlayer.ActorNumber) DamageReaction(_impact);
+            Vector3 _impact = fist.impactMultiplier * fist.gameObject.GetComponent<Rigidbody>().velocity;
 
             if (PV.IsMine)
             {
-                OnDamgeTaken?.Invoke(fist, this);
+                //OnDamgeTaken?.Invoke(fist, this);
                 LoseHealth(fist.damage);
                 PV.RPC("DamageReaction_RPC", RpcTarget.AllBuffered, _impact);
+                PhotonNetwork.SendAllOutgoingCommands();
                 GameInfo.GI.StatChange(fist.owner, "punchesLanded");
             }
 
@@ -570,23 +456,6 @@ public abstract class Controller : MonoBehaviour
             }
         }
         else return false;
-        //if (onGround) jumpNum = maxJumps;
-        /*
-        bool touchingGround = false;
-        if (collision.collider.gameObject.layer == 8)
-        {
-            foreach (ContactPoint cp in collision.contacts)
-            {
-                if (cp.thisCollider == GroundCollider)
-                {
-                    touchingGround = true;
-                    break;
-                }
-            }
-        }
-        isGrounded = touchingGround;
-        if (isGrounded) jumpNum = maxJumps;
-        */
     }
 
     #endregion
@@ -633,7 +502,7 @@ public abstract class Controller : MonoBehaviour
     [PunRPC]
     public void DamageReaction_RPC(Vector3 impact)
     {
-        if (GetComponent<NetworkAvatar>().reacted) GetComponent<NetworkAvatar>().reacted = false;
+        if (false) ;//(GetComponent<NetworkAvatar>().reacted) GetComponent<NetworkAvatar>().reacted = false;
         else DamageReaction(impact);
     }
 

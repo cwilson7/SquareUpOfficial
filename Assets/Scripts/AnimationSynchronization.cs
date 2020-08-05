@@ -67,14 +67,14 @@ public class AnimationSynchronization : MonoBehaviour, IPunObservable
             stream.SendNext(controller.AimDirection);
             stream.SendNext(controller.isRunning);
             stream.SendNext(controller.hasGun);
-            stream.SendNext(controller.directionModifier);
+            //stream.SendNext(controller.directionModifier);
         }
         else if (stream.IsReading)
         {
             aim = (Vector3)stream.ReceiveNext();
             isRunning = (bool)stream.ReceiveNext();
             hasGun = (bool)stream.ReceiveNext();
-            directionModifier = (int)stream.ReceiveNext();
+            //directionModifier = (int)stream.ReceiveNext();
         }
     }
 

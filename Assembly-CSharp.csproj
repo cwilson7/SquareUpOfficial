@@ -104,13 +104,6 @@
     <Compile Include="Assets\Resources\Classes\DashController.cs" />
     <Compile Include="Assets\Resources\Classes\StickyController.cs" />
     <Compile Include="Assets\Resources\Classes\WarpController.cs" />
-    <Compile Include="Assets\Resources\ClassesOld\BlobusController.cs" />
-    <Compile Include="Assets\Resources\ClassesOld\BobController.cs" />
-    <Compile Include="Assets\Resources\ClassesOld\GooseController.cs" />
-    <Compile Include="Assets\Resources\ClassesOld\MonkeyController.cs" />
-    <Compile Include="Assets\Resources\ClassesOld\MrBusinessController.cs" />
-    <Compile Include="Assets\Resources\ClassesOld\SharkController.cs" />
-    <Compile Include="Assets\Resources\ClassesOld\YetiController.cs" />
     <Compile Include="Assets\Resources\PhotonPrefabs\AnimatorControllers\AnimtionEventHandler.cs" />
     <Compile Include="Assets\Scripts\AnimationSynchronization.cs" />
     <Compile Include="Assets\Scripts\Audio\AudioHandler.cs" />
@@ -193,12 +186,6 @@
     <Compile Include="Assets\Scripts\Shop\ShopController.cs" />
     <Compile Include="Assets\Scripts\Shop\ShopPanel.cs" />
     <Compile Include="Assets\Scripts\Shop\ShopPanelController.cs" />
-    <Compile Include="Assets\Scripts\SpecialAbilities\AboveSticky.cs" />
-    <Compile Include="Assets\Scripts\SpecialAbilities\Bob\GraplingHook.cs" />
-    <Compile Include="Assets\Scripts\SpecialAbilities\Bob\HookDetector.cs" />
-    <Compile Include="Assets\Scripts\SpecialAbilities\Damager.cs" />
-    <Compile Include="Assets\Scripts\SpecialAbilities\SideSticky.cs" />
-    <Compile Include="Assets\Scripts\SpecialAbilities\YetiBend.cs" />
     <Compile Include="Assets\Scripts\TMPTestScripts\CubeRunner.cs" />
     <Compile Include="Assets\Scripts\Utilities.cs" />
     <Compile Include="Assets\ShopCube.cs" />

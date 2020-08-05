@@ -38,10 +38,7 @@ public abstract class Controller : MonoBehaviour
     public int jumpNum;
     public float HP;
     public Vector3 AimDirection;
-    public bool controllerInitialized = false;
-    public bool isDead = false;
-    public bool isRunning, hasGun;
-    public bool isGrounded;
+    public bool hasGun, isGrounded, isDead = false, controllerInitialized = false;
 
     public Animator anim;
 
@@ -124,18 +121,18 @@ public abstract class Controller : MonoBehaviour
         if (!controllerInitialized) return;
         if (CheckForTimeStop()) return;
         if (!PV.IsMine) return;
-        Move(HandleInputs());//Movement();
+        Move(HandleInputs());
     }
     private void FixedUpdate()
     {
         if (!controllerInitialized) return;
         if (CheckForTimeStop()) return;
         TrackHP();
+        HandleAnimationValues();
         if (rb.velocity.y < 0) rb.velocity += Vector3.up * Physics.gravity.y * 0.5f * Time.deltaTime;
 
         if (!PV.IsMine) return;
         HandleDeaths();
-        HandleAnimationValues();
         TrackMouse();
         MouseCombat();
     }
@@ -170,9 +167,6 @@ public abstract class Controller : MonoBehaviour
 
         if (currentWeapon != null) hasGun = true;
         else if (currentWeapon == null) hasGun = false;
-
-        if (Mathf.Abs(rb.velocity.x) > 0) isRunning = true;
-        else isRunning = false;
     }
 
     #endregion

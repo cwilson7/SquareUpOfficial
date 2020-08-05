@@ -100,7 +100,7 @@ public class Fist : DamageDealer
         returning = true;
         SetCollider(false);
         Vector3 direction = (Origin.position - transform.position).normalized;
-        rb.velocity = direction * punchSpeed;
+        rb.velocity = direction * punchSpeed * ParentController.gameObject.GetComponent<Rigidbody>().velocity.magnitude;
     }
 
     public void Punch(Vector3 aim)

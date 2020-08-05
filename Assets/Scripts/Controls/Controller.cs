@@ -61,7 +61,7 @@ public abstract class Controller : MonoBehaviour
         AimDirection = Vector2.zero;
 
         //Default values for all players
-        speed = 20f;
+        speed = 35f;
         gravity = -9.8f;
         jumpHeightMultiplier = 50f;
         maxJumps = 2;

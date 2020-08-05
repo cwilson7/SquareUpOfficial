@@ -122,17 +122,18 @@ public abstract class Controller : MonoBehaviour
     private void Update()
     {
         if (!controllerInitialized) return;
+        if (CheckForTimeStop()) return;
         if (!PV.IsMine) return;
-        Movement();
+        Move(HandleInputs());//Movement();
     }
     private void FixedUpdate()
     {
         if (!controllerInitialized) return;
         if (CheckForTimeStop()) return;
         TrackHP();
+        if (rb.velocity.y < 0) rb.velocity += Vector3.up * Physics.gravity.y * 0.5f * Time.deltaTime;
 
         if (!PV.IsMine) return;
-        //Movement();
         HandleDeaths();
         HandleAnimationValues();
         TrackMouse();
@@ -317,8 +318,6 @@ public abstract class Controller : MonoBehaviour
     public virtual void Movement()
     {
         Move(HandleInputs());
-
-        if (rb.velocity.y < 0) rb.velocity += Vector3.up * Physics.gravity.y * 0.5f * Time.deltaTime;
     }
 
     protected float HandleInputs()
@@ -332,7 +331,7 @@ public abstract class Controller : MonoBehaviour
 
         if (inputX > 0) gameObject.transform.rotation = Quaternion.Euler(0, 100, 0);
         if (inputX < 0) gameObject.transform.rotation = Quaternion.Euler(0, -100, 0);
-        if (inputY) { TryJump(); }
+        if (inputY) TryJump();
 
         anim.SetFloat("Velocity", Mathf.Abs(rb.velocity.x));
         return inputX;
@@ -417,10 +416,10 @@ public abstract class Controller : MonoBehaviour
             if (fist.owner == actorNr) return;
             audioHandler.Play("", "Slap");
             fist.SetCollider(false);
-            Vector3 _impact = fist.impactMultiplier * fist.gameObject.GetComponent<Rigidbody>().velocity;
 
             if (PV.IsMine)
             {
+                Vector3 _impact = fist.impactMultiplier * fist.gameObject.GetComponent<Rigidbody>().velocity;
                 //OnDamgeTaken?.Invoke(fist, this);
                 LoseHealth(fist.damage);
                 PV.RPC("DamageReaction_RPC", RpcTarget.AllBuffered, _impact);

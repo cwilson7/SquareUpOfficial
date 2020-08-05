@@ -5116,7 +5116,7 @@ MonoBehaviour:
   positionLerpSpeed: 0.95
   rotationLerpSpeed: 0.95
   scaleLerpSpeed: 0.85
-  timeCorrectionSpeed: 0.2
+  timeCorrectionSpeed: 0.13
   snapTimeThreshold: 3
   syncPosition: 0
   syncRotation: 5
@@ -5130,9 +5130,9 @@ MonoBehaviour:
   isAngularVelocityCompressed: 0
   whenToUpdateTransform: 1
   childObjectToSync: {fileID: 0}
-  setVelocityInsteadOfPositionOnNonOwners: 0
+  setVelocityInsteadOfPositionOnNonOwners: 1
   useLocalTransformOnly: 0
-  maxPositionDifferenceForVelocitySyncing: 10
+  maxPositionDifferenceForVelocitySyncing: 1
   receivedStatesCounter: 0
 --- !u!114 &5046528485529499942
 MonoBehaviour:

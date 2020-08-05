@@ -320,7 +320,7 @@ public abstract class Controller : MonoBehaviour
         bool inputY = Input.GetKeyDown(KeyCode.W);
 
 
-        if (inputX != 0) FreezePositions(false);
+        if /*(inputX != 0)*/(Mathf.Abs(rb.velocity.x) < 0.5) FreezePositions(false);
         else if (isGrounded) FreezePositions(true);
 
         if (inputX > 0) gameObject.transform.rotation = Quaternion.Euler(0, 100, 0);
@@ -335,7 +335,7 @@ public abstract class Controller : MonoBehaviour
 
     public void Move(float input)
     {
-        rb.velocity = new Vector3(input * speed + impact.x, rb.velocity.y + impact.y, 0f);
+        rb.velocity = new Vector3(input * speed, rb.velocity.y, 0f) + impact;
 
         //lock Z Pos
         transform.position = new Vector3(transform.position.x, transform.position.y, Cube.cb.CurrentFace.spawnPoints[0].position.z);
@@ -494,8 +494,8 @@ public abstract class Controller : MonoBehaviour
     [PunRPC]
     public void DamageReaction_RPC(Vector3 impact)
     {
-        if (false) ;//(GetComponent<NetworkAvatar>().reacted) GetComponent<NetworkAvatar>().reacted = false;
-        else DamageReaction(impact);
+        //(GetComponent<NetworkAvatar>().reacted) GetComponent<NetworkAvatar>().reacted = false;
+        DamageReaction(impact);
     }
 
     [PunRPC]

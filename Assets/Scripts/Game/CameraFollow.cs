@@ -6,7 +6,7 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour
 {
     public GameObject player;
-    public float distanceFromMap = 20, smoothDamp;
+    public float distanceFromMap = 40, smoothDamp;
     private bool rdyToFollow = false;
     private Vector3 offset, velocity = Vector3.zero;
     [SerializeField] private float leeway, maxDistance;
@@ -67,5 +67,10 @@ public class CameraFollow : MonoBehaviour
     void LateUpdate()
     {
         if (rdyToFollow && !Cube.cb.inRotation && player.GetComponent<Controller>().isDead == false) Follow();
+        if (rdyToFollow && Cube.cb != null && Cube.cb.inRotation)
+        {
+            Vector3 pos = Cube.cb.transform.position;
+            transform.position = new Vector3(pos.x, pos.y, pos.z - Cube.cb.cubeSize - distanceFromMap * 3);
+        }
     }
 }

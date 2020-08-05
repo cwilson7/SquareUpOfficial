@@ -42,4 +42,23 @@ public class MiniMapPlayer : MonoBehaviour
         }
     }
 
+    public void OnCubeStateChangeMap(bool startingRotation, float newZ)
+    {
+        if (startingRotation)
+        {
+            transform.localScale *= 2;
+            transform.localPosition = Vector3.zero;
+            transform.position = new Vector3(transform.position.x, transform.position.y, newZ);
+            gameObject.layer = LayerMask.NameToLayer("Player");
+            MiniMapCamera.mmCamera.projectedBlank.enabled = false;
+        }
+        else
+        {
+            transform.localScale /= 2;
+            transform.localPosition = Vector3.zero;
+            gameObject.layer = LayerMask.NameToLayer("MiniMap");
+            MiniMapCamera.mmCamera.projectedBlank.enabled = true;
+        }
+    }
+
 }

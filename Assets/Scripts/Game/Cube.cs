@@ -86,6 +86,7 @@ public class Cube : MonoBehaviour, IPunObservable
         gameObject.transform.position = gameObject.transform.position + new Vector3(0, 0, DistanceFromCameraForRotation);
         gameObject.transform.rotation = cubeRot;
         inRotation = true;
+        PV.RPC("MoveMinimapIndicator_RPC", RpcTarget.All, true, transform.position.z - (cubeSize / 2));
         PV.RPC("SendRotateInformation_RPC", RpcTarget.AllBuffered, inRotation, ownerActorNr);
     }
 
@@ -96,7 +97,8 @@ public class Cube : MonoBehaviour, IPunObservable
         GameInfo.GI.StartTime();
         inRotation = false;
         PV.RPC("SendRotateInformation_RPC", RpcTarget.AllBuffered, inRotation, ownerActorNr);
-        gameObject.transform.position = new Vector3(0f, 0f, 0f);//gameObject.transform.position + new Vector3(0, 0, -DistanceFromCameraForRotation);
+        PV.RPC("MoveMinimapIndicator_RPC", RpcTarget.All, false, 0f);
+        gameObject.transform.position = new Vector3(0f, 0f, 0f);
     }
 
     void SetClosestFace()
@@ -318,6 +320,16 @@ public class Cube : MonoBehaviour, IPunObservable
     #endregion
 
     #region RPCs
+    [PunRPC]
+    public void MoveMinimapIndicator_RPC(bool startingRotation, float newZ)
+    {
+        GameInfo.GI.FistContainer.SetActive(!startingRotation);
+        foreach (Score score in GameInfo.GI.scoreTable.Values)
+        {
+            score.playerAvatar.GetComponent<Controller>().OnCubeStateChange(startingRotation, newZ);
+        }
+    }
+
     [PunRPC]
     public void SwitchToCubeClone_RPC()
     {

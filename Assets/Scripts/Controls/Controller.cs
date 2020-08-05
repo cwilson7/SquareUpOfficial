@@ -169,6 +169,12 @@ public abstract class Controller : MonoBehaviour
         else if (currentWeapon == null) hasGun = false;
     }
 
+    public void OnCubeStateChange(bool startingRotation, float newZ)
+    {
+        SetAllComponents(!startingRotation);
+        mmPlayer.OnCubeStateChangeMap(startingRotation, newZ);
+    }
+
     #endregion
 
     #region Mouse Tracking / Combat
@@ -308,12 +314,6 @@ public abstract class Controller : MonoBehaviour
     #endregion
 
     #region Movement Functions
-
-    public virtual void Movement()
-    {
-        Move(HandleInputs());
-    }
-
     protected float HandleInputs()
     {
         float inputX = Input.GetAxis("Horizontal");
@@ -442,7 +442,6 @@ public abstract class Controller : MonoBehaviour
                     {
                         isGrounded = onGround;
                         return true;
-                        //break;
                     }
                 }
                 return false;

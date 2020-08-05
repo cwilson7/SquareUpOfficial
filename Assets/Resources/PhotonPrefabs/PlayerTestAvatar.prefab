@@ -5174,4 +5174,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aim: {x: 0, y: 0, z: 0}
   directionModifier: 0
-  flinched: 0

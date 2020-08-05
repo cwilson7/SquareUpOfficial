@@ -1,10 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class MiniMapCamera : MonoBehaviour
 {
     public static MiniMapCamera mmCamera;
+    public RawImage projectedBlank;
+
     private void Awake()
     {
         mmCamera = this;

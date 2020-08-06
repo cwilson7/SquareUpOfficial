@@ -38,7 +38,8 @@ public abstract class Controller : MonoBehaviour
     public int jumpNum;
     public float HP;
     public Vector3 AimDirection;
-    public bool hasGun, isGrounded, isDead = false, controllerInitialized = false;
+    public bool hasGun, isGrounded, isDead = false, controllerInitialized = false, receivingImpact = false;
+    float impactInterp = 0f;
 
     public Animator anim;
 
@@ -68,7 +69,7 @@ public abstract class Controller : MonoBehaviour
         distanceFromGround = 0.5f;
         HP = 1f;
         punchPower = 0.1f;
-        punchImpact =0.25f;
+        punchImpact = 0.75f;
         respawnDelay = 3f;
         boundaryDist = 100f;
         actorNr = PV.OwnerActorNr;
@@ -221,9 +222,8 @@ public abstract class Controller : MonoBehaviour
     void DamageReaction(Vector3 _impact)
     {
         impact += _impact;
-
-        Debug.Log("should be reacting to damage");
-        //other stuff
+        receivingImpact = true;
+        impactInterp = 0f;
     }
 
     public void TrackMouse()
@@ -319,8 +319,8 @@ public abstract class Controller : MonoBehaviour
         float inputX = Input.GetAxis("Horizontal");
         bool inputY = Input.GetKeyDown(KeyCode.W);
 
-
-        if /*(inputX != 0)*/(Mathf.Abs(rb.velocity.x) < 0.5) FreezePositions(false);
+        if (receivingImpact) FreezePositions(false);
+        else if (inputX != 0) FreezePositions(false);
         else if (isGrounded) FreezePositions(true);
 
         if (inputX > 0) gameObject.transform.rotation = Quaternion.Euler(0, 100, 0);
@@ -341,7 +341,19 @@ public abstract class Controller : MonoBehaviour
         transform.position = new Vector3(transform.position.x, transform.position.y, Cube.cb.CurrentFace.spawnPoints[0].position.z);
 
         //Account for impact from being hit by weapon
-        impact = Vector3.Lerp(impact, Vector3.zero, 5 * Time.deltaTime);
+        if (receivingImpact) ImpactHandler();
+    }
+
+    void ImpactHandler()
+    {
+        impactInterp += Time.deltaTime/5;
+        impact = Vector3.Lerp(impact, Vector3.zero, impactInterp);
+        if (impact.magnitude < 0.1f)
+        {
+            receivingImpact = false;
+            impact = Vector3.zero;
+            impactInterp = 0f;
+        }
     }
 
     public void TryJump()
@@ -383,7 +395,8 @@ public abstract class Controller : MonoBehaviour
             {
                 //OnDamgeTaken?.Invoke(proj, this);
                 LoseHealth(proj.damage);
-                PV.RPC("DamageReaction_RPC", RpcTarget.AllBuffered, _impact);
+                //PV.RPC("DamageReaction_RPC", RpcTarget.AllBuffered, _impact);
+                DamageReaction(_impact);
                 PhotonNetwork.SendAllOutgoingCommands();
                 GameInfo.GI.StatChange(proj.owner, "bulletsLanded");
             }
@@ -416,7 +429,8 @@ public abstract class Controller : MonoBehaviour
                 Vector3 _impact = fist.impactMultiplier * fist.gameObject.GetComponent<Rigidbody>().velocity;
                 //OnDamgeTaken?.Invoke(fist, this);
                 LoseHealth(fist.damage);
-                PV.RPC("DamageReaction_RPC", RpcTarget.AllBuffered, _impact);
+                //PV.RPC("DamageReaction_RPC", RpcTarget.AllBuffered, _impact);
+                DamageReaction(_impact);
                 PhotonNetwork.SendAllOutgoingCommands();
                 GameInfo.GI.StatChange(fist.owner, "punchesLanded");
             }

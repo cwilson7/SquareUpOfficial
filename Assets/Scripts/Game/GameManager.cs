@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
     public PhotonView PV;
     public static GameManager Manager;
+    public TMP_Text gameTimer;
     
     //Set values
     [SerializeField] private double percentOfPowerUpsWeapons;
@@ -15,14 +17,18 @@ public class GameManager : MonoBehaviour
 
     //Tracked values
     [SerializeField] private float powerUpCooldown;
-    [SerializeField] public bool gameStarted = false;
+    [SerializeField] public bool gameStarted = false, timerRunning = false;
     [SerializeField] private Hashtable currentPowerUps = new Hashtable();
+
+    float maxTimeSeconds = 60f * 3f, timerSeconds; 
     private System.Random rand;
     
     // Start is called before the first frame update
     void Awake()
     {
         Manager = this;
+        timerSeconds = maxTimeSeconds;
+        SetTimer(maxTimeSeconds);
         PV = GetComponent<PhotonView>();
         rand = new System.Random();
     }
@@ -45,9 +51,22 @@ public class GameManager : MonoBehaviour
 
     private void HandleTimers()
     {
+        if (timerRunning)
+        {
+            SetTimer(timerSeconds);
+            timerSeconds -= Time.deltaTime;
+        }
         if (Cube.cb.CurrentFace.powerUpSpawnPoints != null) maxPowerups = Cube.cb.CurrentFace.powerUpSpawnPoints.Length;
         if (currentPowerUps.Count >= maxPowerups || GameInfo.GI.TimeStopped) return;
         if (powerUpCooldown >= 0) powerUpCooldown -= Time.deltaTime;
+    }
+
+    void SetTimer(float totalTime)
+    {
+        int min = Mathf.FloorToInt(totalTime / 60);
+        int sec = Mathf.FloorToInt(totalTime % 60f);
+        if (sec < 10) gameTimer.text = min + ":0" + sec;
+        else gameTimer.text = min + ":" + sec;
     }
 
     #region Power Up Stuff
@@ -161,6 +180,7 @@ public class GameManager : MonoBehaviour
     public void GameStart_RPC()
     {
         gameStarted = true;
+        timerRunning = true;
     }
 
     #endregion

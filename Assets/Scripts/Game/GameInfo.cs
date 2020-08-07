@@ -19,6 +19,7 @@ public class GameInfo : MonoBehaviour
     public List<GameObject> WeaponPowerUps, PowerUps;
     public List<RuntimeAnimatorController> AnimatorControllers;
     public GameObject FistContainer;
+    public float startDelaySeconds = 3f; 
 
     private bool started = false, setScoreTable = false, stopUpdateCalls = false;
 
@@ -123,7 +124,7 @@ public class GameInfo : MonoBehaviour
 
     IEnumerator StartingMatch()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(startDelaySeconds);
         TimeStopped = false;
     }
 
@@ -160,7 +161,12 @@ public class GameInfo : MonoBehaviour
     [PunRPC]
     private void SyncStart_RPC()
     {
-        if (GameManager.Manager.PV.IsMine) GameManager.Manager.InitalizeGameManager();
+        if (GameManager.Manager.PV.IsMine)
+        {
+            GameManager.Manager.InitalizeGameManager();
+            GameManager.Manager.StartCoroutine(GameManager.Manager.StartDelay());
+        }
+
         StartCoroutine(StartingMatch());
     }
 

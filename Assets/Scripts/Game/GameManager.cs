@@ -9,24 +9,30 @@ public class GameManager : MonoBehaviour
     public PhotonView PV;
     public static GameManager Manager;
     public TMP_Text gameTimer;
-    
+
+    [SerializeField] GameObject endGamePanel, UIPanel, optionsPanel;
+
     //Set values
     [SerializeField] private double percentOfPowerUpsWeapons;
     [SerializeField] private float powerUpMaxCooldown;
     [SerializeField] private int maxPowerups;
+    [SerializeField] int totalMatchMinutes;
 
     //Tracked values
     [SerializeField] private float powerUpCooldown;
     [SerializeField] public bool gameStarted = false, timerRunning = false;
     [SerializeField] private Hashtable currentPowerUps = new Hashtable();
+    float maxTimeSeconds, timerSeconds; 
 
-    float maxTimeSeconds = 60f * 3f, timerSeconds; 
     private System.Random rand;
     
     // Start is called before the first frame update
     void Awake()
     {
         Manager = this;
+        endGamePanel.SetActive(false);
+        optionsPanel.SetActive(false);
+        maxTimeSeconds = 60f * totalMatchMinutes;
         timerSeconds = maxTimeSeconds;
         SetTimer(maxTimeSeconds);
         PV = GetComponent<PhotonView>();
@@ -46,15 +52,15 @@ public class GameManager : MonoBehaviour
     {
         //Set Initial Values
         powerUpCooldown = powerUpMaxCooldown;
-        PV.RPC("GameStart_RPC", RpcTarget.AllBuffered);
     }
 
     private void HandleTimers()
     {
-        if (timerRunning)
+        if (gameStarted && timerRunning)
         {
             SetTimer(timerSeconds);
             timerSeconds -= Time.deltaTime;
+            if (PV.IsMine && timerSeconds < 0) EndGame();
         }
         if (Cube.cb.CurrentFace.powerUpSpawnPoints != null) maxPowerups = Cube.cb.CurrentFace.powerUpSpawnPoints.Length;
         if (currentPowerUps.Count >= maxPowerups || GameInfo.GI.TimeStopped) return;
@@ -67,6 +73,18 @@ public class GameManager : MonoBehaviour
         int sec = Mathf.FloorToInt(totalTime % 60f);
         if (sec < 10) gameTimer.text = min + ":0" + sec;
         else gameTimer.text = min + ":" + sec;
+    }
+
+    public void EndGame()
+    {
+        GameInfo.GI.StopTime();
+        PV.RPC("EndGame_RPC", RpcTarget.All);
+    }
+
+    public IEnumerator StartDelay()
+    {
+        yield return new WaitForSeconds(GameInfo.GI.startDelaySeconds);
+        PV.RPC("GameStart_RPC", RpcTarget.AllBuffered);
     }
 
     #region Power Up Stuff
@@ -142,10 +160,19 @@ public class GameManager : MonoBehaviour
 
     #region RPCs
     [PunRPC]
+    public void EndGame_RPC()
+    {
+        timerRunning = false;
+        endGamePanel.SetActive(true);
+        UIPanel.SetActive(false);
+        optionsPanel.SetActive(false);
+    }
+
+    [PunRPC]
     public void InstantiatePowerUp_RPC(int listID, int locID, int pwrUpID, int newID)
     {
         List<GameObject> pwrUpList = GameInfo.GI.ReturnListFromID(listID);
-        Transform[] pwrUpLocs = Cube.cb.CurrentFace.powerUpSpawnPoints; //ReturnArrayFromID(listID);
+        Transform[] pwrUpLocs = Cube.cb.CurrentFace.powerUpSpawnPoints; 
         GameObject pwrUp = Instantiate(pwrUpList[pwrUpID], pwrUpLocs[locID]);
         pwrUp.GetComponent<PowerUp>().id = newID;
         currentPowerUps.Add(newID, pwrUp);

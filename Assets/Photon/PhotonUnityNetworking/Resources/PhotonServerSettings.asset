@@ -78,6 +78,7 @@ MonoBehaviour:
   - RpcTeleport
   - DamageReaction_RPC
   - MoveMinimapIndicator_RPC
+  - EndGame_RPC
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

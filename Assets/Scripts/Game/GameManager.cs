@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using TMPro;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -86,6 +87,14 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(GameInfo.GI.startDelaySeconds);
         PV.RPC("GameStart_RPC", RpcTarget.AllBuffered);
     }
+
+    #region Button Stuff
+    public void ReturnToMainMenu()
+    {
+        LobbyController.lc.ReturnToMenu();
+    }
+
+    #endregion
 
     #region Power Up Stuff
     private void HandlePowerUps()

@@ -66,6 +66,7 @@ public class CameraFollow : MonoBehaviour
     // Update is called once per frame
     void LateUpdate()
     {
+        if (Cube.cb == null) return;
         if (rdyToFollow && !Cube.cb.inRotation && player.GetComponent<Controller>().isDead == false) Follow();
         if (rdyToFollow && Cube.cb != null && Cube.cb.inRotation)
         {

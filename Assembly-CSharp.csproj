@@ -85,6 +85,7 @@
     <Compile Include="Assets\LoadControllerMain.cs" />
     <Compile Include="Assets\PaintSelfDestruct.cs" />
     <Compile Include="Assets\PaintTesting.cs" />
+    <Compile Include="Assets\ParticleHandler.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\Common\EventSystemSpawner.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\Common\OnStartDelete.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\Common\TextButtonTransition.cs" />

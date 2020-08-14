@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
         Manager = this;
         endGamePanel.SetActive(false);
         optionsPanel.SetActive(false);
-        maxTimeSeconds = 60f * totalMatchMinutes;
+        maxTimeSeconds = 60f * 5;//totalMatchMinutes;
         timerSeconds = maxTimeSeconds;
         SetTimer(maxTimeSeconds);
         PV = GetComponent<PhotonView>();

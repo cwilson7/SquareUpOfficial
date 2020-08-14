@@ -393,7 +393,7 @@ public abstract class Controller : MonoBehaviour
 
             if (PV.IsMine)
             {
-                //OnDamgeTaken?.Invoke(proj, this);
+                OnDamgeTaken?.Invoke(proj, this);
                 LoseHealth(proj.damage);
                 //PV.RPC("DamageReaction_RPC", RpcTarget.AllBuffered, _impact);
                 DamageReaction(_impact);
@@ -427,7 +427,7 @@ public abstract class Controller : MonoBehaviour
             if (PV.IsMine)
             {
                 Vector3 _impact = fist.impactMultiplier * fist.gameObject.GetComponent<Rigidbody>().velocity;
-                //OnDamgeTaken?.Invoke(fist, this);
+                OnDamgeTaken?.Invoke(fist, this);
                 LoseHealth(fist.damage);
                 //PV.RPC("DamageReaction_RPC", RpcTarget.AllBuffered, _impact);
                 DamageReaction(_impact);

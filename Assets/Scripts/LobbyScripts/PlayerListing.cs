@@ -19,7 +19,7 @@ public class PlayerListing : MonoBehaviour
         if ((bool)p.CustomProperties["PlayerReady"])
         {
             if (showColor) playerLabel.color = LobbyController.lc.availableMaterials[(int)p.CustomProperties["AssignedColor"]].color;
-            playerLabel.text += " - " + LobbyController.lc.charAvatars[(int)p.CustomProperties["SelectedCharacter"]].name;
+            playerLabel.text += " - " + LobbyController.lc.charAvatars[(int)p.CustomProperties["SelectedCharacter"]].GetComponent<AvatarCharacteristics>().info.characterName;
         }
         else
         {

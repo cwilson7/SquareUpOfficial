@@ -68,6 +68,8 @@
     <Compile Include="Assets\BonerStuff\BonerPanel.cs" />
     <Compile Include="Assets\CrystalFramework\Utility\Demos\SafeAreaDemo.cs" />
     <Compile Include="Assets\CrystalFramework\Utility\SafeArea.cs" />
+    <Compile Include="Assets\EndGameInfoGrouping.cs" />
+    <Compile Include="Assets\EndGameInfoPanel.cs" />
     <Compile Include="Assets\IllegalGoods\Common\Required Internal Use Scripts\Half.cs" />
     <Compile Include="Assets\IllegalGoods\Common\Required Internal Use Scripts\HalfHelper.cs" />
     <Compile Include="Assets\IllegalGoods\Common\Required Internal Use Scripts\MsgType.cs" />

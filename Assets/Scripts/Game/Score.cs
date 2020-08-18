@@ -69,3 +69,14 @@ public class Score : MonoBehaviour
         return punchesLanded / punchesThrown;
     }
 }
+
+public enum Stat {
+    kills, 
+    deaths, 
+    powerUpsCollected, 
+    punchesThrown, 
+    punchesLanded, 
+    bulletsFired, 
+    bulletsLanded, 
+    falls
+}

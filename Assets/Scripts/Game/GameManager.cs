@@ -207,8 +207,8 @@ public class GameManager : MonoBehaviour
         //wpn.transform.SetParent(playerInfo.playerAvatar.transform);
         wpn.GetComponent<Weapon>().owner = actor;
         wpn.GetComponent<Weapon>().GunLocation = playerInfo.playerAvatar.GetComponentInChildren<GunPivot>().transform;
-        playerInfo.playerAvatar.GetComponent<Controller>().currentWeapon = wpn.GetComponent<Weapon>();
-        playerInfo.playerAvatar.GetComponent<Controller>().EquipWeapon();
+        //playerInfo.playerAvatar.GetComponent<Controller>().currentWeapon = wpn.GetComponent<Weapon>();
+        playerInfo.playerAvatar.GetComponent<Controller>().EquipWeapon(wpn);
         //wpn.transform.rotation = new Vector3()
     }
 

@@ -242,9 +242,11 @@ public abstract class Controller : MonoBehaviour
         PV.RPC("RPC_MeleeAttack", RpcTarget.AllBuffered, AimDirection, actorNr, numPunch);
     }
 
-    public void EquipWeapon()
+    public void EquipWeapon(GameObject weapon)
     {
-
+        currentWeapon = weapon.GetComponent<Weapon>();
+        RFist.gameObject.SetActive(false);
+        LFist.gameObject.SetActive(false);
     }
 
     #endregion
@@ -395,7 +397,6 @@ public abstract class Controller : MonoBehaviour
             {
                 OnDamgeTaken?.Invoke(proj, this);
                 LoseHealth(proj.damage);
-                //PV.RPC("DamageReaction_RPC", RpcTarget.AllBuffered, _impact);
                 DamageReaction(_impact);
                 PhotonNetwork.SendAllOutgoingCommands();
                 GameInfo.GI.StatChange(proj.owner, "bulletsLanded");
@@ -429,7 +430,6 @@ public abstract class Controller : MonoBehaviour
                 Vector3 _impact = fist.impactMultiplier * fist.gameObject.GetComponent<Rigidbody>().velocity;
                 OnDamgeTaken?.Invoke(fist, this);
                 LoseHealth(fist.damage);
-                //PV.RPC("DamageReaction_RPC", RpcTarget.AllBuffered, _impact);
                 DamageReaction(_impact);
                 PhotonNetwork.SendAllOutgoingCommands();
                 GameInfo.GI.StatChange(fist.owner, "punchesLanded");
@@ -518,6 +518,8 @@ public abstract class Controller : MonoBehaviour
         if (currentWeapon == null) return;
         currentWeapon.Remove();
         currentWeapon = null;
+        LFist.gameObject.SetActive(true);
+        RFist.gameObject.SetActive(true);
     }
 
     [PunRPC]

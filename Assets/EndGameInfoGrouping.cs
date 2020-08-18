@@ -14,6 +14,8 @@ public class EndGameInfoGrouping : MonoBehaviour
     public void CreateDataPoints(int actorNr)
     {
         actorNumber = actorNr;
+        Score myStats = (Score)GameInfo.GI.scoreTable[actorNr];
+        
     }
 
     GameObject AddDataPoint(string label, float data)

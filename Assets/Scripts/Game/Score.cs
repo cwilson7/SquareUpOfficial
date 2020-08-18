@@ -23,32 +23,32 @@ public class Score : MonoBehaviour
         falls = 0;
     }
 
-    public void AddToStat(string stat)
+    public void AddToStat(Stat stat)
     {
         switch (stat)
         {
-            case "kills":
+            case Stat.kills:
                 kills += 1;
                 break;
-            case "deaths":
+            case Stat.deaths:
                 deaths += 1;
                 break;
-            case "powerUpsCollected":
+            case Stat.powerUpsCollected:
                 powerUpsCollected += 1;
                 break;
-            case "punchesThrown":
+            case Stat.punchesThrown:
                 punchesThrown += 1;
                 break;
-            case "punchesLanded":
+            case Stat.punchesLanded:
                 punchesLanded += 1;
                 break;
-            case "bulletsFired":
+            case Stat.bulletsFired:
                 bulletsFired += 1;
                 break;
-            case "bulletsLanded":
+            case Stat.bulletsLanded:
                 bulletsLanded += 1;
                 break;
-            case "falls":
+            case Stat.falls:
                 falls += 1;
                 break;
         }

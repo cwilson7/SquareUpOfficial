@@ -74,7 +74,7 @@ public class Weapon : MonoBehaviour
     {
         if (fireCooldown > 0) return;
         
-        GameInfo.GI.StatChange(owner, "bulletsFired");
+        GameInfo.GI.StatChange(owner, Stat.bulletsFired);
 
         Direction = Direction.normalized;
 

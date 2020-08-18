@@ -117,9 +117,10 @@ public class GameInfo : MonoBehaviour
         MultiplayerSettings.multiplayerSettings.SetCustomPlayerProperties("GameInfoSet", true);
     }
 
-    public void StatChange(int actorNumber, string key)
+    public void StatChange(int actorNumber, Stat key)
     {
-        PV.RPC("AddStat_RPC", RpcTarget.AllBuffered, actorNumber, key);
+        string data = Enum.GetName(typeof(Stat), key);
+        PV.RPC("AddStat_RPC", RpcTarget.AllBuffered, actorNumber, data);
     }
 
     IEnumerator StartingMatch()
@@ -155,7 +156,8 @@ public class GameInfo : MonoBehaviour
     private void AddStat_RPC(int actorNumber, string key)
     {
         Score score = (Score)scoreTable[actorNumber];
-        score.AddToStat(key);
+        Stat content = (Stat)Enum.Parse(typeof(Stat), key);
+        score.AddToStat(content);
     }
 
     [PunRPC]

@@ -187,6 +187,7 @@ public abstract class Controller : MonoBehaviour
             if (currentWeapon == null)
             {
                 if (LFist.punching && RFist.punching) return;
+                GameInfo.GI.StatChange(actorNr, Stat.punchesThrown);
                 PV.RPC("RPC_MeleeAttack", RpcTarget.AllBuffered, AimDirection, actorNr, FistToPunch());
                 PhotonNetwork.SendAllOutgoingCommands();
             }
@@ -238,7 +239,7 @@ public abstract class Controller : MonoBehaviour
 
     private void Punch(int numPunch)
     {
-        GameInfo.GI.StatChange(actorNr, "punchesThrown");
+        GameInfo.GI.StatChange(actorNr, Stat.punchesThrown);
         PV.RPC("RPC_MeleeAttack", RpcTarget.AllBuffered, AimDirection, actorNr, numPunch);
     }
 
@@ -266,7 +267,7 @@ public abstract class Controller : MonoBehaviour
     private void Die()
     {
         isDead = true;
-        GameInfo.GI.StatChange(PhotonNetwork.LocalPlayer.ActorNumber, "deaths");
+        GameInfo.GI.StatChange(PhotonNetwork.LocalPlayer.ActorNumber, Stat.deaths);
         //explode with color
         Transform[] list = Cube.cb.CurrentFace.spawnPoints;
         int spawnPtlocID = UnityEngine.Random.Range(0, list.Length);
@@ -399,7 +400,7 @@ public abstract class Controller : MonoBehaviour
                 LoseHealth(proj.damage);
                 DamageReaction(_impact);
                 PhotonNetwork.SendAllOutgoingCommands();
-                GameInfo.GI.StatChange(proj.owner, "bulletsLanded");
+                GameInfo.GI.StatChange(proj.owner, Stat.bulletsLanded);
             }
             //impact += proj.impactMultiplier * proj.Velocity.normalized;
             Destroy(otherGO);
@@ -432,7 +433,7 @@ public abstract class Controller : MonoBehaviour
                 LoseHealth(fist.damage);
                 DamageReaction(_impact);
                 PhotonNetwork.SendAllOutgoingCommands();
-                GameInfo.GI.StatChange(fist.owner, "punchesLanded");
+                GameInfo.GI.StatChange(fist.owner, Stat.punchesLanded);
             }
 
         }

@@ -31,7 +31,7 @@ public abstract class PowerUp : MonoBehaviour
     {
         if (actorNr != PhotonNetwork.LocalPlayer.ActorNumber) return;
         PickUpEffect(transform);
-        GameInfo.GI.StatChange(actorNr, "powerUpsCollected");
+        GameInfo.GI.StatChange(actorNr, Stat.powerUpsCollected);
         ItemAbility(actorNr);
         GameManager.Manager.PV.RPC("DestroyPowerUp_RPC", RpcTarget.AllBuffered, id);
     }

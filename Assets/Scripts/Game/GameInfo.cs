@@ -139,6 +139,21 @@ public class GameInfo : MonoBehaviour
         PV.RPC("StartTime_RPC", RpcTarget.AllBuffered);
     }
 
+    public int WinningActorNumber()
+    {
+        int bestActor = -1, highestKills = -1;
+        foreach (KeyValuePair<int, Player> kvp in PhotonNetwork.CurrentRoom.Players)
+        {
+            Score myStats = (Score)scoreTable[kvp.Key];
+            if (myStats.playerStatistics[Stat.kills] > highestKills)
+            {
+                highestKills = myStats.playerStatistics[Stat.kills];
+                bestActor = kvp.Key;
+            }
+        }
+        return bestActor;
+    }
+
 
     [PunRPC]
     private void InitializeMyScore_RPC(int actorNumber)

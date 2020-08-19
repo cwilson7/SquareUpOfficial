@@ -175,6 +175,7 @@ public class GameManager : MonoBehaviour
         endGamePanel.SetActive(true);
         UIPanel.SetActive(false);
         optionsPanel.SetActive(false);
+        endGamePanel.GetComponent<EndGameInfoPanel>().InstantiateStats();
     }
 
     [PunRPC]

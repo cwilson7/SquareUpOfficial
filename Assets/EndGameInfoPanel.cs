@@ -12,6 +12,8 @@ public class EndGameInfoPanel : MonoBehaviour
     GameObject infoPrefab, infoBtnPrefab;
     Dictionary<GameObject, GameObject> buttonPairs;
 
+    public Transform characterLocation;
+
     private void Awake()
     {
         infoPrefab = (GameObject)Resources.Load("PhotonPrefabs/EndGame/PlayerInfoGrouping");
@@ -22,6 +24,7 @@ public class EndGameInfoPanel : MonoBehaviour
     {
         buttonPairs = new Dictionary<GameObject, GameObject>();
         int bestActor = GameInfo.GI.WinningActorNumber();
+        DisplayActor(bestActor, true);
         foreach (KeyValuePair<int, Player> kvp in PhotonNetwork.CurrentRoom.Players)
         {
             GameObject pnl = Instantiate(infoPrefab, playerInfoPanel.transform);
@@ -38,17 +41,27 @@ public class EndGameInfoPanel : MonoBehaviour
         }
     }
 
+    void DisplayActor(int actorNr, bool toDisplay)
+    {
+        GameObject avatar = GameInfo.GI.avatarClones[actorNr];
+        avatar.transform.position = characterLocation.position;
+        avatar.SetActive(toDisplay); 
+    }
+
     void SwitchDisplayedInfo(int actorNr)
     {
         foreach (KeyValuePair<GameObject, GameObject> kvp in buttonPairs)
         {
-            if (kvp.Value.GetComponent<EndGameInfoGrouping>().actorNumber != actorNr)
+            int thisActor = kvp.Value.GetComponent<EndGameInfoGrouping>().actorNumber;
+            if (thisActor != actorNr)
             {
+                DisplayActor(thisActor, false);
                 kvp.Value.SetActive(false);
             }
             else
             {
                 kvp.Value.SetActive(true);
+                DisplayActor(thisActor, true);
             }
         }
     }

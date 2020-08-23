@@ -68,6 +68,7 @@ public class MultiplayerSettings : MonoBehaviour
         customProperties = new ExitGames.Client.Photon.Hashtable();
         localPlayerValues = new Hashtable();
         SetCustomPlayerProperties("PlayerReady", false);
+        SetCustomPlayerProperties("VoteForceStart", false);
         SetCustomPlayerProperties("SelectedCharacter", -1);
         SetCustomPlayerProperties("AssignedColor", -1);
         SetCustomPlayerProperties("LoadedIn", false);

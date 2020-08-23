@@ -216,7 +216,6 @@ public class GameManager : MonoBehaviour
     [PunRPC]
     public void GameStart_RPC()
     {
-        GameInfo.GI.avatarClones = GameInfo.GI.CopyAvatarsToList();
         gameStarted = true;
         timerRunning = true;
     }

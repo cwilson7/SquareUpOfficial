@@ -43,7 +43,15 @@ PlayerSettings:
   m_VirtualRealitySplashScreen: {fileID: 0}
   m_HolographicTrackingLossScreen: {fileID: 0}
   defaultScreenWidth: 400
+<<<<<<< HEAD
   defaultScreenHeight: 250
+=======
+<<<<<<< HEAD
+  defaultScreenHeight: 250
+=======
+  defaultScreenHeight: 300
+>>>>>>> parent of d5c9f1b8... end game panel polishing
+>>>>>>> d6d19795816f8065c4110220fdd25e0b55952cfc
   defaultScreenWidthWeb: 960
   defaultScreenHeightWeb: 600
   m_StereoRenderingPath: 0

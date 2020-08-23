@@ -14,6 +14,7 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
     [SerializeField] private GameObject charPanel, playerListPanel;
     [SerializeField] private float offsetFromLeftEdge, percentThreshold, easing;
     [SerializeField] private List<CharPage> characterPages;
+    public GameObject voteStartBtn;
     private Vector3 panelLocation;
     private int panelCounter;
     public Hashtable displayedCharacters;

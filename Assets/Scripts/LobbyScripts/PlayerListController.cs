@@ -45,7 +45,7 @@ public class PlayerListController : MonoBehaviourPunCallbacks
     private void InitializePlayerListings()
     {
         cspc = GameObject.Find("CharSelectPanelContainer").GetComponent<CharSelectPanelController>();
-        resetCharBtn.onClick.AddListener(ResetPlayerInfo);
+        //resetCharBtn.onClick.AddListener(ResetPlayerInfo);
         playerListings = new List<PlayerListing>();
 
         foreach (Player p in PhotonNetwork.PlayerList)
@@ -65,7 +65,6 @@ public class PlayerListController : MonoBehaviourPunCallbacks
     {
         MultiplayerSettings.multiplayerSettings.SetCustomPlayerProperties("PlayerReady", false);
         MultiplayerSettings.multiplayerSettings.SetCustomPlayerProperties("SelectedCharacter", -1);
-        //cspc.UpdateCharacterInformation();//UpdateCurrentDisplayedCharacter();
         cspc.SendToFirstCharacterPanel();
         StartCoroutine(InformationDelay(false));
     }

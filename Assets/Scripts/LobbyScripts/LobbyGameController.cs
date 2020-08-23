@@ -7,19 +7,38 @@ using Photon.Realtime;
 
 public class LobbyGameController : MonoBehaviour
 {
-    public TMP_Text waitingTxt;
-    private bool allReady;
+    public TMP_Text waitingTxt, playerCounterTxt, voteCounterTxt;
+    bool forceStart = false, starting = false, allReady = false;
+    int forceStartVotes = 0;
 
     // Start is called before the first frame update
     void Start()
     {
         waitingTxt.enabled = false;
-        allReady = false;
     }
 
     private void FixedUpdate()
     {
+        if (starting) return;
         if (PhotonNetwork.IsConnected && (bool)PhotonNetwork.LocalPlayer.CustomProperties["PlayerReady"] && !allReady) CheckIfAllReady();
+        if (PhotonNetwork.IsConnected) CheckForVote();
+        if (!starting && allReady && (PhotonNetwork.CurrentRoom.PlayerCount == PhotonNetwork.CurrentRoom.MaxPlayers || forceStart)) StartCoroutine(StartingGame()); 
+        playerCounterTxt.text = PhotonNetwork.CurrentRoom.PlayerCount + "/" + PhotonNetwork.CurrentRoom.MaxPlayers + " players";
+        voteCounterTxt.text = forceStartVotes + " votes to start";
+    }
+
+    void CheckForVote()
+    {
+        if (PhotonNetwork.IsMasterClient) forceStart = true;
+        forceStartVotes = PhotonNetwork.CurrentRoom.PlayerCount;
+        foreach (Player player in PhotonNetwork.PlayerList)
+        {
+            if (!(bool)player.CustomProperties["VoteForceStart"])
+            {
+                if (PhotonNetwork.IsMasterClient) forceStart = false;
+                forceStartVotes--;
+            }
+        }
     }
 
     private void CheckIfAllReady()
@@ -33,12 +52,17 @@ public class LobbyGameController : MonoBehaviour
                 allReady = false;
             }
         }
-        if (allReady) StartCoroutine(StartingGame());
+    }
+
+    public void VoteStart()
+    {
+        MultiplayerSettings.multiplayerSettings.SetCustomPlayerProperties("VoteForceStart", true);
     }
 
     IEnumerator StartingGame()
     {
         //Aesthetic changes
+        starting = true;
         yield return new WaitForSeconds(1f);
         if (GameObject.Find("CharSelectPanelContainer").GetComponent<CharSelectPanelController>().CheckForDuplicateMaterials())
         {

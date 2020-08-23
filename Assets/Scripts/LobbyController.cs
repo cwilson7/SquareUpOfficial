@@ -15,6 +15,8 @@ public class LobbyController : MonoBehaviourPunCallbacks
     public List<int> IDsOfDisconnectedPlayers;
     public int currMasterID;
 
+    LobbyGameController LGC;
+
     // Start is called before the first frame update
     void Awake()
     {
@@ -83,6 +85,7 @@ public class LobbyController : MonoBehaviourPunCallbacks
         base.OnPlayerLeftRoom(otherPlayer);
         if (SceneManager.GetActiveScene() == SceneManager.GetSceneByBuildIndex(MultiplayerSettings.multiplayerSettings.intermediateScene))
         {
+            //check if game starting and cancel start if it is
             //nothing?
         }
         if (SceneManager.GetActiveScene() == SceneManager.GetSceneByBuildIndex(MultiplayerSettings.multiplayerSettings.multiplayerScene))

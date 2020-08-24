@@ -7,7 +7,8 @@ using Photon.Realtime;
 
 public class LobbyGameController : MonoBehaviour
 {
-    public TMP_Text waitingTxt, playerCounterTxt, voteCounterTxt;
+    public TMP_Text waitingTxt, playerCounterTxt, voteCounterTxt, votedTxt;
+    public GameObject forceStartBtn;
     bool forceStart = false, starting = false, allReady = false;
     int forceStartVotes = 0;
 
@@ -57,6 +58,8 @@ public class LobbyGameController : MonoBehaviour
     public void VoteStart()
     {
         MultiplayerSettings.multiplayerSettings.SetCustomPlayerProperties("VoteForceStart", true);
+        forceStartBtn.SetActive(false);
+        votedTxt.gameObject.SetActive(true);
     }
 
     IEnumerator StartingGame()

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PhotonServerSettings
   m_EditorClassIdentifier: 
   AppSettings:
-    AppIdRealtime: 
+    AppIdRealtime: 20fb93c0-363b-46a0-9a52-2503aec8a391
     AppIdChat: 
     AppIdVoice: 
     AppVersion: 
@@ -25,12 +25,55 @@ MonoBehaviour:
     AuthMode: 0
     EnableLobbyStatistics: 0
     NetworkLogging: 1
-  DevRegion: 
+  DevRegion: us
   PunLogging: 0
   EnableSupportLogger: 0
   RunInBackground: 1
   StartInOfflineMode: 0
-  RpcList: []
+  RpcList:
+  - AddStat_RPC
+  - AnimationSetPosition_RPC
+  - ClickRpc
+  - DamageReaction_RPC
+  - DestroyPowerUp_RPC
+  - DestroyRpc
+  - DestroySpaceship
+  - DieAndRespawn_RPC
+  - EndGame_RPC
+  - EquipWeapon_RPC
+  - Fire
+  - FireWeapon_RPC
+  - GameStart_RPC
+  - InitializeCharacter_RPC
+  - InitializeCube_RPC
+  - InitializeMyScore_RPC
+  - InstantiatePowerUp_RPC
+  - InvokeMusicChange_RPC
+  - JumpAnimation_RPC
+  - LoseHealth_RPC
+  - LoseWeapon_RPC
+  - MoveMinimapIndicator_RPC
+  - NewCurrentFace_RPC
+  - ResetColorInfo_RPC
+  - RespawnSpaceship
+  - RPC_MeleeAttack
+  - RpcClearBuffer
+  - RpcNonServerOwnedTeleportFromServer
+  - RpcTeleport
+  - SendRotateInformation_RPC
+  - SetFace_RPC
+  - SetFaces_RPC
+  - SetLevels_RPC
+  - SetPlayerInfo_RPC
+  - SetPlayerValuesTest_RPC
+  - SetUpMiniMap_RPC
+  - SpecialAnimation_RPC
+  - SplatterPaint_RPC
+  - StartTime_RPC
+  - StopTime_RPC
+  - SwitchToCubeClone_RPC
+  - SyncStart_RPC
+  - UpdateAllCharacters_RPC
   DisableAutoOpenWizard: 0
-  ShowSettings: 0
-  DevRegionSetOnce: 0
+  ShowSettings: 1
+  DevRegionSetOnce: 1

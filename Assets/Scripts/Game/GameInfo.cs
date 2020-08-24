@@ -19,7 +19,8 @@ public class GameInfo : MonoBehaviour
     public List<GameObject> WeaponPowerUps, PowerUps;
     public List<RuntimeAnimatorController> AnimatorControllers;
     public GameObject FistContainer;
-    public float startDelaySeconds = 3f; 
+    public float startDelaySeconds = 3f;
+    public Dictionary<int, GameObject> avatarClones;
 
     private bool started = false, setScoreTable = false, stopUpdateCalls = false;
 
@@ -44,6 +45,20 @@ public class GameInfo : MonoBehaviour
         //Utils.PopulateList<RuntimeAnimatorController>(AnimatorControllers, "PhotonPrefabs/AnimatorControllers");
         InitializeScoreTable();
     }
+
+    public Dictionary<int, GameObject> CopyAvatarsToList()
+    {
+        Dictionary<int, GameObject> dict = new Dictionary<int, GameObject>();
+        foreach (Score score in scoreTable.Values)
+        {
+            GameObject avatar = score.playerAvatar.GetComponentInChildren<AvatarCharacteristics>().gameObject;
+            GameObject avatarClone = Instantiate(avatar, new Vector3(0f, 0f, 0f), Quaternion.identity);
+            avatarClone.SetActive(false);
+            dict.Add(score.actorNumber, avatarClone);
+        }
+        return dict;
+    }
+
 
     public Cube CopyCube(Cube original)
     {

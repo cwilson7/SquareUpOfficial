@@ -85,6 +85,7 @@
     <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\FloatingJoystick.cs" />
     <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\VariableJoystick.cs" />
     <Compile Include="Assets\LoadControllerMain.cs" />
+    <Compile Include="Assets\PageDragger.cs" />
     <Compile Include="Assets\PaintSelfDestruct.cs" />
     <Compile Include="Assets\PaintTesting.cs" />
     <Compile Include="Assets\ParticleHandler.cs" />

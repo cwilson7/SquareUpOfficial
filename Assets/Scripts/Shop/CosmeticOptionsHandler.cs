@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using CustomUtilities;
 using TMPro;
+using System;
+using UnityEngine.EventSystems;
 
 public class CosmeticOptionsHandler : MonoBehaviour
 {
@@ -16,7 +18,8 @@ public class CosmeticOptionsHandler : MonoBehaviour
     [HideInInspector] public GameObject displayedCharacter;
 
     public void LoadGrid()
-    { 
+    {
+        int totalItems = 0;
         cosmeticsGrid = GetComponentInChildren<GridLayoutGroup>();
         RectTransform gridRect = cosmeticsGrid.gameObject.GetComponent<RectTransform>();
 
@@ -34,12 +37,11 @@ public class CosmeticOptionsHandler : MonoBehaviour
                 
                 if (item.status == Status.Locked) optionGO.GetComponentInChildren<TMP_Text>().text = "Locked.";
                 else optionGO.GetComponentInChildren<TMP_Text>().text = item.name;
+
+                totalItems++;
             }
         }
 
-        if (info.cosmetics.Count > options_per_row * options_per_column)
-        {
-            //our thing should be scrollable
-        }
+        cosmeticsGrid.gameObject.GetComponent<PageDragger>().totalPages = Mathf.CeilToInt(((float)totalItems / ((float)options_per_row * (float)options_per_column)));
     }
 }

@@ -7,9 +7,8 @@ using TMPro;
 
 public class CosmeticOptionsHandler : MonoBehaviour
 {
-    private Scrollbar scrollbar;
     private GridLayoutGroup cosmeticsGrid;
-    public int options_per_row, option_height;
+    public int options_per_row, options_per_column;
     [SerializeField] private CosmeticType cosmeticType;
     [SerializeField] private GameObject cosmeticOptionPrefab;
 
@@ -17,13 +16,13 @@ public class CosmeticOptionsHandler : MonoBehaviour
     [HideInInspector] public GameObject displayedCharacter;
 
     public void LoadGrid()
-    {
-        int totalItemCount = 0;
-        scrollbar = GetComponentInChildren<Scrollbar>();
+    { 
         cosmeticsGrid = GetComponentInChildren<GridLayoutGroup>();
         RectTransform gridRect = cosmeticsGrid.gameObject.GetComponent<RectTransform>();
 
-        cosmeticsGrid.cellSize = new Vector2(gridRect.rect.width / options_per_row, option_height);
+        cosmeticsGrid.cellSize = new Vector2(gridRect.rect.width / options_per_row, gridRect.rect.height / options_per_column);
+        cosmeticsGrid.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
+        cosmeticsGrid.constraintCount = options_per_row;
 
         foreach (CosmeticItem item in info.cosmetics)
         {
@@ -35,23 +34,7 @@ public class CosmeticOptionsHandler : MonoBehaviour
                 
                 if (item.status == Status.Locked) optionGO.GetComponentInChildren<TMP_Text>().text = "Locked.";
                 else optionGO.GetComponentInChildren<TMP_Text>().text = item.name;
-                totalItemCount++;
             }
         }
-
-        int rows = totalItemCount / options_per_row;
-        if (rows * option_height > gridRect.rect.height)
-        {            
-            int rowsOnPage = Mathf.RoundToInt(gridRect.rect.height) / option_height;
-            int leftoverRows = rows - rowsOnPage;
-            scrollbar.numberOfSteps = leftoverRows;
-            scrollbar.size = rows / scrollbar.numberOfSteps;
-        }
-        else scrollbar.enabled = false;
-    }
-
-    public void SliderFunction()
-    {
-
     }
 }

@@ -88,20 +88,15 @@ public class AvatarCharacteristics : MonoBehaviour
     {
         info.currentSet.UpdateSet(item);
         info.currentSet.SaveSet(info);
-        RemoveCosmetics();
-        DisplayCosmetics();
+        DisplayCosmetic(item);
     }
 
-    public void RemoveCosmetics()
+    public void DisplayCosmetic(CosmeticItem item)
     {
-        foreach (KeyValuePair<CosmeticType, CosmeticItem> kvp in info.currentSet.cosmetics)
-        {
-            CosmeticItem item = info.currentSet.cosmetics[kvp.Key];
-            if (item.referencedObject != null) Destroy(item.referencedObject);
-        }
+        InstantiateCosmetic(item);
     }
 
-    public void DisplayCosmetics()
+    public void DisplayAllCosmetics()
     {
         Dictionary<CosmeticType, CosmeticItem> dict = new Dictionary<CosmeticType, CosmeticItem>();
         foreach (KeyValuePair<CosmeticType, CosmeticItem> kvp in info.currentSet.cosmetics)
@@ -167,7 +162,7 @@ public class CosmeticSet : ISerializationCallbackReceiver
 {
     [HideInInspector] public List<CosmeticType> _keys = new List<CosmeticType>();
     public List<CosmeticItem> currentCosmetics = new List<CosmeticItem>();
-    
+
     public Dictionary<CosmeticType, CosmeticItem> cosmetics;
 
     public CosmeticSet()
@@ -182,12 +177,10 @@ public class CosmeticSet : ISerializationCallbackReceiver
 
     public void UpdateSet(CosmeticItem item)
     {
-        /* if (!cosmetics.ContainsKey(item.type))
+        if (cosmetics.ContainsKey(item.type))
         {
-            Debug.Log("No cosmetic by the name of " + item.name + " found.");
-            return;
-        } */
-        
+            GameObject.Destroy(cosmetics[item.type].referencedObject);
+        }
         cosmetics[item.type] = item;
     }
 
@@ -225,6 +218,18 @@ public class CosmeticSet : ISerializationCallbackReceiver
 
         for (int i = 0; i != Math.Min(_keys.Count, currentCosmetics.Count); i++)
             cosmetics.Add(_keys[i], currentCosmetics[i]);
+    }
+
+    public void SetItemsActive(bool isActive)
+    {
+        var types = Enum.GetValues(typeof(CosmeticType));
+        foreach (CosmeticType type in types)
+        {
+            if (cosmetics.ContainsKey(type))
+            {
+                cosmetics[type].referencedObject.SetActive(isActive);
+            }
+        }
     }
 }
 

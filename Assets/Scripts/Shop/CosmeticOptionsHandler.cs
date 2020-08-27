@@ -36,5 +36,10 @@ public class CosmeticOptionsHandler : MonoBehaviour
                 else optionGO.GetComponentInChildren<TMP_Text>().text = item.name;
             }
         }
+
+        if (info.cosmetics.Count > options_per_row * options_per_column)
+        {
+            //our thing should be scrollable
+        }
     }
 }

@@ -140,12 +140,24 @@ public class AvatarCharacteristics : MonoBehaviour
     #region Helper Functions
     private CosmeticItem InstantiateCosmetic(CosmeticItem item)
     {
-        Armature armature = GetComponentInChildren<Armature>();
-        item.referencedObject = Instantiate(item.model, gameObject.transform);
-        item.referencedObject.transform.SetParent(armature.gameObject.transform);
+        if (item.type == CosmeticType.Fist)
+        {
+            RFist rFistLoc = GetComponentInChildren<RFist>();
+            LFist lFistLoc = GetComponentInChildren<LFist>();
+
+            item.referencedObjects = new GameObject[] { Instantiate(item.model, rFistLoc.transform), Instantiate(item.model, lFistLoc.transform) };
+        }
+        else
+        {
+            Armature armature = GetComponentInChildren<Armature>();
+            item.referencedObject = Instantiate(item.model, gameObject.transform);
+            item.referencedObject.transform.SetParent(armature.gameObject.transform);
+        }
+
         item.referencedObject.layer = LayerMask.NameToLayer(LayerMask.LayerToName(gameObject.layer));
         SetChildrenLayers(this.gameObject);
         item.referencedObject.tag = gameObject.tag;
+
         return item;
     }
 
@@ -189,7 +201,14 @@ public class CosmeticSet : ISerializationCallbackReceiver
     {
         if (cosmetics.ContainsKey(item.type))
         {
-            GameObject.Destroy(cosmetics[item.type].referencedObject);
+            if (item.type != CosmeticType.Fist) GameObject.Destroy(cosmetics[item.type].referencedObject);
+            else
+            {
+                for (int i = 0; i < cosmetics[item.type].referencedObjects.Length; i++)
+                {
+                    GameObject.Destroy(cosmetics[item.type].referencedObjects[i]);
+                }
+            }
         }
         cosmetics[item.type] = item;
     }
@@ -237,7 +256,14 @@ public class CosmeticSet : ISerializationCallbackReceiver
         {
             if (cosmetics.ContainsKey(type))
             {
-                cosmetics[type].referencedObject.SetActive(isActive);
+                if (type != CosmeticType.Fist) cosmetics[type].referencedObject.SetActive(isActive);
+                else
+                {
+                    for (int i = 0; i < cosmetics[type].referencedObjects.Length; i++)
+                    {
+                        cosmetics[type].referencedObjects[i].SetActive(isActive);
+                    }
+                }
             }
         }
     }

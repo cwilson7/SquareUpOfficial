@@ -27,6 +27,10 @@ public class Fist : DamageDealer
 
     private void FixedUpdate()
     {
+        if (SceneManagerHelper.ActiveSceneBuildIndex != 2)
+        {
+            DummyFistHandler();
+        }
         if (ParentController == null || !ParentController.controllerInitialized) return;
         if (punching) PunchHandler();
         if (!punching)
@@ -34,6 +38,12 @@ public class Fist : DamageDealer
             DelayedFollow();
             DirectionHandler();
         }
+    }
+
+    void DummyFistHandler()
+    {
+        DelayedFollow();
+        DirectionHandler();
     }
 
     public void InitializeFist(Controller parentController)
@@ -56,6 +66,11 @@ public class Fist : DamageDealer
     void DelayedFollow()
     {
         rb.velocity = (Origin.position - transform.position) * followSpeed;
+    }
+
+    public void InitializeDummy()
+    {
+        rb = GetComponent<Rigidbody>();
     }
 
     void DirectionHandler()

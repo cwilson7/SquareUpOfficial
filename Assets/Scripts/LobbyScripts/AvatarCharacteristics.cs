@@ -29,7 +29,17 @@ public class AvatarCharacteristics : MonoBehaviour
 
     private void SpawnDummyFists()
     {
+        LFist lLoc = GetComponentInChildren<LFist>();
+        RFist rLoc = GetComponentInChildren<RFist>();
 
+        GameObject lFist = Instantiate(FistModel, lLoc.gameObject.transform);
+        GameObject rFist = Instantiate(FistModel, rLoc.gameObject.transform);
+
+        lFist.GetComponent<Fist>().Origin = lLoc.gameObject.transform;
+        rFist.GetComponent<Fist>().Origin = rLoc.gameObject.transform;
+
+        lFist.GetComponent<Fist>().InitializeDummy();
+        rFist.GetComponent<Fist>().InitializeDummy();
     }
 
     //only called on new save

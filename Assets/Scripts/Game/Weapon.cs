@@ -35,23 +35,25 @@ public class Weapon : MonoBehaviour
 
     public void TrackMousePosition()//Vector3 Direction, bool directionCheck, bool lerp)
     {
-        Quaternion desiredRotation;
+        //Quaternion desiredRotation;
 
-        desiredRotation = Quaternion.LookRotation(transform.position - GunLocation.position, Vector3.up);
+        //desiredRotation = Quaternion.LookRotation(transform.position - GunLocation.position, Vector3.up);
 
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, desiredRotation, 500 * Time.deltaTime);
-        /*
-        if (directionCheck)
+        //transform.rotation = Quaternion.RotateTowards(transform.rotation, desiredRotation, .1f * Time.deltaTime);
+
+
+        bool lerp = false;
+        if (ParentController.directionModifier == 1)
         {
-            if (Direction.x > 0) SetTransform(180, -90, -180-Mathf.Rad2Deg * Mathf.Atan(Direction.y / -Direction.x), lerp);
-            else SetTransform(0, -90, Mathf.Rad2Deg * Mathf.Atan(Direction.y / -Direction.x), lerp);
+            if (ParentController.AimDirection.x > 0) SetTransform(180, -90, -180-Mathf.Rad2Deg * Mathf.Atan(ParentController.AimDirection.y / -ParentController.AimDirection.x), lerp);
+            else SetTransform(0, -90, Mathf.Rad2Deg * Mathf.Atan(ParentController.AimDirection.y / -ParentController.AimDirection.x), lerp);
         }
         else
         {
-            if (Direction.x > 0) SetTransform(0, -90, Mathf.Rad2Deg * Mathf.Atan(-Direction.y / -Direction.x), lerp);
-            else SetTransform(180, -90, -180 - Mathf.Rad2Deg * Mathf.Atan(-Direction.y / -Direction.x), lerp);
+            if (ParentController.AimDirection.x > 0) SetTransform(0, -90, Mathf.Rad2Deg * Mathf.Atan(-ParentController.AimDirection.y / -ParentController.AimDirection.x), lerp);
+            else SetTransform(180, -90, -180 - Mathf.Rad2Deg * Mathf.Atan(-ParentController.AimDirection.y / -ParentController.AimDirection.x), lerp);
         }
-        */
+        
     }
 
     private void SetTransform(float x, float y, float z, bool lerp)

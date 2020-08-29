@@ -40,6 +40,7 @@ public abstract class Controller : MonoBehaviour
     public Vector3 AimDirection;
     public bool hasGun, isGrounded, isDead = false, controllerInitialized = false, receivingImpact = false;
     float impactInterp = 0f;
+    public int directionModifier;
 
     public Animator anim;
 
@@ -72,6 +73,7 @@ public abstract class Controller : MonoBehaviour
         punchImpact = 0.75f;
         respawnDelay = 3f;
         boundaryDist = 100f;
+        directionModifier = 1;
         actorNr = PV.OwnerActorNr;
         isGrounded = false;
         
@@ -322,6 +324,9 @@ public abstract class Controller : MonoBehaviour
     {
         float inputX = Input.GetAxis("Horizontal");
         bool inputY = Input.GetKeyDown(KeyCode.W);
+
+        if (inputX > 0) directionModifier = 1;
+        else if(inputX < 0) directionModifier = 0;
 
         if (receivingImpact) FreezePositions(false);
         else if (inputX != 0) FreezePositions(false);

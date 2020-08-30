@@ -219,7 +219,7 @@ GameObject:
   - component: {fileID: 1255237993496574044}
   - component: {fileID: -8239877989629299167}
   m_Layer: 0
-  m_Name: PistolPowerUp
+  m_Name: HWPowerUp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -313,7 +313,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   id: 0
-  WeaponPrefab: {fileID: 4842847112021461266, guid: 37de1daa0e9e997498fb2c96ed2f6782,
+  WeaponPrefab: {fileID: 7388235810878301081, guid: 5516a39ccaf8f4748b23f949e0ea59b6,
     type: 3}
 --- !u!54 &-8239877989629299167
 Rigidbody:

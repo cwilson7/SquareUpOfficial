@@ -34,16 +34,6 @@ public class Projectile : DamageDealer
         //GetComponent<Rigidbody>().velocity = Velocity;
     }
 
-    private void FixedUpdate()
-    {
-        transform.position += Velocity / Time.deltaTime;
-        lifeTime += Time.deltaTime;
-        if (lifeTime > maxLifeTime)
-        {
-            Destroy(gameObject);
-        }
-    }
-
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;

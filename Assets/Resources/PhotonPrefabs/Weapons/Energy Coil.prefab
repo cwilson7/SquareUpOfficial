@@ -54,7 +54,7 @@ MonoBehaviour:
   owner: 0
   totalAmmo: 10
   ammoLeft: 0
-  projectile: {fileID: 753644425225237104, guid: 04f9ae65fb830584083570e83b7e532f,
+  projectile: {fileID: 1351623524184095160, guid: a5e8cb7d64523ac47b2ffdcf30b2de37,
     type: 3}
   FiringPoint: {fileID: 0}
   GunPivot: {fileID: 0}

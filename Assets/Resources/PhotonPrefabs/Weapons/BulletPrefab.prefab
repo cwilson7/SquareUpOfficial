@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 8828534123003723600}
   - component: {fileID: 5367410446351650879}
   - component: {fileID: 3089209018390961800}
-  - component: {fileID: 4742290703653961747}
   - component: {fileID: -4469342705692501653}
+  - component: {fileID: -4865909682175159631}
   m_Layer: 0
   m_Name: BulletPrefab
   m_TagString: Projectile
@@ -95,24 +95,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.6
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &4742290703653961747
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 753644425225237104}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1a5b2225480dd147a5338d44290182a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Velocity: {x: 0, y: 0, z: 0}
-  owner: 0
-  damage: 0
-  impactMultiplier: 0
-  lifeTime: 0
-  maxLifeTime: 0
 --- !u!82 &-4469342705692501653
 AudioSource:
   m_ObjectHideFlags: 0
@@ -209,3 +191,21 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-4865909682175159631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 753644425225237104}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cb00a35e4b68c9439253224407b0e8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Velocity: {x: 0, y: 0, z: 0}
+  owner: 0
+  damage: 0
+  impactMultiplier: 0
+  lifeTime: 0
+  maxLifeTime: 0

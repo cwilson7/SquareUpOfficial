@@ -20,19 +20,18 @@ public class UnlockButton : MonoBehaviour
 
     public void UnlockCharacter()
     {
-        ProgressionSystem ps = ProgressionSystem.Instance;
+        /*Dictionary<string, CharacterInfo> dict = ProgressionSystem.playerData.Characters;
 
-        if (!ps.Characters.ContainsKey(associatedCharacterName))
+        if (!dict.ContainsKey(associatedCharacterName))
         {
             Debug.Log("Invalid Character Name");
             return;
-        }
+        } 
 
-        CharacterInfo info = (CharacterInfo)ps.Characters[associatedCharacterName];
-        info.status = Status.Unlocked;
+        CharacterInfo info = dict[associatedCharacterName];
+        */
+        //info.status = Status.Unlocked;
 
         parentPanel.SetPanelLockedInfo();
-
-        ProgressionSystemChange?.Invoke(ps);
     }
 }

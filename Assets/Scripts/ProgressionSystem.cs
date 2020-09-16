@@ -4,67 +4,66 @@ using UnityEngine;
 using System.Runtime.Serialization.Formatters.Binary;
 using CustomUtilities;
 using System;
-using System.Runtime.InteropServices;
+using UnityEngine.SceneManagement;
+using UnityEditor.Build.Content;
 
 [System.Serializable]
-public class ProgressionSystem : MonoBehaviour, ISerializationCallbackReceiver
+public class ProgressionSystem : MonoBehaviour
 {
-    [Header("Characters Info")]
-    public List<string> _keys;
-    public List<CharacterInfo> _values;
+    public static PlayerData playerData;  
 
-    public static ProgressionSystem Instance;
-    public int SquareBucks;
-    //public Hashtable Characters;
-    public Dictionary<string, CharacterInfo> Characters;
-    public List<CustomEffect> AvailableEffects;
-    private void Awake()
+    private void OnEnable()
     {
-        if (ProgressionSystem.Instance != null)
-        {
-            Destroy(this.gameObject);
-            return;
-        }
-        SetupSaveState();
+        LoadData();
+        SceneManager.sceneLoaded += OnSceneLoaded;
         DontDestroyOnLoad(this.gameObject);
     }
 
-    public void SetupSaveState()
+    public static void SaveData()
     {
-        PlayerData LoadedInfo = null;//SaveState.LoadInformation();
-        Instance = this;
-        if (LoadedInfo == null) this.NewSave();
-        else CopyLoadedInfo(LoadedInfo);
-
-        //SaveState.SaveInformation(this);
-        //UnlockButton.ProgressionSystemChange += SaveState.SaveInformation;
-        //ShopController.SaveGane += SaveState.SaveInformation;
+        Debug.Log("saving game.");
+        //SaveState.SaveInformation(playerData);
+        string dataString = JsonUtility.ToJson(playerData);
+        PlayerPrefs.SetString("GameData", dataString);
     }
 
-    public ProgressionSystem()
+    void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
     {
-        AvailableEffects = new List<CustomEffect>();
-        Characters = new Dictionary<string, CharacterInfo>();//new Hashtable();
+        SaveData();
     }
 
-    void NewSave()
+    void LoadData()
     {
-        Characters = NewCharacterInfoHash();
-        SquareBucks = 500;
+        if (!PlayerPrefs.HasKey("GameData"))
+        {
+            Debug.Log("setting up new game");
+            playerData = new PlayerData(500, 5, 0, 0, NewCharacterInfoList(), new List<CustomEffect>());
+            string dataString = JsonUtility.ToJson(playerData);
+            PlayerPrefs.SetString("GameData", dataString);
+        }
+        else
+        {
+            Debug.Log("loading previous save");
+            string dataString = PlayerPrefs.GetString("GameData");
+            playerData = JsonUtility.FromJson<PlayerData>(dataString);
+        }
+
+        /*
+        if (true) //if first load
+        {
+            playerData = new PlayerData(500, 5, 0, 0, NewCharacterInfoList(), new List<CustomEffect>());           
+            SaveState.SaveInformation(playerData);
+        }
+        else
+        {
+            playerData = SaveState.LoadInformation();
+        }
+        */
     }
 
-    void CopyLoadedInfo(PlayerData LoadedInfo)
+    List<CharacterInfo> NewCharacterInfoList()
     {
-        this.SquareBucks = LoadedInfo.progressSystem.SquareBucks;
-        this.AvailableEffects = LoadedInfo.progressSystem.AvailableEffects;
-        this.Characters = LoadedInfo.progressSystem.Characters;
-    }
-
-    //Hashtable
-    Dictionary<string, CharacterInfo>  NewCharacterInfoHash()
-    {
-        //Hashtable returnHash = new Hashtable();
-        Dictionary<string, CharacterInfo> returnHash = new Dictionary<string, CharacterInfo>();
+        List<CharacterInfo> newGameList = new List<CharacterInfo>();
         List<GameObject> Characters = new List<GameObject>();
         Utils.PopulateList<GameObject>(Characters, "PhotonPrefabs/CharacterAvatars");
         foreach (GameObject _char in Characters)
@@ -75,29 +74,28 @@ public class ProgressionSystem : MonoBehaviour, ISerializationCallbackReceiver
             info.currentSet = new CosmeticSet();
             info.model = _char;
             //new CharacterInfo(_char.name, Status.Unlocked, AC.MyLevels, AC.LoadCosmetics(), new CosmeticSet());
-            returnHash.Add(info.characterName/*_char.name*/, info);
+            newGameList.Add(info);
         }
-        return returnHash;
+        return newGameList;
     }
 
-    public void OnBeforeSerialize()
+    public static CharacterInfo CharacterData(CharacterInfo info)
     {
-        _keys.Clear();
-        _values.Clear();
-
-        foreach (var kvp in Characters)
+        CharacterInfo returnInfo = info;
+        foreach (CharacterInfo ci in playerData.Characters)
         {
-            _keys.Add(kvp.Key);
-            _values.Add(kvp.Value);
+            if (info.characterName == ci.characterName)
+            {
+                returnInfo = ci;
+                break;
+            }
         }
+        return returnInfo;
     }
 
-    public void OnAfterDeserialize()
+    public void ClearPrefs()
     {
-        Characters = new Dictionary<string, CharacterInfo>();
-
-        for (int i = 0; i != Math.Min(_keys.Count, _values.Count); i++)
-            Characters.Add(_keys[i], _values[i]);
+        PlayerPrefs.DeleteAll();
     }
 }
 
@@ -128,52 +126,18 @@ public class CustomEffect : MonoBehaviour
 }
 
 [System.Serializable]
-public class PlayerData
-{
-    public ProgressionSystem progressSystem;
-
-    public PlayerData(ProgressionSystem _PS)
-    {
-        progressSystem = _PS;
-    }
-}
-
-[System.Serializable]
 public static class SaveState
-{
-    
-    public static void SaveInformation (ProgressionSystem _ps)
+{   
+    public static void SaveInformation (PlayerData _playerData)
     {
-        Debug.Log("progression state saved");
-        BinaryFormatter formatter = new BinaryFormatter();
-        string path = Application.persistentDataPath + "/Progress.balls";
-        System.IO.FileStream stream = new System.IO.FileStream(path, System.IO.FileMode.Create);
-
-        PlayerData data = new PlayerData(ProgressionSystem.Instance);
-
-        formatter.Serialize(stream, data);
-        stream.Close();
+        string serializedPlayerData = JsonUtility.ToJson(_playerData);
+        CloudSaveHandler.SaveStringProgressSystem(serializedPlayerData);
     }
 
     public static PlayerData LoadInformation()
     {
-        string path = Application.persistentDataPath + "/Progress.balls";
-        if (System.IO.File.Exists(path))
-        {
-            BinaryFormatter formatter = new BinaryFormatter();
-            System.IO.FileStream stream = new System.IO.FileStream(path, System.IO.FileMode.Open);
-
-            PlayerData data = (PlayerData)formatter.Deserialize(stream);
-            
-            stream.Close();
-
-            return data;
-        } 
-        else
-        {
-            Debug.Log("file not found: " + path);
-            return null;
-        }
+        PlayerData data = (PlayerData)JsonUtility.FromJson(CloudSaveHandler.PlayerInformation(), typeof(PlayerData));
+        return data;
     }
 }
 
@@ -182,10 +146,4 @@ public enum Status
 {
     Locked,
     Unlocked
-}
-
-public enum Direction
-{
-    ToCenter,
-    FromCenter
 }

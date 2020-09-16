@@ -15,22 +15,22 @@ MonoBehaviour:
   m_lastOpenedDateString: 
   m_applicationSettings:
     m_supportedFeatures:
-      m_usesAddressBook: 1
+      m_usesAddressBook: 0
       m_usesBilling: 1
       m_usesCloudServices: 1
       m_usesGameServices: 1
       m_mediaLibrary:
-        value: 1
+        value: 0
         usesCamera: 1
         usesPhotoAlbum: 1
       m_usesNetworkConnectivity: 1
       m_notificationService:
-        value: 1
+        value: 0
         usesLocalNotification: 1
         usesRemoteNotification: 1
       m_usesSharing: 1
-      m_usesTwitter: 1
-      m_usesWebView: 1
+      m_usesTwitter: 0
+      m_usesWebView: 0
     m_supportedAddonServices:
       m_usesSoomlaGrow: 0
       m_usesOneSignal: 0
@@ -66,12 +66,42 @@ MonoBehaviour:
     m_android:
       m_modifiesApplicationBadge: 1
   m_billingSettings:
-    m_products: []
+    m_products:
+    - m_name: 1 Cube Coin
+      m_description: Buy cool stuff with this
+      m_isConsumable: 1
+      m_price: 0
+      m_productIdentifiers:
+      - m_platform: 1
+        m_value: 1_cube_coin
+      m_developerPayload: 
+      m_iosProductId: 
+      m_androidProductId: 
+    - m_name: 5 Cube Coins
+      m_description: Buy sick stuff with these
+      m_isConsumable: 1
+      m_price: 0
+      m_productIdentifiers:
+      - m_platform: 1
+        m_value: 5_cube_coins
+      m_developerPayload: 
+      m_iosProductId: 
+      m_androidProductId: 
+    - m_name: 10 Cube Coins
+      m_description: Buy killer stuff with these
+      m_isConsumable: 1
+      m_price: 0
+      m_productIdentifiers:
+      - m_platform: 1
+        m_value: 10_cube_coins
+      m_developerPayload: 
+      m_iosProductId: 
+      m_androidProductId: 
     m_iOS:
       m_supportsReceiptValidation: 1
       m_validateUsingServerURL: 
     m_android:
-      m_publicKey: 
+      m_publicKey: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAkaizX89kND54muWTIINphXl85Hd+5sweR3bEMbWjij9X3EUj7HpGdM1Zh7vA38hEVDMql4WEVdmQyjGw5IhDzenKTlJbus9OKd75Vw0GZ8d6C+1axQsMubjCH/ynbqbU63pEidoepn2V/mEz+EBy4zWcwv1Qx08oBZ9rNIXdDD53yJp3yBx5Fw4VVNpPOAIwltkbv8HplbRvm5BU9O6Op22c/JGzaNa4mhyUS6W/rDQaflp0arGzEmnphVDlkb4degdZC/4PUegII5dSo9jirBuJ5G+bjCrU5tItoOVHoS3gNCzAOqhi/YynoPMVmh7m68iBAg3/OIzghadSPDkIdQIDAQAB
   m_cloudServicesSettings:
     m_android:
       m_syncInterval: 10

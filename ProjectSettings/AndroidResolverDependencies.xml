@@ -1,0 +1,22 @@
+<dependencies>
+  <packages>
+    <package>com.android.support:exifinterface:27.1+</package>
+    <package>com.android.support:support-v4:27.1+</package>
+    <package>com.google.android.gms:play-services-games:16.0+</package>
+    <package>com.google.android.gms:play-services-nearby:16.0+</package>
+  </packages>
+  <files />
+  <settings>
+    <setting name="androidAbis" value="armeabi-v7a" />
+    <setting name="bundleId" value="com.DefaultCompany.SquareUpOfficial" />
+    <setting name="explodeAars" value="True" />
+    <setting name="gradleBuildEnabled" value="True" />
+    <setting name="gradleTemplateEnabled" value="False" />
+    <setting name="installAndroidPackages" value="True" />
+    <setting name="packageDir" value="Assets/Plugins/Android" />
+    <setting name="patchAndroidManifest" value="True" />
+    <setting name="patchMainTemplateGradle" value="True" />
+    <setting name="projectExportEnabled" value="False" />
+    <setting name="useJetifier" value="False" />
+  </settings>
+</dependencies>

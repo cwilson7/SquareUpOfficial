@@ -24,7 +24,13 @@ public class AvatarCharacteristics : MonoBehaviour
     private void Start()
     {
         //checks if current scene is not the game scene
-        if (SceneManager.GetActiveScene() != SceneManager.GetSceneByBuildIndex(2)) SpawnDummyFists();
+        if (SceneManager.GetActiveScene() != SceneManager.GetSceneByBuildIndex(2))
+        {
+            SpawnDummyFists();
+            info = ProgressionSystem.CharacterData(info);
+            DisplayAllCosmetics();
+        }
+
     }
 
     private void SpawnDummyFists()
@@ -98,6 +104,7 @@ public class AvatarCharacteristics : MonoBehaviour
     {
         info.currentSet.UpdateSet(item);
         info.currentSet.SaveSet(info);
+        Debug.Log("eqipin item");
         DisplayCosmetic(item);
     }
 
@@ -215,8 +222,19 @@ public class CosmeticSet : ISerializationCallbackReceiver
 
     public void SaveSet(CharacterInfo info)
     {
-        CharacterInfo toSave = ProgressionSystem.Instance.Characters[info.characterName];
-        toSave.currentSet = this;
+        List<CharacterInfo> newList = new List<CharacterInfo>();
+        foreach (CharacterInfo ci in ProgressionSystem.playerData.characters)
+        {
+            if (ci.characterName == info.characterName)
+            {
+                newList.Add(info);
+            }
+            else newList.Add(ci);
+        }
+        ProgressionSystem.playerData.Characters = newList;
+        ProgressionSystem.SaveData();
+        //CharacterInfo toSave = ProgressionSystem.CharacterData(info);
+        //toSave.currentSet = this;
     }
 
     public List<string> NamesOfCosmetics()

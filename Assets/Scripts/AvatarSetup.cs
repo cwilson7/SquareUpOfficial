@@ -22,8 +22,7 @@ public class AvatarSetup : MonoBehaviour
     public void InitializePlayerAvatar()
     {
         PV = GetComponent<PhotonView>();
-        GameObject myCharGO = (GameObject)LobbyController.lc.charAvatars[(int)PhotonNetwork.LocalPlayer.CustomProperties["SelectedCharacter"]];
-        CharacterInfo myCharInfo = ProgressionSystem.Instance.Characters[myCharGO.GetComponent<AvatarCharacteristics>().info.characterName];
+        CharacterInfo myCharInfo = ProgressionSystem.CharacterData(LobbyController.lc.charAvatars[(int)PhotonNetwork.LocalPlayer.CustomProperties["SelectedCharacter"]].GetComponent<AvatarCharacteristics>().info);
         if (PV.IsMine) PV.RPC("InitializeCharacter_RPC", RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer.ActorNumber, myCharInfo.currentSet.NamesOfCosmetics().ToArray());
     }
 

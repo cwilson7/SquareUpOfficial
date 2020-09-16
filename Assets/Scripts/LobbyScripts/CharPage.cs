@@ -50,7 +50,7 @@ public class CharPage : MonoBehaviour
         }
         cspc.displayedCharacters.Add(charID, character);
 
-        CharacterInfo info = (CharacterInfo)ProgressionSystem.Instance.Characters[LobbyController.lc.charAvatars[charID].GetComponent<AvatarCharacteristics>().info.characterName];
+        CharacterInfo info = ProgressionSystem.CharacterData(LobbyController.lc.charAvatars[charID].GetComponent<AvatarCharacteristics>().info);
         character.GetComponent<AvatarCharacteristics>().DisplayAllCosmetics();
         if (info.status == Status.Locked) SetToLockedPanel();
     }

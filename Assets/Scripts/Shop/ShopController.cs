@@ -44,7 +44,6 @@ public class ShopController : MonoBehaviour
 
     public void ReturnToMainMenu()
     {
-        SceneManager.LoadScene("StartScene");
-        SaveGame?.Invoke(ProgressionSystem.Instance);
+        SceneManager.LoadScene("StartScene");        
     }
 }

@@ -39,7 +39,7 @@ public class ShopPanel : MonoBehaviour
 
     public void SetPanelLockedInfo()
     {
-        CharacterInfo info = (CharacterInfo)ProgressionSystem.Instance.Characters[Character.GetComponent<AvatarCharacteristics>().info.characterName];
+        CharacterInfo info = ProgressionSystem.CharacterData(Character.GetComponent<AvatarCharacteristics>().info);
         if (info.status == Status.Unlocked)
         {
             UnlockedPanel.SetActive(true);
@@ -61,11 +61,10 @@ public class ShopPanel : MonoBehaviour
     void CharacterSetup()
     {
         //given character from shop controller
-        charInfo = (CharacterInfo)ProgressionSystem.Instance.Characters[Character.GetComponent<AvatarCharacteristics>().info.characterName];
+        charInfo = ProgressionSystem.CharacterData(Character.GetComponent<AvatarCharacteristics>().info);
         header.text = charInfo.characterName;
         DisplayedCharacter = Instantiate(Character, new Vector3(Camera.main.transform.position.x + 1.5f, Camera.main.transform.position.y - 2, Camera.main.transform.position.z  + 5), Quaternion.Euler(0, 180, 0));
-        //sr.sprite = Character model as sprite
-        //turn model into sprite and set sprite to this
+        DisplayedCharacter.GetComponent<AvatarCharacteristics>().DisplayAllCosmetics();
     }
 
     void SetUpAbilityDemo()

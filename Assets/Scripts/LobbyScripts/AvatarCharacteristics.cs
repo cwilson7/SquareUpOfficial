@@ -21,6 +21,8 @@ public class AvatarCharacteristics : MonoBehaviour
     [Tooltip("Enter name of folder and type of cosmetics that that folder houses")]
     [SerializeField] private CosmeticLoader[] folders;
 
+    private GameObject lFist, rFist;
+
     private void Start()
     {
         //checks if current scene is not the game scene
@@ -38,14 +40,17 @@ public class AvatarCharacteristics : MonoBehaviour
         LFist lLoc = GetComponentInChildren<LFist>();
         RFist rLoc = GetComponentInChildren<RFist>();
 
-        GameObject lFist = Instantiate(FistModel, lLoc.gameObject.transform);
-        GameObject rFist = Instantiate(FistModel, rLoc.gameObject.transform);
+        lFist = Instantiate(FistModel, lLoc.gameObject.transform);
+        rFist = Instantiate(FistModel, rLoc.gameObject.transform);
 
         lFist.GetComponent<Fist>().Origin = lLoc.gameObject.transform;
         rFist.GetComponent<Fist>().Origin = rLoc.gameObject.transform;
 
         lFist.GetComponent<Fist>().InitializeDummy();
         rFist.GetComponent<Fist>().InitializeDummy();
+
+        lFist.layer = gameObject.layer;
+        rFist.layer = gameObject.layer;
     }
 
     //only called on new save
@@ -78,6 +83,11 @@ public class AvatarCharacteristics : MonoBehaviour
             Material[] clone = model.GetComponent<Renderer>().materials;
             clone[index] = mat;
             model.GetComponent<Renderer>().materials = clone;
+        }
+        if (lFist != null && rFist != null)
+        {
+            lFist.GetComponent<Renderer>().material = mat;
+            rFist.GetComponent<Renderer>().material = mat;
         }
     }
 

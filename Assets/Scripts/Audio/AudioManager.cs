@@ -76,7 +76,6 @@ public class AudioManager : MonoBehaviour
     void SwitchTrack(AudioClip track)
     {
         if (AM == null) return;
-        Debug.Log("switch track getting called");
         currentTheme.Stop();
         currentTheme.clip = track;
         currentTheme.Play();

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using ExifLibrary;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,6 +19,11 @@ public class CosmeticItem
         type = _type;
         model = _model;
         status = _status;
+    }
+
+    public bool IsNull()
+    {
+        return model == null;
     }
 }
 

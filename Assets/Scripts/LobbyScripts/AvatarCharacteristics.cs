@@ -21,20 +21,29 @@ public class AvatarCharacteristics : MonoBehaviour
     [Tooltip("Enter name of folder and type of cosmetics that that folder houses")]
     [SerializeField] private CosmeticLoader[] folders;
 
-    private GameObject lFist, rFist;
+    public GameObject lFist, rFist;
 
-    private void Start()
+    private void OnEnable()
     {
-        //checks if current scene is not the game scene
+        info = ProgressionSystem.CharacterData(info);
+        if (info.currentSet.cosmetics.ContainsKey(CosmeticType.Fist) && !info.currentSet.cosmetics[CosmeticType.Fist].IsNull())
+        {
+            FistModel = info.currentSet.cosmetics[CosmeticType.Fist].model;
+        }
         if (SceneManager.GetActiveScene() != SceneManager.GetSceneByBuildIndex(2))
         {
             SpawnDummyFists();
-            info = ProgressionSystem.CharacterData(info);  
-            DisplayAllCosmetics();
         }
-        else if (info.currentSet.cosmetics[CosmeticType.Fist] != null)
+    }
+
+    //we want to instantiate cosmetics and assign their references
+
+    private void Start()
+    {
+        //checks if current scene is not the game scene bcz needs to be networked in game
+        if (SceneManager.GetActiveScene() != SceneManager.GetSceneByBuildIndex(2))
         {
-            FistModel = info.currentSet.cosmetics[CosmeticType.Fist].model;
+            DisplayAllCosmetics();
         }
 
     }
@@ -46,6 +55,11 @@ public class AvatarCharacteristics : MonoBehaviour
 
         lFist = Instantiate(FistModel, lLoc.gameObject.transform);
         rFist = Instantiate(FistModel, rLoc.gameObject.transform);
+
+        if (info.currentSet.cosmetics.ContainsKey(CosmeticType.Fist))
+        {
+            AssignFistModels(info.currentSet.cosmetics[CosmeticType.Fist]);
+        }
 
         lFist.GetComponent<Fist>().Origin = lLoc.gameObject.transform;
         rFist.GetComponent<Fist>().Origin = rLoc.gameObject.transform;
@@ -90,13 +104,14 @@ public class AvatarCharacteristics : MonoBehaviour
         }
         if (lFist != null && rFist != null)
         {
-            lFist.GetComponent<Renderer>().material = mat;
-            rFist.GetComponent<Renderer>().material = mat;
+            SetFistMaterial(lFist, mat.color);
+            SetFistMaterial(rFist, mat.color);
         }
     }
 
     public void SetFistMaterial(GameObject fist, Color _color)
     {
+        if (info.currentSet.cosmetics.ContainsKey(CosmeticType.Fist) && !info.currentSet.cosmetics[CosmeticType.Fist].IsNull()) return;
         fist.GetComponent<Renderer>().material.color = _color;
     }
 
@@ -118,13 +133,17 @@ public class AvatarCharacteristics : MonoBehaviour
     {
         info.currentSet.UpdateSet(item);
         info.currentSet.SaveSet(info);
-        Debug.Log("eqipin item");
         DisplayCosmetic(item);
     }
 
     public void DisplayCosmetic(CosmeticItem item)
     {
-        InstantiateCosmetic(item);
+        if (item.type == CosmeticType.Fist)
+        {
+            FistModel = info.currentSet.cosmetics[CosmeticType.Fist].model;
+            SpawnDummyFists();
+        }
+        else InstantiateCosmetic(item);
     }
 
     public void DisplayAllCosmetics()
@@ -132,7 +151,7 @@ public class AvatarCharacteristics : MonoBehaviour
         Dictionary<CosmeticType, CosmeticItem> dict = new Dictionary<CosmeticType, CosmeticItem>();
         foreach (KeyValuePair<CosmeticType, CosmeticItem> kvp in info.currentSet.cosmetics)
         {
-            if (kvp.Value.name.Length > 0)
+            if (!kvp.Value.IsNull())//name.Length > 0)
             {
                 CosmeticItem item = info.currentSet.cosmetics[kvp.Key];
                 dict.Add(kvp.Key, InstantiateCosmetic(item));
@@ -159,28 +178,22 @@ public class AvatarCharacteristics : MonoBehaviour
     #endregion
 
     #region Helper Functions
-    private CosmeticItem InstantiateCosmetic(CosmeticItem item)
+
+    public void AssignFistModels(CosmeticItem item)
     {
         if (item.type == CosmeticType.Fist)
         {
-            if (lFist != null && rFist != null)
-            {
-                Destroy(lFist);
-                Destroy(rFist);
-            }
-            
-            RFist rFistLoc = GetComponentInChildren<RFist>();
-            LFist lFistLoc = GetComponentInChildren<LFist>();
-
-            item.referencedObjects = new GameObject[] { Instantiate(item.model, rFistLoc.transform), Instantiate(item.model, lFistLoc.transform) };
+            item.referencedObjects = new GameObject[] { lFist, rFist };
             for (int i = 0; i < item.referencedObjects.Length; i++)
             {
                 item.referencedObjects[i].layer = LayerMask.NameToLayer(LayerMask.LayerToName(gameObject.layer));
                 item.referencedObjects[i].tag = gameObject.tag;
             }
-            //FistModel = item.referencedObject;
         }
-        else
+    }
+    private CosmeticItem InstantiateCosmetic(CosmeticItem item)
+    {
+        if (item.type != CosmeticType.Fist)
         {
             Armature armature = GetComponentInChildren<Armature>();
             item.referencedObject = Instantiate(item.model, gameObject.transform);
@@ -234,7 +247,7 @@ public class CosmeticSet : ISerializationCallbackReceiver
     {
         if (cosmetics.ContainsKey(item.type))
         {
-            if (cosmetics[item.type] != null)
+            if (!cosmetics[item.type].IsNull())
             {
                 if (item.type != CosmeticType.Fist) GameObject.Destroy(cosmetics[item.type].referencedObject);
                 else
@@ -246,7 +259,11 @@ public class CosmeticSet : ISerializationCallbackReceiver
                 }
             }
         }
-        cosmetics[item.type] = item;
+        if (!cosmetics.ContainsKey(item.type))
+        {
+            cosmetics.Add(item.type, item);
+        }
+        else cosmetics[item.type] = item;
     }
 
     public void SaveSet(CharacterInfo info)

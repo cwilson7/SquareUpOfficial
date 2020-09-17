@@ -82,8 +82,9 @@ public abstract class Controller : MonoBehaviour
 
         moveStick.gameObject.SetActive(false);
 
-        RFist = SetUpFist(GetComponentInChildren<RFist>());
+        //do not change order of fist instantiation
         LFist = SetUpFist(GetComponentInChildren<LFist>());
+        RFist = SetUpFist(GetComponentInChildren<RFist>());      
 
         mmPlayer = GetComponentInChildren<MiniMapPlayer>();
 
@@ -107,6 +108,13 @@ public abstract class Controller : MonoBehaviour
     {
         AvatarCharacteristics avatarData = GetComponentInChildren<AvatarCharacteristics>();
         GameObject f = Instantiate(avatarData.FistModel, comp.gameObject.transform.position, Quaternion.Euler(90, 90, 90));
+        Dictionary<CosmeticType, CosmeticItem> avatarCosmetics = avatarData.info.currentSet.cosmetics;
+        if (avatarData.lFist == null) avatarData.lFist = f;
+        else
+        {
+            avatarData.rFist = f;
+            avatarData.AssignFistModels(avatarCosmetics[CosmeticType.Fist]);
+        }
         f.transform.parent = GameInfo.GI.FistContainer.transform;
         Fist Fist = f.GetComponent<Fist>();
         Fist.Origin = comp.gameObject.transform;

@@ -1,11 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System.Runtime.Serialization.Formatters.Binary;
 using CustomUtilities;
-using System;
 using UnityEngine.SceneManagement;
-using UnityEditor.Build.Content;
 
 [System.Serializable]
 public class ProgressionSystem : MonoBehaviour

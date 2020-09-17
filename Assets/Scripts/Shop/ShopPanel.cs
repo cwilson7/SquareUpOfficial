@@ -64,7 +64,7 @@ public class ShopPanel : MonoBehaviour
         charInfo = ProgressionSystem.CharacterData(Character.GetComponent<AvatarCharacteristics>().info);
         header.text = charInfo.characterName;
         DisplayedCharacter = Instantiate(Character, new Vector3(Camera.main.transform.position.x + 1.5f, Camera.main.transform.position.y - 2, Camera.main.transform.position.z  + 5), Quaternion.Euler(0, 180, 0));
-        DisplayedCharacter.GetComponent<AvatarCharacteristics>().DisplayAllCosmetics();
+        //DisplayedCharacter.GetComponent<AvatarCharacteristics>().DisplayAllCosmetics();
     }
 
     void SetUpAbilityDemo()

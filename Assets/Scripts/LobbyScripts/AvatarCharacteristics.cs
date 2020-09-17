@@ -29,8 +29,12 @@ public class AvatarCharacteristics : MonoBehaviour
         if (SceneManager.GetActiveScene() != SceneManager.GetSceneByBuildIndex(2))
         {
             SpawnDummyFists();
-            info = ProgressionSystem.CharacterData(info);
+            info = ProgressionSystem.CharacterData(info);  
             DisplayAllCosmetics();
+        }
+        else if (info.currentSet.cosmetics[CosmeticType.Fist] != null)
+        {
+            FistModel = info.currentSet.cosmetics[CosmeticType.Fist].model;
         }
 
     }
@@ -159,21 +163,33 @@ public class AvatarCharacteristics : MonoBehaviour
     {
         if (item.type == CosmeticType.Fist)
         {
+            if (lFist != null && rFist != null)
+            {
+                Destroy(lFist);
+                Destroy(rFist);
+            }
+            
             RFist rFistLoc = GetComponentInChildren<RFist>();
             LFist lFistLoc = GetComponentInChildren<LFist>();
 
             item.referencedObjects = new GameObject[] { Instantiate(item.model, rFistLoc.transform), Instantiate(item.model, lFistLoc.transform) };
+            for (int i = 0; i < item.referencedObjects.Length; i++)
+            {
+                item.referencedObjects[i].layer = LayerMask.NameToLayer(LayerMask.LayerToName(gameObject.layer));
+                item.referencedObjects[i].tag = gameObject.tag;
+            }
+            //FistModel = item.referencedObject;
         }
         else
         {
             Armature armature = GetComponentInChildren<Armature>();
             item.referencedObject = Instantiate(item.model, gameObject.transform);
             item.referencedObject.transform.SetParent(armature.gameObject.transform);
+            item.referencedObject.layer = LayerMask.NameToLayer(LayerMask.LayerToName(gameObject.layer));
+            item.referencedObject.tag = gameObject.tag;
         }
 
-        item.referencedObject.layer = LayerMask.NameToLayer(LayerMask.LayerToName(gameObject.layer));
         SetChildrenLayers(this.gameObject);
-        item.referencedObject.tag = gameObject.tag;
 
         return item;
     }
@@ -218,12 +234,15 @@ public class CosmeticSet : ISerializationCallbackReceiver
     {
         if (cosmetics.ContainsKey(item.type))
         {
-            if (item.type != CosmeticType.Fist) GameObject.Destroy(cosmetics[item.type].referencedObject);
-            else
+            if (cosmetics[item.type] != null)
             {
-                for (int i = 0; i < cosmetics[item.type].referencedObjects.Length; i++)
+                if (item.type != CosmeticType.Fist) GameObject.Destroy(cosmetics[item.type].referencedObject);
+                else
                 {
-                    GameObject.Destroy(cosmetics[item.type].referencedObjects[i]);
+                    for (int i = 0; i < cosmetics[item.type].referencedObjects.Length; i++)
+                    {
+                        GameObject.Destroy(cosmetics[item.type].referencedObjects[i]);
+                    }
                 }
             }
         }
@@ -243,8 +262,6 @@ public class CosmeticSet : ISerializationCallbackReceiver
         }
         ProgressionSystem.playerData.Characters = newList;
         ProgressionSystem.SaveData();
-        //CharacterInfo toSave = ProgressionSystem.CharacterData(info);
-        //toSave.currentSet = this;
     }
 
     public List<string> NamesOfCosmetics()

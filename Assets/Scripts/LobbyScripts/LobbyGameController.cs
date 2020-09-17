@@ -24,7 +24,7 @@ public class LobbyGameController : MonoBehaviour
         if (PhotonNetwork.IsConnected && (bool)PhotonNetwork.LocalPlayer.CustomProperties["PlayerReady"] && !allReady) CheckIfAllReady();
         if (PhotonNetwork.IsConnected) CheckForVote();
         if (!starting && allReady && (PhotonNetwork.CurrentRoom.PlayerCount == PhotonNetwork.CurrentRoom.MaxPlayers || forceStart)) StartCoroutine(StartingGame()); 
-        playerCounterTxt.text = PhotonNetwork.CurrentRoom.PlayerCount + "/" + PhotonNetwork.CurrentRoom.MaxPlayers + " players";
+        if (PhotonNetwork.IsConnected) playerCounterTxt.text = PhotonNetwork.CurrentRoom.PlayerCount + "/" + PhotonNetwork.CurrentRoom.MaxPlayers + " players";
         voteCounterTxt.text = forceStartVotes + " votes to start";
     }
 

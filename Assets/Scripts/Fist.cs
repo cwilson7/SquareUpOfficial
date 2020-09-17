@@ -29,7 +29,7 @@ public class Fist : DamageDealer
     {
         if (SceneManagerHelper.ActiveSceneBuildIndex != 2)
         {
-            DummyFistHandler();
+           // DummyFistHandler();
         }
         if (ParentController == null || !ParentController.controllerInitialized) return;
         if (punching) PunchHandler();

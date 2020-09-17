@@ -45,6 +45,11 @@ public class EndGameInfoPanel : MonoBehaviour
     {
         GameObject avatar = GameInfo.GI.avatarClones[actorNr];
         avatar.transform.position = characterLocation.position;
+        avatar.transform.rotation = Quaternion.Euler(0, 180, 0);
+        AvatarCharacteristics AC = avatar.GetComponent<AvatarCharacteristics>();
+        AC.SpawnDummyFists();
+        AC.lFist.GetComponent<Rigidbody>().isKinematic = true;
+        AC.rFist.GetComponent<Rigidbody>().isKinematic = true;
         avatar.SetActive(toDisplay);
     }
 

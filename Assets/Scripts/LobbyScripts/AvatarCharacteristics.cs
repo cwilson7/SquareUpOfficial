@@ -48,13 +48,15 @@ public class AvatarCharacteristics : MonoBehaviour
 
     }
 
-    private void SpawnDummyFists()
+    public void SpawnDummyFists()
     {
         LFist lLoc = GetComponentInChildren<LFist>();
         RFist rLoc = GetComponentInChildren<RFist>();
 
         lFist = Instantiate(FistModel, lLoc.gameObject.transform);
         rFist = Instantiate(FistModel, rLoc.gameObject.transform);
+
+        GameObject[] fists = { lFist, rFist };
 
         if (info.currentSet.cosmetics.ContainsKey(CosmeticType.Fist))
         {
@@ -66,6 +68,9 @@ public class AvatarCharacteristics : MonoBehaviour
 
         lFist.GetComponent<Fist>().InitializeDummy();
         rFist.GetComponent<Fist>().InitializeDummy();
+
+        lFist.GetComponent<Rigidbody>().isKinematic = true;
+        rFist.GetComponent<Rigidbody>().isKinematic = true;
 
         lFist.layer = gameObject.layer;
         rFist.layer = gameObject.layer;

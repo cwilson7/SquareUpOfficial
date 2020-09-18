@@ -9,7 +9,7 @@ using System.Linq;
 
 public class AvatarSetup : MonoBehaviour
 {
-    private PhotonView PV;
+    public PhotonView PV;
     private GameObject avatarSkin;
     Controller controller;
     [SerializeField] private float avatarOffset = 0.5f;
@@ -22,8 +22,18 @@ public class AvatarSetup : MonoBehaviour
     public void InitializePlayerAvatar()
     {
         PV = GetComponent<PhotonView>();
-        CharacterInfo myCharInfo = ProgressionSystem.CharacterData(LobbyController.lc.charAvatars[(int)PhotonNetwork.LocalPlayer.CustomProperties["SelectedCharacter"]].GetComponent<AvatarCharacteristics>().info);
-        if (PV.IsMine) PV.RPC("InitializeCharacter_RPC", RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer.ActorNumber, myCharInfo.currentSet.NamesOfCosmetics().ToArray());
+        //avatar on file that matches my selected character id
+        //grab the info i have saved for that character
+        if (PV.IsMine) 
+        {
+            CharacterInfo myCharInfo = ProgressionSystem.CharacterData(LobbyController.lc.charAvatars[(int)PhotonNetwork.LocalPlayer.CustomProperties["SelectedCharacter"]].GetComponent<AvatarCharacteristics>().info);
+            Debug.Log("Sending out data as actor : " + PhotonNetwork.LocalPlayer.ActorNumber);
+            foreach (string name in myCharInfo.currentSet.NamesOfCosmetics())
+            {
+                Debug.Log(name);
+            }
+            PV.RPC("InitializeCharacter_RPC", RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer.ActorNumber, myCharInfo.currentSet.NamesOfCosmetics().ToArray());
+        }
     }
 
     [PunRPC]
@@ -41,12 +51,23 @@ public class AvatarSetup : MonoBehaviour
             avatarSkin.transform.SetParent(transform);
             AvatarCharacteristics AC = avatarSkin.GetComponent<AvatarCharacteristics>();
             AC.SetMaterial(myAssignedColor);
-            if (PV != null)
+            if (PV != null && PV.IsMine)// || PV.OwnerActorNr == actorNumber) //if this is setting up my character on my game
             {
-                AC.info = ProgressionSystem.CharacterData(AC.info);
-                AC.DisplayAllCosmetics();
+                AC.info = ProgressionSystem.CharacterData(AC.info); //set my character data to my player data
+                AC.DisplayAllCosmetics(); //display my cosmetics on my character
+                Debug.Log("i am actor : " + actorNumber + "\n assigning cosmetics locally for myself");
+                foreach (string name in AC.info.currentSet.NamesOfCosmetics())
+                {
+                    Debug.Log(name);
+                }
             }
-            else AC.NetworkDisplayCosmetics(cosmeticNames.ToList());
+            else AC.NetworkDisplayCosmetics(cosmeticNames.ToList()); //if this is setting up someone elses character on my game
+            //display the cosmetics on this character that are sent to me (cosmeticNames)
+            Debug.Log("I am actor : " + PhotonNetwork.LocalPlayer.ActorNumber + "\n assigning cosmetics locally for actor : " + actorNumber);
+            foreach (string name in cosmeticNames)
+            {
+                Debug.Log(name);
+            }
 
             AddPlayerController(avatarSkin);
             MultiplayerSettings.multiplayerSettings.SetCustomPlayerProperties("CharacterSpawned", true);

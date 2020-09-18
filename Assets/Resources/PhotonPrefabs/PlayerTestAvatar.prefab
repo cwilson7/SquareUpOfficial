@@ -5051,6 +5051,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 078b2b74a63e085478b2889d3304864f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PV: {fileID: 0}
   avatarOffset: 0.5
 --- !u!54 &7934084828216822118
 Rigidbody:

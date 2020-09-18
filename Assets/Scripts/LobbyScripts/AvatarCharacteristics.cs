@@ -25,13 +25,10 @@ public class AvatarCharacteristics : MonoBehaviour
 
     private void Awake()
     {
-        info = ProgressionSystem.CharacterData(info);
-        if (info.currentSet.cosmetics.ContainsKey(CosmeticType.Fist) && !info.currentSet.cosmetics[CosmeticType.Fist].IsNull())
-        {
-            FistModel = info.currentSet.cosmetics[CosmeticType.Fist].model;
-        }
         if (SceneManager.GetActiveScene() != SceneManager.GetSceneByBuildIndex(2))
         {
+            info = ProgressionSystem.CharacterData(info);
+            FistModel = info.currentSet.cosmetics[CosmeticType.Fist].model;
             SpawnDummyFists();
         }
     }
@@ -160,29 +157,31 @@ public class AvatarCharacteristics : MonoBehaviour
         Dictionary<CosmeticType, CosmeticItem> dict = new Dictionary<CosmeticType, CosmeticItem>();
         foreach (KeyValuePair<CosmeticType, CosmeticItem> kvp in info.currentSet.cosmetics)
         {
-            if (!kvp.Value.IsNull())//name.Length > 0)
+            if (!kvp.Value.IsNull())
             {
                 CosmeticItem item = info.currentSet.cosmetics[kvp.Key];
                 dict.Add(kvp.Key, InstantiateCosmetic(item));
             }
         }
         info.currentSet.cosmetics = dict;
+        FistModel = info.currentSet.cosmetics[CosmeticType.Fist].model;
     }
 
     public void NetworkDisplayCosmetics(List<String> CurrentSetNames)
     {
         int count = CurrentSetNames.Count;
         Dictionary<CosmeticType, CosmeticItem> dict = new Dictionary<CosmeticType, CosmeticItem>();
-        for (int i = 0; i < info.cosmetics.Count; i++)
-        {
+        for (int i = 0; i < ProgressionSystem.CharacterData(info).cosmetics.Count; i++)
+        {                      
             if (count < 1) break;
-            if (!CurrentSetNames.Contains(info.cosmetics[i].name)) continue;
+            if (!CurrentSetNames.Contains(ProgressionSystem.CharacterData(info).cosmetics[i].name)) continue;
 
-            CosmeticItem item = info.cosmetics[i];
-            dict.Add(info.cosmetics[i].type, InstantiateCosmetic(item));
+            CosmeticItem item = ProgressionSystem.CharacterData(info).cosmetics[i];
+            dict.Add(item.type, InstantiateCosmetic(item));
             count--;
         }
         info.currentSet.cosmetics = dict;
+        FistModel = info.currentSet.cosmetics[CosmeticType.Fist].model;
     }
     #endregion
 

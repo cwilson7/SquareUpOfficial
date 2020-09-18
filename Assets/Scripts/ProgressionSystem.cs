@@ -28,6 +28,18 @@ public class ProgressionSystem : MonoBehaviour
     {
         SaveData();
     }
+    
+    public void ReloadCosmetics()
+    {
+        List<GameObject> Characters = new List<GameObject>();
+        Utils.PopulateList<GameObject>(Characters, "PhotonPrefabs/CharacterAvatars");
+        foreach (GameObject _char in Characters)
+        {
+            AvatarCharacteristics AC = _char.GetComponent<AvatarCharacteristics>();
+            CharacterInfo info = AC.info;
+            info.cosmetics = AC.LoadCosmetics();
+        }
+    }
 
     void LoadData()
     {

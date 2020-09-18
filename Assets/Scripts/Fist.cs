@@ -16,7 +16,7 @@ public class Fist : DamageDealer
 
     float rotateSpeed = 500f;
     Quaternion desiredRotation;
-    Quaternion defaultRotation = Quaternion.Euler(90, 90, 90);
+    Quaternion defaultRotation; //= Quaternion.Euler(90, 90, 90);
     float defaultRotationRadius = 0.5f;
 
     public Transform Origin;
@@ -24,6 +24,14 @@ public class Fist : DamageDealer
     float followSpeed = 20f;
     float punchSpeed = 30f;
     public bool punching = false, returning = false, redirecting = false;
+
+    [Header("Cosmetic Information")]
+    public int[] materialIndexesToChange;
+
+    private void Start()
+    {
+        defaultRotation = Quaternion.Euler(-transform.localRotation.eulerAngles.x, 90, 90);
+    }
 
     private void FixedUpdate()
     {
@@ -78,6 +86,7 @@ public class Fist : DamageDealer
         if ((Origin.position - transform.position).magnitude < defaultRotationRadius) desiredRotation = defaultRotation;
         else desiredRotation = Quaternion.LookRotation(-(Origin.position - transform.position), Vector3.up);
 
+        //transform.localRotation = Quaternion.Euler(90, 0, 0);
         transform.rotation = Quaternion.RotateTowards(transform.rotation, desiredRotation, rotateSpeed * Time.deltaTime);
     }
 

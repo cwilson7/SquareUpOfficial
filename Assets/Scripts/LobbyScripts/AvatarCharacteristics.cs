@@ -12,7 +12,7 @@ public class AvatarCharacteristics : MonoBehaviour
     public CharacterInfo info;
     public int[] indexesOfMaterial;
     public VideoClip myDemo;
-    public GameObject FistModel;
+    public GameObject FistModel, defaultFist;
 
     [Header("Cosmetic Folder Information")]
     [Tooltip("Enter only the name of specified character's cosmetics folder")]
@@ -23,7 +23,7 @@ public class AvatarCharacteristics : MonoBehaviour
 
     public GameObject lFist, rFist;
 
-    private void OnEnable()
+    private void Awake()
     {
         info = ProgressionSystem.CharacterData(info);
         if (info.currentSet.cosmetics.ContainsKey(CosmeticType.Fist) && !info.currentSet.cosmetics[CosmeticType.Fist].IsNull())
@@ -116,8 +116,12 @@ public class AvatarCharacteristics : MonoBehaviour
 
     public void SetFistMaterial(GameObject fist, Color _color)
     {
-        if (info.currentSet.cosmetics.ContainsKey(CosmeticType.Fist) && !info.currentSet.cosmetics[CosmeticType.Fist].IsNull()) return;
-        fist.GetComponent<Renderer>().material.color = _color;
+        Fist script = fist.GetComponent<Fist>();
+        int[] indexes = script.materialIndexesToChange;
+        for (int i = 0; i < indexes.Length; i++)
+        {
+            fist.GetComponent<Renderer>().materials[i].color = _color;
+        }
     }
 
     public void UpdateMaterial(Color col)
@@ -241,11 +245,6 @@ public class CosmeticSet : ISerializationCallbackReceiver
     public CosmeticSet()
     {
         cosmetics = new Dictionary<CosmeticType, CosmeticItem>();
-        var types = Enum.GetValues(typeof(CosmeticType));
-        foreach (CosmeticType type in types)
-        {
-            cosmetics.Add(type, null);
-        }
     }
 
     public void UpdateSet(CosmeticItem item)

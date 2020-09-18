@@ -50,6 +50,7 @@ MonoBehaviour:
   punching: 0
   returning: 0
   redirecting: 0
+  materialIndexesToChange: 00000000
 --- !u!114 &4238333911267614576
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -69,6 +69,9 @@ public class ProgressionSystem : MonoBehaviour
             CharacterInfo info = AC.info;
             info.cosmetics = AC.LoadCosmetics();
             info.currentSet = new CosmeticSet();
+            GameObject defaultFist =  AC.defaultFist;
+            CosmeticItem defaultFistItem = new CosmeticItem(CosmeticType.Fist, defaultFist, Status.Unlocked);
+            info.currentSet.cosmetics.Add(CosmeticType.Fist, defaultFistItem);
             info.model = _char;
             //new CharacterInfo(_char.name, Status.Unlocked, AC.MyLevels, AC.LoadCosmetics(), new CosmeticSet());
             newGameList.Add(info);

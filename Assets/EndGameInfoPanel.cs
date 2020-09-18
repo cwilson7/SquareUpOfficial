@@ -44,10 +44,13 @@ public class EndGameInfoPanel : MonoBehaviour
     void DisplayActor(int actorNr, bool toDisplay)
     {
         GameObject avatar = GameInfo.GI.avatarClones[actorNr];
+        Material mat = LobbyController.lc.availableMaterials[(int)PhotonNetwork.CurrentRoom.GetPlayer(actorNr).CustomProperties["AssignedColor"]];
         avatar.transform.position = characterLocation.position;
         avatar.transform.rotation = Quaternion.Euler(0, 180, 0);
         AvatarCharacteristics AC = avatar.GetComponent<AvatarCharacteristics>();
         AC.SpawnDummyFists();
+        AC.SetFistMaterial(AC.lFist, mat.color);
+        AC.SetFistMaterial(AC.rFist, mat.color);
         AC.lFist.GetComponent<Rigidbody>().isKinematic = true;
         AC.rFist.GetComponent<Rigidbody>().isKinematic = true;
         avatar.SetActive(toDisplay);

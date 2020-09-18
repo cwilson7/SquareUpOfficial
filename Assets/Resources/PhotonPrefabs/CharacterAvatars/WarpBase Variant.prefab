@@ -113,6 +113,7 @@ MonoBehaviour:
   isDead: 0
   controllerInitialized: 0
   receivingImpact: 0
+  directionModifier: 0
   anim: {fileID: 0}
   audioHandler: {fileID: 0}
   audioKey: 
@@ -154,18 +155,21 @@ MonoBehaviour:
         type: 3}
       status: 1
       referencedObject: {fileID: 0}
+      referencedObjects: []
     - name: AngelToga
       type: 4
       model: {fileID: 5213074244002782373, guid: 3103b4d71a199194a9c0151998b9f65e,
         type: 3}
       status: 1
       referencedObject: {fileID: 0}
+      referencedObjects: []
     - name: AngelWings
       type: 4
       model: {fileID: 6725883125052964109, guid: d0b150acc7f076e4392cef8ce0b26f5e,
         type: 3}
       status: 1
       referencedObject: {fileID: 0}
+      referencedObjects: []
     currentSet:
       _keys: 0000000001000000020000000300000004000000
       currentCosmetics:
@@ -174,29 +178,36 @@ MonoBehaviour:
         model: {fileID: 0}
         status: 0
         referencedObject: {fileID: 0}
+        referencedObjects: []
       - name: 
         type: 0
         model: {fileID: 0}
         status: 0
         referencedObject: {fileID: 0}
+        referencedObjects: []
       - name: 
         type: 0
         model: {fileID: 0}
         status: 0
         referencedObject: {fileID: 0}
+        referencedObjects: []
       - name: 
         type: 0
         model: {fileID: 0}
         status: 0
         referencedObject: {fileID: 0}
+        referencedObjects: []
       - name: 
         type: 0
         model: {fileID: 0}
         status: 0
         referencedObject: {fileID: 0}
+        referencedObjects: []
   indexesOfMaterial: 00000000
   myDemo: {fileID: 0}
   FistModel: {fileID: 6097840955771674184, guid: 34eb7c2ff56ad05439ab642ae47b4d8d,
+    type: 3}
+  defaultFist: {fileID: 6097840955771674184, guid: 34eb7c2ff56ad05439ab642ae47b4d8d,
     type: 3}
   CosmeticFolder: Warp Cosmetics
   folders:
@@ -210,6 +221,8 @@ MonoBehaviour:
     cosmeticType: 1
   - FolderName: Fists
     cosmeticType: 3
+  lFist: {fileID: 0}
+  rFist: {fileID: 0}
 --- !u!114 &3914435026831084904
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -142,36 +142,42 @@ MonoBehaviour:
         type: 3}
       status: 1
       referencedObject: {fileID: 0}
+      referencedObjects: []
     - name: BoojeeBeret
       type: 0
       model: {fileID: 201607870484620616, guid: 6fdc2e57aac8c8948afd3bc981528b85,
         type: 3}
       status: 1
       referencedObject: {fileID: 0}
+      referencedObjects: []
     - name: Cone
       type: 0
       model: {fileID: 255246322289923611, guid: 7f74f683c78d7e74f9c819cef2bfb32a,
         type: 3}
       status: 1
       referencedObject: {fileID: 0}
+      referencedObjects: []
     - name: BoojeeRobe
       type: 4
       model: {fileID: 2146065128822165928, guid: 74ef8d512534e0340986ce8409469d34,
         type: 3}
       status: 1
       referencedObject: {fileID: 0}
+      referencedObjects: []
     - name: KarateGi
       type: 4
       model: {fileID: 8006068642567760550, guid: 4480c58b82bb5ee46a52afd010053f60,
         type: 3}
       status: 1
       referencedObject: {fileID: 0}
+      referencedObjects: []
     - name: SmugFace
       type: 1
       model: {fileID: 2596922402371847376, guid: d10d68cac1817014baf0c5096b327d4a,
         type: 3}
       status: 1
       referencedObject: {fileID: 0}
+      referencedObjects: []
     currentSet:
       _keys: 0000000001000000020000000300000004000000
       currentCosmetics:
@@ -180,29 +186,36 @@ MonoBehaviour:
         model: {fileID: 0}
         status: 0
         referencedObject: {fileID: 0}
+        referencedObjects: []
       - name: 
         type: 0
         model: {fileID: 0}
         status: 0
         referencedObject: {fileID: 0}
+        referencedObjects: []
       - name: 
         type: 0
         model: {fileID: 0}
         status: 0
         referencedObject: {fileID: 0}
+        referencedObjects: []
       - name: 
         type: 0
         model: {fileID: 0}
         status: 0
         referencedObject: {fileID: 0}
+        referencedObjects: []
       - name: 
         type: 0
         model: {fileID: 0}
         status: 0
         referencedObject: {fileID: 0}
+        referencedObjects: []
   indexesOfMaterial: 00000000
   myDemo: {fileID: 0}
   FistModel: {fileID: 238339316288021786, guid: d67de8c88fb4bfa48bca3354b1d9ef51,
+    type: 3}
+  defaultFist: {fileID: 238339316288021786, guid: d67de8c88fb4bfa48bca3354b1d9ef51,
     type: 3}
   CosmeticFolder: Sticky Cosmetics
   folders:
@@ -216,6 +229,8 @@ MonoBehaviour:
     cosmeticType: 1
   - FolderName: Fists
     cosmeticType: 3
+  lFist: {fileID: 0}
+  rFist: {fileID: 0}
 --- !u!114 &-1106899015010251549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -268,6 +283,7 @@ MonoBehaviour:
   isDead: 0
   controllerInitialized: 0
   receivingImpact: 0
+  directionModifier: 0
   anim: {fileID: 0}
   audioHandler: {fileID: 0}
   audioKey: 

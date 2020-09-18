@@ -50,6 +50,7 @@ MonoBehaviour:
   punching: 0
   returning: 0
   redirecting: 0
+  materialIndexesToChange: 00000000
 --- !u!1001 &8372790374827727225
 PrefabInstance:
   m_ObjectHideFlags: 0

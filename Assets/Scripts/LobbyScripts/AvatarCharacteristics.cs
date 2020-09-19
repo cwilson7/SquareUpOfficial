@@ -195,8 +195,7 @@ public class AvatarCharacteristics : MonoBehaviour
             item.referencedObjects = new GameObject[] { lFist, rFist };
             for (int i = 0; i < item.referencedObjects.Length; i++)
             {
-                item.referencedObjects[i].layer = LayerMask.NameToLayer(LayerMask.LayerToName(gameObject.layer));
-                item.referencedObjects[i].tag = gameObject.tag;
+                if (SceneManager.GetActiveScene() != SceneManager.GetSceneByBuildIndex(2)) item.referencedObjects[i].layer = LayerMask.NameToLayer(LayerMask.LayerToName(gameObject.layer));
             }
         }
     }

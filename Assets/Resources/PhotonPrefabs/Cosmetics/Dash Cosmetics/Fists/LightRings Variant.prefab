@@ -29,6 +29,20 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.022518994
   m_Center: {x: 0, y: 1.0551424e-16, z: 0.014849805}
+--- !u!114 &4045767826711359710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 509977039187853424}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3725af7c31873214282b20def543b7ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  value: 0
+  type: 0
 --- !u!114 &7619772234663231793
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -51,20 +65,6 @@ MonoBehaviour:
   returning: 0
   redirecting: 0
   materialIndexesToChange: 00000000
---- !u!114 &4045767826711359710
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 509977039187853424}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3725af7c31873214282b20def543b7ee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  value: 0
-  type: 0
 --- !u!1001 &8372790374827727225
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -136,6 +136,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: Fist
+      objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: 1fa9f54b903af5d4ebed00ef7f47d636,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1fa9f54b903af5d4ebed00ef7f47d636, type: 3}

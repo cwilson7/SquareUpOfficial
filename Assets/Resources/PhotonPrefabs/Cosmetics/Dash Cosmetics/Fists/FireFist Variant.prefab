@@ -137,6 +137,11 @@ PrefabInstance:
       propertyPath: m_TagString
       value: Fist
       objectReference: {fileID: 0}
+    - target: {fileID: -927199367670048503, guid: ab1c861cd4823244fbaaeef8c4296a6c,
+        type: 3}
+      propertyPath: m_Layer
+      value: 15
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ab1c861cd4823244fbaaeef8c4296a6c, type: 3}
 --- !u!1 &8604684202944260426 stripped

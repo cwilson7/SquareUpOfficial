@@ -11,12 +11,44 @@ public class BonerFist : MonoBehaviour
     public bool punching = false, returning = false, redirecting = false, following = true;
     public Vector3 mousePos;
     Rigidbody rb;
+    Vector3 savedDirection;
+    float defaultRotationRadius = 0.5f;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
         rb.useGravity = false;
         Origin = transform.parent;
+    }
+
+    void PunchHandler()
+    {
+        if (redirecting)
+        {
+            rb.velocity = (Origin.position - transform.position).normalized * punchSpeed * 1.5f;
+            rb.rotation = Quaternion.LookRotation(Origin.position - transform.position, Vector3.up);
+            if ((Origin.position - transform.position).magnitude < defaultRotationRadius)
+            {
+                redirecting = false;
+                punching = false;
+                Punch(savedDirection);
+            }
+        }
+        else
+        {
+            rb.rotation = Quaternion.LookRotation(-Origin.position + transform.position, Vector3.up);
+            if ((Origin.position - transform.position).magnitude > maxRadiusPunch) ReturnFist();
+            if (returning)
+            {
+                Vector3 direction = (Origin.position - transform.position).normalized;
+                rb.velocity = direction * punchSpeed;
+                if ((Origin.position - transform.position).magnitude < punchReturnRadius)
+                {
+                    punching = false;
+                    returning = false;
+                }
+            }
+        }
     }
 
     private void FixedUpdate()
@@ -64,19 +96,6 @@ public class BonerFist : MonoBehaviour
         rb.velocity = (Origin.position - transform.position) * followSpeed;
     }
 
-    void PunchHandler()
-    {
-        if ((Origin.position - transform.position).magnitude > maxRadiusPunch) ReturnFist();
-        if (returning)
-        {
-            ReturnFist();
-            if ((Origin.position - transform.position).magnitude < punchReturnRadius)
-            {
-                punching = false;
-                returning = false;
-            }
-        }
-    }
 
     void SendToOrigin()
     {
@@ -84,11 +103,21 @@ public class BonerFist : MonoBehaviour
         rb.velocity = vec.normalized * punchSpeed * 10;
     }
 
-    void Punch(Vector3 direction)
+    public void Punch(Vector3 aim)
     {
-        punching = true;
-        rb.velocity = direction * punchSpeed;
-        rb.rotation = Quaternion.LookRotation(-Origin.position + transform.position, Vector3.up);
+        if (!punching && (Origin.position - transform.position).magnitude > defaultRotationRadius)
+        {
+            savedDirection = aim;
+            redirecting = true;
+            punching = true;
+        }
+        else
+        {
+            punching = true;
+            //SetCollider(true);
+            rb.velocity = new Vector3(aim.x, aim.y, 0f).normalized * punchSpeed + transform.parent.parent.gameObject.GetComponent<Rigidbody>().velocity;
+            savedDirection = Vector3.zero;
+        }
     }
 
 
@@ -99,4 +128,9 @@ public class BonerFist : MonoBehaviour
         rb.velocity = direction * punchSpeed;
     }
 
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(Origin.position, defaultRotationRadius);
+    }
 }

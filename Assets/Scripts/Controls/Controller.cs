@@ -133,6 +133,7 @@ public abstract class Controller : MonoBehaviour
         if (CheckForTimeStop()) return;
         if (!PV.IsMine) return;
         Move(HandleInputs());
+        MouseCombat();
     }
     private void FixedUpdate()
     {
@@ -145,7 +146,7 @@ public abstract class Controller : MonoBehaviour
         if (!PV.IsMine) return;
         HandleDeaths();
         TrackMouse();
-        MouseCombat();
+        //MouseCombat();
     }
 
     private bool CheckForTimeStop()
@@ -197,6 +198,7 @@ public abstract class Controller : MonoBehaviour
         {
             if (currentWeapon == null)
             {
+                Debug.Log("L: "+LFist.punching+" R: " + RFist.punching);
                 if (LFist.punching && RFist.punching) return;
                 GameInfo.GI.StatChange(actorNr, Stat.punchesThrown);
                 PV.RPC("RPC_MeleeAttack", RpcTarget.AllBuffered, AimDirection, actorNr, FistToPunch());

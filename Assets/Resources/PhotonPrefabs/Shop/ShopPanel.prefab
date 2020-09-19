@@ -400,10 +400,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Character: {fileID: 0}
   charInfo:
+    model: {fileID: 0}
     characterName: 
     status: 0
     associatedLevels: []
     cosmetics: []
+    currentSet:
+      _keys: 
+      currentCosmetics: []
+    cost:
+      type: 0
   CosmeticPanel: {fileID: 5136867026702171087}
   header: {fileID: 4263060001814340292}
   MainShopPnl: {fileID: 5742826529234908990}
@@ -495,6 +501,7 @@ GameObject:
   - component: {fileID: 5294131909834411891}
   - component: {fileID: 5346136386594782767}
   - component: {fileID: 9148912367298066921}
+  - component: {fileID: 1037666610998077088}
   m_Layer: 5
   m_Name: CosmeticShop
   m_TagString: Untagged
@@ -612,6 +619,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1037666610998077088
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5167934495030451589}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 319842f504599824ba1eb7d150b9e7aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5742826529234908990
 GameObject:
   m_ObjectHideFlags: 0

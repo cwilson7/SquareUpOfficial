@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3587619385943614804}
   - component: {fileID: 6772112723259013467}
   - component: {fileID: 2700344940255111447}
+  - component: {fileID: 1928982621474864323}
   m_Layer: 5
   m_Name: CosmeticOption
   m_TagString: Untagged
@@ -129,6 +130,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b4f4cd0631c2fd8459d1f43b686d0823, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  option:
+    name: 
+    type: 0
+    model: {fileID: 0}
+    status: 0
+    referencedObject: {fileID: 0}
+    referencedObjects: []
+    cost:
+      type: 0
+  avatar: {fileID: 0}
+--- !u!114 &1928982621474864323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3603010876497383356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 319842f504599824ba1eb7d150b9e7aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4553533712334714814

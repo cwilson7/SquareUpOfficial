@@ -14,6 +14,7 @@ public class CurrencyText : MonoBehaviour
 
     private void Update()
     {
+        if (ProgressionSystem.playerData == null) return;
         text.text = "SQUARE BUCKS: " + ProgressionSystem.playerData.SquareBucks.ToString() + "CUBE COINS: " + ProgressionSystem.playerData.CubeCoins.ToString();
     }
 }

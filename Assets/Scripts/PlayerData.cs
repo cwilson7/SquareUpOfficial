@@ -7,7 +7,9 @@ using UnityEngine;
 [System.Serializable]
 public class PlayerData
 {
-    public int squareBucks, cubeCoins, wins, totalGames;
+    public int wins, totalGames;
+    public Currency coins, bucks;
+    public Currency[] wallet;
     public List<CharacterInfo> characters;
     public List<CustomEffect> availableEffects; 
 
@@ -15,22 +17,32 @@ public class PlayerData
     {
         get
         {
-            return squareBucks;
+            if (bucks == null)
+            {
+                bucks = new Currency(Money.SquareBucks, 69);
+                Debug.Log("bucks r null");
+            }
+            return bucks.Quantity;
         }
         set
         {
-            squareBucks = value;
+            bucks.Quantity = value;
         }
     }
     public int CubeCoins
     {
         get
         {
-            return cubeCoins;
+            if (coins == null)
+            {
+                coins = new Currency(Money.CubeCoins, 69);
+                Debug.Log("coins r null");
+            }
+            return coins.Quantity;
         }
         set
         {
-            cubeCoins = value;
+            coins.Quantity = value;
         }
     }
     public int Wins
@@ -80,8 +92,9 @@ public class PlayerData
 
     public PlayerData(int _squareBucks, int _cubeCoins, int _wins, int _totalGames, List<CharacterInfo> _characters, List<CustomEffect> _availableEffects)
     {
-        squareBucks = _squareBucks;
-        cubeCoins = _cubeCoins;
+        bucks = new Currency(Money.SquareBucks, _squareBucks);
+        coins = new Currency(Money.CubeCoins, _cubeCoins);
+        wallet = new Currency[2] { bucks, coins };
         wins = _wins;
         totalGames = _totalGames;
         characters = _characters;

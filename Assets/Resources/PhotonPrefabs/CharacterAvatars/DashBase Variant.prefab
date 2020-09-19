@@ -1,241 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!135 &-6668637549612567294
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8835155049265383332}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 1
-  m_Center: {x: 0, y: 0.9, z: 0}
---- !u!95 &-3748253662167214361
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8835155049265383332}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: db6021bfdab5302468a8057a0d83f76a, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &-5568859220960011982
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8835155049265383332}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a0f78a4e875f55949aa648d64c9e4ca7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  PaintExplosionSystem: {fileID: 0}
-  PV: {fileID: 0}
-  currentWeapon: {fileID: 0}
-  RFist: {fileID: 0}
-  LFist: {fileID: 0}
-  mmPlayer: {fileID: 0}
-  actorNr: 0
-  speed: 0
-  gravity: 0
-  jumpHeightMultiplier: 0
-  distanceFromGround: 0
-  maxJumps: 0
-  baseOfCharacter: {fileID: 0}
-  punchPower: 0
-  punchImpact: 0
-  respawnDelay: 0
-  boundaryDist: 0
-  impact: {x: 0, y: 0, z: 0}
-  jumpNum: 0
-  HP: 0
-  AimDirection: {x: 0, y: 0, z: 0}
-  hasGun: 0
-  isGrounded: 0
-  isDead: 0
-  controllerInitialized: 0
-  receivingImpact: 0
-  directionModifier: 0
-  anim: {fileID: 0}
-  audioHandler: {fileID: 0}
-  audioKey: 
---- !u!114 &639886661610140145
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8835155049265383332}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a7e57b96aec248469e80b8e7c9930ad, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  info:
-    model: {fileID: 8835155049265383332}
-    characterName: Dash
-    status: 1
-    associatedLevels: []
-    cosmetics:
-    - name: MyHeadIsOnFire
-      type: 0
-      model: {fileID: 8392562184136147667, guid: eb7a673d5f15c4b4c9fc2348d564f412,
-        type: 3}
-      status: 1
-      referencedObject: {fileID: 0}
-      referencedObjects: []
-    - name: SharkFins
-      type: 0
-      model: {fileID: 3769846604305492019, guid: 563842526c7258a49893820ec91580b3,
-        type: 3}
-      status: 1
-      referencedObject: {fileID: 0}
-      referencedObjects: []
-    - name: BusinessSuit
-      type: 4
-      model: {fileID: 3445200269110286013, guid: 76b7b57f98dc365409a6a0ca6962f5ca,
-        type: 3}
-      status: 1
-      referencedObject: {fileID: 0}
-      referencedObjects: []
-    - name: TestCloths
-      type: 4
-      model: {fileID: 3074656395015773973, guid: d8b22118856cb614b98fe3f3866d9254,
-        type: 3}
-      status: 1
-      referencedObject: {fileID: 0}
-      referencedObjects: []
-    currentSet:
-      _keys: 0000000001000000020000000300000004000000
-      currentCosmetics:
-      - name: 
-        type: 0
-        model: {fileID: 0}
-        status: 0
-        referencedObject: {fileID: 0}
-        referencedObjects: []
-      - name: 
-        type: 0
-        model: {fileID: 0}
-        status: 0
-        referencedObject: {fileID: 0}
-        referencedObjects: []
-      - name: 
-        type: 0
-        model: {fileID: 0}
-        status: 0
-        referencedObject: {fileID: 0}
-        referencedObjects: []
-      - name: 
-        type: 0
-        model: {fileID: 0}
-        status: 0
-        referencedObject: {fileID: 0}
-        referencedObjects: []
-      - name: 
-        type: 0
-        model: {fileID: 0}
-        status: 0
-        referencedObject: {fileID: 0}
-        referencedObjects: []
-  indexesOfMaterial: 00000000
-  myDemo: {fileID: 0}
-  FistModel: {fileID: 3963649284627691831, guid: bba84b9b21003c94aaaeb74ddf760490,
-    type: 3}
-  defaultFist: {fileID: 3963649284627691831, guid: bba84b9b21003c94aaaeb74ddf760490,
-    type: 3}
-  CosmeticFolder: Dash Cosmetics
-  folders:
-  - FolderName: Head
-    cosmeticType: 0
-  - FolderName: Face
-    cosmeticType: 1
-  - FolderName: Acc
-    cosmeticType: 2
-  - FolderName: Body
-    cosmeticType: 4
-  - FolderName: Fists
-    cosmeticType: 3
-  lFist: {fileID: 0}
-  rFist: {fileID: 0}
---- !u!114 &1927447388459995943
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8835155049265383332}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adda4de3cc16c684caec654867af9b21, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  meleeSlow: 0
-  ads: {fileID: 0}
---- !u!114 &2811872332459927924
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8835155049265383332}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a045a602d3d3cdb4abcf6435b8489249, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &6442154804037983003
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8389566269211822952}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5e96e0cbcd0dcda4d91c58003f310077, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!65 &1849062981957739641
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5657216227765131053}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 0.100555494, y: 0.061486278, z: 0.10473547}
-  m_Center: {x: 0.022767372, y: -0.0000000403135, z: -0.047744635}
---- !u!114 &9172335345042078214
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5657216227765131053}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abd1a677fe3c75744a6ec1ad8f9d27ce, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1136021904700459812
 GameObject:
   m_ObjectHideFlags: 0
@@ -264,7 +28,7 @@ Transform:
   m_LocalPosition: {x: -1.4, y: 2.2, z: -0.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 5532565953610560951}
+  m_Father: {fileID: 701765094022385346}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2501418536052114044
@@ -307,7 +71,7 @@ Transform:
   m_LocalPosition: {x: -0.08201742, y: 2.32, z: -0.07475066}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 5532565953610560951}
+  m_Father: {fileID: 701765094022385346}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &475853223147056237
@@ -320,6 +84,31 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3bbd2a24996479143bcb00362596fce9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!65 &1849062981957739641
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701765094022386342}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.100555494, y: 0.061486278, z: 0.10473547}
+  m_Center: {x: 0.022767372, y: -0.0000000403135, z: -0.047744635}
+--- !u!114 &9172335345042078214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701765094022386342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abd1a677fe3c75744a6ec1ad8f9d27ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7052495909792535432
@@ -350,7 +139,7 @@ Transform:
   m_LocalPosition: {x: 1.4, y: 2.2, z: -0.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 5532565953610560951}
+  m_Father: {fileID: 701765094022385346}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8793021875630119628
@@ -365,6 +154,305 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 372d8d3f65b724146b8447e2f8674b99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6442154804037983003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701765094022386064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e96e0cbcd0dcda4d91c58003f310077, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!135 &-6668637549612567294
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701765094022387737}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 1
+  m_Center: {x: 0, y: 0.9, z: 0}
+--- !u!95 &-3748253662167214361
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701765094022387737}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: db6021bfdab5302468a8057a0d83f76a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &-5568859220960011982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701765094022387737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0f78a4e875f55949aa648d64c9e4ca7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  PaintExplosionSystem: {fileID: 0}
+  PV: {fileID: 0}
+  currentWeapon: {fileID: 0}
+  RFist: {fileID: 0}
+  LFist: {fileID: 0}
+  mmPlayer: {fileID: 0}
+  actorNr: 0
+  speed: 0
+  gravity: 0
+  jumpHeightMultiplier: 0
+  distanceFromGround: 0
+  maxJumps: 0
+  baseOfCharacter: {fileID: 0}
+  punchPower: 0
+  punchImpact: 0
+  respawnDelay: 0
+  boundaryDist: 0
+  impact: {x: 0, y: 0, z: 0}
+  jumpNum: 0
+  HP: 0
+  AimDirection: {x: 0, y: 0, z: 0}
+  hasGun: 0
+  isGrounded: 0
+  isDead: 0
+  controllerInitialized: 0
+  receivingImpact: 0
+  directionModifier: 0
+  anim: {fileID: 0}
+  audioHandler: {fileID: 0}
+  audioKey: 
+--- !u!114 &639886661610140145
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701765094022387737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a7e57b96aec248469e80b8e7c9930ad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  info:
+    model: {fileID: 701765094022387737}
+    characterName: Dash
+    status: 1
+    associatedLevels: []
+    cosmetics:
+    - name: MyHeadIsOnFire
+      type: 0
+      model: {fileID: 8392562184136147667, guid: eb7a673d5f15c4b4c9fc2348d564f412,
+        type: 3}
+      status: 1
+      referencedObject: {fileID: 0}
+      referencedObjects: []
+      cost:
+        type: 0
+    - name: SharkFins
+      type: 0
+      model: {fileID: 3769846604305492019, guid: 563842526c7258a49893820ec91580b3,
+        type: 3}
+      status: 1
+      referencedObject: {fileID: 0}
+      referencedObjects: []
+      cost:
+        type: 0
+    - name: TopHat
+      type: 0
+      model: {fileID: 6871079218978383366, guid: 96d354695988d584bb5faff457a488b8,
+        type: 3}
+      status: 1
+      referencedObject: {fileID: 0}
+      referencedObjects: []
+      cost:
+        type: 0
+    - name: Gold Chain
+      type: 2
+      model: {fileID: 2652371730374850446, guid: 3e03bd53c54eada45859dbe0b0249cd4,
+        type: 3}
+      status: 1
+      referencedObject: {fileID: 0}
+      referencedObjects: []
+      cost:
+        type: 1
+    - name: Spikes
+      type: 2
+      model: {fileID: 6606140486111453282, guid: 8c9b752d1220d6f4ca88c2ea4226298a,
+        type: 3}
+      status: 1
+      referencedObject: {fileID: 0}
+      referencedObjects: []
+      cost:
+        type: 0
+    - name: BusinessSuit
+      type: 4
+      model: {fileID: 3445200269110286013, guid: 76b7b57f98dc365409a6a0ca6962f5ca,
+        type: 3}
+      status: 1
+      referencedObject: {fileID: 0}
+      referencedObjects: []
+      cost:
+        type: 0
+    - name: Chop Sticks
+      type: 4
+      model: {fileID: 5625651342343663926, guid: 7865626869a7db147bd3c1ebdf0b7a46,
+        type: 3}
+      status: 1
+      referencedObject: {fileID: 0}
+      referencedObjects: []
+      cost:
+        type: 0
+    - name: DashBaseFist
+      type: 3
+      model: {fileID: 3963649284627691831, guid: bba84b9b21003c94aaaeb74ddf760490,
+        type: 3}
+      status: 1
+      referencedObject: {fileID: 0}
+      referencedObjects: []
+      cost:
+        type: 0
+    - name: FireFist Variant
+      type: 3
+      model: {fileID: 8604684202944260426, guid: 9b0023682822f464aac825e8c6f34e13,
+        type: 3}
+      status: 1
+      referencedObject: {fileID: 0}
+      referencedObjects: []
+      cost:
+        type: 0
+    - name: LightRings Variant
+      type: 3
+      model: {fileID: 509977039187853424, guid: 6954e9bdb88a73c40b4beb343ea6a100,
+        type: 3}
+      status: 1
+      referencedObject: {fileID: 0}
+      referencedObjects: []
+      cost:
+        type: 0
+    currentSet:
+      _keys: 0000000001000000020000000300000004000000
+      currentCosmetics:
+      - name: 
+        type: 0
+        model: {fileID: 0}
+        status: 0
+        referencedObject: {fileID: 0}
+        referencedObjects: []
+        cost:
+          type: 0
+      - name: 
+        type: 0
+        model: {fileID: 0}
+        status: 0
+        referencedObject: {fileID: 0}
+        referencedObjects: []
+        cost:
+          type: 0
+      - name: 
+        type: 0
+        model: {fileID: 0}
+        status: 0
+        referencedObject: {fileID: 0}
+        referencedObjects: []
+        cost:
+          type: 0
+      - name: 
+        type: 0
+        model: {fileID: 0}
+        status: 0
+        referencedObject: {fileID: 0}
+        referencedObjects: []
+        cost:
+          type: 0
+      - name: 
+        type: 0
+        model: {fileID: 0}
+        status: 0
+        referencedObject: {fileID: 0}
+        referencedObjects: []
+        cost:
+          type: 0
+    cost:
+      type: 0
+  indexesOfMaterial: 00000000
+  myDemo: {fileID: 0}
+  FistModel: {fileID: 3963649284627691831, guid: bba84b9b21003c94aaaeb74ddf760490,
+    type: 3}
+  defaultFist: {fileID: 3963649284627691831, guid: bba84b9b21003c94aaaeb74ddf760490,
+    type: 3}
+  CosmeticFolder: Dash Cosmetics
+  folders:
+  - FolderName: Head
+    cosmeticType: 0
+  - FolderName: Face
+    cosmeticType: 1
+  - FolderName: Acc
+    cosmeticType: 2
+  - FolderName: Body
+    cosmeticType: 4
+  - FolderName: Fists
+    cosmeticType: 3
+  lFist: {fileID: 0}
+  rFist: {fileID: 0}
+--- !u!114 &1927447388459995943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701765094022387737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adda4de3cc16c684caec654867af9b21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meleeSlow: 0
+  ads: {fileID: 0}
+--- !u!114 &2811872332459927924
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701765094022387737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a045a602d3d3cdb4abcf6435b8489249, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5737281911802527704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 701765094022387737}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3725af7c31873214282b20def543b7ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  value: 0
+  type: 0
 --- !u!1001 &701765094022389421
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -494,25 +582,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a688ae724dae834799c5466874c8ed2, type: 3}
---- !u!1 &8835155049265383332 stripped
+--- !u!1 &701765094022387737 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: 6a688ae724dae834799c5466874c8ed2,
     type: 3}
   m_PrefabInstance: {fileID: 701765094022389421}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &5532565953610560951 stripped
+--- !u!4 &701765094022385346 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: 6a688ae724dae834799c5466874c8ed2,
     type: 3}
   m_PrefabInstance: {fileID: 701765094022389421}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &8389566269211822952 stripped
+--- !u!1 &701765094022386064 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9065906238872704453, guid: 6a688ae724dae834799c5466874c8ed2,
     type: 3}
   m_PrefabInstance: {fileID: 701765094022389421}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &5657216227765131053 stripped
+--- !u!1 &701765094022386342 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5133913965574556032, guid: 6a688ae724dae834799c5466874c8ed2,
     type: 3}

@@ -63,6 +63,20 @@ MonoBehaviour:
   returning: 0
   redirecting: 0
   materialIndexesToChange: 00000000
+--- !u!114 &1119878754500957329
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6097840955771674184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3725af7c31873214282b20def543b7ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  value: 0
+  type: 0
 --- !u!1001 &2863743029470431041
 PrefabInstance:
   m_ObjectHideFlags: 0

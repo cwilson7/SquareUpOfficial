@@ -55,19 +55,9 @@ public class AvatarSetup : MonoBehaviour
             {
                 AC.info = ProgressionSystem.CharacterData(AC.info); //set my character data to my player data
                 AC.DisplayAllCosmetics(); //display my cosmetics on my character
-                Debug.Log("i am actor : " + actorNumber + "\n assigning cosmetics locally for myself");
-                foreach (string name in AC.info.currentSet.NamesOfCosmetics())
-                {
-                    Debug.Log(name);
-                }
             }
             else AC.NetworkDisplayCosmetics(cosmeticNames.ToList()); //if this is setting up someone elses character on my game
             //display the cosmetics on this character that are sent to me (cosmeticNames)
-            Debug.Log("I am actor : " + PhotonNetwork.LocalPlayer.ActorNumber + "\n assigning cosmetics locally for actor : " + actorNumber);
-            foreach (string name in cosmeticNames)
-            {
-                Debug.Log(name);
-            }
 
             AddPlayerController(avatarSkin);
             MultiplayerSettings.multiplayerSettings.SetCustomPlayerProperties("CharacterSpawned", true);

@@ -86,7 +86,8 @@ public class AvatarCharacteristics : MonoBehaviour
             foreach (GameObject model in models)
             {
                 //eventually change status to Locked
-                ReturnList.Add(new CosmeticItem(folders[i].cosmeticType, model, Status.Unlocked));
+                CosmeticData money = model.GetComponent<CosmeticData>();
+                ReturnList.Add(new CosmeticItem(folders[i].cosmeticType, model, Status.Locked, money.type, money.value));
             }
         } 
         

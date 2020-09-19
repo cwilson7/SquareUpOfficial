@@ -12,13 +12,15 @@ public class CosmeticItem
     public Status status;
     public GameObject referencedObject;
     public GameObject[] referencedObjects;
+    public Currency cost;
 
-    public CosmeticItem(CosmeticType _type, GameObject _model, Status _status)
+    public CosmeticItem(CosmeticType _type, GameObject _model, Status _status, Money currencyType, int value)
     {
         name = _model.name;
         type = _type;
         model = _model;
         status = _status;
+        cost = new Currency(currencyType, value);
     }
 
     public bool IsNull()

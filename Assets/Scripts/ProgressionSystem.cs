@@ -21,12 +21,12 @@ public class ProgressionSystem : MonoBehaviour
         Debug.Log("saving game.");
         //SaveState.SaveInformation(playerData);
         string dataString = JsonUtility.ToJson(playerData);
-        PlayerPrefs.SetString("GameData", dataString);
+        PlayerPrefs.SetString("Chase", dataString);
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
     {
-        SaveData();
+        //SaveData();
     }
     
     public void ReloadCosmetics()
@@ -43,7 +43,7 @@ public class ProgressionSystem : MonoBehaviour
 
     void LoadData()
     {
-        if (!PlayerPrefs.HasKey("GameData"))
+        if (!PlayerPrefs.HasKey("Chase"))
         {
             Debug.Log("setting up new game");
             playerData = new PlayerData(500, 5, 0, 0, NewCharacterInfoList(), new List<CustomEffect>());
@@ -53,7 +53,7 @@ public class ProgressionSystem : MonoBehaviour
         else
         {
             Debug.Log("loading previous save");
-            string dataString = PlayerPrefs.GetString("GameData");
+            string dataString = PlayerPrefs.GetString("Chase");
             playerData = JsonUtility.FromJson<PlayerData>(dataString);
         }
 
@@ -82,7 +82,8 @@ public class ProgressionSystem : MonoBehaviour
             info.cosmetics = AC.LoadCosmetics();
             info.currentSet = new CosmeticSet();
             GameObject defaultFist =  AC.defaultFist;
-            CosmeticItem defaultFistItem = new CosmeticItem(CosmeticType.Fist, defaultFist, Status.Unlocked);
+            CosmeticData money = defaultFist.GetComponent<CosmeticData>();
+            CosmeticItem defaultFistItem = new CosmeticItem(CosmeticType.Fist, defaultFist, Status.Unlocked, money.type, money.value);
             info.currentSet.cosmetics.Add(CosmeticType.Fist, defaultFistItem);
             info.model = _char;
             //new CharacterInfo(_char.name, Status.Unlocked, AC.MyLevels, AC.LoadCosmetics(), new CosmeticSet());
@@ -120,6 +121,7 @@ public class CharacterInfo
     public List<Level> associatedLevels;
     public List<CosmeticItem> cosmetics;
     public CosmeticSet currentSet;
+    public Currency cost;
 
     public CharacterInfo(string _name, Status _status, List<Level> _associatedLevels, List<CosmeticItem> _cosmetics, CosmeticSet set)
     {
@@ -128,6 +130,9 @@ public class CharacterInfo
         associatedLevels = _associatedLevels;
         cosmetics = _cosmetics;
         currentSet = set;
+        CosmeticData money = model.GetComponent<CosmeticData>();
+        cost.type = money.type;
+        cost.Quantity = money.value;
     }
 }
 

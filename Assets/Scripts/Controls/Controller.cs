@@ -198,7 +198,6 @@ public abstract class Controller : MonoBehaviour
         {
             if (currentWeapon == null)
             {
-                Debug.Log("L: "+LFist.punching+" R: " + RFist.punching);
                 if (LFist.punching && RFist.punching) return;
                 GameInfo.GI.StatChange(actorNr, Stat.punchesThrown);
                 PV.RPC("RPC_MeleeAttack", RpcTarget.AllBuffered, AimDirection, actorNr, FistToPunch());

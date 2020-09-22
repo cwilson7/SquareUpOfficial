@@ -15,7 +15,17 @@ public class AudioManager : MonoBehaviour
 
     private void Awake()
     {
-        AudioManager.AM = this;
+        if (AudioManager.AM == null)
+        {
+            AudioManager.AM = this;
+        }
+        else
+        {
+            if (AudioManager.AM != this)
+            {
+                Destroy(this.gameObject);
+            }
+        }
         DontDestroyOnLoad(this.gameObject);
     }
 
@@ -37,32 +47,22 @@ public class AudioManager : MonoBehaviour
         
         switch(scene.buildIndex)
         {
-            //main scene
-            case 0 :
-                //if we are already playing the theme, return.
-                //problem is this gets deleted or something
+            //game scene
+            case 0:
                 if (lastBuildIndex != 0)
                 {
                     SwitchTrack(mainTheme);
                     lastBuildIndex = 0;
                 }
                 break;
-
-            //lobby scene
-            case 1 :
-                
-                break;
-
-            //game scene
             case 2:
-                if (AudioManager.AM != this) return;
+                lastBuildIndex = 2;
                 StartCoroutine(WaitForCube());
                 if (Cube.cb == null) return;
                 Level level = Cube.cb.CurrentFace;
                 if (level == null) return;
                 SwitchTrack(level.theme);
-                lastBuildIndex = 2;
-                    break;
+                break;
         }
     }
 
@@ -80,7 +80,4 @@ public class AudioManager : MonoBehaviour
         currentTheme.clip = track;
         currentTheme.Play();
     }
-
-   // private String
-
 }

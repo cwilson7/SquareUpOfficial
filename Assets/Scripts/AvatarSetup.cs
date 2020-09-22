@@ -27,11 +27,6 @@ public class AvatarSetup : MonoBehaviour
         if (PV.IsMine) 
         {
             CharacterInfo myCharInfo = ProgressionSystem.CharacterData(LobbyController.lc.charAvatars[(int)PhotonNetwork.LocalPlayer.CustomProperties["SelectedCharacter"]].GetComponent<AvatarCharacteristics>().info);
-            Debug.Log("Sending out data as actor : " + PhotonNetwork.LocalPlayer.ActorNumber);
-            foreach (string name in myCharInfo.currentSet.NamesOfCosmetics())
-            {
-                Debug.Log(name);
-            }
             PV.RPC("InitializeCharacter_RPC", RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer.ActorNumber, myCharInfo.currentSet.NamesOfCosmetics().ToArray());
         }
     }

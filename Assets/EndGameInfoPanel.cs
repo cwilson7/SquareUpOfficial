@@ -8,9 +8,13 @@ using TMPro;
 
 public class EndGameInfoPanel : MonoBehaviour
 {
+    int cashPrize = 25;
+    
     [SerializeField] GameObject playerList, playerInfoPanel;
     GameObject infoPrefab, infoBtnPrefab;
     Dictionary<GameObject, GameObject> buttonPairs;
+
+    bool playerRewarded = false;
 
     public Transform characterLocation;
 
@@ -40,6 +44,21 @@ public class EndGameInfoPanel : MonoBehaviour
             btn.GetComponentInChildren<TMP_Text>().text = kvp.Value.NickName;
 
             buttonPairs.Add(btn, pnl);
+        }
+        if (!playerRewarded)
+        {
+            if (bestActor == PhotonNetwork.LocalPlayer.ActorNumber)
+            {
+                ProgressionSystem.playerData.Wins += 1;
+                PlayerRewards.AddCurrency(ProgressionSystem.playerData, Money.SquareBucks, cashPrize * 2);
+            }
+            else
+            {
+                PlayerRewards.AddCurrency(ProgressionSystem.playerData, Money.SquareBucks, cashPrize);
+            }
+            ProgressionSystem.playerData.totalGames += 1;
+            ProgressionSystem.SaveData();
+            playerRewarded = true;
         }
     }
 

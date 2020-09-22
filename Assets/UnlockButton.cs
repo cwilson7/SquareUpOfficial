@@ -31,7 +31,6 @@ public class UnlockButton : MonoBehaviour
     public void UnlockCharacter()
     {
         List<CharacterInfo> newInfos = new List<CharacterInfo>();
-        List<Currency> newWallet = new List<Currency>();
 
         AvatarCharacteristics AC = GetComponentInParent<ShopPanel>().Character.GetComponent<AvatarCharacteristics>();
         CharacterInfo info = ProgressionSystem.CharacterData(AC.info);
@@ -42,7 +41,7 @@ public class UnlockButton : MonoBehaviour
             {
                 if (currency.Quantity >= info.cost.Quantity)
                 {
-                    currency.Quantity -= info.cost.Quantity;
+                    PlayerRewards.AddCurrency(ProgressionSystem.playerData, info.cost.type, -info.cost.Quantity);
                     info.status = Status.Unlocked;
                     GetComponentInChildren<TMP_Text>().text = info.characterName;
                 }
@@ -52,7 +51,6 @@ public class UnlockButton : MonoBehaviour
                     return;
                 }
             }
-            newWallet.Add(currency);
         }
 
         foreach (CharacterInfo ci in ProgressionSystem.playerData.Characters)
@@ -64,7 +62,6 @@ public class UnlockButton : MonoBehaviour
             else newInfos.Add(ci);
         }
 
-        ProgressionSystem.playerData.wallet = newWallet.ToArray();
         ProgressionSystem.playerData.Characters = newInfos;
         ProgressionSystem.SaveData();
     }
@@ -76,13 +73,10 @@ public class UnlockButton : MonoBehaviour
         CosmeticItem desiredItem = option.option;
 
         List<CharacterInfo> newInfos = new List<CharacterInfo>();
-        List<Currency> newWallet = new List<Currency>();
 
         CharacterInfo info = ProgressionSystem.CharacterData(AC.info);
         List<CosmeticItem> newItems = new List<CosmeticItem>();
         List<CosmeticItem> allItems = info.cosmetics;
-
-        Currency[] bigpp = { new Currency(Money.SquareBucks, 500), new Currency(Money.CubeCoins, 50) };
 
         foreach (CosmeticItem item in allItems)
         {
@@ -94,7 +88,7 @@ public class UnlockButton : MonoBehaviour
                     {
                         if (currency.Quantity >= item.cost.Quantity)
                         {
-                            currency.Quantity -= item.cost.Quantity;
+                            PlayerRewards.AddCurrency(ProgressionSystem.playerData, info.cost.type, -info.cost.Quantity);
                             item.status = Status.Unlocked;
                             GetComponentInChildren<TMP_Text>().text = item.name;
                         }
@@ -103,7 +97,6 @@ public class UnlockButton : MonoBehaviour
                             Debug.Log("Not enough cash bruh");
                         }                        
                     }
-                    newWallet.Add(currency);
                 }
             }
             newItems.Add(item);
@@ -120,7 +113,6 @@ public class UnlockButton : MonoBehaviour
             else newInfos.Add(ci);
         }
 
-        ProgressionSystem.playerData.wallet = newWallet.ToArray();
         ProgressionSystem.playerData.Characters = newInfos;
         ProgressionSystem.SaveData();
     }

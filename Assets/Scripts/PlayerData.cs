@@ -90,6 +90,14 @@ public class PlayerData
         }
     }
 
+    public void UpdateWallet(Money type, int amount)
+    {
+        if (type == Money.SquareBucks) SquareBucks += amount;
+        else if (type == Money.CubeCoins) CubeCoins += amount;
+
+        wallet = new Currency[2]{ new Currency(Money.SquareBucks, SquareBucks), new Currency(Money.CubeCoins, CubeCoins) };
+    }
+
     public PlayerData(int _squareBucks, int _cubeCoins, int _wins, int _totalGames, List<CharacterInfo> _characters, List<CustomEffect> _availableEffects)
     {
         bucks = new Currency(Money.SquareBucks, _squareBucks);

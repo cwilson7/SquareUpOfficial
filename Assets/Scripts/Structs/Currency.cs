@@ -6,7 +6,7 @@ using UnityEngine;
 public class Currency 
 {
     public Money type;
-    int quantity;
+    public int quantity;
 
     public Currency(Money _type, int _quantity)
     {

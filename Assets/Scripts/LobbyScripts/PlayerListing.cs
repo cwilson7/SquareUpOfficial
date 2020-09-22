@@ -19,11 +19,14 @@ public class PlayerListing : MonoBehaviour
         if ((bool)p.CustomProperties["PlayerReady"])
         {
             if (showColor) playerLabel.color = LobbyController.lc.availableMaterials[(int)p.CustomProperties["AssignedColor"]].color;
+            Debug.Log("character index selected: " + (int)p.CustomProperties["SelectedCharacter"]);
+            Debug.Log("length of charAvatars: " + LobbyController.lc.charAvatars.Count);
             playerLabel.text += " - " + LobbyController.lc.charAvatars[(int)p.CustomProperties["SelectedCharacter"]].GetComponent<AvatarCharacteristics>().info.characterName;
         }
         else
         {
-            MultiplayerSettings.multiplayerSettings.SetCustomPlayerProperties("SelectedCharacter", -1);
+            //MultiplayerSettings.multiplayerSettings.SetCustomPlayerProperties("SelectedCharacter", -1);
+            Debug.Log("setting shit to -1");
         }
     }
 

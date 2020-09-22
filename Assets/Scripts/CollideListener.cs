@@ -52,26 +52,8 @@ public class CollideListener : MonoBehaviour
             blood.transform.rotation = Quaternion.FromToRotation(Vector3.up, p.normal);
             float scaleFactor = Random.Range(0.15f, 0.5f);
             blood.transform.localScale.Scale(new Vector3(scaleFactor, 1, scaleFactor));
-            bool offEdge = false;
-            foreach (Transform t in blood.transform)
-            {
-                if (!Physics.CheckSphere(t.position, 0.05f, cubeMask) && !Physics.CheckSphere(t.position, 0.05f, groundMask))
-                {
-                    offEdge = true;
-                }
-            }
             
             blood.SetActive(true);
-            /*
-            if (offEdge)
-            {
-                Destroy(blood);
-            } 
-            else
-            {
-                blood.SetActive(true);
-            }
-            */
 
         }
     }

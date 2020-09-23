@@ -42,17 +42,19 @@ public class CollideListener : MonoBehaviour
             //vector math
             GameObject bloodObj = bloodObjs[Random.Range(0, bloodObjs.Count)];
             GameObject blood = Instantiate(bloodObj, CubeTransform.position, Quaternion.identity);
-            if (!testing) blood.transform.SetParent(Cube.cb.gameObject.GetComponentInChildren<PaintObjects>().gameObject.transform);
-            foreach (MeshRenderer b in blood.GetComponentsInChildren<MeshRenderer>()) {
-                b.sharedMaterial = mat;
-            }
+            blood.GetComponent<SpriteRenderer>().color = mat.color;
+            //foreach (MeshRenderer b in blood.GetComponentsInChildren<MeshRenderer>()) {
+            //    b.sharedMaterial = mat;
+            //}
 
             blood.transform.position = p.intersection;
             blood.transform.Rotate(Vector3.up, Random.Range(0, 360));
-            blood.transform.rotation = Quaternion.FromToRotation(Vector3.up, p.normal);
+            //Vector3 toDirection = new Vector3(p.normal.x + 90, p.normal.y, p.normal.z);
+            blood.transform.rotation = Quaternion.FromToRotation(Vector3.up, /*toDirection)*/p.normal);
             float scaleFactor = Random.Range(0.15f, 0.5f);
             blood.transform.localScale.Scale(new Vector3(scaleFactor, 1, scaleFactor));
-            
+            blood.transform.SetParent(Cube.cb.gameObject.GetComponentInChildren<PaintObjects>().gameObject.transform);
+
             blood.SetActive(true);
 
         }

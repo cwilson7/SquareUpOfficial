@@ -48,14 +48,20 @@ public class CollideListener : MonoBehaviour
             //}
 
             blood.transform.position = p.intersection;
+            if (blood.transform.position == Vector3.zero)
+            {
+                Destroy(blood);
+                return;
+            }
+            blood.SetActive(true);
+            blood.GetComponent<PaintInfo>().SetRotation(Quaternion.FromToRotation(Vector3.up, p.normal).eulerAngles);
             blood.transform.Rotate(Vector3.up, Random.Range(0, 360));
             //Vector3 toDirection = new Vector3(p.normal.x + 90, p.normal.y, p.normal.z);
-            blood.transform.rotation = Quaternion.FromToRotation(Vector3.up, /*toDirection)*/p.normal);
+            //blood.transform.rotation = Quaternion.FromToRotation(Vector3.up, /*toDirection)*/p.normal);
             float scaleFactor = Random.Range(0.15f, 0.5f);
             blood.transform.localScale.Scale(new Vector3(scaleFactor, 1, scaleFactor));
             blood.transform.SetParent(Cube.cb.gameObject.GetComponentInChildren<PaintObjects>().gameObject.transform);
 
-            blood.SetActive(true);
 
         }
     }

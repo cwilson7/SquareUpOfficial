@@ -21,7 +21,7 @@ public class ProgressionSystem : MonoBehaviour
         Debug.Log("saving game.");
         //SaveState.SaveInformation(playerData);
         string dataString = JsonUtility.ToJson(playerData);
-        PlayerPrefs.SetString("GameData", dataString);
+        PlayerPrefs.SetString("pee", dataString);
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
@@ -43,17 +43,17 @@ public class ProgressionSystem : MonoBehaviour
 
     void LoadData()
     {
-        if (!PlayerPrefs.HasKey("GameData"))
+        if (!PlayerPrefs.HasKey("pee"))
         {
             Debug.Log("setting up new game");
             playerData = new PlayerData(500, 5, 0, 0, NewCharacterInfoList(), new List<CustomEffect>());
             string dataString = JsonUtility.ToJson(playerData);
-            PlayerPrefs.SetString("GameData", dataString);
+            PlayerPrefs.SetString("pee", dataString);
         }
         else
         {
             Debug.Log("loading previous save");
-            string dataString = PlayerPrefs.GetString("GameData");
+            string dataString = PlayerPrefs.GetString("pee");
             playerData = JsonUtility.FromJson<PlayerData>(dataString);
         }
 

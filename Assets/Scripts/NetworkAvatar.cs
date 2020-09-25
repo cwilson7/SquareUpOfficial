@@ -17,6 +17,7 @@ public class NetworkAvatar : MonoBehaviourPun, IPunObservable
     private PhotonView PV;
 
     bool netRunning, netHasGun;
+    public Vector3 netAim;
 
     public void Awake()
     {
@@ -42,13 +43,14 @@ public class NetworkAvatar : MonoBehaviourPun, IPunObservable
 
     public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
     {
+        if (m_controller == null) return;
         if (stream.IsWriting)
         {
-
+            if (m_controller.currentWeapon != null) stream.SendNext(m_controller.currentWeapon.networkedRotation);
         }
         else
         {
-
+            if (m_controller.currentWeapon != null) netAim = (Vector3)stream.ReceiveNext();
         }
     }
 

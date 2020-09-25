@@ -16,6 +16,8 @@ public class Weapon : MonoBehaviour
     public GameObject projectile;
     public Transform FiringPoint, GunPivot, GunLocation;
 
+    public Vector3 networkedRotation;
+
     private void Start()
     {
         GameObject parentAvatar = Utils.FindParentWithClass<Controller>(transform).gameObject;
@@ -29,8 +31,20 @@ public class Weapon : MonoBehaviour
     private void FixedUpdate()
     {
         if (fireCooldown >= 0) fireCooldown -= Time.deltaTime;
-        if (PV.IsMine) TrackMousePosition();//ParentController.AimDirection, ParentController.directionModifier == 1, false);
+        if (PV.IsMine) TrackMousePosition();
+        else NetworkTracking();
+        //ParentController.AimDirection, ParentController.directionModifier == 1, false);
         //else TrackMousePosition(AS.aim, AS.directionModifier == 1, true);
+    }
+
+    private void NetworkTracking()
+    {
+        //recieve info from controller and set 
+        networkedRotation = ParentController.GetComponent<NetworkAvatar>().netAim;
+        Quaternion desiredRotation = Quaternion.Euler(networkedRotation.x, networkedRotation.y, networkedRotation.z);
+        float angle = Quaternion.Angle(transform.localRotation, desiredRotation);
+        transform.localRotation = Quaternion.Euler(Vector3.Slerp(transform.localRotation.eulerAngles, desiredRotation.eulerAngles, angle * (1.0f / PhotonNetwork.SerializationRate)));
+            //Quaternion.RotateTowards(Quaternion.Euler(transform.localRotation.eulerAngles), desiredRotation, angle * (1.0f / PhotonNetwork.SerializationRate));
     }
 
     public void TrackMousePosition()//Vector3 Direction, bool directionCheck, bool lerp)
@@ -60,12 +74,13 @@ public class Weapon : MonoBehaviour
     {
         if (!lerp)
         {
-            transform.position = GunLocation.position;
+            networkedRotation = new Vector3(x, y, z);
+            transform.position = GunPivot.position;
             transform.localRotation = Quaternion.Euler(x, y, z);
         }
         else
         {
-            transform.position = Vector3.MoveTowards(transform.position, GunLocation.position, 1.0f / PhotonNetwork.SerializationRate);
+            transform.position = Vector3.MoveTowards(transform.position, GunPivot.position, 1.0f / PhotonNetwork.SerializationRate);
             Quaternion desiredRotation = Quaternion.Euler(x, y, z);
             float angle = Quaternion.Angle(transform.rotation, desiredRotation);
             transform.localRotation = Quaternion.RotateTowards(Quaternion.Euler(transform.localRotation.eulerAngles), desiredRotation, angle * (1.0f / PhotonNetwork.SerializationRate));
@@ -89,11 +104,12 @@ public class Weapon : MonoBehaviour
         {
             PV.RPC("LoseWeapon_RPC", RpcTarget.AllBuffered);
         }
+
+        PhotonNetwork.SendAllOutgoingCommands();
     }
 
     public void Remove()
     {
         Destroy(this.gameObject);
     }
-
 }

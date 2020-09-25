@@ -54,7 +54,7 @@ public class CollideListener : MonoBehaviour
                 return;
             }
             blood.SetActive(true);
-            blood.GetComponent<PaintInfo>().SetRotation(Quaternion.FromToRotation(Vector3.up, p.normal).eulerAngles);
+            blood.GetComponent<PaintInfo>().SetRotation(Quaternion.FromToRotation(Vector3.up, p.normal));
             blood.transform.Rotate(Vector3.up, Random.Range(0, 360));
             //Vector3 toDirection = new Vector3(p.normal.x + 90, p.normal.y, p.normal.z);
             //blood.transform.rotation = Quaternion.FromToRotation(Vector3.up, /*toDirection)*/p.normal);

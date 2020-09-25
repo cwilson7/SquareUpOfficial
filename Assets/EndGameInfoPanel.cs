@@ -72,6 +72,7 @@ public class EndGameInfoPanel : MonoBehaviour
         {
             AvatarCharacteristics AC = avatar.GetComponent<AvatarCharacteristics>();
             AC.SpawnDummyFists();
+            AC.SetMaterial(mat);
             AC.SetFistMaterial(AC.lFist, mat.color);
             AC.SetFistMaterial(AC.rFist, mat.color);
             AC.lFist.GetComponent<Rigidbody>().isKinematic = true;

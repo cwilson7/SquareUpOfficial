@@ -190,6 +190,20 @@ public abstract class Controller : MonoBehaviour
 
     #endregion
 
+    #region Winner Handler
+    public void Winning(bool isWinner)
+    {
+        if (isWinner)
+        {
+            //equip a crown or something
+        }
+        else
+        {
+            //remove currently equipped crown
+        }
+    }
+    #endregion
+
     #region Mouse Tracking / Combat
     private void MouseCombat()
     {
@@ -270,7 +284,7 @@ public abstract class Controller : MonoBehaviour
     {
         float vertDistance = Mathf.Abs(transform.position.y - Cube.cb.CurrentFace.face.position.y);
         float horizDistance = Mathf.Abs(transform.position.x - Cube.cb.CurrentFace.face.position.x);
-        if (horizDistance > boundaryDist || vertDistance > boundaryDist || HP <= 0f)
+        if (horizDistance > boundaryDist || vertDistance > boundaryDist)// || HP <= 0f)
         {
             Die();
         }
@@ -283,7 +297,9 @@ public abstract class Controller : MonoBehaviour
         //explode with color
         Transform[] list = Cube.cb.CurrentFace.spawnPoints;
         int spawnPtlocID = UnityEngine.Random.Range(0, list.Length);
+        PV.RPC("LoseWeapon_RPC", RpcTarget.All);
         PV.RPC("DieAndRespawn_RPC", RpcTarget.AllBuffered, spawnPtlocID);
+        PhotonNetwork.SendAllOutgoingCommands(); 
     }
 
     IEnumerator SpawnDelay()
@@ -417,7 +433,7 @@ public abstract class Controller : MonoBehaviour
                 PhotonNetwork.SendAllOutgoingCommands();
                 GameInfo.GI.StatChange(proj.owner, Stat.bulletsLanded);
             }
-            //impact += proj.impactMultiplier * proj.Velocity.normalized;
+
             Destroy(otherGO);
         }
     }
@@ -493,6 +509,10 @@ public abstract class Controller : MonoBehaviour
     public void LoseHealth(float lostHP)
     {
         PV.RPC("LoseHealth_RPC", RpcTarget.AllBuffered, lostHP);
+        if (HP - lostHP <= 0)
+        {
+            Die();
+        }
     }
 
     [PunRPC]
@@ -521,12 +541,14 @@ public abstract class Controller : MonoBehaviour
         HP -= lostHP;
     }
 
+    /*
     [PunRPC]
     public void DamageReaction_RPC(Vector3 impact)
     {
         //(GetComponent<NetworkAvatar>().reacted) GetComponent<NetworkAvatar>().reacted = false;
         DamageReaction(impact);
     }
+    */
 
     [PunRPC]
     public void LoseWeapon_RPC()

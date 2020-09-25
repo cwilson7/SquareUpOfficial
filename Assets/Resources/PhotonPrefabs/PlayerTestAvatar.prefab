@@ -4990,6 +4990,7 @@ GameObject:
   - component: {fileID: 5046528485529499942}
   - component: {fileID: 4883067216096930254}
   - component: {fileID: 2507228415082542426}
+  - component: {fileID: 9180165801846751015}
   m_Layer: 0
   m_Name: PlayerTestAvatar
   m_TagString: Player
@@ -5161,6 +5162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28901c8b9b01c5148b66843589c816e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  netAim: {x: 0, y: 0, z: 0}
 --- !u!114 &2507228415082542426
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5175,3 +5177,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aim: {x: 0, y: 0, z: 0}
   directionModifier: 0
+--- !u!114 &9180165801846751015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7553275058234249101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd97ce5c381568a40af3ab8497829a14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

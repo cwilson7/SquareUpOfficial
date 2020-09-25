@@ -21,6 +21,7 @@ public class GameInfo : MonoBehaviour
     public GameObject FistContainer;
     public float startDelaySeconds = 3f;
     public Dictionary<int, GameObject> avatarClones;
+    public int bestActorNr = -1;
 
     private bool started = false, setScoreTable = false, stopUpdateCalls = false;
 
@@ -33,6 +34,8 @@ public class GameInfo : MonoBehaviour
         scoreTable = new Hashtable();
         PV = GetComponent<PhotonView>();
     }
+
+
 
     public void InitializeGameInfo()
     {
@@ -169,6 +172,34 @@ public class GameInfo : MonoBehaviour
         return bestActor;
     }
 
+    public void CheckWinner(int actorNumber)
+    {
+        Score contender = (Score)scoreTable[actorNumber];
+        if (!scoreTable.ContainsKey(bestActorNr) || contender.playerStatistics[Stat.kills] > ((Score)scoreTable[bestActorNr]).playerStatistics[Stat.kills])
+        {
+            PV.RPC("ChangeWinner_RPC", RpcTarget.All, actorNumber, bestActorNr);
+        }
+    }
+
+    //every time a kill sent out, check to see if there is a new winner
+    //if there is not one then return
+    //else call "Winning(bool isWinning)" on old winner and new winner
+    //Winning(bool) does winner stuff
+    
+    [PunRPC]
+    public void ChangeWinner_RPC(int newWinner, int oldWinner)
+    {
+        GI.bestActorNr = newWinner;
+
+        Score newChamp = (Score)scoreTable[newWinner];
+        newChamp.playerAvatar.GetComponent<Controller>().Winning(true);
+        
+        if (scoreTable.ContainsKey(oldWinner))
+        {
+            Score oldChamp = (Score)scoreTable[oldWinner];
+            oldChamp.playerAvatar.GetComponent<Controller>().Winning(false);
+        }
+    }
 
     [PunRPC]
     private void InitializeMyScore_RPC(int actorNumber)
@@ -188,7 +219,9 @@ public class GameInfo : MonoBehaviour
         Score score = (Score)scoreTable[actorNumber];
         Stat content = (Stat)Enum.Parse(typeof(Stat), key);
         score.AddToStat(content);
+        if (content == Stat.kills && PV.IsMine) CheckWinner(actorNumber); 
     }
+
 
     [PunRPC]
     private void SyncStart_RPC()

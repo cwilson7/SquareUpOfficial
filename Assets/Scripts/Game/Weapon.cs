@@ -32,9 +32,6 @@ public class Weapon : MonoBehaviour
     private void FixedUpdate()
     {
         if (fireCooldown >= 0) fireCooldown -= Time.deltaTime;
-        
-        //ParentController.AimDirection, ParentController.directionModifier == 1, false);
-        //else TrackMousePosition(AS.aim, AS.directionModifier == 1, true);
     }
 
     private void Update()
@@ -43,38 +40,10 @@ public class Weapon : MonoBehaviour
         if (!PV.IsMine) NetworkTracking();
     }
 
-    void DirectionSwitchHandler()
-    {
-        float yRot = ParentController.gameObject.transform.rotation.eulerAngles.y;
-        
-        Debug.Log(yRot);
-        bool bothRight = (yRot > 0 && currentMod == 1), bothLeft = (yRot < 0 && currentMod == 0);
-
-        if (bothLeft || bothRight)
-        {
-        }
-        else 
-        {
-            if (yRot > 0) currentMod = 1;
-            else currentMod = 0;
-            transform.localRotation = Quaternion.Euler(networkedRotation);
-            Debug.Log("direction change");
-        }
-    }
-
-    // so we have a aim direction updated every second being sent to us
-    // need to point the gun in that direction
-    // a couple problems, gun can get turned around character always facing correct direction
-    // gun also wants to flip to other side when character changes orientation
-    // if we remove gun as a child and move to a random container
-    // we can track the transform of gunpivot and have it stick on character
-    // rotation of the gun will then just b controlled by aimdirection
-
     private void NetworkTracking()
     {
         //recieve info from controller and set 
         networkedRotation = ParentController.GetComponent<NetworkAvatar>().netAim;
-        //DirectionSwitchHandler();
         Quaternion desiredRotation = Quaternion.Euler(networkedRotation.x, networkedRotation.y, networkedRotation.z);
         float angle = Quaternion.Angle(transform.localRotation, desiredRotation);
         transform.localRotation = Quaternion.Euler(Vector3.Slerp(transform.localRotation.eulerAngles, desiredRotation.eulerAngles, angle * (1.0f / PhotonNetwork.SerializationRate)));
@@ -84,13 +53,6 @@ public class Weapon : MonoBehaviour
 
     public void TrackMousePosition()//Vector3 Direction, bool directionCheck, bool lerp)
     {
-        //Quaternion desiredRotation;
-
-        //desiredRotation = Quaternion.LookRotation(transform.position - GunLocation.position, Vector3.up);
-
-        //transform.rotation = Quaternion.RotateTowards(transform.rotation, desiredRotation, .1f * Time.deltaTime);
-
-
         bool lerp = false;
         if (ParentController.directionModifier == 1)
         {
@@ -101,8 +63,7 @@ public class Weapon : MonoBehaviour
         {
             if (ParentController.AimDirection.x > 0) SetTransform(0, -90, Mathf.Rad2Deg * Mathf.Atan(-ParentController.AimDirection.y / -ParentController.AimDirection.x), lerp);
             else SetTransform(180, -90, -180 - Mathf.Rad2Deg * Mathf.Atan(-ParentController.AimDirection.y / -ParentController.AimDirection.x), lerp);
-        }
-        
+        }       
     }
 
     private void SetTransform(float x, float y, float z, bool lerp)

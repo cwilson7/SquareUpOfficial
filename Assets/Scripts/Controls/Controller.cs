@@ -47,6 +47,7 @@ public abstract class Controller : MonoBehaviour
     public AudioHandler audioHandler;
     public string audioKey;
 
+    Vector3 respawnPos;
 
 
     #region SET VALUES
@@ -316,6 +317,7 @@ public abstract class Controller : MonoBehaviour
             isDead = false;
             rb.velocity = Vector3.zero;
         }
+        transform.position = respawnPos;
         mmPlayer.gameObject.SetActive(true);
         GetComponentInChildren<AvatarCharacteristics>().SetMaterial(LobbyController.lc.availableMaterials[(int)PhotonNetwork.CurrentRoom.GetPlayer(actorNr).CustomProperties["AssignedColor"]]);
         HP = 1f;
@@ -332,29 +334,19 @@ public abstract class Controller : MonoBehaviour
 
     private void SetAllComponents(bool isActive)
     {
-        foreach (SkinnedMeshRenderer display in gameObject.GetComponentsInChildren<SkinnedMeshRenderer>())
+        foreach (Renderer display in gameObject.GetComponentsInChildren<Renderer>())
         {
-            display.enabled = isActive;
+            if (display.GetType() != typeof(ParticleSystemRenderer)) display.enabled = isActive;
         }
         foreach (Collider collider in gameObject.GetComponentsInChildren<Collider>())
         {
             collider.enabled = isActive;
         }
+        LFist.gameObject.SetActive(isActive);
+        RFist.gameObject.SetActive(isActive);
     }
 
     #endregion
-
-    /// <summary>
-    /// lastDirection = ?
-    /// SwitchDirection(newDirection) {
-    ///   if (newDirectio
-    ///   
-    /// if (input > 0 && direction > 0 || input < 0 && direction == 0) dont switch
-    /// else (these are not the same) SwitchDirection(input)
-    /// }
-    /// </summary>
-    /// <returns></returns>
-
 
     #region Movement Functions
     protected float HandleInputs()
@@ -432,23 +424,25 @@ public abstract class Controller : MonoBehaviour
         GameObject otherGO = other.gameObject;
         if (otherGO.tag == "Projectile")
         {
-            audioHandler.Play("", "Slap");
             Projectile proj = otherGO.GetComponent<Projectile>();
             if (proj.owner == actorNr) return;
+            audioHandler.Play("", "Slap");
             Vector3 _impact = proj.impactMultiplier * proj.Velocity.normalized;
 
             if (PV.IsMine)
             {
                 OnDamgeTaken?.Invoke(proj, this);
-                LoseHealth(proj.damage);
                 DamageReaction(_impact);
                 PhotonNetwork.SendAllOutgoingCommands();
+                LoseHealth(proj.damage);
                 GameInfo.GI.StatChange(proj.owner, Stat.bulletsLanded);
             }
 
             Destroy(otherGO);
         }
     }
+
+    //need to let particle system finish before moving transform
 
     private void OnCollisionStay(Collision collision)
     {
@@ -542,8 +536,8 @@ public abstract class Controller : MonoBehaviour
         SetAllComponents(false);
         mmPlayer.gameObject.SetActive(false);
         Transform[] list = Cube.cb.CurrentFace.spawnPoints;
-        transform.position = list[locID].position;
-        //transform.rotation = list[locID].rotation;
+        respawnPos = list[locID].position;
+        //transform.position = list[locID].position;
         StartCoroutine(SpawnDelay());
     }
 
@@ -552,15 +546,6 @@ public abstract class Controller : MonoBehaviour
     {
         HP -= lostHP;
     }
-
-    /*
-    [PunRPC]
-    public void DamageReaction_RPC(Vector3 impact)
-    {
-        //(GetComponent<NetworkAvatar>().reacted) GetComponent<NetworkAvatar>().reacted = false;
-        DamageReaction(impact);
-    }
-    */
 
     [PunRPC]
     public void LoseWeapon_RPC()

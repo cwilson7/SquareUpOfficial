@@ -8,6 +8,7 @@ public class QuaternionJibberish : MonoBehaviour
     [SerializeField] float rotX, rotY, rotZ;
 
     [SerializeField] GameObject[] vectors;
+    [SerializeField] GameObject normal;
     [SerializeField] Vector3 toVec;
     [SerializeField] Direction fromVec;
 
@@ -24,6 +25,7 @@ public class QuaternionJibberish : MonoBehaviour
             else vec = Vector3.right;
             vector.transform.localRotation = Quaternion.FromToRotation(vec, toVec);
         }
+        
     }
 }
 

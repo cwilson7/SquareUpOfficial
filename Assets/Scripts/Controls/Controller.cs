@@ -185,7 +185,6 @@ public abstract class Controller : MonoBehaviour
     public void OnCubeStateChange(bool startingRotation, float newZ)
     {
         SetAllComponents(!startingRotation);
-        GetComponentInChildren<AvatarCharacteristics>().info.currentSet.SetItemsActive(!startingRotation);
         mmPlayer.OnCubeStateChangeMap(startingRotation, newZ);
     }
 

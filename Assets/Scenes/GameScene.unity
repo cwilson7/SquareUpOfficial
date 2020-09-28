@@ -1676,6 +1676,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1056658527}
+  - component: {fileID: 1056658528}
   m_Layer: 0
   m_Name: FistContainer
   m_TagString: Untagged
@@ -1697,6 +1698,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1056658528
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1056658526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b57edc35751169498a56125a3f8e1a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1068274247
 GameObject:
   m_ObjectHideFlags: 0
@@ -1759,6 +1772,7 @@ MonoBehaviour:
   AnimatorControllers: []
   FistContainer: {fileID: 1056658526}
   startDelaySeconds: 3
+  bestActorNr: -1
   scorePrefab: {fileID: 4722932063433500185, guid: 7e2f2d04e526fbd4a929930c4001c68c,
     type: 3}
 --- !u!4 &1068274250

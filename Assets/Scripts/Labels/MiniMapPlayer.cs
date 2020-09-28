@@ -44,12 +44,14 @@ public class MiniMapPlayer : MonoBehaviour
 
     public void OnCubeStateChangeMap(bool startingRotation, float newZ)
     {
+        gameObject.GetComponent<Renderer>().enabled = true;
         if (startingRotation)
         {
             transform.localScale *= 2;
             transform.localPosition = Vector3.zero;
             transform.position = new Vector3(transform.position.x, transform.position.y, newZ);
             gameObject.layer = LayerMask.NameToLayer("Player");
+            if (ParentController.PV.IsMine && ParentController.currentWeapon != null) ParentController.PV.RPC("LoseWeapon_RPC", RpcTarget.All); //Destroy();
             MiniMapCamera.mmCamera.projectedBlank.enabled = false;
         }
         else

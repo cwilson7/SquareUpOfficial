@@ -97,6 +97,12 @@ public class LobbyController : MonoBehaviourPunCallbacks
         {
             LobbyController.lc.selectedMaterialIDs.Remove(myColorID);
         }
+
+        GameObject container = GameObject.Find("FistContainer");
+        if (container != null)
+        {
+            container.GetComponent<FistContainer>().PurgeList();
+        } 
     }
 
     public override void OnMasterClientSwitched(Player newMasterClient)

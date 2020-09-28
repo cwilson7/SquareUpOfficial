@@ -15,6 +15,7 @@ public class Weapon : MonoBehaviour
     public int owner, totalAmmo, ammoLeft;
     public GameObject projectile;
     public Transform FiringPoint, GunPivot, GunLocation;
+    public int currentMod = 0;
 
     public Vector3 networkedRotation;
 
@@ -31,20 +32,54 @@ public class Weapon : MonoBehaviour
     private void FixedUpdate()
     {
         if (fireCooldown >= 0) fireCooldown -= Time.deltaTime;
-        if (PV.IsMine) TrackMousePosition();
-        else NetworkTracking();
+        
         //ParentController.AimDirection, ParentController.directionModifier == 1, false);
         //else TrackMousePosition(AS.aim, AS.directionModifier == 1, true);
     }
+
+    private void Update()
+    {
+        if (PV.IsMine) TrackMousePosition();
+        if (!PV.IsMine) NetworkTracking();
+    }
+
+    void DirectionSwitchHandler()
+    {
+        float yRot = ParentController.gameObject.transform.rotation.eulerAngles.y;
+        
+        Debug.Log(yRot);
+        bool bothRight = (yRot > 0 && currentMod == 1), bothLeft = (yRot < 0 && currentMod == 0);
+
+        if (bothLeft || bothRight)
+        {
+        }
+        else 
+        {
+            if (yRot > 0) currentMod = 1;
+            else currentMod = 0;
+            transform.localRotation = Quaternion.Euler(networkedRotation);
+            Debug.Log("direction change");
+        }
+    }
+
+    // so we have a aim direction updated every second being sent to us
+    // need to point the gun in that direction
+    // a couple problems, gun can get turned around character always facing correct direction
+    // gun also wants to flip to other side when character changes orientation
+    // if we remove gun as a child and move to a random container
+    // we can track the transform of gunpivot and have it stick on character
+    // rotation of the gun will then just b controlled by aimdirection
 
     private void NetworkTracking()
     {
         //recieve info from controller and set 
         networkedRotation = ParentController.GetComponent<NetworkAvatar>().netAim;
+        //DirectionSwitchHandler();
         Quaternion desiredRotation = Quaternion.Euler(networkedRotation.x, networkedRotation.y, networkedRotation.z);
         float angle = Quaternion.Angle(transform.localRotation, desiredRotation);
         transform.localRotation = Quaternion.Euler(Vector3.Slerp(transform.localRotation.eulerAngles, desiredRotation.eulerAngles, angle * (1.0f / PhotonNetwork.SerializationRate)));
-            //Quaternion.RotateTowards(Quaternion.Euler(transform.localRotation.eulerAngles), desiredRotation, angle * (1.0f / PhotonNetwork.SerializationRate));
+        //works but has jittery rotation >> Vector3.Slerp(transform.localRotation.eulerAngles, desiredRotation.eulerAngles, angle * (1.0f / PhotonNetwork.SerializationRate)));
+        //rotates around weird angle >> Quaternion.RotateTowards(Quaternion.Euler(transform.localRotation.eulerAngles), desiredRotation, angle * (1.0f / PhotonNetwork.SerializationRate));
     }
 
     public void TrackMousePosition()//Vector3 Direction, bool directionCheck, bool lerp)

@@ -344,6 +344,18 @@ public abstract class Controller : MonoBehaviour
 
     #endregion
 
+    /// <summary>
+    /// lastDirection = ?
+    /// SwitchDirection(newDirection) {
+    ///   if (newDirectio
+    ///   
+    /// if (input > 0 && direction > 0 || input < 0 && direction == 0) dont switch
+    /// else (these are not the same) SwitchDirection(input)
+    /// }
+    /// </summary>
+    /// <returns></returns>
+
+
     #region Movement Functions
     protected float HandleInputs()
     {
@@ -351,7 +363,7 @@ public abstract class Controller : MonoBehaviour
         bool inputY = Input.GetKeyDown(KeyCode.W);
 
         if (inputX > 0) directionModifier = 1;
-        else if(inputX < 0) directionModifier = 0;
+        else if (inputX < 0) directionModifier = 0;
 
         if (receivingImpact) FreezePositions(false);
         else if (inputX != 0) FreezePositions(false);

@@ -9,6 +9,6 @@ public class PaintInfo : MonoBehaviour
 
     public void SetRotation(Quaternion rotation)
     {
-        gameObject.transform.rotation = rotation;
+        gameObject.transform.rotation = Quaternion.Euler(rotation.x, rotation.y, rotation.z);
     }
 }

@@ -109,6 +109,7 @@
     <Compile Include="Assets\Photon\PhotonUnityNetworking\Resources\Views\PhotonTransformView.cs" />
     <Compile Include="Assets\Photon\PhotonUnityNetworking\Resources\Views\PhotonTransformViewClassic.cs" />
     <Compile Include="Assets\PlayerRewards.cs" />
+    <Compile Include="Assets\QuaternionJibberish.cs" />
     <Compile Include="Assets\Resources\Classes\DashController.cs" />
     <Compile Include="Assets\Resources\Classes\StickyController.cs" />
     <Compile Include="Assets\Resources\Classes\WarpController.cs" />

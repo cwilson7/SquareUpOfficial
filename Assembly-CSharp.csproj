@@ -305,17 +305,8 @@
     <Reference Include="Unity.VSCode.Editor">
       <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpSimple/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
     </Reference>
-    <Reference Include="Unity.ProBuilder">
-      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpSimple/Library/ScriptAssemblies/Unity.ProBuilder.dll</HintPath>
-    </Reference>
     <Reference Include="Unity.RenderPipelines.Core.Editor">
       <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpSimple/Library/ScriptAssemblies/Unity.RenderPipelines.Core.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.ProBuilder.Editor">
-      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpSimple/Library/ScriptAssemblies/Unity.ProBuilder.Editor.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.ProBuilder.AssetIdRemapUtility">
-      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpSimple/Library/ScriptAssemblies/Unity.ProBuilder.AssetIdRemapUtility.dll</HintPath>
     </Reference>
     <Reference Include="Unity.RenderPipelines.Core.Runtime">
       <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpSimple/Library/ScriptAssemblies/Unity.RenderPipelines.Core.Runtime.dll</HintPath>
@@ -358,9 +349,6 @@
     </Reference>
     <Reference Include="Unity.Postprocessing.Runtime">
       <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpSimple/Library/ScriptAssemblies/Unity.Postprocessing.Runtime.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.ProBuilder.AddOns.Editor">
-      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpSimple/Library/ScriptAssemblies/Unity.ProBuilder.AddOns.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.ShaderGraph.Editor">
       <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpSimple/Library/ScriptAssemblies/Unity.ShaderGraph.Editor.dll</HintPath>

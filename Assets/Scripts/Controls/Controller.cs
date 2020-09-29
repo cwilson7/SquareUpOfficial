@@ -426,10 +426,11 @@ public abstract class Controller : MonoBehaviour
             Projectile proj = otherGO.GetComponent<Projectile>();
             if (proj.owner == actorNr) return;
             audioHandler.Play("", "Slap");
-            Vector3 _impact = proj.impactMultiplier * proj.Velocity.normalized;
 
             if (PV.IsMine)
             {
+                Vector3 _impact = proj.impactMultiplier * proj.Velocity.normalized;
+                _impact.y = impact.y / 4;
                 OnDamgeTaken?.Invoke(proj, this);
                 DamageReaction(_impact);
                 PhotonNetwork.SendAllOutgoingCommands();
@@ -465,7 +466,9 @@ public abstract class Controller : MonoBehaviour
             if (PV.IsMine)
             {
                 Vector3 _impact = fist.impactMultiplier * fist.gameObject.GetComponent<Rigidbody>().velocity;
+                _impact.y = impact.y / 4;
                 OnDamgeTaken?.Invoke(fist, this);
+                impact = fist.gameObject.GetComponent<Rigidbody>().velocity.normalized;
                 LoseHealth(fist.damage);
                 DamageReaction(_impact);
                 PhotonNetwork.SendAllOutgoingCommands();

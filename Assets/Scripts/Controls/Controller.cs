@@ -434,7 +434,7 @@ public abstract class Controller : MonoBehaviour
                 OnDamgeTaken?.Invoke(proj, this);
                 DamageReaction(_impact);
                 PhotonNetwork.SendAllOutgoingCommands();
-                LoseHealth(proj.damage);
+                LoseHealth(proj);
                 GameInfo.GI.StatChange(proj.owner, Stat.bulletsLanded);
             }
 
@@ -469,7 +469,7 @@ public abstract class Controller : MonoBehaviour
                 _impact.y = impact.y / 4;
                 OnDamgeTaken?.Invoke(fist, this);
                 impact = fist.gameObject.GetComponent<Rigidbody>().velocity.normalized;
-                LoseHealth(fist.damage);
+                LoseHealth(fist);
                 DamageReaction(_impact);
                 PhotonNetwork.SendAllOutgoingCommands();
                 GameInfo.GI.StatChange(fist.owner, Stat.punchesLanded);
@@ -514,11 +514,13 @@ public abstract class Controller : MonoBehaviour
         if (!PV.IsMine) transform.position = networkPos;
     }
 
-    public void LoseHealth(float lostHP)
+    public void LoseHealth(DamageDealer damager)//, float lostHP)
     {
+        float lostHP = damager.damage;
         PV.RPC("LoseHealth_RPC", RpcTarget.AllBuffered, lostHP);
         if (HP - lostHP <= 0)
         {
+            GameInfo.GI.StatChange(damager.owner, Stat.kills);
             Die();
         }
     }

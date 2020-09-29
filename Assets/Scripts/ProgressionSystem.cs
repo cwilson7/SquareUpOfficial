@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using CustomUtilities;
 using UnityEngine.SceneManagement;
+using System.Runtime.Remoting;
 
 [System.Serializable]
 public class ProgressionSystem : MonoBehaviour
 {
-    public static PlayerData playerData;  
+    public static PlayerData playerData;
+    string testPrefString = "bigbros";
 
     private void OnEnable()
     {
@@ -21,7 +23,7 @@ public class ProgressionSystem : MonoBehaviour
         Debug.Log("saving game.");
         //SaveState.SaveInformation(playerData);
         string dataString = JsonUtility.ToJson(playerData);
-        PlayerPrefs.SetString("data", dataString);
+        PlayerPrefs.SetString("testPrefString", dataString);
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
@@ -43,17 +45,17 @@ public class ProgressionSystem : MonoBehaviour
 
     void LoadData()
     {
-        if (!PlayerPrefs.HasKey("data"))
+        if (!PlayerPrefs.HasKey("testPrefString"))
         {
             Debug.Log("setting up new game");
             playerData = new PlayerData(500, 5, 0, 0, NewCharacterInfoList(), new List<CustomEffect>());
             string dataString = JsonUtility.ToJson(playerData);
-            PlayerPrefs.SetString("data", dataString);
+            PlayerPrefs.SetString("testPrefString", dataString);
         }
         else
         {
             Debug.Log("loading previous save");
-            string dataString = PlayerPrefs.GetString("data");
+            string dataString = PlayerPrefs.GetString("testPrefString");
             playerData = JsonUtility.FromJson<PlayerData>(dataString);
         }
 

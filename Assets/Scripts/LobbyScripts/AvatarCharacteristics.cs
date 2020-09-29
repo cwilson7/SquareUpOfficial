@@ -184,6 +184,14 @@ public class AvatarCharacteristics : MonoBehaviour
         info.currentSet.cosmetics = dict;
         FistModel = info.currentSet.cosmetics[CosmeticType.Fist].model;
     }
+
+    public GameObject EquipCrown(GameObject crown)
+    {
+        Armature armature = GetComponentInChildren<Armature>();
+        GameObject equippedCrown = Instantiate(crown, gameObject.transform);
+        equippedCrown.transform.SetParent(armature.gameObject.transform);
+        return equippedCrown;
+    }
     #endregion
 
     #region Helper Functions

@@ -27,12 +27,12 @@ public class AvatarSetup : MonoBehaviour
         if (PV.IsMine) 
         {
             CharacterInfo myCharInfo = ProgressionSystem.CharacterData(LobbyController.lc.charAvatars[(int)PhotonNetwork.LocalPlayer.CustomProperties["SelectedCharacter"]].GetComponent<AvatarCharacteristics>().info);
-            PV.RPC("InitializeCharacter_RPC", RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer.ActorNumber, myCharInfo.currentSet.NamesOfCosmetics().ToArray());
+            PV.RPC("InitializeCharacter_RPC", RpcTarget.AllBuffered, PhotonNetwork.LocalPlayer.ActorNumber, myCharInfo.currentSet.NamesOfCosmetics().ToArray(), ProgressionSystem.playerData.myCrownName);
         }
     }
 
     [PunRPC]
-    private void InitializeCharacter_RPC(int actorNumber, string[] cosmeticNames)
+    private void InitializeCharacter_RPC(int actorNumber, string[] cosmeticNames, string crownName)
     {        
         Player p = PhotonNetwork.CurrentRoom.GetPlayer(actorNumber);
         int colorID = (int)p.CustomProperties["AssignedColor"];
@@ -46,13 +46,15 @@ public class AvatarSetup : MonoBehaviour
             avatarSkin.transform.SetParent(transform);
             AvatarCharacteristics AC = avatarSkin.GetComponent<AvatarCharacteristics>();
             AC.SetMaterial(myAssignedColor);
+            
             if (PV != null && PV.IsMine)// || PV.OwnerActorNr == actorNumber) //if this is setting up my character on my game
             {
                 AC.info = ProgressionSystem.CharacterData(AC.info); //set my character data to my player data
                 AC.DisplayAllCosmetics(); //display my cosmetics on my character
             }
             else AC.NetworkDisplayCosmetics(cosmeticNames.ToList()); //if this is setting up someone elses character on my game
-            //display the cosmetics on this character that are sent to me (cosmeticNames)
+            
+            GameObject crown = AC.EquipCrown((GameObject)Resources.Load(ProgressionSystem.playerData.crownPath + crownName));
 
             AddPlayerController(avatarSkin);
             MultiplayerSettings.multiplayerSettings.SetCustomPlayerProperties("CharacterSpawned", true);

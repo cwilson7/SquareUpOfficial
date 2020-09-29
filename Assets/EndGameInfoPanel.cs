@@ -20,6 +20,8 @@ public class EndGameInfoPanel : MonoBehaviour
 
     bool charInit = false;
 
+    int bestActorNr;
+
     private void Awake()
     {
         infoPrefab = (GameObject)Resources.Load("PhotonPrefabs/EndGame/PlayerInfoGrouping");
@@ -29,14 +31,15 @@ public class EndGameInfoPanel : MonoBehaviour
     public void InstantiateStats()
     {
         buttonPairs = new Dictionary<GameObject, GameObject>();
-        int bestActor = GameInfo.GI.WinningActorNumber();
-        DisplayActor(bestActor, true);
+        bestActorNr = GameInfo.GI.WinningActorNumber();
+        DisplayActor(bestActorNr, true, true);
+
         foreach (KeyValuePair<int, Player> kvp in PhotonNetwork.CurrentRoom.Players)
         {
             GameObject pnl = Instantiate(infoPrefab, playerInfoPanel.transform);
             EndGameInfoGrouping grouping = pnl.GetComponent<EndGameInfoGrouping>();
             grouping.CreateDataPoints(kvp.Key);
-            if (grouping.actorNumber == bestActor) pnl.SetActive(true);
+            if (grouping.actorNumber == bestActorNr) pnl.SetActive(true);
             else pnl.SetActive(false);
 
             GameObject btn = Instantiate(infoBtnPrefab, playerList.transform);
@@ -47,7 +50,7 @@ public class EndGameInfoPanel : MonoBehaviour
         }
         if (!playerRewarded)
         {
-            if (bestActor == PhotonNetwork.LocalPlayer.ActorNumber)
+            if (bestActorNr == PhotonNetwork.LocalPlayer.ActorNumber)
             {
                 ProgressionSystem.playerData.Wins += 1;
                 PlayerRewards.AddCurrency(ProgressionSystem.playerData, Money.SquareBucks, cashPrize * 2);
@@ -62,7 +65,7 @@ public class EndGameInfoPanel : MonoBehaviour
         }
     }
 
-    void DisplayActor(int actorNr, bool toDisplay)
+    GameObject DisplayActor(int actorNr, bool toDisplay, bool isBest)
     {
         GameObject avatar = GameInfo.GI.avatarClones[actorNr];
         Material mat = LobbyController.lc.availableMaterials[(int)PhotonNetwork.CurrentRoom.GetPlayer(actorNr).CustomProperties["AssignedColor"]];
@@ -77,8 +80,11 @@ public class EndGameInfoPanel : MonoBehaviour
             AC.SetFistMaterial(AC.rFist, mat.color);
             AC.lFist.GetComponent<Rigidbody>().isKinematic = true;
             AC.rFist.GetComponent<Rigidbody>().isKinematic = true;
+            GameObject crown = avatar.GetComponentInChildren<Crown>().gameObject;
+            crown.SetActive(isBest);
         }
         avatar.SetActive(toDisplay);
+        return avatar;
     }
 
     void SwitchDisplayedInfo(int actorNr)
@@ -88,13 +94,13 @@ public class EndGameInfoPanel : MonoBehaviour
             int thisActor = kvp.Value.GetComponent<EndGameInfoGrouping>().actorNumber;
             if (thisActor != actorNr)
             {
-                DisplayActor(thisActor, false);
+                DisplayActor(thisActor, false, thisActor == bestActorNr);
                 kvp.Value.SetActive(false);
             }
             else
             {
                 kvp.Value.SetActive(true);
-                DisplayActor(thisActor, true);
+                DisplayActor(thisActor, true, thisActor == bestActorNr);
             }
         }
     }

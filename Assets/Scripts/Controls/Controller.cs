@@ -48,6 +48,7 @@ public abstract class Controller : MonoBehaviour
     public string audioKey;
 
     Vector3 respawnPos;
+    GameObject crown;
 
 
     #region SET VALUES
@@ -85,7 +86,10 @@ public abstract class Controller : MonoBehaviour
 
         //do not change order of fist instantiation
         LFist = SetUpFist(GetComponentInChildren<LFist>());
-        RFist = SetUpFist(GetComponentInChildren<RFist>());      
+        RFist = SetUpFist(GetComponentInChildren<RFist>());
+
+        crown = GetComponentInChildren<Crown>().gameObject;
+        crown.SetActive(false);
 
         mmPlayer = GetComponentInChildren<MiniMapPlayer>();
 
@@ -193,14 +197,8 @@ public abstract class Controller : MonoBehaviour
     #region Winner Handler
     public void Winning(bool isWinner)
     {
-        if (isWinner)
-        {
-            //equip a crown or something
-        }
-        else
-        {
-            //remove currently equipped crown
-        }
+        //equip a crown or something
+        crown.SetActive(isWinner);
     }
     #endregion
 

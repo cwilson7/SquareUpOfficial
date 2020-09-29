@@ -11,7 +11,8 @@ public class PlayerData
     public Currency coins, bucks;
     public Currency[] wallet;
     public List<CharacterInfo> characters;
-    public List<CustomEffect> availableEffects; 
+    public List<CustomEffect> availableEffects;
+    public string crownPath, myCrownName;
 
     public int SquareBucks
     {
@@ -102,6 +103,8 @@ public class PlayerData
     {
         bucks = new Currency(Money.SquareBucks, _squareBucks);
         coins = new Currency(Money.CubeCoins, _cubeCoins);
+        crownPath = "PhotonPrefabs/Cosmetics/Crowns/";
+        myCrownName = "Default";
         wallet = new Currency[2] { bucks, coins };
         wins = _wins;
         totalGames = _totalGames;

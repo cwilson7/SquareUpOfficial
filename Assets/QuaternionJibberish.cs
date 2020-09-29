@@ -12,6 +12,11 @@ public class QuaternionJibberish : MonoBehaviour
     [SerializeField] Vector3 toVec;
     [SerializeField] Direction fromVec;
 
+    private void Start()
+    {
+       
+    }
+
     // Update is called once per frame
     void Update()
     {

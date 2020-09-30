@@ -43,11 +43,6 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
         PhotonNetwork.JoinLobby(); 
     }
 
-    public override void OnJoinedRoom()
-    {
-        base.OnJoinedRoom();
-        CachedRoomList.cachedRoomList.rooms.Clear();
-    }
 
     public override void OnJoinedLobby()
     {
@@ -208,7 +203,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
     private void PopulateLoadingHash()
     {
         SetLoadingHash(startButton);
-        SetLoadingHash(roomListContent);
+        //SetLoadingHash(roomListContent);
         SetLoadingHash(joinRndLobbyBtn);
     }
 

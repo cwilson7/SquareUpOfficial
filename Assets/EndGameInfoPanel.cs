@@ -13,12 +13,11 @@ public class EndGameInfoPanel : MonoBehaviour
     [SerializeField] GameObject playerList, playerInfoPanel;
     GameObject infoPrefab, infoBtnPrefab;
     Dictionary<GameObject, GameObject> buttonPairs;
+    List<EndGameInfoGrouping> groupings = new List<EndGameInfoGrouping>();
 
     bool playerRewarded = false;
 
     public Transform characterLocation;
-
-    bool charInit = false;
 
     int bestActorNr;
 
@@ -31,14 +30,14 @@ public class EndGameInfoPanel : MonoBehaviour
     public void InstantiateStats()
     {
         buttonPairs = new Dictionary<GameObject, GameObject>();
-        bestActorNr = GameInfo.GI.WinningActorNumber();
-        DisplayActor(bestActorNr, true, true);
+        bestActorNr = GameInfo.GI.WinningActorNumber();       
 
         foreach (KeyValuePair<int, Player> kvp in PhotonNetwork.CurrentRoom.Players)
         {
+            int actorNr = kvp.Key;
             GameObject pnl = Instantiate(infoPrefab, playerInfoPanel.transform);
             EndGameInfoGrouping grouping = pnl.GetComponent<EndGameInfoGrouping>();
-            grouping.CreateDataPoints(kvp.Key);
+            grouping.CreateDataPoints(actorNr);
             if (grouping.actorNumber == bestActorNr) pnl.SetActive(true);
             else pnl.SetActive(false);
 
@@ -46,7 +45,25 @@ public class EndGameInfoPanel : MonoBehaviour
             btn.GetComponent<Button>().onClick.AddListener(delegate { SwitchDisplayedInfo(kvp.Key); });
             btn.GetComponentInChildren<TMP_Text>().text = kvp.Value.NickName;
 
+            GameObject avatar = GameInfo.GI.avatarClones[actorNr];
+            avatar.transform.position = characterLocation.position;
+            avatar.transform.rotation = Quaternion.Euler(0, 180, 0);
+
+            Material mat = LobbyController.lc.availableMaterials[(int)PhotonNetwork.CurrentRoom.GetPlayer(actorNr).CustomProperties["AssignedColor"]];
+            AvatarCharacteristics AC = avatar.GetComponent<AvatarCharacteristics>();
+            AC.SpawnDummyFists();
+            AC.SetMaterial(mat);
+            AC.SetFistMaterial(AC.lFist, mat.color);
+            AC.SetFistMaterial(AC.rFist, mat.color);
+            AC.lFist.GetComponent<Rigidbody>().isKinematic = true;
+            AC.rFist.GetComponent<Rigidbody>().isKinematic = true;
+            GameObject crown = avatar.GetComponentInChildren<Crown>(true).gameObject;
+            crown.SetActive(bestActorNr == actorNr);
+
+            avatar.SetActive(bestActorNr == actorNr);
+
             buttonPairs.Add(btn, pnl);
+            groupings.Add(grouping);
         }
         if (!playerRewarded)
         {
@@ -65,24 +82,9 @@ public class EndGameInfoPanel : MonoBehaviour
         }
     }
 
-    GameObject DisplayActor(int actorNr, bool toDisplay, bool isBest)
+    GameObject DisplayActor(int actorNr, bool toDisplay)//, bool isBest)
     {
         GameObject avatar = GameInfo.GI.avatarClones[actorNr];
-        Material mat = LobbyController.lc.availableMaterials[(int)PhotonNetwork.CurrentRoom.GetPlayer(actorNr).CustomProperties["AssignedColor"]];
-        avatar.transform.position = characterLocation.position;
-        avatar.transform.rotation = Quaternion.Euler(0, 180, 0);
-        if (charInit == false)
-        {
-            AvatarCharacteristics AC = avatar.GetComponent<AvatarCharacteristics>();
-            AC.SpawnDummyFists();
-            AC.SetMaterial(mat);
-            AC.SetFistMaterial(AC.lFist, mat.color);
-            AC.SetFistMaterial(AC.rFist, mat.color);
-            AC.lFist.GetComponent<Rigidbody>().isKinematic = true;
-            AC.rFist.GetComponent<Rigidbody>().isKinematic = true;
-            GameObject crown = avatar.GetComponentInChildren<Crown>().gameObject;
-            crown.SetActive(isBest);
-        }
         avatar.SetActive(toDisplay);
         return avatar;
     }
@@ -94,13 +96,13 @@ public class EndGameInfoPanel : MonoBehaviour
             int thisActor = kvp.Value.GetComponent<EndGameInfoGrouping>().actorNumber;
             if (thisActor != actorNr)
             {
-                DisplayActor(thisActor, false, thisActor == bestActorNr);
+                DisplayActor(thisActor, false);
                 kvp.Value.SetActive(false);
             }
             else
             {
                 kvp.Value.SetActive(true);
-                DisplayActor(thisActor, true, thisActor == bestActorNr);
+                DisplayActor(thisActor, true);
             }
         }
     }

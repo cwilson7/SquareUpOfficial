@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using CustomUtilities;
 using UnityEngine.SceneManagement;
-using System.Runtime.Remoting;
 
 [System.Serializable]
 public class ProgressionSystem : MonoBehaviour

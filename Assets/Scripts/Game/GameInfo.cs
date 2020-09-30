@@ -23,7 +23,7 @@ public class GameInfo : MonoBehaviour
     public Dictionary<int, GameObject> avatarClones;
     public int bestActorNr = -1;
 
-    private bool started = false, setScoreTable = false, stopUpdateCalls = false;
+    public bool started = false, setScoreTable = false, stopUpdateCalls = false;
 
     [SerializeField] private GameObject scorePrefab;
 
@@ -107,7 +107,6 @@ public class GameInfo : MonoBehaviour
         }
         if (allReady)
         {
-            started = true;
             PV.RPC("SyncStart_RPC", RpcTarget.AllBuffered);
         }
     }
@@ -226,6 +225,7 @@ public class GameInfo : MonoBehaviour
     [PunRPC]
     private void SyncStart_RPC()
     {
+        started = true;
         if (GameManager.Manager.PV.IsMine)
         {
             GameManager.Manager.InitalizeGameManager();

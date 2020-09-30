@@ -12,7 +12,7 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
 {
     public static PhotonLobby lobby;
 
-    public GameObject shopButton, startButton, loadingTxtPrefab, roomNotFoundTxtPrefab, roomListContent, joinRndLobbyBtn, chooseModePnl, startPnl, createRoomPnl, currentPnl;
+    public GameObject shopButton, startButton, loadingTxtPrefab, roomNotFoundTxtPrefab, joinRndLobbyBtn, chooseModePnl, startPnl, createRoomPnl, currentPnl;
     [SerializeField] Canvas canvas;
     private Hashtable loadingObjects;
     public GameObject audioManager;
@@ -68,7 +68,6 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
         if (PhotonNetwork.InLobby)
         {
             PhotonNetwork.LeaveLobby();
-            Loading(true, roomListContent);
             yield return new WaitForSeconds(1f);
             if (inPhotonLobby == true) StartCoroutine(LeaveLobbyDelay());
         }
@@ -83,7 +82,6 @@ public class PhotonLobby : MonoBehaviourPunCallbacks
     public override void OnJoinRoomFailed(short returnCode, string message)
     {
         base.OnJoinRoomFailed(returnCode, message);
-        Loading(false, roomListContent);
         PhotonNetwork.JoinLobby();
         roomNotFoundTxt = Instantiate(roomNotFoundTxtPrefab, currentPnl.transform);
         StartCoroutine(TextFade());

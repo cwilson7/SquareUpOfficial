@@ -104,7 +104,6 @@
     <Compile Include="Assets\Scripts\Audio\AudioManager.cs" />
     <Compile Include="Assets\Scripts\Audio\Sound.cs" />
     <Compile Include="Assets\Scripts\Backend Goodness\CosmeticItem.cs" />
-    <Compile Include="Assets\Scripts\CachedRoomList.cs" />
     <Compile Include="Assets\Scripts\CollideListener.cs" />
     <Compile Include="Assets\Scripts\Controls\Controller.cs" />
     <Compile Include="Assets\Scripts\CosmeticData.cs" />
@@ -133,7 +132,6 @@
     <Compile Include="Assets\Scripts\Game\SwipeDetector.cs" />
     <Compile Include="Assets\Scripts\Game\Weapon.cs" />
     <Compile Include="Assets\Scripts\GameSetup.cs" />
-    <Compile Include="Assets\Scripts\JoinRoomsMenu.cs" />
     <Compile Include="Assets\Scripts\Labels\Armature.cs" />
     <Compile Include="Assets\Scripts\Labels\BaseOfCharacter.cs" />
     <Compile Include="Assets\Scripts\Labels\FiringPoint.cs" />

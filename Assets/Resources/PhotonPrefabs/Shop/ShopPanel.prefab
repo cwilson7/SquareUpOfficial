@@ -410,6 +410,7 @@ MonoBehaviour:
       currentCosmetics: []
     cost:
       type: 0
+      quantity: 0
   CosmeticPanel: {fileID: 5136867026702171087}
   header: {fileID: 4263060001814340292}
   MainShopPnl: {fileID: 5742826529234908990}

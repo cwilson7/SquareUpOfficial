@@ -13,6 +13,7 @@ public class PlayerData
     public List<CharacterInfo> characters;
     public List<CustomEffect> availableEffects;
     public string crownPath, myCrownName;
+    public CrownData[] crownDataArray;
 
     public int SquareBucks
     {
@@ -99,12 +100,28 @@ public class PlayerData
         wallet = new Currency[2]{ new Currency(Money.SquareBucks, SquareBucks), new Currency(Money.CubeCoins, CubeCoins) };
     }
 
+    void CreateNewCrownArray(string path)
+    {
+        List<CrownData> crownDatas = new List<CrownData>();
+        GameObject[] crowns = Resources.LoadAll<GameObject>(path);
+        for (int i = 0; i < crowns.Length; i++)
+        {
+            string objectName = crowns[i].name;
+            Status objectStatus = Status.Locked;
+            if (objectName == "Default") objectStatus = Status.Unlocked;
+            CrownData data = new CrownData(objectName, objectStatus);
+            crownDatas.Add(data);
+        }
+        crownDataArray = crownDatas.ToArray();
+        myCrownName = "Default";
+    }
+
     public PlayerData(int _squareBucks, int _cubeCoins, int _wins, int _totalGames, List<CharacterInfo> _characters, List<CustomEffect> _availableEffects)
     {
         bucks = new Currency(Money.SquareBucks, _squareBucks);
         coins = new Currency(Money.CubeCoins, _cubeCoins);
         crownPath = "PhotonPrefabs/Cosmetics/Crowns/";
-        myCrownName = "Default";
+        CreateNewCrownArray(crownPath);
         wallet = new Currency[2] { bucks, coins };
         wins = _wins;
         totalGames = _totalGames;

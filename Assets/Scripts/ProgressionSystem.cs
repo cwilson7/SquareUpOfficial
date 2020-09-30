@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 public class ProgressionSystem : MonoBehaviour
 {
     public static PlayerData playerData;
-    string testPrefString = "bigbros";
+    static string testPrefString = "bonkerbonobos";
 
     private void OnEnable()
     {
@@ -22,7 +22,7 @@ public class ProgressionSystem : MonoBehaviour
         Debug.Log("saving game.");
         //SaveState.SaveInformation(playerData);
         string dataString = JsonUtility.ToJson(playerData);
-        PlayerPrefs.SetString("testPrefString", dataString);
+        PlayerPrefs.SetString(testPrefString, dataString);
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode loadSceneMode)
@@ -44,17 +44,17 @@ public class ProgressionSystem : MonoBehaviour
 
     void LoadData()
     {
-        if (!PlayerPrefs.HasKey("testPrefString"))
+        if (!PlayerPrefs.HasKey(testPrefString))
         {
             Debug.Log("setting up new game");
             playerData = new PlayerData(500, 5, 0, 0, NewCharacterInfoList(), new List<CustomEffect>());
             string dataString = JsonUtility.ToJson(playerData);
-            PlayerPrefs.SetString("testPrefString", dataString);
+            PlayerPrefs.SetString(testPrefString, dataString);
         }
         else
         {
             Debug.Log("loading previous save");
-            string dataString = PlayerPrefs.GetString("testPrefString");
+            string dataString = PlayerPrefs.GetString(testPrefString);
             playerData = JsonUtility.FromJson<PlayerData>(dataString);
         }
 
@@ -69,6 +69,52 @@ public class ProgressionSystem : MonoBehaviour
             playerData = SaveState.LoadInformation();
         }
         */
+    }
+
+    public void UnlockNewRandomCrown()
+    {
+        CrownData[] crownDatas = playerData.crownDataArray;
+        List<string> lockedCrownNames = new List<string>();
+        for (int i = 0; i < crownDatas.Length; i++) 
+        {
+            if (crownDatas[i].status == Status.Locked)
+            {
+                lockedCrownNames.Add(crownDatas[i].name);
+            }
+        }
+
+        if (lockedCrownNames.Count == 0)
+        {
+            Debug.Log("All crowns already unlocked");
+            return;
+        }
+
+        string crownName = lockedCrownNames[Random.Range(0, crownDatas.Length)];
+        for (int j = 0; j < crownDatas.Length; j++)
+        {
+            if (crownName == crownDatas[j].name)
+            {
+                crownDatas[j].status = Status.Unlocked;
+                break;
+            }
+        }
+        playerData.crownDataArray = crownDatas;
+        SaveData();
+    }
+
+    public void UnlockNewCrown(string crownName)
+    {
+        CrownData[] crownDatas = playerData.crownDataArray;
+        for (int i = 0; i < crownDatas.Length; i++)
+        {
+            if (crownName == crownDatas[i].name)
+            {
+                crownDatas[i].status = Status.Unlocked;
+                break;
+            }
+        }
+        playerData.crownDataArray = crownDatas;
+        SaveData();
     }
 
     List<CharacterInfo> NewCharacterInfoList()
@@ -164,4 +210,17 @@ public enum Status
 {
     Locked,
     Unlocked
+}
+
+[System.Serializable]
+public struct CrownData
+{
+    public string name;
+    public Status status;
+
+    public CrownData(string _name, Status _status)
+    {
+        name = _name;
+        status = _status;
+    }
 }

@@ -106,4 +106,6 @@ public class EndGameInfoPanel : MonoBehaviour
             }
         }
     }
+
+
 }

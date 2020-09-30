@@ -197,6 +197,8 @@
     <Compile Include="Assets\Scripts\SexyCubeOfDestinyMouseTrack.cs" />
     <Compile Include="Assets\Scripts\Shop\CosmeticOptionsHandler.cs" />
     <Compile Include="Assets\Scripts\Shop\CosmeticPanel.cs" />
+    <Compile Include="Assets\Scripts\Shop\CrownOption.cs" />
+    <Compile Include="Assets\Scripts\Shop\CrownPage.cs" />
     <Compile Include="Assets\Scripts\Shop\MainPanel.cs" />
     <Compile Include="Assets\Scripts\Shop\SelectCharacterPanelButton.cs" />
     <Compile Include="Assets\Scripts\Shop\ShopController.cs" />

@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 public class ProgressionSystem : MonoBehaviour
 {
     public static PlayerData playerData;
-    static string testPrefString = "bonkerbonobos";
+    static string testPrefString = "bonksss";
 
     private void OnEnable()
     {

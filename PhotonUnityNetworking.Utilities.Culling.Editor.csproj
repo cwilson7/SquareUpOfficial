@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{22C06357-3F28-D6FD-9AA1-410DAD23DC53}</ProjectGuid>
+    <ProjectGuid>{2ED5B84D-C4E9-882C-40CD-F50A7B31C3CF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>PhotonUnityNetworking.Utilities.Culling.Editor</AssemblyName>
@@ -66,16 +66,16 @@
     <Compile Include="Assets\Photon\PhotonUnityNetworking\UtilityScripts\Culling\Editor\CullAreaEditor.cs" />
     <None Include="Assets\Photon\PhotonUnityNetworking\UtilityScripts\Culling\Editor\PhotonUnityNetworking.Utilities.Culling.Editor.asmdef" />
     <Reference Include="UnityEditor.UI">
-      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpSimple/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUp/SquareUpOfficial/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpSimple/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUp/SquareUpOfficial/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.TestRunner">
-      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpSimple/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
+      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUp/SquareUpOfficial/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TestRunner">
-      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpSimple/Library/ScriptAssemblies/UnityEngine.TestRunner.dll</HintPath>
+      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUp/SquareUpOfficial/Library/ScriptAssemblies/UnityEngine.TestRunner.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Users/sloan/Desktop/Chase/Unity Editor/2019.3.6f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -276,28 +276,28 @@
       <HintPath>C:/Program Files (x86)/Microsoft Visual Studio Tools for Unity/16.0/Editor/SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
     </Reference>
     <Reference Include="Photon3Unity3D">
-      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpSimple/Assets/Photon/PhotonLibs/Photon3Unity3D.dll</HintPath>
+      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUp/SquareUpOfficial/Assets/Photon/PhotonLibs/Photon3Unity3D.dll</HintPath>
     </Reference>
     <Reference Include="websocket-sharp">
-      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpSimple/Assets/Photon/PhotonLibs/WebSocket/websocket-sharp.dll</HintPath>
-    </Reference>
-    <Reference Include="Google.IOSResolver_v1.2.136.0">
-      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpSimple/Assets/PlayServicesResolver/Editor/Google.IOSResolver_v1.2.136.0.dll</HintPath>
-    </Reference>
-    <Reference Include="Google.JarResolver_v1.2.136.0">
-      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpSimple/Assets/PlayServicesResolver/Editor/Google.JarResolver_v1.2.136.0.dll</HintPath>
-    </Reference>
-    <Reference Include="Google.VersionHandler">
-      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpSimple/Assets/PlayServicesResolver/Editor/Google.VersionHandler.dll</HintPath>
-    </Reference>
-    <Reference Include="Google.VersionHandlerImpl_v1.2.136.0">
-      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpSimple/Assets/PlayServicesResolver/Editor/Google.VersionHandlerImpl_v1.2.136.0.dll</HintPath>
+      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUp/SquareUpOfficial/Assets/Photon/PhotonLibs/WebSocket/websocket-sharp.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.NRefactory">
-      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpSimple/Library/PackageCache/com.unity.render-pipelines.core@7.1.8/Editor/ShaderGenerator/ICSharpCode.NRefactory.dll</HintPath>
+      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUp/SquareUpOfficial/Library/PackageCache/com.unity.render-pipelines.core@7.1.8/Editor/ShaderGenerator/ICSharpCode.NRefactory.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.JarResolver_v1.2.136.0">
+      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUp/SquareUpOfficial/Assets/PlayServicesResolver/Editor/Google.JarResolver_v1.2.136.0.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.VersionHandler">
+      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUp/SquareUpOfficial/Assets/PlayServicesResolver/Editor/Google.VersionHandler.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.IOSResolver_v1.2.136.0">
+      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUp/SquareUpOfficial/Assets/PlayServicesResolver/Editor/Google.IOSResolver_v1.2.136.0.dll</HintPath>
+    </Reference>
+    <Reference Include="Google.VersionHandlerImpl_v1.2.136.0">
+      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUp/SquareUpOfficial/Assets/PlayServicesResolver/Editor/Google.VersionHandlerImpl_v1.2.136.0.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
-      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUpSimple/Library/PackageCache/com.unity.ext.nunit@1.0.0/net35/unity-custom/nunit.framework.dll</HintPath>
+      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUp/SquareUpOfficial/Library/PackageCache/com.unity.ext.nunit@1.0.0/net35/unity-custom/nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.iOS.Extensions.Xcode">
       <HintPath>C:/Users/sloan/Desktop/Chase/Unity Editor/2019.3.6f1/Editor/Data/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.Xcode.dll</HintPath>
@@ -662,7 +662,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="PhotonUnityNetworking.Utilities.csproj">
-      <Project>{9442D0EC-33FA-2123-3713-2D11E49CBCA6}</Project>
+      <Project>{6CFEB5CC-69D0-F0B2-D155-C2972467F6FF}</Project>
       <Name>PhotonUnityNetworking.Utilities</Name>
     </ProjectReference>
   </ItemGroup>

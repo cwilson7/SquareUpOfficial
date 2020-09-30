@@ -86,11 +86,7 @@
     <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\FixedJoystick.cs" />
     <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\FloatingJoystick.cs" />
     <Compile Include="Assets\Joystick Pack\Scripts\Joysticks\VariableJoystick.cs" />
-    <Compile Include="Assets\LoadControllerMain.cs" />
     <Compile Include="Assets\PageDragger.cs" />
-    <Compile Include="Assets\PaintSelfDestruct.cs" />
-    <Compile Include="Assets\PaintTesting.cs" />
-    <Compile Include="Assets\ParticleHandler.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\Common\EventSystemSpawner.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\Common\OnStartDelete.cs" />
     <Compile Include="Assets\Photon\PhotonChat\Demos\Common\TextButtonTransition.cs" />
@@ -109,7 +105,6 @@
     <Compile Include="Assets\Photon\PhotonUnityNetworking\Resources\Views\PhotonTransformView.cs" />
     <Compile Include="Assets\Photon\PhotonUnityNetworking\Resources\Views\PhotonTransformViewClassic.cs" />
     <Compile Include="Assets\PlayerRewards.cs" />
-    <Compile Include="Assets\QuaternionJibberish.cs" />
     <Compile Include="Assets\Resources\Classes\DashController.cs" />
     <Compile Include="Assets\Resources\Classes\StickyController.cs" />
     <Compile Include="Assets\Resources\Classes\WarpController.cs" />
@@ -209,10 +204,7 @@
     <Compile Include="Assets\Scripts\Structs\Currency.cs" />
     <Compile Include="Assets\Scripts\TMPTestScripts\CubeRunner.cs" />
     <Compile Include="Assets\Scripts\Utilities.cs" />
-    <Compile Include="Assets\ShopCube.cs" />
     <Compile Include="Assets\SimpleHealthBar\Healthbar.cs" />
-    <Compile Include="Assets\StepHandler.cs" />
-    <Compile Include="Assets\Synchronization.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark02.cs" />
@@ -264,10 +256,8 @@
     <Compile Include="Assets\VoxelBusters\NativePlugins\Demo\Scripts\Features\UtilityDemo.cs" />
     <Compile Include="Assets\VoxelBusters\NativePlugins\Demo\Scripts\Features\WebViewDemo.cs" />
     <Compile Include="Assets\VoxelBusters\NativePlugins\Demo\Scripts\Utility\Utility.cs" />
-    <Compile Include="Assets\bonerpaint.cs" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
-    <None Include="Assets\PaintShader.shader" />
     <None Include="Assets\Photon\PhotonUnityNetworking\changelog.txt" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Bitmap.shader" />
     <None Include="Assets\TextMesh Pro\Examples &amp; Extras\Fonts\Oswald-Bold - OFL.txt" />
@@ -284,7 +274,6 @@
     <None Include="Assets\Photon\PhotonUnityNetworking\readme.txt" />
     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
     <None Include="Assets\CrystalFramework\Utility\Demos\SafeAreaDemo.txt" />
-    <None Include="Assets\VertexColorShader.shader" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Masking.shader" />
     <None Include="Assets\SimpleHealthBar\documentation.txt" />
     <None Include="Assets\Photon\PhotonLibs\Photon3Unity3D.xml" />

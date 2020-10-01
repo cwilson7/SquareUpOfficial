@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 
 public class AvatarCharacteristics : MonoBehaviour
 {
-    [Header("Character Data")]
+    [Header("Character Data || ENSURE THAT NAME IS SAME AS FILE NAME")]
     public CharacterInfo info;
     public int[] indexesOfMaterial;
     public VideoClip myDemo;
@@ -16,10 +16,10 @@ public class AvatarCharacteristics : MonoBehaviour
 
     [Header("Cosmetic Folder Information")]
     [Tooltip("Enter only the name of specified character's cosmetics folder")]
-    [SerializeField] private string CosmeticFolder;
+    [SerializeField] public string CosmeticFolder;
 
     [Tooltip("Enter name of folder and type of cosmetics that that folder houses")]
-    [SerializeField] private CosmeticLoader[] folders;
+    [SerializeField] public CosmeticLoader[] folders;
 
     public GameObject lFist, rFist;
 

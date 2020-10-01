@@ -726,7 +726,6 @@ MonoBehaviour:
     type: 3}
   roomNotFoundTxtPrefab: {fileID: 3686236230582743364, guid: 8a62401de8b57c64e80466573f2b9097,
     type: 3}
-  roomListContent: {fileID: 690732808}
   joinRndLobbyBtn: {fileID: 1658603297}
   chooseModePnl: {fileID: 1929199125}
   startPnl: {fileID: 1799514541}
@@ -3324,8 +3323,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37459a3bde85d1f47abcdc2ad7208464, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  content: {fileID: 0}
-  rlPrefab: {fileID: 0}
 --- !u!1 &694836034
 GameObject:
   m_ObjectHideFlags: 0

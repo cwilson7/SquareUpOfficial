@@ -8,7 +8,7 @@ using UnityEngine.SceneManagement;
 public class ProgressionSystem : MonoBehaviour
 {
     public static PlayerData playerData;
-    static string testPrefString = "bonksss";
+    static string testPrefString = "bonkssss";
 
     private void OnEnable()
     {
@@ -89,7 +89,7 @@ public class ProgressionSystem : MonoBehaviour
             return;
         }
 
-        string crownName = lockedCrownNames[Random.Range(0, crownDatas.Length)];
+        string crownName = lockedCrownNames[Random.Range(0, lockedCrownNames.Count)];
         for (int j = 0; j < crownDatas.Length; j++)
         {
             if (crownName == crownDatas[j].name)

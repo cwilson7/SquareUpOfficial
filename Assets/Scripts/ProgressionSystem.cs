@@ -108,7 +108,7 @@ public class ProgressionSystem : MonoBehaviour
             List<(GameObject, CosmeticType)> items = new List<(GameObject, CosmeticType)>();
             if (missingCharacters)
             {
-                Debug.Log("Saved data is missing a character.");
+                Debug.Log("Saved data is missing a character. Attempting to identify missing character...");
                 // load in missing characters
                 bool modelInSavedData = false;
                 for (int i = 0; i < playerData.characters.Count; i++)

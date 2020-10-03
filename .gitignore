@@ -64,3 +64,4 @@ sysinfo.txt
 crashlytics-build.properties
 obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
 *.cache
+*.cache

@@ -203,13 +203,14 @@ public class GameManager : MonoBehaviour
     {
         Score playerInfo = (Score)GameInfo.GI.scoreTable[actor];
         //GameObject wpn = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/Weapons/" + weaponName), playerInfo.playerAvatar.GetComponentInChildren<GunPivot>().transform.position, Quaternion.identity);
-        GameObject wpn = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/Weapons/" + weaponName), playerInfo.playerAvatar.GetComponentInChildren<GunLocation>().transform.position, Quaternion.identity);
-        wpn.transform.SetParent(playerInfo.playerAvatar.GetComponentInChildren<GunPivot>().transform);
+        GameObject wpn = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/Weapons/" + weaponName), playerInfo.playerAvatar.GetComponentInChildren<GunLocation>().transform.position, Quaternion.identity);      
+        //wpn.transform.SetParent(playerInfo.playerAvatar.GetComponentInChildren<GunPivot>().transform);
         //wpn.transform.SetParent(playerInfo.playerAvatar.transform);
         wpn.GetComponent<Weapon>().owner = actor;
         wpn.GetComponent<Weapon>().GunPivot = playerInfo.playerAvatar.GetComponentInChildren<GunPivot>().transform;
         //playerInfo.playerAvatar.GetComponent<Controller>().currentWeapon = wpn.GetComponent<Weapon>();
         playerInfo.playerAvatar.GetComponent<Controller>().EquipWeapon(wpn);
+        wpn.GetComponent<Weapon>().InitalizeWeapon();
         //wpn.transform.rotation = new Vector3()
     }
 

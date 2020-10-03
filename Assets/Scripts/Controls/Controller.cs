@@ -41,6 +41,7 @@ public abstract class Controller : MonoBehaviour
     public bool hasGun, isGrounded, isDead = false, controllerInitialized = false, receivingImpact = false;
     float impactInterp = 0f;
     public int directionModifier;
+    public Vector3 tempVel;
 
     public Animator anim;
 
@@ -149,6 +150,7 @@ public abstract class Controller : MonoBehaviour
         if (rb.velocity.y < 0) rb.velocity += Vector3.up * Physics.gravity.y * 0.5f * Time.deltaTime;
 
         if (!PV.IsMine) return;
+        rb.velocity = tempVel;
         HandleDeaths();
         TrackMouse();
         //MouseCombat();
@@ -370,7 +372,7 @@ public abstract class Controller : MonoBehaviour
 
     public void Move(float input)
     {
-        rb.velocity = new Vector3(input * speed, rb.velocity.y, 0f) + impact;
+        tempVel = new Vector3(input * speed, rb.velocity.y, 0f) + impact;
 
         //lock Z Pos
         transform.position = new Vector3(transform.position.x, transform.position.y, Cube.cb.CurrentFace.spawnPoints[0].position.z);

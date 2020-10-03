@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6738163090807310094}
   m_Layer: 0
-  m_Name: PowerUpSpawnPoints (1)
+  m_Name: PowerUpSpawnPoints
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -293,7 +293,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2453344146692433038}
   m_Layer: 0
-  m_Name: PlayerSpawnPoints (1)
+  m_Name: PlayerSpawnPoints
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

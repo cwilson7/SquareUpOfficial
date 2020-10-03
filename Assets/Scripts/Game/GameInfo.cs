@@ -186,7 +186,7 @@ public class GameInfo : MonoBehaviour
     //Winning(bool) does winner stuff
     
     [PunRPC]
-    public void ChangeWinner_RPC(int newWinner, int oldWinner)
+    private void ChangeWinner_RPC(int newWinner, int oldWinner)
     {
         GI.bestActorNr = newWinner;
 

@@ -33,8 +33,8 @@ MonoBehaviour:
   RpcList:
   - AddStat_RPC
   - AnimationSetPosition_RPC
+  - ChangeWinner_RPC
   - ClickRpc
-  - DamageReaction_RPC
   - DestroyPowerUp_RPC
   - DestroyRpc
   - DestroySpaceship
@@ -76,5 +76,5 @@ MonoBehaviour:
   - UpdateAllCharacters_RPC
   - ChangeWinner_RPC
   DisableAutoOpenWizard: 1
-  ShowSettings: 1
+  ShowSettings: 0
   DevRegionSetOnce: 1

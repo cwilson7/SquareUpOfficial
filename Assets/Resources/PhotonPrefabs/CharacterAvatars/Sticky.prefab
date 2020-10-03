@@ -373,6 +373,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abd1a677fe3c75744a6ec1ad8f9d27ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!65 &3137761007468927588
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2261464426870241526}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.033473257, y: 0.020000007, z: 0.03416296}
+  m_Center: {x: 0.0011775418, y: -6.3161393e-10, z: -0.006554415}
 --- !u!1001 &6367252487802810742
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -448,7 +461,7 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: dcbe1410116edbe40991cb3c1887c35c,
         type: 3}
       propertyPath: m_Name
-      value: StickyBase Variant
+      value: Sticky
       objectReference: {fileID: 0}
     - target: {fileID: -927199367670048503, guid: dcbe1410116edbe40991cb3c1887c35c,
         type: 3}
@@ -473,7 +486,7 @@ PrefabInstance:
     - target: {fileID: 5133913965574556032, guid: dcbe1410116edbe40991cb3c1887c35c,
         type: 3}
       propertyPath: m_Layer
-      value: 10
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 5133913965574556032, guid: dcbe1410116edbe40991cb3c1887c35c,
         type: 3}

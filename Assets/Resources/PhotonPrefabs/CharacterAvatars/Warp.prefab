@@ -318,6 +318,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e96e0cbcd0dcda4d91c58003f310077, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!65 &5324749144082861991
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2584718097265908841}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.03166709, y: 0.020000001, z: 0.030145567}
+  m_Center: {x: 0.0006108224, y: -0.0000000010642683, z: -0.004558054}
 --- !u!114 &2572693596203728650
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -448,7 +461,7 @@ PrefabInstance:
     - target: {fileID: -1504201320810728953, guid: 1ba62e2b560e9bc4db7a9200bb93c9b3,
         type: 3}
       propertyPath: m_Layer
-      value: 10
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: -1504201320810728953, guid: 1ba62e2b560e9bc4db7a9200bb93c9b3,
         type: 3}
@@ -458,7 +471,7 @@ PrefabInstance:
     - target: {fileID: -927199367670048503, guid: 1ba62e2b560e9bc4db7a9200bb93c9b3,
         type: 3}
       propertyPath: m_Name
-      value: WarpBase Variant
+      value: Warp
       objectReference: {fileID: 0}
     - target: {fileID: -927199367670048503, guid: 1ba62e2b560e9bc4db7a9200bb93c9b3,
         type: 3}

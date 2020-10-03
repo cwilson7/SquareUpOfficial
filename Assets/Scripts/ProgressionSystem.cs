@@ -9,7 +9,7 @@ using System.Linq;
 public class ProgressionSystem : MonoBehaviour
 {
     public static PlayerData playerData;
-    static string testPrefString = "datafortheboyyyyz";
+    static string testPrefString = "datafortheboyyyyzzzz";
     bool checkForUpdate = true;
 
     private void OnEnable()

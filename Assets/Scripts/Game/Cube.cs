@@ -13,7 +13,7 @@ public class Cube : MonoBehaviour, IPunObservable
     public static event Action<Level> CubeRotated;
 
     //FOR TESTING
-    public bool testing;
+    public bool testing = false;
     public GameObject TestingLevel;
     
     public static Cube cb;

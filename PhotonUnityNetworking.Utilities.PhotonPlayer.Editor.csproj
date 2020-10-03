@@ -72,6 +72,9 @@
     <Reference Include="UnityEngine.UI">
       <HintPath>C:/Users/Colin/Desktop/game stuff/mine/Game Dev/SquareUpOfficial/SquareUpOfficial/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>C:/Users/sloan/Desktop/Chase/Unity/Games/SquareUp/SquareUpOfficial/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEditor.TestRunner">
       <HintPath>C:/Users/Colin/Desktop/game stuff/mine/Game Dev/SquareUpOfficial/SquareUpOfficial/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
     </Reference>

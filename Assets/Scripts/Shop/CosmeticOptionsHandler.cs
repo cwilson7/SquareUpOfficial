@@ -27,21 +27,30 @@ public class CosmeticOptionsHandler : MonoBehaviour
         cosmeticsGrid.constraint = GridLayoutGroup.Constraint.FixedColumnCount;
         cosmeticsGrid.constraintCount = options_per_row;
 
+        // Instantiate default button
+        if (cosmeticType != CosmeticType.Fist) CreateOption(new CosmeticItem(cosmeticType, null, Status.Unlocked, Money.SquareBucks, 0));
+        totalItems++;
+
+        // Instantiate rest
         foreach (CosmeticItem item in info.cosmetics)
         {
             if (item.type == cosmeticType)
             {
-                GameObject optionGO = Instantiate(cosmeticOptionPrefab, cosmeticsGrid.transform);
-                optionGO.GetComponent<CosmeticOptionButton>().option = item;
-                optionGO.GetComponent<CosmeticOptionButton>().avatar = displayedCharacter.GetComponent<AvatarCharacteristics>();
-                
-                if (item.status == Status.Locked) optionGO.GetComponentInChildren<TMP_Text>().text = "Locked.";
-                else optionGO.GetComponentInChildren<TMP_Text>().text = item.name;
-
+                CreateOption(item);
                 totalItems++;
             }
         }
 
         cosmeticsGrid.gameObject.GetComponent<PageDragger>().totalPages = Mathf.CeilToInt(((float)totalItems / ((float)options_per_row * (float)options_per_column)));
+    }
+
+    private void CreateOption(CosmeticItem item)
+    {
+        GameObject optionGO = Instantiate(cosmeticOptionPrefab, cosmeticsGrid.transform);
+        optionGO.GetComponent<CosmeticOptionButton>().option = item;
+        optionGO.GetComponent<CosmeticOptionButton>().avatar = displayedCharacter.GetComponent<AvatarCharacteristics>();
+
+        if (item.status == Status.Locked) optionGO.GetComponentInChildren<TMP_Text>().text = "Locked.";
+        else optionGO.GetComponentInChildren<TMP_Text>().text = item.name;
     }
 }

@@ -457,7 +457,7 @@ public abstract class Controller : MonoBehaviour
 
             Destroy(otherGO);
         }
-        if (other.tag == "Fist")
+        else if (other.tag == "Fist")
         {          
             Fist fist = other.GetComponent<Fist>();
             if (fist.owner == actorNr) return;

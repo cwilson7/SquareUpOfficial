@@ -21,13 +21,14 @@ public class Fist : DamageDealer
 
     public Transform Origin;
     float maxRadiusPunch = 5f, punchReturnRadius = 2f;
-    float followSpeed = 20f;
+    float followSpeed = 40f;
     float punchSpeed = 30f;
     public bool punching = false, returning = false, redirecting = false;
 
     [Header("Cosmetic Information")]
     public int[] materialIndexesToChange;
 
+    public float fistReturnSpeedMultiplier = 0.5f;
     private void Start()
     {
         defaultRotation = Quaternion.Euler(-transform.localRotation.eulerAngles.x, 90, 90);
@@ -73,7 +74,10 @@ public class Fist : DamageDealer
 
     void DelayedFollow()
     {
-        rb.velocity = (Origin.position - transform.position) * followSpeed;
+        Vector3 veloicty, distance = Origin.position - transform.position;
+        /*if (Mathf.Abs(distance.magnitude) > maxRadiusPunch) veloicty = distance * followSpeed * 2f;
+        else */veloicty = distance * followSpeed;
+        rb.velocity = veloicty;
     }
 
     public void InitializeDummy()
@@ -105,11 +109,12 @@ public class Fist : DamageDealer
         else
         {
             rb.rotation = Quaternion.LookRotation(- Origin.position + transform.position, Vector3.up);
-            if ((Origin.position - transform.position).magnitude > maxRadiusPunch) ReturnFist();
+            if ((Origin.position - transform.position).magnitude > maxRadiusPunch && !returning) ReturnFist();
             if (returning)
             {
-                Vector3 direction = (Origin.position - transform.position).normalized;
-                rb.velocity = direction * punchSpeed;
+                Vector3 velocity, returnVector = Origin.position - transform.position;
+                velocity = returnVector * followSpeed * fistReturnSpeedMultiplier;
+                rb.velocity = velocity;
                 if ((Origin.position - transform.position).magnitude < punchReturnRadius)
                 {
                     punching = false;

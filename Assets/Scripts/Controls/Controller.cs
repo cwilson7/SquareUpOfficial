@@ -419,7 +419,24 @@ public abstract class Controller : MonoBehaviour
     
     private void OnCollisionEnter(Collision other)
     {
-        if (GroundCheck(other, true)) jumpNum = maxJumps;
+        if (GroundCheck(other, true)) jumpNum = maxJumps;       
+
+    }
+
+    //need to let particle system finish before moving transform
+
+    private void OnCollisionStay(Collision collision)
+    {
+        GroundCheck(collision, true);
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        GroundCheck(collision, false);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
         GameObject otherGO = other.gameObject;
         if (otherGO.tag == "Projectile")
         {
@@ -440,22 +457,6 @@ public abstract class Controller : MonoBehaviour
 
             Destroy(otherGO);
         }
-    }
-
-    //need to let particle system finish before moving transform
-
-    private void OnCollisionStay(Collision collision)
-    {
-        GroundCheck(collision, true);
-    }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        GroundCheck(collision, false);
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
         if (other.tag == "Fist")
         {          
             Fist fist = other.GetComponent<Fist>();

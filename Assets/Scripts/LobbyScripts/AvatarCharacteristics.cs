@@ -145,6 +145,7 @@ public class AvatarCharacteristics : MonoBehaviour
 
     public void DisplayCosmetic(CosmeticItem item)
     {
+        if (item.model == null) return;
         if (item.type == CosmeticType.Fist)
         {
             FistModel = info.currentSet.cosmetics[CosmeticType.Fist].model;
@@ -270,11 +271,16 @@ public class CosmeticSet : ISerializationCallbackReceiver
                 }
             }
         }
+        bool nullItem = item.model == null;
         if (!cosmetics.ContainsKey(item.type))
         {
-            cosmetics.Add(item.type, item);
+            if (!nullItem) cosmetics.Add(item.type, item);
         }
-        else cosmetics[item.type] = item;
+        else
+        {
+            if (!nullItem) cosmetics[item.type] = item;
+            else cosmetics.Remove(item.type);
+        }
     }
 
     public void SaveSet(CharacterInfo info)

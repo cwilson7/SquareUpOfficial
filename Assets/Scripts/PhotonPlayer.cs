@@ -48,7 +48,7 @@ public class PhotonPlayer : MonoBehaviour
     private void InitializePhotonPlayer()
     {
         if (Cube.cb == null) StartCoroutine(InformationDelay());
-        if (Cube.cb.CurrentFace.spawnPoints.Length < 1) StartCoroutine(InformationDelay());
+        else if (Cube.cb.CurrentFace.spawnPoints.Length < 1) StartCoroutine(InformationDelay());
         else
         {
             Transform[] spawnList = Cube.cb.CurrentFace.spawnPoints;

@@ -16,9 +16,9 @@ public class CosmeticItem
 
     public CosmeticItem(CosmeticType _type, GameObject _model, Status _status, Money currencyType, int value)
     {
-        if (model != null) name = _model.name;
         type = _type;
         model = _model;
+        if (model != null) name = _model.name;
         status = _status;
         cost = new Currency(currencyType, value);
     }

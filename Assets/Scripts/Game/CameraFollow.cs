@@ -10,6 +10,9 @@ public class CameraFollow : MonoBehaviour
     private bool rdyToFollow = false;
     private Vector3 offset, velocity = Vector3.zero;
     [SerializeField] private float leeway, maxDistance;
+
+    float rumbleTimer = 0f, shakeMagnitude = 1.2f;
+    Vector3 initialPos;
     
     // Start is called before the first frame update
     void Start()
@@ -40,6 +43,12 @@ public class CameraFollow : MonoBehaviour
         InitializeCameraFollow();
     }
 
+    public void TriggerShake(float shakeTime)
+    {
+        rumbleTimer += shakeTime;
+        initialPos = transform.localPosition;
+    }
+
     void Follow()
     {
         if (Cube.cb == null) return;
@@ -67,8 +76,14 @@ public class CameraFollow : MonoBehaviour
     void LateUpdate()
     {
         if (Cube.cb == null) return;
-        if (rdyToFollow && !Cube.cb.inRotation && player.GetComponent<Controller>().isDead == false) Follow();
-        if (rdyToFollow && Cube.cb != null && Cube.cb.inRotation)
+        if (rumbleTimer > 0)
+        {
+            Vector2 randCircle = Random.insideUnitCircle * shakeMagnitude;
+            transform.localPosition = new Vector3(initialPos.x + randCircle.x, initialPos.y + randCircle.y, initialPos.z);
+            rumbleTimer -= Time.deltaTime;
+        }
+        else if (rdyToFollow && !Cube.cb.inRotation && player.GetComponent<Controller>().isDead == false) Follow();
+        else if (rdyToFollow && Cube.cb != null && Cube.cb.inRotation)
         {
             Vector3 pos = Cube.cb.transform.position;
             transform.position = new Vector3(pos.x, pos.y, pos.z - Cube.cb.cubeSize - distanceFromMap * 3);

@@ -12,6 +12,8 @@ public class GameManager : MonoBehaviour
     public TMP_Text gameTimer;
 
     [SerializeField] GameObject endGamePanel, UIPanel, optionsPanel;
+    public Image killIndicator;
+    private float killIndicatorDisplayTimer = 0f;
 
     //Set values
     [SerializeField] private double percentOfPowerUpsWeapons;
@@ -23,7 +25,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float powerUpCooldown;
     [SerializeField] public bool gameStarted = false, timerRunning = false;
     [SerializeField] private Hashtable currentPowerUps = new Hashtable();
-    float maxTimeSeconds, timerSeconds; 
+    float maxTimeSeconds, timerSeconds, maxKillDisplayTime = 2f; 
 
     private System.Random rand;
     
@@ -45,8 +47,19 @@ public class GameManager : MonoBehaviour
     {
         if (!gameStarted) return;
 
+        if (killIndicatorDisplayTimer > 0)
+        {
+            float a = Scale(killIndicatorDisplayTimer, new Vector2(0, maxKillDisplayTime), new Vector2(0, 1));
+            killIndicator.color = new Color(killIndicator.color.r, killIndicator.color.g, killIndicator.color.b, a);
+            killIndicatorDisplayTimer -= Time.deltaTime;
+        }
         HandleTimers();
         HandlePowerUps();
+    }
+
+    float Scale(float value, Vector2 valueRange, Vector2 newRange)
+    {
+        return ((value - valueRange.x) / (valueRange.y - valueRange.x)) * (newRange.y - newRange.x) + newRange.x;
     }
 
     public void InitalizeGameManager()
@@ -86,6 +99,11 @@ public class GameManager : MonoBehaviour
     {
         yield return new WaitForSeconds(GameInfo.GI.startDelaySeconds);
         PV.RPC("GameStart_RPC", RpcTarget.AllBuffered);
+    }
+
+    public void TriggerKillIndicator()
+    {
+        killIndicatorDisplayTimer = maxKillDisplayTime;
     }
 
     #region Button Stuff

@@ -207,7 +207,6 @@ public abstract class Controller : MonoBehaviour
     #region Mouse Tracking / Combat
     private void MouseCombat()
     {
-
         if (Input.GetMouseButtonDown(0))
         {
             if (currentWeapon == null)
@@ -295,11 +294,29 @@ public abstract class Controller : MonoBehaviour
         isDead = true;
         GameInfo.GI.StatChange(PhotonNetwork.LocalPlayer.ActorNumber, Stat.deaths);
         //explode with color
+        SignifyDeath();
         Transform[] list = Cube.cb.CurrentFace.spawnPoints;
         int spawnPtlocID = UnityEngine.Random.Range(0, list.Length);
         PV.RPC("LoseWeapon_RPC", RpcTarget.All);
         PV.RPC("DieAndRespawn_RPC", RpcTarget.AllBuffered, spawnPtlocID);
         PhotonNetwork.SendAllOutgoingCommands(); 
+    }
+
+    void SignifyDeath()
+    {
+        // screen rumble 
+        CameraFollow camScript = Camera.main.GetComponent<CameraFollow>();
+        camScript.TriggerShake(0.7f);
+    }
+
+    void SignifyKill()
+    {
+        //play slash sound
+        //display image briefly
+        Debug.Log("kill registered");
+        GameManager.Manager.TriggerKillIndicator();
+        CameraFollow camScript = Camera.main.GetComponent<CameraFollow>();
+        camScript.TriggerShake(0.3f);
     }
 
     IEnumerator SpawnDelay()
@@ -508,6 +525,13 @@ public abstract class Controller : MonoBehaviour
     #endregion
 
     #region RPC
+    [PunRPC]
+    public void GetKill_RPC(int myActor)
+    {
+        if (PhotonNetwork.LocalPlayer.ActorNumber != myActor) return;
+        SignifyKill();
+    }
+
 
     [PunRPC]
     public void AnimationSetPosition_RPC(Vector3 networkPos)
@@ -522,6 +546,8 @@ public abstract class Controller : MonoBehaviour
         if (HP - lostHP <= 0)
         {
             GameInfo.GI.StatChange(damager.owner, Stat.kills);
+            PV.RPC("GetKill_RPC", RpcTarget.All, damager.owner);
+            PhotonNetwork.SendAllOutgoingCommands();
             Die();
         }
     }

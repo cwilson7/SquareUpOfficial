@@ -6,7 +6,24 @@ using Photon.Pun;
 public class WeaponPowerUp : PowerUp
 {
     public GameObject WeaponPrefab;
-    
+    GameObject childDisplay;
+    public float rotationSpeed = 60f;
+
+    private void Start()
+    {
+        childDisplay = transform.GetChild(0).gameObject;
+    }
+
+    private void Update()
+    {
+        RotateDisplay();
+    }
+
+    void RotateDisplay()
+    {
+        childDisplay.transform.Rotate((Vector3.up + Vector3.right) * rotationSpeed * Time.deltaTime);
+    }
+
     public override void ItemAbility(int actorNr)
     {
         InitializeWeapon(actorNr);

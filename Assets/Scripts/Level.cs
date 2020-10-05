@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class Level : MonoBehaviour
 {
+    [Header("TAG IMPORTED 3D OBJECT AS levelObject")]
     [HideInInspector] public Transform[] spawnPoints, powerUpSpawnPoints;
+    public GameObject levelModel;
     public Transform face;
     public int num;
     public float GravityMultiplier;

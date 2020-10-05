@@ -200,7 +200,7 @@ public class GameManager : MonoBehaviour
     public void InstantiatePowerUp_RPC(int listID, int locID, int pwrUpID, int newID)
     {
         List<GameObject> pwrUpList = GameInfo.GI.ReturnListFromID(listID);
-        Transform[] pwrUpLocs = Cube.cb.CurrentFace.powerUpSpawnPoints; 
+        Transform[] pwrUpLocs = Cube.cb.CurrentFace.powerUpSpawnPoints;
         GameObject pwrUp = Instantiate(pwrUpList[pwrUpID], pwrUpLocs[locID]);
         pwrUp.GetComponent<PowerUp>().id = newID;
         currentPowerUps.Add(newID, pwrUp);

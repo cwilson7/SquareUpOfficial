@@ -19,6 +19,7 @@ public class Cube : MonoBehaviour, IPunObservable
     public static Cube cb;
     public PhotonView PV;
     public List<Level> LevelPool = new List<Level>(), LevelsOnCube = new List<Level>();
+    public List<GameObject> levelModels = new List<GameObject>();
     public List<int> InstantiatedLevelIDs = new List<int>();
     public List<Transform> Faces = new List<Transform>();
     public Level CurrentFace;
@@ -358,6 +359,7 @@ public class Cube : MonoBehaviour, IPunObservable
         if (!InstantiatedLevelIDs.Contains(id)) InstantiatedLevelIDs.Add(id);
         GameObject level = Instantiate(LevelPool[id].gameObject, Faces[i].transform.position, Faces[i].transform.rotation);
         level.transform.SetParent(Faces[i]);
+        levelModels.Add(level.GetComponent<Level>().levelModel);
         level.GetComponent<Level>().num = i;
         level.transform.SetParent(transform);
         level.GetComponent<Level>().face = Faces[i];

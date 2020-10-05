@@ -35,7 +35,6 @@ public class CharSelectPanelController : MonoBehaviour, IDragHandler, IEndDragHa
 
     public bool CheckForDuplicateMaterials()
     {
-        Debug.Log("checking for duplicates");
         List<int> colors = new List<int>();
         int dups;
         foreach (Player entry in PhotonNetwork.CurrentRoom.Players.Values)

@@ -14,8 +14,8 @@ public abstract class Controller : MonoBehaviour
     public ParticleSystem PaintExplosionSystem;
 
     public PhotonView PV;
-    private Rigidbody rb;
-    private SphereCollider GroundCollider;
+    protected Rigidbody rb;
+    protected SphereCollider GroundCollider;
 
     public Weapon currentWeapon;
     public Fist RFist; //fist num 1
@@ -50,6 +50,8 @@ public abstract class Controller : MonoBehaviour
 
     Vector3 respawnPos;
     GameObject crown;
+
+    protected bool abilityOffCooldown = true, unfreezeForAbility = false;
 
 
     #region SET VALUES
@@ -133,30 +135,33 @@ public abstract class Controller : MonoBehaviour
     #endregion
 
     #region Update Functions
-    private void Update()
+    protected void Update()
     {
         if (!controllerInitialized) return;
         if (CheckForTimeStop()) return;
         if (!PV.IsMine) return;
-        Move(HandleInputs());
+        HandleInputs();
         MouseCombat();
+        TrackMouse();
+        if (!abilityOffCooldown) HandleCooldownTimer();
     }
-    private void FixedUpdate()
+
+    /*
+    virtual void FixedUpdate()
     {
         if (!controllerInitialized) return;
         if (CheckForTimeStop()) return;
         TrackHP();
         HandleAnimationValues();
-        if (rb.velocity.y < 0) rb.velocity += Vector3.up * Physics.gravity.y * 0.5f * Time.deltaTime;
+        AlteredGravity();
 
         if (!PV.IsMine) return;
-        rb.velocity = tempVel;
+        Move(tempVel);
         HandleDeaths();
-        TrackMouse();
-        //MouseCombat();
     }
+    */
 
-    private bool CheckForTimeStop()
+    protected bool CheckForTimeStop()
     {
         if (GameInfo.GI.TimeStopped || isDead)
         {
@@ -171,7 +176,7 @@ public abstract class Controller : MonoBehaviour
         }
     }
 
-    private void TrackHP()
+    protected void TrackHP()
     {
         Color newCol = Color.Lerp(LobbyController.lc.availableMaterials[(int)PhotonNetwork.CurrentRoom.GetPlayer(actorNr).CustomProperties["AssignedColor"]].color, Color.black, 1 - HP);
         AvatarCharacteristics ColorInfo = GetComponentInChildren<AvatarCharacteristics>();
@@ -180,7 +185,7 @@ public abstract class Controller : MonoBehaviour
         ColorInfo.SetFistMaterial(RFist.gameObject, newCol);
     }
 
-    private void HandleAnimationValues()
+    protected void HandleAnimationValues()
     {
         //set values for aimx and aimy
 
@@ -205,7 +210,7 @@ public abstract class Controller : MonoBehaviour
     #endregion
 
     #region Mouse Tracking / Combat
-    private void MouseCombat()
+    protected void MouseCombat()
     {
         if (Input.GetMouseButtonDown(0))
         {
@@ -221,6 +226,11 @@ public abstract class Controller : MonoBehaviour
                 currentWeapon.Attack(AimDirection);
             }
         }
+    }
+
+    public virtual void HandleSpecial()
+    {
+
     }
 
     int FistToPunch()
@@ -262,7 +272,7 @@ public abstract class Controller : MonoBehaviour
         //visual confirmation that gun is moving
     }
 
-    private void Punch(int numPunch)
+    protected void Punch(int numPunch)
     {
         GameInfo.GI.StatChange(actorNr, Stat.punchesThrown);
         PV.RPC("RPC_MeleeAttack", RpcTarget.AllBuffered, AimDirection, actorNr, numPunch);
@@ -279,17 +289,17 @@ public abstract class Controller : MonoBehaviour
 
     #region Death/ Respawn
 
-    private void HandleDeaths()
+    protected void HandleDeaths()
     {
         float vertDistance = Mathf.Abs(transform.position.y - Cube.cb.CurrentFace.face.position.y);
         float horizDistance = Mathf.Abs(transform.position.x - Cube.cb.CurrentFace.face.position.x);
-        if (horizDistance > boundaryDist || vertDistance > boundaryDist)// || HP <= 0f)
+        if (/*horizDistance > boundaryDist ||*/ vertDistance > boundaryDist)// || HP <= 0f)
         {
             Die();
         }
     }
     
-    private void Die()
+    protected void Die()
     {
         isDead = true;
         GameInfo.GI.StatChange(PhotonNetwork.LocalPlayer.ActorNumber, Stat.deaths);
@@ -326,7 +336,7 @@ public abstract class Controller : MonoBehaviour
         else Respawn();
     }
 
-    private void Respawn()
+    protected void Respawn()
     {
         if (PV.IsMine)
         {
@@ -348,7 +358,7 @@ public abstract class Controller : MonoBehaviour
         else Respawn();
     }
 
-    private void SetAllComponents(bool isActive)
+    protected void SetAllComponents(bool isActive)
     {
         foreach (Renderer display in gameObject.GetComponentsInChildren<Renderer>())
         {
@@ -365,16 +375,20 @@ public abstract class Controller : MonoBehaviour
     #endregion
 
     #region Movement Functions
-    protected float HandleInputs()
+    protected void HandleInputs()
     {
         float inputX = Input.GetAxis("Horizontal");
         bool inputY = Input.GetKeyDown(KeyCode.W);
+        bool specialInput = Input.GetKeyDown(KeyCode.R);
+
+        if (specialInput && abilityOffCooldown) SpecialAbility();
 
         if (inputX > 0) directionModifier = 1;
         else if (inputX < 0) directionModifier = 0;
 
         if (receivingImpact) FreezePositions(false);
         else if (inputX != 0) FreezePositions(false);
+        else if (unfreezeForAbility) FreezePositions(false);
         else if (isGrounded) FreezePositions(true);
 
         if (inputX > 0) gameObject.transform.rotation = Quaternion.Euler(0, 100, 0);
@@ -382,20 +396,24 @@ public abstract class Controller : MonoBehaviour
         if (inputY) TryJump();
 
         anim.SetFloat("Velocity", Mathf.Abs(rb.velocity.x));
-        return inputX;
-    }
 
-
-
-    public void Move(float input)
-    {
-        tempVel = new Vector3(input * speed, rb.velocity.y, 0f) + impact;
+        tempVel = new Vector3(inputX * speed, rb.velocity.y, 0f) + impact;
 
         //lock Z Pos
         transform.position = new Vector3(transform.position.x, transform.position.y, Cube.cb.CurrentFace.spawnPoints[0].position.z);
 
         //Account for impact from being hit by weapon
         if (receivingImpact) ImpactHandler();
+    }
+
+    public void AlteredGravity()
+    {
+        if (rb.velocity.y < 0) rb.velocity += Vector3.up * Physics.gravity.y * 0.5f * Time.deltaTime; ;
+    }
+
+    public void Move(Vector3 moveVector)
+    {
+        rb.velocity = moveVector;
     }
 
     void ImpactHandler()
@@ -434,7 +452,7 @@ public abstract class Controller : MonoBehaviour
 
     #region Collision/ Trigger 
     
-    private void OnCollisionEnter(Collision other)
+    protected void OnCollisionEnter(Collision other)
     {
         if (GroundCheck(other, true)) jumpNum = maxJumps;       
 
@@ -442,17 +460,17 @@ public abstract class Controller : MonoBehaviour
 
     //need to let particle system finish before moving transform
 
-    private void OnCollisionStay(Collision collision)
+    protected void OnCollisionStay(Collision collision)
     {
         GroundCheck(collision, true);
     }
 
-    private void OnCollisionExit(Collision collision)
+    protected void OnCollisionExit(Collision collision)
     {
         GroundCheck(collision, false);
     }
 
-    private void OnTriggerEnter(Collider other)
+    protected void OnTriggerEnter(Collider other)
     {
         GameObject otherGO = other.gameObject;
         if (otherGO.tag == "Projectile")
@@ -625,5 +643,10 @@ public abstract class Controller : MonoBehaviour
     #region Coroutines
     #endregion
 
-    public abstract void SpecialAbility();
+    public virtual void SpecialAbility()
+    {
+        abilityOffCooldown = false;
+    }
+
+    public abstract void HandleCooldownTimer();
 }

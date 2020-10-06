@@ -28,7 +28,7 @@ Transform:
   m_LocalPosition: {x: 1.5, y: 1.75, z: -0.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 5259856592851566164}
+  m_Father: {fileID: 974034787636364660}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3465764309659006744
@@ -49,7 +49,7 @@ SphereCollider:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5259856592851560679}
+  m_GameObject: {fileID: 4314218243048257383}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
@@ -63,7 +63,7 @@ Animator:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5259856592851560679}
+  m_GameObject: {fileID: 4314218243048257383}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: db6021bfdab5302468a8057a0d83f76a, type: 2}
@@ -81,7 +81,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5259856592851560679}
+  m_GameObject: {fileID: 4314218243048257383}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 368a1388391777a4c8aa142bc3f3284f, type: 3}
@@ -114,16 +114,20 @@ MonoBehaviour:
   controllerInitialized: 0
   receivingImpact: 0
   directionModifier: 0
+  tempVel: {x: 0, y: 0, z: 0}
   anim: {fileID: 0}
   audioHandler: {fileID: 0}
   audioKey: 
+  warpTime: 0.7
+  warpDistance: 10
+  warpTimer: 0
 --- !u!114 &-4778550011027312277
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5259856592851560679}
+  m_GameObject: {fileID: 4314218243048257383}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e725ae2743a519747aa930d7307e9152, type: 3}
@@ -137,7 +141,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5259856592851560679}
+  m_GameObject: {fileID: 4314218243048257383}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: adda4de3cc16c684caec654867af9b21, type: 3}
@@ -151,14 +155,14 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5259856592851560679}
+  m_GameObject: {fileID: 4314218243048257383}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4a7e57b96aec248469e80b8e7c9930ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   info:
-    model: {fileID: 5259856592851560679}
+    model: {fileID: 4314218243048257383}
     characterName: Warp
     status: 0
     associatedLevels: []
@@ -300,7 +304,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5259856592851560679}
+  m_GameObject: {fileID: 4314218243048257383}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a045a602d3d3cdb4abcf6435b8489249, type: 3}
@@ -312,7 +316,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5259856592851558771}
+  m_GameObject: {fileID: 3832090514055281579}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5e96e0cbcd0dcda4d91c58003f310077, type: 3}
@@ -324,7 +328,7 @@ BoxCollider:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5259856592851560462}
+  m_GameObject: {fileID: 2584718097265908841}
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
@@ -337,7 +341,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5259856592851560462}
+  m_GameObject: {fileID: 2584718097265908841}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: abd1a677fe3c75744a6ec1ad8f9d27ce, type: 3}
@@ -371,7 +375,7 @@ Transform:
   m_LocalPosition: {x: -0.08201742, y: 2.32, z: -0.07475066}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 5259856592851566164}
+  m_Father: {fileID: 974034787636364660}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &3670491215851300349
@@ -414,7 +418,7 @@ Transform:
   m_LocalPosition: {x: -1.5, y: 1.75, z: -0.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 5259856592851566164}
+  m_Father: {fileID: 974034787636364660}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1980142887540637270
@@ -588,25 +592,25 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1ba62e2b560e9bc4db7a9200bb93c9b3, type: 3}
---- !u!1 &5259856592851560679 stripped
+--- !u!1 &4314218243048257383 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: 1ba62e2b560e9bc4db7a9200bb93c9b3,
     type: 3}
   m_PrefabInstance: {fileID: 5259856592851562094}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &5259856592851566164 stripped
+--- !u!4 &974034787636364660 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: 1ba62e2b560e9bc4db7a9200bb93c9b3,
     type: 3}
   m_PrefabInstance: {fileID: 5259856592851562094}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &5259856592851558771 stripped
+--- !u!1 &3832090514055281579 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9065906238872704453, guid: 1ba62e2b560e9bc4db7a9200bb93c9b3,
     type: 3}
   m_PrefabInstance: {fileID: 5259856592851562094}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &5259856592851560462 stripped
+--- !u!1 &2584718097265908841 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -1504201320810728953, guid: 1ba62e2b560e9bc4db7a9200bb93c9b3,
     type: 3}

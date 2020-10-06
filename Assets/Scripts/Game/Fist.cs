@@ -61,8 +61,9 @@ public class Fist : DamageDealer
         collide = GetComponent<SphereCollider>();
         rb = GetComponent<Rigidbody>();
         rb.interpolation = RigidbodyInterpolation.Interpolate;
-        rb.centerOfMass = Vector3.zero;
+        /*rb.centerOfMass = Vector3.zero;
         rb.inertiaTensorRotation = Quaternion.identity;
+        rb.inertiaTensor = new Vector3(1, 1, 1); */
         rb.useGravity = false;
         SetCollider(false);
 

@@ -4,6 +4,15 @@ using UnityEngine;
 
 public class PointyController : Controller
 {
+
+    override public void InitializePlayerController()
+    {
+        base.InitializePlayerController();
+        jumpHeightMultiplier *= 1.3f;
+        audioKey = "Pointy";
+        audioHandler.InitializeAudio(audioKey);
+    }
+
     void FixedUpdate()
     {
         if (!controllerInitialized) return;
@@ -15,13 +24,6 @@ public class PointyController : Controller
         if (!PV.IsMine) return;
         Move(tempVel);
         HandleDeaths();
-    }
-
-    public override void InitializePlayerController()
-    {
-        base.InitializePlayerController();
-        audioKey = "Pointy";
-        audioHandler.InitializeAudio(audioKey);
     }
 
     public override void SpecialAbility()

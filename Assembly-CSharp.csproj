@@ -201,6 +201,7 @@
     <Compile Include="Assets\Scripts\TMPTestScripts\CubeRunner.cs" />
     <Compile Include="Assets\Scripts\UnlockButton.cs" />
     <Compile Include="Assets\Scripts\Utilities.cs" />
+    <Compile Include="Assets\Scripts\WallCollider.cs" />
     <Compile Include="Assets\SimpleHealthBar\Healthbar.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark01_UGUI.cs" />

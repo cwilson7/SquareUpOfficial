@@ -455,10 +455,7 @@ public abstract class Controller : MonoBehaviour
     protected void OnCollisionEnter(Collision other)
     {
         if (GroundCheck(other, true)) jumpNum = maxJumps;       
-
     }
-
-    //need to let particle system finish before moving transform
 
     protected void OnCollisionStay(Collision collision)
     {
@@ -516,8 +513,8 @@ public abstract class Controller : MonoBehaviour
 
 
     bool GroundCheck(Collision collision, bool onGround)
-    {
-        if (collision.collider.gameObject.layer == 8)
+    {       
+        if (collision.collider.gameObject.layer == 8) // is the collider we are running into a platform
         {
             if (!onGround)
             {
@@ -532,6 +529,11 @@ public abstract class Controller : MonoBehaviour
                     {
                         isGrounded = onGround;
                         return true;
+                    }
+                    else
+                    {
+                        isGrounded = false;
+                        break;
                     }
                 }
                 return false;

@@ -144,6 +144,7 @@ MonoBehaviour:
   PV: {fileID: 0}
   LevelPool: []
   LevelsOnCube: []
+  levelModels: []
   InstantiatedLevelIDs: 
   Faces: []
   CurrentFace: {fileID: 0}

@@ -56,6 +56,20 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 1
   m_Center: {x: 0, y: 0.9, z: 0}
+--- !u!136 &3905317972423456346
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5741959500119901525}
+  m_Material: {fileID: 13400000, guid: 589301a1043a00a4facc5fc62793e002, type: 2}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 1.4
+  m_Height: 3.0395355
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.8504028, z: 0}
 --- !u!95 &6170056392604513765
 Animator:
   serializedVersion: 3

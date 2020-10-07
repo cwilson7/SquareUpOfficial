@@ -293,7 +293,7 @@ GameObject:
   - component: {fileID: 1927447388459995943}
   - component: {fileID: 2811872332459927924}
   - component: {fileID: 5737281911802527704}
-  - component: {fileID: 1828230367497897132}
+  - component: {fileID: 4787168019135649872}
   m_Layer: 10
   m_Name: Dash
   m_TagString: Player
@@ -627,8 +627,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   value: 0
   type: 0
---- !u!65 &1828230367497897132
-BoxCollider:
+--- !u!136 &4787168019135649872
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -637,9 +637,10 @@ BoxCollider:
   m_Material: {fileID: 13400000, guid: 589301a1043a00a4facc5fc62793e002, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2.1409018, y: 2.5679722, z: 2.418993}
-  m_Center: {x: -0.006039262, y: 1.9096117, z: 0.011324644}
+  m_Radius: 1.5
+  m_Height: 3.3152971
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.9800048, z: 0}
 --- !u!1 &701765094022387484
 GameObject:
   m_ObjectHideFlags: 0

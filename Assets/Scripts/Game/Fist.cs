@@ -75,10 +75,7 @@ public class Fist : DamageDealer
 
     void DelayedFollow()
     {
-        Vector3 veloicty, distance = Origin.position - transform.position;
-        /*if (Mathf.Abs(distance.magnitude) > maxRadiusPunch) veloicty = distance * followSpeed * 2f;
-        else */veloicty = distance * followSpeed;
-        rb.velocity = veloicty;
+        rb.velocity = (Origin.position - transform.position) * followSpeed;
     }
 
     public void InitializeDummy()

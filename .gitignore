@@ -65,3 +65,6 @@ crashlytics-build.properties
 obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
 *.cache
 *.cache
+*.csproj
+Assets/Photon/PhotonUnityNetworking/Resources/PhotonServerSettings.asset
+*.csproj

@@ -1,16 +1,20 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
+using Photon.Realtime;
 
 public class DashController : Controller
 {
     //Special on iphone triggered by shaking phone
-    public float dashTime = 0.2f, dashSpeed = 80f, dashTimer = 0f;
+    public float dashTime = 0.2f, dashSpeed = 80f, dashTimer = 0f, effectSpeedThreshold = 20f;
     //vector decided by direction player is moving
     Vector2 dashVector;
-    bool dashing = false;
+    bool dashing;
     float cooldownTimer = 0f, abilityCooldown = 1f;
     Vector3 dashVelocity;
+    GameObject specialEffect;
+    Material myMat;
 
     void FixedUpdate()
     {
@@ -19,6 +23,7 @@ public class DashController : Controller
         TrackHP();
         HandleAnimationValues();
         AlteredGravity();
+        if (dashing) AbilityEffectHandler();
 
         if (!PV.IsMine) return;
         if (!dashing) Move(tempVel);
@@ -31,6 +36,10 @@ public class DashController : Controller
         base.InitializePlayerController();
         audioKey = "Dash";
         audioHandler.InitializeAudio(audioKey);
+        specialEffect = Resources.Load<GameObject>("PhotonPrefabs/AbilityEffects/DashAbility");
+        Player p = PhotonNetwork.CurrentRoom.GetPlayer(actorNr);
+        int colorID = (int)p.CustomProperties["AssignedColor"];
+        myMat = LobbyController.lc.availableMaterials[colorID];
     }
 
     public override void SpecialAbility()
@@ -38,7 +47,8 @@ public class DashController : Controller
         //for iphone: dashVector = moveStick.Direction;
         base.SpecialAbility();
         dashVector = new Vector2(AimDirection.x, AimDirection.y).normalized;
-        dashing = true;
+        PV.RPC("DashBool_RPC",RpcTarget.All, true);
+        PhotonNetwork.SendAllOutgoingCommands();
         unfreezeForAbility = true;
         dashVelocity = dashVector * dashSpeed;
     }
@@ -50,9 +60,19 @@ public class DashController : Controller
         if (dashTimer > dashTime)
         {
             //end dash
-            dashing = false;
+            PV.RPC("DashBool_RPC", RpcTarget.All, false);
+            PhotonNetwork.SendAllOutgoingCommands();
             dashTimer = 0f;
             unfreezeForAbility = false;
+        }
+    }
+
+    void AbilityEffectHandler()
+    {
+        if (rb.velocity.magnitude >= effectSpeedThreshold)
+        {
+            GameObject effect = Instantiate(specialEffect, transform.position, Quaternion.Euler(-rb.velocity.normalized));
+            effect.GetComponent<DashEmission>().SetColor(myMat);
         }
     }
 
@@ -66,4 +86,12 @@ public class DashController : Controller
             cooldownTimer = 0f;
         }
     }
+
+    #region RPCs
+    [PunRPC]
+    public void DashBool_RPC(bool isDashing)
+    {
+        dashing = isDashing;
+    }
+    #endregion
 }

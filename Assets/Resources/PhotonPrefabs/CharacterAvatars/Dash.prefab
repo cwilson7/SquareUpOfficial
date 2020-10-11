@@ -398,6 +398,7 @@ MonoBehaviour:
   dashTime: 0.2
   dashSpeed: 80
   dashTimer: 0
+  effectSpeedThreshold: 20
 --- !u!114 &639886661610140145
 MonoBehaviour:
   m_ObjectHideFlags: 0

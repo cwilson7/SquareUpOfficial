@@ -76,6 +76,9 @@ MonoBehaviour:
   - UpdateAllCharacters_RPC
   - ChangeWinner_RPC
   - GetKill_RPC
+  - SpecialAbilityEffect_RPC
+  - SetUpSpecialAbilityEffect_RPC
+  - DashBool_RPC
   DisableAutoOpenWizard: 1
   ShowSettings: 0
   DevRegionSetOnce: 1

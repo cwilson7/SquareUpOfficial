@@ -9,6 +9,7 @@ TagManager:
   - Projectile
   - Fist
   - levelObject
+  - AbilityEffect
   layers:
   - Default
   - TransparentFX

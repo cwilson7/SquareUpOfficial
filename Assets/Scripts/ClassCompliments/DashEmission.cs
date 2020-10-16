@@ -19,7 +19,7 @@ public class DashEmission : MonoBehaviour
         t += Time.deltaTime / duration;
         Vector3 scale = transform.localScale;
         transform.localScale = Vector3.Lerp(scale, endSize * scale, t);
-        if (t >= 1) Destroy(this.gameObject);
+        if (transform.localScale.magnitude <= 0.01) Destroy(this.gameObject);
     }
 
     public void SetColor(Material mat)

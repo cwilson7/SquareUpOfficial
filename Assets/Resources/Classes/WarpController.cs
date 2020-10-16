@@ -15,7 +15,7 @@ public class WarpController : Controller
 
     private void Start()
     {
-        warpIndicatorPrefab = Resources.Load<GameObject>("PhotonPrefabs/AbilityEffects/WarpIndicator");
+        
     }
 
     void FixedUpdate()
@@ -37,6 +37,7 @@ public class WarpController : Controller
         base.InitializePlayerController();
         audioKey = "Dash";
         audioHandler.InitializeAudio(audioKey);
+        warpIndicatorPrefab = Resources.Load<GameObject>(avatarCharacteristics.PathOfEffect(EffectType.Ability));
     }
 
     public override void SpecialAbility()

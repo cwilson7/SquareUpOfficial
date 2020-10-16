@@ -28,6 +28,7 @@ public class AvatarCharacteristics : MonoBehaviour
         if (SceneManager.GetActiveScene() != SceneManager.GetSceneByBuildIndex(2))
         {
             info = ProgressionSystem.CharacterData(info);
+            info.defaultEffects = GetComponent<CosmeticData>().associatedEffects;
             FistModel = info.currentSet.cosmetics[CosmeticType.Fist].model;
             SpawnDummyFists();
         }
@@ -86,12 +87,27 @@ public class AvatarCharacteristics : MonoBehaviour
             foreach (GameObject model in models)
             {
                 //eventually change status to Locked
-                CosmeticData money = model.GetComponent<CosmeticData>();
-                ReturnList.Add(new CosmeticItem(folders[i].cosmeticType, model, Status.Locked, money.type, money.value));
+                CosmeticData extraData = model.GetComponent<CosmeticData>();
+                if (extraData.associatedEffects == null || extraData.associatedEffects.Length < 1) ReturnList.Add(new CosmeticItem(folders[i].cosmeticType, model, Status.Locked, extraData.type, extraData.value));
+                else ReturnList.Add(new CosmeticItem(folders[i].cosmeticType, model, Status.Locked, extraData.type, extraData.value, extraData.associatedEffects));
             }
         } 
         
         return ReturnList;
+    }
+
+    public string PathOfEffect(EffectType _type)
+    {
+        string effectPath;
+        if (info.currentSet.cosmetics.ContainsKey(CosmeticType.Body) && info.currentSet.cosmetics[CosmeticType.Body].PathOfEffect(EffectType.Ability) != null) // if body equipped and body has custom effect
+        {
+            effectPath = info.currentSet.cosmetics[CosmeticType.Body].PathOfEffect(EffectType.Ability);
+        }
+        else
+        {
+            effectPath = info.PathOfDefaultEffect(EffectType.Ability);
+        }
+        return effectPath;
     }
 
     #region Edit Material Functions
@@ -156,34 +172,38 @@ public class AvatarCharacteristics : MonoBehaviour
 
     public void DisplayAllCosmetics()
     {
+        CharacterInfo newInfo = info;
         Dictionary<CosmeticType, CosmeticItem> dict = new Dictionary<CosmeticType, CosmeticItem>();
-        foreach (KeyValuePair<CosmeticType, CosmeticItem> kvp in info.currentSet.cosmetics)
+        foreach (KeyValuePair<CosmeticType, CosmeticItem> kvp in newInfo.currentSet.cosmetics)
         {
             if (!kvp.Value.IsNull())
             {
-                CosmeticItem item = info.currentSet.cosmetics[kvp.Key];
+                CosmeticItem item = newInfo.currentSet.cosmetics[kvp.Key];
                 dict.Add(kvp.Key, InstantiateCosmetic(item));
             }
         }
-        info.currentSet.cosmetics = dict;
-        FistModel = info.currentSet.cosmetics[CosmeticType.Fist].model;
+        newInfo.currentSet.cosmetics = dict;
+        FistModel = newInfo.currentSet.cosmetics[CosmeticType.Fist].model;
+        info = newInfo;
     }
 
     public void NetworkDisplayCosmetics(List<String> CurrentSetNames)
     {
+        CharacterInfo newInfo = info;
         int count = CurrentSetNames.Count;
         Dictionary<CosmeticType, CosmeticItem> dict = new Dictionary<CosmeticType, CosmeticItem>();
-        for (int i = 0; i < ProgressionSystem.CharacterData(info).cosmetics.Count; i++)
+        for (int i = 0; i < ProgressionSystem.CharacterData(newInfo).cosmetics.Count; i++)
         {                      
             if (count < 1) break;
-            if (!CurrentSetNames.Contains(ProgressionSystem.CharacterData(info).cosmetics[i].name)) continue;
+            if (!CurrentSetNames.Contains(ProgressionSystem.CharacterData(newInfo).cosmetics[i].name)) continue;
 
-            CosmeticItem item = ProgressionSystem.CharacterData(info).cosmetics[i];
+            CosmeticItem item = ProgressionSystem.CharacterData(newInfo).cosmetics[i];
             dict.Add(item.type, InstantiateCosmetic(item));
             count--;
         }
-        info.currentSet.cosmetics = dict;
-        FistModel = info.currentSet.cosmetics[CosmeticType.Fist].model;
+        newInfo.currentSet.cosmetics = dict;
+        FistModel = newInfo.currentSet.cosmetics[CosmeticType.Fist].model;
+        info = newInfo;
     }
 
     public GameObject EquipCrown(GameObject crown)
@@ -240,6 +260,12 @@ public class AvatarCharacteristics : MonoBehaviour
     #endregion
 
 }
+
+// need an outift system
+// could have all the data
+// maybe outfit class
+// has model
+// 
 
 #region Cosmetic Set Class
 [System.Serializable]

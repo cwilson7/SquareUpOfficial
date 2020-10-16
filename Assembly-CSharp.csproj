@@ -164,6 +164,7 @@
     <Compile Include="Assets\Scripts\Mobile\ShareController.cs" />
     <Compile Include="Assets\Scripts\MultiplayerSettings.cs" />
     <Compile Include="Assets\Scripts\NetworkAvatar.cs" />
+    <Compile Include="Assets\Scripts\Outfit.cs" />
     <Compile Include="Assets\Scripts\PageDragger.cs" />
     <Compile Include="Assets\Scripts\PaintInfo.cs" />
     <Compile Include="Assets\Scripts\PaintObjects.cs" />

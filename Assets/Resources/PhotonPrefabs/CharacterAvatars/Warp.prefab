@@ -149,6 +149,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   value: 0
   type: 0
+  associatedEffects:
+  - filePath: PhotonPrefabs/AbilityEffects/WarpIndicator
+    type: 2
 --- !u!114 &-3337767645800888017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -191,6 +194,7 @@ MonoBehaviour:
       cost:
         type: 0
         quantity: 0
+      effects: []
     - name: Fishing Rod
       type: 2
       model: {fileID: 5308901557875275257, guid: c0c21dd483a601a4baee5567f0dda34e,
@@ -201,6 +205,7 @@ MonoBehaviour:
       cost:
         type: 0
         quantity: 0
+      effects: []
     - name: Fishers Hat
       type: 0
       model: {fileID: 5520836835568795927, guid: 8373ab0ef94d77347b26fafd538a51ef,
@@ -211,6 +216,7 @@ MonoBehaviour:
       cost:
         type: 0
         quantity: 0
+      effects: []
     - name: Halo
       type: 0
       model: {fileID: 1737139595670950295, guid: 48bcca57e7c5e3048ad0d0522fc78b3d,
@@ -221,6 +227,7 @@ MonoBehaviour:
       cost:
         type: 0
         quantity: 0
+      effects: []
     - name: AngelToga
       type: 4
       model: {fileID: 5213074244002782373, guid: 3103b4d71a199194a9c0151998b9f65e,
@@ -231,6 +238,7 @@ MonoBehaviour:
       cost:
         type: 0
         quantity: 0
+      effects: []
     - name: Cardboard Box
       type: 4
       model: {fileID: 5223569551109801145, guid: a71745c5041b54f4b85b3884b5dcc926,
@@ -241,6 +249,8 @@ MonoBehaviour:
       cost:
         type: 0
         quantity: 0
+      effects: []
+    defaultEffects: []
     currentSet:
       _keys: 0000000001000000020000000300000004000000
       currentCosmetics:
@@ -253,6 +263,7 @@ MonoBehaviour:
         cost:
           type: 0
           quantity: 0
+        effects: []
       - name: 
         type: 0
         model: {fileID: 0}
@@ -262,6 +273,7 @@ MonoBehaviour:
         cost:
           type: 0
           quantity: 0
+        effects: []
       - name: 
         type: 0
         model: {fileID: 0}
@@ -271,6 +283,7 @@ MonoBehaviour:
         cost:
           type: 0
           quantity: 0
+        effects: []
       - name: 
         type: 0
         model: {fileID: 0}
@@ -280,6 +293,7 @@ MonoBehaviour:
         cost:
           type: 0
           quantity: 0
+        effects: []
       - name: 
         type: 0
         model: {fileID: 0}
@@ -289,6 +303,7 @@ MonoBehaviour:
         cost:
           type: 0
           quantity: 0
+        effects: []
     cost:
       type: 0
       quantity: 0

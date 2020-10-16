@@ -14,6 +14,10 @@ public class CosmeticItem
     public GameObject[] referencedObjects;
     public Currency cost;
 
+    // check if character has
+    public CustomEffect[] effects;
+
+
     public CosmeticItem(CosmeticType _type, GameObject _model, Status _status, Money currencyType, int value)
     {
         type = _type;
@@ -21,6 +25,29 @@ public class CosmeticItem
         if (model != null) name = _model.name;
         status = _status;
         cost = new Currency(currencyType, value);
+    }
+
+    public CosmeticItem(CosmeticType _type, GameObject _model, Status _status, Money currencyType, int value, CustomEffect[] _effects)
+    {
+        type = _type;
+        model = _model;
+        if (model != null) name = _model.name;
+        status = _status;
+        cost = new Currency(currencyType, value);
+        effects = _effects;
+    }
+
+    public string PathOfEffect(EffectType _type)
+    {
+        string path = null;
+        for (int i = 0; i < effects.Length; i++)
+        {
+            if (effects[i].type == _type)
+            {
+                path = effects[i].filePath;
+            }
+        }
+        return path;
     }
 
     public bool IsNull()
@@ -50,4 +77,26 @@ public class CosmeticLoader
         FolderName = path;
         cosmeticType = _type;
     }
+}
+
+[System.Serializable]
+public class CustomEffect
+{
+    //public Status status;
+    public string filePath;
+    public EffectType type;
+
+    public CustomEffect(string path, EffectType _type)
+    {
+        filePath = path;
+        type = _type;
+    }
+}
+
+[System.Serializable]
+public enum EffectType
+{
+    Death,
+    Spawn,
+    Ability
 }

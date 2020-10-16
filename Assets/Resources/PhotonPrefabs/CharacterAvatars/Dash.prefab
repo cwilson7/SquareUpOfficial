@@ -427,6 +427,7 @@ MonoBehaviour:
       cost:
         type: 0
         quantity: 0
+      effects: []
     - name: SharkFins
       type: 0
       model: {fileID: 3769846604305492019, guid: 563842526c7258a49893820ec91580b3,
@@ -437,6 +438,7 @@ MonoBehaviour:
       cost:
         type: 0
         quantity: 0
+      effects: []
     - name: TopHat
       type: 0
       model: {fileID: 6871079218978383366, guid: 96d354695988d584bb5faff457a488b8,
@@ -447,6 +449,7 @@ MonoBehaviour:
       cost:
         type: 0
         quantity: 0
+      effects: []
     - name: Gold Chain
       type: 2
       model: {fileID: 2652371730374850446, guid: 3e03bd53c54eada45859dbe0b0249cd4,
@@ -457,6 +460,7 @@ MonoBehaviour:
       cost:
         type: 1
         quantity: 0
+      effects: []
     - name: Spikes
       type: 2
       model: {fileID: 6606140486111453282, guid: 8c9b752d1220d6f4ca88c2ea4226298a,
@@ -467,6 +471,7 @@ MonoBehaviour:
       cost:
         type: 0
         quantity: 0
+      effects: []
     - name: BusinessSuit
       type: 4
       model: {fileID: 3445200269110286013, guid: 76b7b57f98dc365409a6a0ca6962f5ca,
@@ -477,6 +482,7 @@ MonoBehaviour:
       cost:
         type: 0
         quantity: 0
+      effects: []
     - name: Chop Sticks
       type: 4
       model: {fileID: 5625651342343663926, guid: 7865626869a7db147bd3c1ebdf0b7a46,
@@ -487,6 +493,7 @@ MonoBehaviour:
       cost:
         type: 0
         quantity: 0
+      effects: []
     - name: DashBaseFist
       type: 3
       model: {fileID: 3963649284627691831, guid: bba84b9b21003c94aaaeb74ddf760490,
@@ -497,6 +504,7 @@ MonoBehaviour:
       cost:
         type: 0
         quantity: 0
+      effects: []
     - name: FireFist Variant
       type: 3
       model: {fileID: 8604684202944260426, guid: 9b0023682822f464aac825e8c6f34e13,
@@ -507,6 +515,7 @@ MonoBehaviour:
       cost:
         type: 0
         quantity: 0
+      effects: []
     - name: LightRings Variant
       type: 3
       model: {fileID: 509977039187853424, guid: 6954e9bdb88a73c40b4beb343ea6a100,
@@ -517,6 +526,7 @@ MonoBehaviour:
       cost:
         type: 0
         quantity: 0
+      effects: []
     currentSet:
       _keys: 0000000001000000020000000300000004000000
       currentCosmetics:
@@ -529,6 +539,7 @@ MonoBehaviour:
         cost:
           type: 0
           quantity: 0
+        effects: []
       - name: 
         type: 0
         model: {fileID: 0}
@@ -538,6 +549,7 @@ MonoBehaviour:
         cost:
           type: 0
           quantity: 0
+        effects: []
       - name: 
         type: 0
         model: {fileID: 0}
@@ -547,6 +559,7 @@ MonoBehaviour:
         cost:
           type: 0
           quantity: 0
+        effects: []
       - name: 
         type: 0
         model: {fileID: 0}
@@ -556,6 +569,7 @@ MonoBehaviour:
         cost:
           type: 0
           quantity: 0
+        effects: []
       - name: 
         type: 0
         model: {fileID: 0}
@@ -565,6 +579,7 @@ MonoBehaviour:
         cost:
           type: 0
           quantity: 0
+        effects: []
     cost:
       type: 0
       quantity: 0
@@ -628,6 +643,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   value: 0
   type: 0
+  associatedEffects:
+  - filePath: PhotonPrefabs/AbilityEffects/DashAbility
+    type: 2
 --- !u!136 &4787168019135649872
 CapsuleCollider:
   m_ObjectHideFlags: 0

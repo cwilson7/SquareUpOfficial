@@ -11,7 +11,6 @@ public class PlayerData
     public Currency coins, bucks;
     public Currency[] wallet;
     public List<CharacterInfo> characters;
-    public List<CustomEffect> availableEffects;
     public string crownPath, myCrownName;
     public CrownData[] crownDataArray;
 
@@ -80,17 +79,6 @@ public class PlayerData
             characters = value;
         }
     }
-    public List<CustomEffect> AvailableEffects
-    {
-        get
-        {
-            return availableEffects;
-        }
-        set
-        {
-            availableEffects = value;
-        }
-    }
 
     public void UpdateWallet(Money type, int amount)
     {
@@ -116,7 +104,7 @@ public class PlayerData
         myCrownName = "Default";
     }
 
-    public PlayerData(int _squareBucks, int _cubeCoins, int _wins, int _totalGames, List<CharacterInfo> _characters, List<CustomEffect> _availableEffects)
+    public PlayerData(int _squareBucks, int _cubeCoins, int _wins, int _totalGames, List<CharacterInfo> _characters)
     {
         bucks = new Currency(Money.SquareBucks, _squareBucks);
         coins = new Currency(Money.CubeCoins, _cubeCoins);
@@ -126,6 +114,5 @@ public class PlayerData
         wins = _wins;
         totalGames = _totalGames;
         characters = _characters;
-        availableEffects = _availableEffects;
     }
 }

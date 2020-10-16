@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 using Photon.Realtime;
+using System.IO;
 
 public class DashController : Controller
 {
@@ -36,7 +37,7 @@ public class DashController : Controller
         base.InitializePlayerController();
         audioKey = "Dash";
         audioHandler.InitializeAudio(audioKey);
-        specialEffect = Resources.Load<GameObject>("PhotonPrefabs/AbilityEffects/DashAbility");
+        specialEffect = Resources.Load<GameObject>(avatarCharacteristics.PathOfEffect(EffectType.Ability));
         Player p = PhotonNetwork.CurrentRoom.GetPlayer(actorNr);
         int colorID = (int)p.CustomProperties["AssignedColor"];
         myMat = LobbyController.lc.availableMaterials[colorID];
@@ -72,7 +73,8 @@ public class DashController : Controller
         if (rb.velocity.magnitude >= effectSpeedThreshold)
         {
             GameObject effect = Instantiate(specialEffect, transform.position, Quaternion.Euler(-rb.velocity.normalized));
-            effect.GetComponent<DashEmission>().SetColor(myMat);
+            if (effect.GetComponent<DashEmission>() == null) Debug.Log("DASH ABILITY MISSING DashEmission SCRIPT.");
+            else effect.GetComponent<DashEmission>().SetColor(myMat);
         }
     }
 

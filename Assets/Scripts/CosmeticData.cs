@@ -7,4 +7,5 @@ public class CosmeticData : MonoBehaviour
 {
     public int value;
     public Money type;
+    public CustomEffect[] associatedEffects;
 }

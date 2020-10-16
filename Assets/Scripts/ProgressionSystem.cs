@@ -9,7 +9,7 @@ using System.Linq;
 public class ProgressionSystem : MonoBehaviour
 {
     public static PlayerData playerData;
-    static string testPrefString = "datafortheboyyyyzzzzzzzzzzzz";
+    static string testPrefString = "databro";
     bool checkForUpdate = true;
 
     private void OnEnable()
@@ -49,7 +49,7 @@ public class ProgressionSystem : MonoBehaviour
         if (!PlayerPrefs.HasKey(testPrefString)) //if first load
         {
             Debug.Log("setting up new game");
-            playerData = new PlayerData(500, 5, 0, 0, NewCharacterInfoList(), new List<CustomEffect>());
+            playerData = new PlayerData(500, 5, 0, 0, NewCharacterInfoList());
             string dataString = JsonUtility.ToJson(playerData);
             PlayerPrefs.SetString(testPrefString, dataString);
         }
@@ -280,6 +280,7 @@ public class CharacterInfo
     public Status status;
     public List<Level> associatedLevels;
     public List<CosmeticItem> cosmetics;
+    public CustomEffect[] defaultEffects;
     public CosmeticSet currentSet;
     public Currency cost;
 
@@ -293,13 +294,25 @@ public class CharacterInfo
         CosmeticData money = model.GetComponent<CosmeticData>();
         cost.type = money.type;
         cost.Quantity = money.value;
+        if (money.associatedEffects.Length != 3)
+        {
+            Debug.Log(money.associatedEffects.Length + " default effects counted for " + characterName + ". There should be 3. Edit CosmeticData script on prefab.");
+        }
+        defaultEffects = money.associatedEffects;
     }
-}
 
-public class CustomEffect : MonoBehaviour
-{
-    public Status status;
-
+    public string PathOfDefaultEffect(EffectType _type)
+    {
+        string path = null;
+        for (int i = 0; i < defaultEffects.Length; i++)
+        {
+            if (defaultEffects[i].type == _type)
+            {
+                path = defaultEffects[i].filePath;
+            }
+        }
+        return path;
+    }
 }
 
 [System.Serializable]

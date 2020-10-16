@@ -10,17 +10,19 @@ using CustomUtilities;
 public abstract class Controller : MonoBehaviour
 {
     public static event Action<DamageDealer, Controller> OnDamgeTaken;
-
     public ParticleSystem PaintExplosionSystem;
 
     public PhotonView PV;
     protected Rigidbody rb;
     protected SphereCollider GroundCollider;
+    protected AvatarCharacteristics avatarCharacteristics;
 
     public Weapon currentWeapon;
     public Fist RFist; //fist num 1
     public Fist LFist; //fist num 0
     public MiniMapPlayer mmPlayer;
+
+    GameObject deathEffect, spawnEffect;
 
     //Control UI
     protected FloatingJoystick moveStick;
@@ -63,6 +65,11 @@ public abstract class Controller : MonoBehaviour
         rb = GetComponent<Rigidbody>();
 
         PaintExplosionSystem = GetComponentInChildren<ParticleSystem>();
+
+        avatarCharacteristics = GetComponentInChildren<AvatarCharacteristics>();
+
+        spawnEffect = Resources.Load<GameObject>(avatarCharacteristics.PathOfEffect(EffectType.Ability));
+        deathEffect = Resources.Load<GameObject>(avatarCharacteristics.PathOfEffect(EffectType.Ability));
 
         impact = Vector3.zero;
         AimDirection = Vector2.zero;
@@ -114,7 +121,7 @@ public abstract class Controller : MonoBehaviour
 
     Fist SetUpFist(Component comp)
     {
-        AvatarCharacteristics avatarData = GetComponentInChildren<AvatarCharacteristics>();
+        AvatarCharacteristics avatarData = avatarCharacteristics;
         GameObject f = Instantiate(avatarData.FistModel, comp.gameObject.transform.position, Quaternion.Euler(90, 90, 90));
         Dictionary<CosmeticType, CosmeticItem> avatarCosmetics = avatarData.info.currentSet.cosmetics;
         if (avatarData.lFist == null) avatarData.lFist = f;
@@ -179,7 +186,7 @@ public abstract class Controller : MonoBehaviour
     protected void TrackHP()
     {
         Color newCol = Color.Lerp(LobbyController.lc.availableMaterials[(int)PhotonNetwork.CurrentRoom.GetPlayer(actorNr).CustomProperties["AssignedColor"]].color, Color.black, 1 - HP);
-        AvatarCharacteristics ColorInfo = GetComponentInChildren<AvatarCharacteristics>();
+        AvatarCharacteristics ColorInfo = avatarCharacteristics;
         ColorInfo.UpdateMaterial(newCol);
         ColorInfo.SetFistMaterial(LFist.gameObject, newCol);
         ColorInfo.SetFistMaterial(RFist.gameObject, newCol);
@@ -345,7 +352,7 @@ public abstract class Controller : MonoBehaviour
         }
         transform.position = respawnPos;
         mmPlayer.gameObject.SetActive(true);
-        GetComponentInChildren<AvatarCharacteristics>().SetMaterial(LobbyController.lc.availableMaterials[(int)PhotonNetwork.CurrentRoom.GetPlayer(actorNr).CustomProperties["AssignedColor"]]);
+        avatarCharacteristics.SetMaterial(LobbyController.lc.availableMaterials[(int)PhotonNetwork.CurrentRoom.GetPlayer(actorNr).CustomProperties["AssignedColor"]]);
         HP = 1f;
         SetAllComponents(true);
         //spawn effect

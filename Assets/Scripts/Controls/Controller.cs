@@ -6,6 +6,7 @@ using UnityEditor;
 using System;
 using System.IO;
 using CustomUtilities;
+using Photon.Realtime;
 
 public abstract class Controller : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public abstract class Controller : MonoBehaviour
     protected Rigidbody rb;
     protected SphereCollider GroundCollider;
     protected AvatarCharacteristics avatarCharacteristics;
+    protected Material myMat;
 
     public Weapon currentWeapon;
     public Fist RFist; //fist num 1
@@ -111,6 +113,10 @@ public abstract class Controller : MonoBehaviour
         anim = GetComponentInChildren<Animator>();
 
         audioHandler = GetComponent<AudioHandler>();
+
+        Player p = PhotonNetwork.CurrentRoom.GetPlayer(actorNr);
+        int colorID = (int)p.CustomProperties["AssignedColor"];
+        myMat = LobbyController.lc.availableMaterials[colorID];
 
         controllerInitialized = true;
         if (PV.IsMine) MultiplayerSettings.multiplayerSettings.SetCustomPlayerProperties("ControllerInitialized", true);

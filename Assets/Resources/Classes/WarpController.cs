@@ -56,8 +56,11 @@ public class WarpController : Controller
         rb.isKinematic = true;
         SetAllComponents(false);
         transform.position += vector;
+        RFist.gameObject.transform.position = RFist.Origin.position;
+        LFist.gameObject.transform.position = LFist.Origin.position;
         currentIndicator = Instantiate(warpIndicatorPrefab, transform.position, Quaternion.identity);
-        
+        if (currentIndicator.GetComponent<WarpIndicator>() == null) Debug.Log("portal missing WarpIndicator script.");
+        else currentIndicator.GetComponent<WarpIndicator>().InitializeIndicator(warpTime, myMat);
     }
 
     void EndWarp()
@@ -65,7 +68,6 @@ public class WarpController : Controller
         CameraFollow follow = Camera.main.GetComponent<CameraFollow>();
         follow.smoothDamp -= warpTime;
         rb.isKinematic = false;
-        Destroy(currentIndicator);
         SetAllComponents(true);
     }
 

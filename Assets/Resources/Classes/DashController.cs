@@ -15,7 +15,6 @@ public class DashController : Controller
     float cooldownTimer = 0f, abilityCooldown = 1f;
     Vector3 dashVelocity;
     GameObject specialEffect;
-    Material myMat;
 
     void FixedUpdate()
     {
@@ -38,9 +37,6 @@ public class DashController : Controller
         audioKey = "Dash";
         audioHandler.InitializeAudio(audioKey);
         specialEffect = Resources.Load<GameObject>(avatarCharacteristics.PathOfEffect(EffectType.Ability));
-        Player p = PhotonNetwork.CurrentRoom.GetPlayer(actorNr);
-        int colorID = (int)p.CustomProperties["AssignedColor"];
-        myMat = LobbyController.lc.availableMaterials[colorID];
     }
 
     public override void SpecialAbility()

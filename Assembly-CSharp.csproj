@@ -255,6 +255,7 @@
     <Compile Include="Assets\VoxelBusters\NativePlugins\Demo\Scripts\Features\UtilityDemo.cs" />
     <Compile Include="Assets\VoxelBusters\NativePlugins\Demo\Scripts\Features\WebViewDemo.cs" />
     <Compile Include="Assets\VoxelBusters\NativePlugins\Demo\Scripts\Utility\Utility.cs" />
+    <Compile Include="Assets\WarpIndicator.cs" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMPro.cginc" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Mobile Overlay.shader" />
     <None Include="Assets\Photon\PhotonUnityNetworking\changelog.txt" />

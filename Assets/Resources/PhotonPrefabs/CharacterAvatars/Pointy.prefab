@@ -103,6 +103,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   value: 0
   type: 0
+  associatedEffects: []
 --- !u!114 &-6526870460012744441
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,6 +201,7 @@ MonoBehaviour:
       cost:
         type: 0
         quantity: 0
+      effects: []
     - name: TheShnoz
       type: 1
       model: {fileID: 626096805938221135, guid: 90c1f6d69633a904d86c6cf8d01ac9e5,
@@ -210,6 +212,7 @@ MonoBehaviour:
       cost:
         type: 0
         quantity: 0
+      effects: []
     - name: Enlighened
       type: 2
       model: {fileID: 2985611456717445282, guid: 43a9d65142ae81243877ca8a75eb43fb,
@@ -220,6 +223,7 @@ MonoBehaviour:
       cost:
         type: 0
         quantity: 0
+      effects: []
     - name: Glasses
       type: 2
       model: {fileID: 7521060845122629450, guid: 5794cccab3b6879419e85230817709d8,
@@ -230,6 +234,7 @@ MonoBehaviour:
       cost:
         type: 0
         quantity: 0
+      effects: []
     - name: IAmARocketShip
       type: 4
       model: {fileID: 490857428527582036, guid: 867053aca8a269c409e9629aa1a14199,
@@ -240,6 +245,7 @@ MonoBehaviour:
       cost:
         type: 0
         quantity: 0
+      effects: []
     - name: Rings
       type: 4
       model: {fileID: 176223243212834580, guid: dda90183b38a00b46a0131c38ad1414b,
@@ -250,6 +256,7 @@ MonoBehaviour:
       cost:
         type: 0
         quantity: 0
+      effects: []
     - name: SpaceSuit
       type: 4
       model: {fileID: 5849260983436678972, guid: 0d74280c02d31b64facd41267453e6b9,
@@ -260,6 +267,7 @@ MonoBehaviour:
       cost:
         type: 0
         quantity: 0
+      effects: []
     - name: PointyBaseFist
       type: 3
       model: {fileID: 8050063289914567229, guid: d0a32ffbdc21fbe4a927b9955306e581,
@@ -270,6 +278,8 @@ MonoBehaviour:
       cost:
         type: 0
         quantity: 0
+      effects: []
+    defaultEffects: []
     currentSet:
       _keys: 03000000
       currentCosmetics:
@@ -283,6 +293,7 @@ MonoBehaviour:
         cost:
           type: 0
           quantity: 0
+        effects: []
     cost:
       type: 0
       quantity: 0
@@ -294,16 +305,10 @@ MonoBehaviour:
     type: 3}
   CosmeticFolder: Pointy Cosmetics
   folders:
-  - FolderName: Head
-    cosmeticType: 0
-  - FolderName: Face
-    cosmeticType: 1
-  - FolderName: Acc
-    cosmeticType: 2
-  - FolderName: Body
-    cosmeticType: 4
   - FolderName: Fists
-    cosmeticType: 3
+    cosmeticType: 0
+  - FolderName: Body
+    cosmeticType: 1
   lFist: {fileID: 0}
   rFist: {fileID: 0}
 --- !u!114 &1746542061735350127

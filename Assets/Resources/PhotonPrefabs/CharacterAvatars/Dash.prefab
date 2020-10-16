@@ -527,6 +527,7 @@ MonoBehaviour:
         type: 0
         quantity: 0
       effects: []
+    defaultEffects: []
     currentSet:
       _keys: 0000000001000000020000000300000004000000
       currentCosmetics:
@@ -591,16 +592,10 @@ MonoBehaviour:
     type: 3}
   CosmeticFolder: Dash Cosmetics
   folders:
-  - FolderName: Head
-    cosmeticType: 0
-  - FolderName: Face
-    cosmeticType: 1
-  - FolderName: Acc
-    cosmeticType: 2
-  - FolderName: Body
-    cosmeticType: 4
   - FolderName: Fists
-    cosmeticType: 3
+    cosmeticType: 0
+  - FolderName: Body
+    cosmeticType: 1
   lFist: {fileID: 0}
   rFist: {fileID: 0}
 --- !u!114 &1927447388459995943

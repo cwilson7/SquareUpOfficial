@@ -59,9 +59,11 @@ public class CosmeticItem
 [System.Serializable]
 public enum CosmeticType
 {
+    /*
     Head,
     Face,
     Accessory,
+    */
     Fist,
     Body
 }

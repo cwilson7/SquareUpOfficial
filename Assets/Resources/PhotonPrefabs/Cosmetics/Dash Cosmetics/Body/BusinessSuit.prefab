@@ -46,7 +46,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   value: 0
   type: 0
-  associatedEffects: []
+  associatedEffects:
+  - filePath: PhotonPrefabs/AbilityEffects/SuitAbility
+    type: 2
 --- !u!1001 &7315695860262491378
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -188,7 +188,7 @@ MonoBehaviour:
       type: 2
       model: {fileID: 6725883125052964109, guid: d0b150acc7f076e4392cef8ce0b26f5e,
         type: 3}
-      status: 1
+      status: 0
       referencedObject: {fileID: 0}
       referencedObjects: []
       cost:
@@ -199,7 +199,18 @@ MonoBehaviour:
       type: 2
       model: {fileID: 5308901557875275257, guid: c0c21dd483a601a4baee5567f0dda34e,
         type: 3}
-      status: 1
+      status: 0
+      referencedObject: {fileID: 0}
+      referencedObjects: []
+      cost:
+        type: 0
+        quantity: 0
+      effects: []
+    - name: BaseballCap
+      type: 0
+      model: {fileID: 6041552296569445516, guid: cd98035ed2457374882dc0d414d12a20,
+        type: 3}
+      status: 0
       referencedObject: {fileID: 0}
       referencedObjects: []
       cost:
@@ -210,7 +221,7 @@ MonoBehaviour:
       type: 0
       model: {fileID: 5520836835568795927, guid: 8373ab0ef94d77347b26fafd538a51ef,
         type: 3}
-      status: 1
+      status: 0
       referencedObject: {fileID: 0}
       referencedObjects: []
       cost:
@@ -221,7 +232,7 @@ MonoBehaviour:
       type: 0
       model: {fileID: 1737139595670950295, guid: 48bcca57e7c5e3048ad0d0522fc78b3d,
         type: 3}
-      status: 1
+      status: 0
       referencedObject: {fileID: 0}
       referencedObjects: []
       cost:
@@ -232,7 +243,7 @@ MonoBehaviour:
       type: 4
       model: {fileID: 5213074244002782373, guid: 3103b4d71a199194a9c0151998b9f65e,
         type: 3}
-      status: 1
+      status: 0
       referencedObject: {fileID: 0}
       referencedObjects: []
       cost:
@@ -243,7 +254,29 @@ MonoBehaviour:
       type: 4
       model: {fileID: 5223569551109801145, guid: a71745c5041b54f4b85b3884b5dcc926,
         type: 3}
-      status: 1
+      status: 0
+      referencedObject: {fileID: 0}
+      referencedObjects: []
+      cost:
+        type: 0
+        quantity: 0
+      effects: []
+    - name: BeanCan Variant
+      type: 3
+      model: {fileID: 8419095735951884922, guid: c363574bf1084f845932ba4d066a0b35,
+        type: 3}
+      status: 0
+      referencedObject: {fileID: 0}
+      referencedObjects: []
+      cost:
+        type: 0
+        quantity: 0
+      effects: []
+    - name: WarpBastFist
+      type: 3
+      model: {fileID: 6097840955771674184, guid: 34eb7c2ff56ad05439ab642ae47b4d8d,
+        type: 3}
+      status: 0
       referencedObject: {fileID: 0}
       referencedObjects: []
       cost:
@@ -252,52 +285,13 @@ MonoBehaviour:
       effects: []
     defaultEffects: []
     currentSet:
-      _keys: 0000000001000000020000000300000004000000
+      _keys: 03000000
       currentCosmetics:
-      - name: 
-        type: 0
-        model: {fileID: 0}
-        status: 0
-        referencedObject: {fileID: 0}
-        referencedObjects: []
-        cost:
-          type: 0
-          quantity: 0
-        effects: []
-      - name: 
-        type: 0
-        model: {fileID: 0}
-        status: 0
-        referencedObject: {fileID: 0}
-        referencedObjects: []
-        cost:
-          type: 0
-          quantity: 0
-        effects: []
-      - name: 
-        type: 0
-        model: {fileID: 0}
-        status: 0
-        referencedObject: {fileID: 0}
-        referencedObjects: []
-        cost:
-          type: 0
-          quantity: 0
-        effects: []
-      - name: 
-        type: 0
-        model: {fileID: 0}
-        status: 0
-        referencedObject: {fileID: 0}
-        referencedObjects: []
-        cost:
-          type: 0
-          quantity: 0
-        effects: []
-      - name: 
-        type: 0
-        model: {fileID: 0}
-        status: 0
+      - name: WarpBastFist
+        type: 3
+        model: {fileID: 6097840955771674184, guid: 34eb7c2ff56ad05439ab642ae47b4d8d,
+          type: 3}
+        status: 1
         referencedObject: {fileID: 0}
         referencedObjects: []
         cost:
@@ -315,16 +309,10 @@ MonoBehaviour:
     type: 3}
   CosmeticFolder: Warp Cosmetics
   folders:
-  - FolderName: Acc
-    cosmeticType: 2
-  - FolderName: Head
+  - FolderName: Fists
     cosmeticType: 0
   - FolderName: Body
-    cosmeticType: 4
-  - FolderName: Face
     cosmeticType: 1
-  - FolderName: Fists
-    cosmeticType: 3
   lFist: {fileID: 0}
   rFist: {fileID: 0}
 --- !u!114 &3914435026831084904

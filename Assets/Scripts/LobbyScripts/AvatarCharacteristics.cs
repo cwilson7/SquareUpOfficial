@@ -28,7 +28,6 @@ public class AvatarCharacteristics : MonoBehaviour
         if (SceneManager.GetActiveScene() != SceneManager.GetSceneByBuildIndex(2))
         {
             info = ProgressionSystem.CharacterData(info);
-            //info.defaultEffects = GetComponent<CosmeticData>().associatedEffects;
             FistModel = info.currentSet.cosmetics[CosmeticType.Fist].model;
             SpawnDummyFists();
         }

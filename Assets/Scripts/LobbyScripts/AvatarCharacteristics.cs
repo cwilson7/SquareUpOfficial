@@ -28,7 +28,7 @@ public class AvatarCharacteristics : MonoBehaviour
         if (SceneManager.GetActiveScene() != SceneManager.GetSceneByBuildIndex(2))
         {
             info = ProgressionSystem.CharacterData(info);
-            info.defaultEffects = GetComponent<CosmeticData>().associatedEffects;
+            //info.defaultEffects = GetComponent<CosmeticData>().associatedEffects;
             FistModel = info.currentSet.cosmetics[CosmeticType.Fist].model;
             SpawnDummyFists();
         }
@@ -184,6 +184,7 @@ public class AvatarCharacteristics : MonoBehaviour
         }
         newInfo.currentSet.cosmetics = dict;
         FistModel = newInfo.currentSet.cosmetics[CosmeticType.Fist].model;
+        newInfo.defaultEffects = GetComponent<CosmeticData>().associatedEffects;
         info = newInfo;
     }
 
@@ -203,6 +204,7 @@ public class AvatarCharacteristics : MonoBehaviour
         }
         newInfo.currentSet.cosmetics = dict;
         FistModel = newInfo.currentSet.cosmetics[CosmeticType.Fist].model;
+        newInfo.defaultEffects = GetComponent<CosmeticData>().associatedEffects;
         info = newInfo;
     }
 

@@ -15,7 +15,7 @@ public class WarpIndicator : MonoBehaviour
     public void InitializeIndicator(float _duration, Material _color)
     {
         SetColor(_color);
-        duration = _duration;// * 2;
+        duration = _duration * 2;
         initialized = true;
     }
 

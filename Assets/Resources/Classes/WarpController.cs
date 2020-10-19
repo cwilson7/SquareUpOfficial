@@ -8,15 +8,11 @@ public class WarpController : Controller
     public float warpTime = 0.7f, warpDistance = 10f, warpTimer = 0f;
     //vector decided by direction player is moving
     Vector2 warpVector;
-    bool warping = false;
-    float cooldownTimer = 0f, abilityCooldown = 1f;
+    bool warping = false, changeCamSpeed;
+    float cooldownTimer = 0f, abilityCooldown = 1f, t, camChangeDuration = 1f, ogSmoothDamp;
+    CameraFollow follow;
 
     GameObject warpIndicatorPrefab, currentIndicator;
-
-    private void Start()
-    {
-        
-    }
 
     void FixedUpdate()
     {
@@ -30,6 +26,7 @@ public class WarpController : Controller
         if (!warping) Move(tempVel);
         else HandleWarp();
         HandleDeaths();
+        if (changeCamSpeed) CamLerp();
     }
 
     public override void InitializePlayerController()
@@ -38,6 +35,8 @@ public class WarpController : Controller
         audioKey = "Dash";
         audioHandler.InitializeAudio(audioKey);
         warpIndicatorPrefab = Resources.Load<GameObject>(avatarCharacteristics.PathOfEffect(EffectType.Ability));
+        follow = Camera.main.GetComponent<CameraFollow>();
+        ogSmoothDamp = follow.smoothDamp;
     }
 
     public override void SpecialAbility()
@@ -65,10 +64,20 @@ public class WarpController : Controller
 
     void EndWarp()
     {
-        CameraFollow follow = Camera.main.GetComponent<CameraFollow>();
-        follow.smoothDamp -= warpTime;
+        changeCamSpeed = true;
         rb.isKinematic = false;
         SetAllComponents(true);
+    }
+
+    void CamLerp()
+    {
+        t += Time.deltaTime / camChangeDuration;
+        follow.smoothDamp = Mathf.Lerp(follow.smoothDamp, ogSmoothDamp, t);
+        if (t >= 1)
+        {
+            t = 0;
+            changeCamSpeed = false;
+        }
     }
 
     void HandleWarp()

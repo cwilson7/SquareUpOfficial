@@ -46,6 +46,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   value: 0
   type: 0
+  associatedEffects:
+  - filePath: PhotonPrefabs/AbilityEffects/FishermanAbility
+    type: 2
 --- !u!1001 &7051524963568690121
 PrefabInstance:
   m_ObjectHideFlags: 0

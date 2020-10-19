@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject endGamePanel, UIPanel, optionsPanel;
     public Image killIndicator;
     private float killIndicatorDisplayTimer = 0f;
+    AnimateFrames frameAnimator;
+    public Multikill currentMultikill = Multikill.Single;
 
     //Set values
     [SerializeField] private double percentOfPowerUpsWeapons;
@@ -40,6 +42,7 @@ public class GameManager : MonoBehaviour
         SetTimer(maxTimeSeconds);
         PV = GetComponent<PhotonView>();
         rand = new System.Random();
+        frameAnimator = killIndicator.gameObject.GetComponent<AnimateFrames>();
     }
 
     // Update is called once per frame
@@ -49,17 +52,16 @@ public class GameManager : MonoBehaviour
 
         if (killIndicatorDisplayTimer > 0)
         {
-            float a = Scale(killIndicatorDisplayTimer, new Vector2(0, maxKillDisplayTime), new Vector2(0, 1));
-            killIndicator.color = new Color(killIndicator.color.r, killIndicator.color.g, killIndicator.color.b, a);
+            frameAnimator.Animate();
             killIndicatorDisplayTimer -= Time.deltaTime;
+            if (killIndicatorDisplayTimer <= 0)
+            {
+                frameAnimator.EndAnimation();
+                currentMultikill = 0;
+            }
         }
         HandleTimers();
         HandlePowerUps();
-    }
-
-    float Scale(float value, Vector2 valueRange, Vector2 newRange)
-    {
-        return ((value - valueRange.x) / (valueRange.y - valueRange.x)) * (newRange.y - newRange.x) + newRange.x;
     }
 
     public void InitalizeGameManager()
@@ -103,7 +105,14 @@ public class GameManager : MonoBehaviour
 
     public void TriggerKillIndicator()
     {
-        killIndicatorDisplayTimer = maxKillDisplayTime;
+        if (killIndicatorDisplayTimer > 0)
+        {
+            if (currentMultikill < Multikill.Quadra) currentMultikill += 1;
+        }
+        else frameAnimator.startTime = Time.time;
+        killIndicatorDisplayTimer += maxKillDisplayTime;
+        AudioManager.AM.KillSignifier(currentMultikill);
+        frameAnimator.SetAnimationFrames(currentMultikill);
     }
 
     #region Button Stuff

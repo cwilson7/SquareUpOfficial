@@ -239,6 +239,7 @@ public abstract class Controller : MonoBehaviour
                 currentWeapon.Attack(AimDirection);
             }
         }
+        if (Input.GetMouseButtonDown(1)) SignifyKill();
     }
 
     public virtual void HandleSpecial()
@@ -336,7 +337,6 @@ public abstract class Controller : MonoBehaviour
     {
         //play slash sound
         //display image briefly
-        Debug.Log("kill registered");
         GameManager.Manager.TriggerKillIndicator();
         CameraFollow camScript = Camera.main.GetComponent<CameraFollow>();
         camScript.TriggerShake(0.3f);

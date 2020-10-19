@@ -254,7 +254,7 @@ public class AvatarCharacteristics : MonoBehaviour
         {
             if (null == child)
                 continue;
-            child.gameObject.layer = LayerMask.NameToLayer(LayerMask.LayerToName(gameObject.layer)); ;
+            if (child.gameObject.layer != LayerMask.NameToLayer("Player")) child.gameObject.layer = LayerMask.NameToLayer(LayerMask.LayerToName(gameObject.layer)); ;
             SetChildrenLayers(child.gameObject);
         }
     }

@@ -177,7 +177,7 @@ GameObject:
   - component: {fileID: 701765094022396814}
   - component: {fileID: 1849062981957739641}
   - component: {fileID: 9172335345042078214}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Body
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -294,7 +294,7 @@ GameObject:
   - component: {fileID: 2811872332459927924}
   - component: {fileID: 5737281911802527704}
   - component: {fileID: 4787168019135649872}
-  m_Layer: 10
+  m_Layer: 17
   m_Name: Dash
   m_TagString: Player
   m_Icon: {fileID: 0}

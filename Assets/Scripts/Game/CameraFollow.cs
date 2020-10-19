@@ -45,7 +45,7 @@ public class CameraFollow : MonoBehaviour
 
     public void TriggerShake(float shakeTime)
     {
-        rumbleTimer += shakeTime;
+        rumbleTimer = shakeTime;
         initialPos = transform.localPosition;
     }
 
@@ -78,7 +78,7 @@ public class CameraFollow : MonoBehaviour
         if (Cube.cb == null) return;
         if (rumbleTimer > 0)
         {
-            Vector2 randCircle = Random.insideUnitCircle * shakeMagnitude;
+            Vector2 randCircle = Random.insideUnitCircle * shakeMagnitude * (1 + (float)GameManager.Manager.currentMultikill / (1.5f));
             transform.localPosition = new Vector3(initialPos.x + randCircle.x, initialPos.y + randCircle.y, initialPos.z);
             rumbleTimer -= Time.deltaTime;
         }

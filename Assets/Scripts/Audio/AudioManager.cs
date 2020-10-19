@@ -9,9 +9,10 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager AM;
     
-    private AudioSource currentTheme;
+    public AudioSource currentTheme, audio2;
     public int lastBuildIndex;
     [SerializeField] private AudioClip mainTheme;
+    AudioClip[] killSounds;
 
     private void Awake()
     {
@@ -31,7 +32,7 @@ public class AudioManager : MonoBehaviour
 
     void Start()
     {
-        currentTheme = GetComponent<AudioSource>();
+        killSounds = Resources.LoadAll<AudioClip>("Audio/KillSounds");
         lastBuildIndex = 0;
         SceneManager.sceneLoaded += SwitchThemeScene;
         Cube.CubeRotated += SwitchThemeLevel;
@@ -79,5 +80,17 @@ public class AudioManager : MonoBehaviour
         currentTheme.Stop();
         currentTheme.clip = track;
         currentTheme.Play();
+    }
+
+    public void KillSignifier(Multikill multikill)
+    {
+        AudioClip s = Array.Find<AudioClip>(killSounds, AudioClip => AudioClip.name == multikill.ToString());
+        if (s == null)
+        {
+            Debug.Log("Bad clip name or key");
+            return;
+        }
+        audio2.clip = s;
+        audio2.Play();
     }
 }

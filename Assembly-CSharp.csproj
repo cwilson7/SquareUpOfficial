@@ -199,6 +199,7 @@
     <Compile Include="Assets\Scripts\Shop\ShopPanel.cs" />
     <Compile Include="Assets\Scripts\Shop\ShopPanelController.cs" />
     <Compile Include="Assets\Scripts\SpecialBullets\GravityAffected.cs" />
+    <Compile Include="Assets\Scripts\SpecialBullets\RaynMakr.cs" />
     <Compile Include="Assets\Scripts\SpecialBullets\StraitFire.cs" />
     <Compile Include="Assets\Scripts\Structs\Currency.cs" />
     <Compile Include="Assets\Scripts\TMPTestScripts\CubeRunner.cs" />

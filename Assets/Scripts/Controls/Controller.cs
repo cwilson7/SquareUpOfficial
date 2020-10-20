@@ -159,21 +159,6 @@ public abstract class Controller : MonoBehaviour
         if (!abilityOffCooldown) HandleCooldownTimer();
     }
 
-    /*
-    virtual void FixedUpdate()
-    {
-        if (!controllerInitialized) return;
-        if (CheckForTimeStop()) return;
-        TrackHP();
-        HandleAnimationValues();
-        AlteredGravity();
-
-        if (!PV.IsMine) return;
-        Move(tempVel);
-        HandleDeaths();
-    }
-    */
-
     protected bool CheckForTimeStop()
     {
         if (GameInfo.GI.TimeStopped || isDead)

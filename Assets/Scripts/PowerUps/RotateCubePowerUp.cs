@@ -46,8 +46,12 @@ public class RotateCubePowerUp : PowerUp
             {
                 foreach (MonoBehaviour bhvr in renderer.gameObject.GetComponents<MonoBehaviour>())
                 {
-                    if (renderer != bhvr) bhvr.enabled = false;
-                }                 
+                    bhvr.enabled = false;
+                }
+                foreach(Collider cldr in renderer.gameObject.GetComponents<Collider>())
+                {
+                    cldr.enabled = false;
+                }
                 renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
                 renderer.receiveShadows = false;
             }

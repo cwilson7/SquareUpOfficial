@@ -7,7 +7,7 @@ public class Projectile : DamageDealer
 {
     public float lifeTime, maxLifeTime;
 
-    public void InitializeProjectile(float dmg, float impt, Vector3 vel, int owner)
+    public virtual void InitializeProjectile(float dmg, float impt, Vector3 vel, int owner)
     {
         maxLifeTime = 5f;
         this.damage = dmg;

@@ -46,16 +46,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentAvatar: {fileID: 0}
-  damage: 0
-  fireRate: 0
+  damage: 0.05
+  fireRate: 0.05
   fireCooldown: 0
-  bltSpeed: 0
+  bltSpeed: 2.5
   recoil: 0
   impact: 0
   owner: 0
   totalAmmo: 0
   ammoLeft: 0
-  projectile: {fileID: 0}
+  projectile: {fileID: 4787272334423502449, guid: 9e1448c2431b6c947a3ef4b81a85ac63,
+    type: 3}
   FiringPoint: {fileID: 0}
   GunPivot: {fileID: 0}
   GunLocation: {fileID: 0}

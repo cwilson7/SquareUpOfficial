@@ -12,6 +12,8 @@ public class Cube : MonoBehaviour, IPunObservable
 {
     public static event Action<Level> CubeRotated;
 
+    public GameObject cubeOverlay;
+
     //FOR TESTING
     public bool testing = false;
     public GameObject TestingLevel;
@@ -74,6 +76,8 @@ public class Cube : MonoBehaviour, IPunObservable
             actualXY = new Vector2(0, 0);
             StopRotation();
         }
+
+        ShowLevelColors();
     }
 
     public void StartRotation(int actorNr)
@@ -300,6 +304,11 @@ public class Cube : MonoBehaviour, IPunObservable
             }
             //
         }
+    }
+
+    void ShowLevelColors()
+    {
+
     }
 
     #endregion

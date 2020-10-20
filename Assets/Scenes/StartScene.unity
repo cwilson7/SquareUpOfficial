@@ -4180,7 +4180,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   delayStart: 0
   customRoomPrivate: 0
-  maxPlayers: 4
+  maxPlayers: 6
   multiplayerScene: 2
   intermediateScene: 1
   mainMenuScene: 0

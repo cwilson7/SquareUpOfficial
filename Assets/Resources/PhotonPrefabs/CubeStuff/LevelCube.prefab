@@ -138,6 +138,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3fb1ef4572408e48b04b3b3957928b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cubeOverlay: {fileID: 0}
   testing: 0
   TestingLevel: {fileID: 1828198348407724612, guid: 261e5ed262fe7284eb7f24da97b62ce2,
     type: 3}

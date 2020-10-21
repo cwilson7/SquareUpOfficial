@@ -13,6 +13,7 @@ public class MainPanel : MonoBehaviour
     
     public void InitializeCharacterButtons()
     {
+        /*
         List<GameObject> charAvatars = new List<GameObject>();
         Utils.PopulateList<GameObject>(charAvatars, "PhotonPrefabs/CharacterAvatars");
         CharacterButtons = new Button[charAvatars.Count];
@@ -20,6 +21,7 @@ public class MainPanel : MonoBehaviour
         {
             CharacterButtons[j] = (GenerateCharacterButton(charAvatars[j]));
         }
+        */
     }
 
     Button GenerateCharacterButton(GameObject _char)

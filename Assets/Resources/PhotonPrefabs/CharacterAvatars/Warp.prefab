@@ -132,8 +132,8 @@ MonoBehaviour:
   anim: {fileID: 0}
   audioHandler: {fileID: 0}
   audioKey: 
-  warpTime: 0.7
-  warpDistance: 10
+  warpTime: 0.3
+  warpDistance: 15
   warpTimer: 0
 --- !u!114 &-4778550011027312277
 MonoBehaviour:

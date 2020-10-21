@@ -5,10 +5,13 @@ using UnityEngine;
 public class PointyController : Controller
 {
 
+    bool rocketMode = false;
+    Vector3 rocketDirection;
+    float rocketVelocity, rocketAcceleration = 0.5f, cooldownTimer, abilityCooldown = 1f;
+
     override public void InitializePlayerController()
     {
         base.InitializePlayerController();
-        jumpHeightMultiplier *= 1.3f;
         audioKey = "Pointy";
         audioHandler.InitializeAudio(audioKey);
     }
@@ -22,17 +25,39 @@ public class PointyController : Controller
         AlteredGravity();
 
         if (!PV.IsMine) return;
-        Move(tempVel);
+        if (rocketMode) RocketMan();
+        else Move(tempVel);
         HandleDeaths();
+    }
+
+    public override void HandleCooldownTimer()
+    {
+        if (rocketMode) return;
+        else cooldownTimer += Time.deltaTime;
+        if (cooldownTimer > abilityCooldown)
+        {
+            abilityOffCooldown = true;
+            cooldownTimer = 0f;
+        }
     }
 
     public override void SpecialAbility()
     {
         base.SpecialAbility();
+        rocketDirection = tempVel.normalized;
+        rocketMode = true;
+        // trigger rocket ship mode
     }
 
-    public override void HandleCooldownTimer()
+    public void RocketMan()
     {
-        
+        rocketVelocity *= rocketAcceleration * Time.deltaTime;
+        rb.velocity = rocketDirection * rocketVelocity;
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            rocketMode = false;
+        }
+
     }
 }

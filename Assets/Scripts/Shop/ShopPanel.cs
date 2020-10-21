@@ -10,6 +10,7 @@ public class ShopPanel : MonoBehaviour
     private RawImage image;
     private VideoPlayer videoPlayer;
     [HideInInspector] public GameObject Character;
+    public Transform charLocation;
     [HideInInspector] public CharacterInfo charInfo;
     public GameObject CosmeticPanel;
     private VideoClip demo;
@@ -66,8 +67,7 @@ public class ShopPanel : MonoBehaviour
         //given character from shop controller
         charInfo = ProgressionSystem.CharacterData(Character.GetComponent<AvatarCharacteristics>().info);
         header.text = charInfo.characterName;
-        DisplayedCharacter = Instantiate(Character, new Vector3(Camera.main.transform.position.x + 1.5f, Camera.main.transform.position.y - 2, Camera.main.transform.position.z  + 5), Quaternion.Euler(0, 180, 0));
-        //DisplayedCharacter.GetComponent<AvatarCharacteristics>().DisplayAllCosmetics();
+        DisplayedCharacter = Instantiate(Character, charLocation);
     }
 
     void SetUpAbilityDemo()
@@ -84,7 +84,7 @@ public class ShopPanel : MonoBehaviour
     public void DontDisplay()
     {
         videoPlayer.Stop();
-        DisplayedCharacter.SetActive(false);
+        //DisplayedCharacter.SetActive(false);
         gameObject.SetActive(false);
     }
 
@@ -105,13 +105,11 @@ public class ShopPanel : MonoBehaviour
     {
         CosmeticPanel.SetActive(true);
         MainShopPnl.SetActive(false);
-        DisplayedCharacter.transform.position += DisplayedCharacterOffset;
     }
 
     public void CloseCosmeticsPanel()
     {
         CosmeticPanel.SetActive(false);
         MainShopPnl.SetActive(true);
-        DisplayedCharacter.transform.position -= DisplayedCharacterOffset;
     }
 }

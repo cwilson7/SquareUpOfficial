@@ -7,6 +7,7 @@ using UnityEngine;
 using CustomUtilities;
 using System.Linq;
 using System;
+using UnityEngine.UI;
 
 public class Cube : MonoBehaviour, IPunObservable
 {
@@ -308,7 +309,9 @@ public class Cube : MonoBehaviour, IPunObservable
 
     void ShowLevelColors()
     {
-
+        //cubeOverlay.GetComponent<Image>().color = some color based on where cube is facing;
+        //current level should know who is left/ right/ up/ down
+        // during rotation lerp color from main color to left(color)/ right(color) etc
     }
 
     #endregion

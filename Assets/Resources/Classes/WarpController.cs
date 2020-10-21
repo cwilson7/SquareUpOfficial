@@ -5,7 +5,7 @@ using UnityEngine;
 public class WarpController : Controller
 {
     //Special on iphone triggered by shaking phone
-    public float warpTime = 0.7f, warpDistance = 10f, warpTimer = 0f;
+    public float warpTime = 0.3f, warpDistance = 15f, warpTimer = 0f;
     //vector decided by direction player is moving
     Vector2 warpVector;
     bool warping = false, changeCamSpeed;

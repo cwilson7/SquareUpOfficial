@@ -41,9 +41,6 @@ public class ShopPanel : MonoBehaviour
     public void SetPanelLockedInfo()
     {
         CharacterInfo info = ProgressionSystem.CharacterData(Character.GetComponent<AvatarCharacteristics>().info);
-        UnlockedPanel.SetActive(true);
-        LockedPanel.SetActive(false);
-        /*
         if (info.status == Status.Unlocked)
         {
             UnlockedPanel.SetActive(true);
@@ -53,7 +50,7 @@ public class ShopPanel : MonoBehaviour
         {
             LockedPanel.SetActive(true);
             UnlockedPanel.SetActive(false);
-        }*/
+        }
     }
 
     void GrabComponents()

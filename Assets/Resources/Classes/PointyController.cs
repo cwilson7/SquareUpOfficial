@@ -7,13 +7,14 @@ public class PointyController : Controller
 
     bool rocketMode = false;
     Vector3 rocketDirection;
-    float rocketVelocity, rocketAcceleration = 0.5f, cooldownTimer, abilityCooldown = 1f;
+    float rocketVelocity = 2f, ogVelocity, rocketAcceleration = 1.05f, cooldownTimer, abilityCooldown = 1f;
 
     override public void InitializePlayerController()
     {
         base.InitializePlayerController();
         audioKey = "Pointy";
         audioHandler.InitializeAudio(audioKey);
+        ogVelocity = rocketVelocity;
     }
 
     void FixedUpdate()
@@ -45,13 +46,14 @@ public class PointyController : Controller
     {
         base.SpecialAbility();
         rocketDirection = tempVel.normalized;
+        rocketVelocity = ogVelocity;
         rocketMode = true;
         // trigger rocket ship mode
     }
 
     public void RocketMan()
     {
-        rocketVelocity *= rocketAcceleration * Time.deltaTime;
+        rocketVelocity *= rocketAcceleration;
         rb.velocity = rocketDirection * rocketVelocity;
 
         if (Input.GetKeyDown(KeyCode.R))

@@ -564,8 +564,8 @@ MonoBehaviour:
   mainPanel: {fileID: 1840471027}
   displayHolder: {fileID: 636556654}
   characterPanels: []
-  charPosInCam: {x: 0.94, y: -0.46, z: 3.2}
-  scaleOfChars: 0.4
+  charPosInCam: {x: 0.94, y: -0.83, z: 3.2}
+  scaleOfChars: 0.35
   percentToSwipe: 0.5
   easing: 0.5
   charSeperation: 8
@@ -922,6 +922,7 @@ MonoBehaviour:
     type: 3}
   crownDisplayLocation: {fileID: 2053998733}
   currentlyDisplayedCrown: {fileID: 0}
+  crownHeight: 4
 --- !u!114 &704468770
 MonoBehaviour:
   m_ObjectHideFlags: 0

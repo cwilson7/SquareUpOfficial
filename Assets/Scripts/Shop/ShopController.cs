@@ -18,7 +18,7 @@ public class ShopController : MonoBehaviour, IDragHandler, IEndDragHandler
 
     public List<GameObject> characterPanels;
 
-    public Vector3 charPosInCam = new Vector3(0.94f, -0.46f, 3.2f);
+    public Vector3 charPosInCam = new Vector3(0.94f, -0.83f, 3.2f);
     public float scaleOfChars = 0.4f, percentToSwipe = 0.5f, easing = 0.5f, charSeperation = 15f;
 
     Vector3 panelLocation, currDisplayLoc;

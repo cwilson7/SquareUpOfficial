@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 using CustomUtilities;
 using UnityEngine.Events;
+using VoxelBusters.Utility;
 
 public class CrownPage : MonoBehaviour
 {
@@ -14,9 +15,10 @@ public class CrownPage : MonoBehaviour
     [SerializeField] GameObject crownOptionPrefab;
     [SerializeField] Transform crownDisplayLocation;
     public GameObject currentlyDisplayedCrown;
+    public float crownHeight = 3.5f;
 
     private void Start()
-    {
+    { 
         layoutGroup = GetComponentInChildren<GridLayoutGroup>();
         LoadGrid();
     }
@@ -62,6 +64,11 @@ public class CrownPage : MonoBehaviour
 
     public void OpenPanel(GameObject pnl)
     {
+        ShopPanel currPanel = ShopController.Instance.characterPanels[ShopController.Instance.panelIndex].GetComponent<ShopPanel>();
+        Vector3 desiredPos = currPanel.charLocation.position;
+        desiredPos.y += crownHeight * currPanel.charLocation.localScale.y;
+        crownDisplayLocation.position = desiredPos;
+        crownDisplayLocation.localScale = currPanel.charLocation.localScale;
         if (pnl == this.gameObject && currentlyDisplayedCrown != null) currentlyDisplayedCrown.SetActive(true);
         pnl.SetActive(true);
     }

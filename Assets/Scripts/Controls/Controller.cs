@@ -86,7 +86,7 @@ public abstract class Controller : MonoBehaviour
         punchPower = 0.1f;
         punchImpact = 0.75f;
         respawnDelay = 3f;
-        boundaryDist = 100f;
+        boundaryDist = 150f;
         directionModifier = 1;
         actorNr = PV.OwnerActorNr;
         isGrounded = false;
@@ -148,7 +148,7 @@ public abstract class Controller : MonoBehaviour
     #endregion
 
     #region Update Functions
-    protected void Update()
+    protected virtual void Update()
     {
         if (!controllerInitialized) return;
         if (CheckForTimeStop()) return;
@@ -290,9 +290,9 @@ public abstract class Controller : MonoBehaviour
 
     protected void HandleDeaths()
     {
-        float vertDistance = Mathf.Abs(transform.position.y - Cube.cb.CurrentFace.face.position.y);
+        float vertDistance = transform.position.y - Cube.cb.CurrentFace.face.position.y;
         float horizDistance = Mathf.Abs(transform.position.x - Cube.cb.CurrentFace.face.position.x);
-        if (/*horizDistance > boundaryDist ||*/ vertDistance > boundaryDist)// || HP <= 0f)
+        if (/*horizDistance > boundaryDist ||*/ vertDistance < -boundaryDist)// || HP <= 0f)
         {
             Die();
         }
@@ -373,7 +373,7 @@ public abstract class Controller : MonoBehaviour
     #endregion
 
     #region Movement Functions
-    protected void HandleInputs()
+    protected virtual void HandleInputs()
     {
         float inputX = Input.GetAxis("Horizontal");
         bool inputY = Input.GetKeyDown(KeyCode.W);
@@ -393,7 +393,7 @@ public abstract class Controller : MonoBehaviour
         if (inputX < 0) gameObject.transform.rotation = Quaternion.Euler(0, -100, 0);
         if (inputY) TryJump();
 
-        anim.SetFloat("Velocity", Mathf.Abs(rb.velocity.x));
+        if (!unfreezeForAbility) anim.SetFloat("Velocity", Mathf.Abs(rb.velocity.x));
 
         tempVel = new Vector3(inputX * speed, rb.velocity.y, 0f) + impact;
 
@@ -414,7 +414,7 @@ public abstract class Controller : MonoBehaviour
         rb.velocity = moveVector;
     }
 
-    void ImpactHandler()
+    protected void ImpactHandler()
     {
         impactInterp += Time.deltaTime/5;
         impact = Vector3.Lerp(impact, Vector3.zero, impactInterp);

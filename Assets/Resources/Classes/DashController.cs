@@ -43,6 +43,7 @@ public class DashController : Controller
     {
         //for iphone: dashVector = moveStick.Direction;
         base.SpecialAbility();
+        anim.SetFloat("Velocity", 0);
         dashVector = new Vector2(AimDirection.x, AimDirection.y).normalized;
         PV.RPC("DashBool_RPC",RpcTarget.All, true);
         PhotonNetwork.SendAllOutgoingCommands();

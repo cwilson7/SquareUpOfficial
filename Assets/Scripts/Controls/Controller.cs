@@ -298,7 +298,7 @@ public abstract class Controller : MonoBehaviour
         }
     }
     
-    protected void Die()
+    protected virtual void Die()
     {
         isDead = true;
         GameInfo.GI.StatChange(PhotonNetwork.LocalPlayer.ActorNumber, Stat.deaths);
@@ -311,7 +311,7 @@ public abstract class Controller : MonoBehaviour
         PhotonNetwork.SendAllOutgoingCommands(); 
     }
 
-    void SignifyDeath()
+    protected void SignifyDeath()
     {
         // screen rumble 
         CameraFollow camScript = Camera.main.GetComponent<CameraFollow>();

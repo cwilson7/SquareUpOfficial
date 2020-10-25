@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.7302238, g: 0.7889745, b: 0.8498578, a: 1}
+  m_IndirectSpecularColor: {r: 0.7071937, g: 0.42115965, b: 0.7895073, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1050,7 +1050,7 @@ MonoBehaviour:
   optionsPanel: {fileID: 446728279}
   killIndicator: {fileID: 133207467}
   currentMultikill: 0
-  percentOfPowerUpsWeapons: 0.5
+  percentOfPowerUpsWeapons: 0
   powerUpMaxCooldown: 2
   maxPowerups: 10
   totalMatchMinutes: 1

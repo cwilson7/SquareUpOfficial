@@ -37,6 +37,8 @@ public class Cube : MonoBehaviour, IPunObservable
 
     public float cubeSize;
 
+    public List<GameObject> rotatePowerUpCopyLevels;
+
     private void Awake()
     {
         cb = this;
@@ -372,6 +374,19 @@ public class Cube : MonoBehaviour, IPunObservable
         GameObject level = Instantiate(LevelPool[id].gameObject, Faces[i].transform.position, Faces[i].transform.rotation);
         level.transform.SetParent(Faces[i]);
         levelModels.Add(level.GetComponent<Level>().levelModel);
+
+        GameObject levelCopy = Instantiate(level);
+        Collider[] colliders = levelCopy.GetComponentsInChildren<Collider>();
+        foreach (Collider collider in colliders)
+        {
+            collider.enabled = false;
+            Renderer renderer = collider.gameObject.GetComponent<Renderer>();
+            renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
+            renderer.receiveShadows = false;
+        }
+        rotatePowerUpCopyLevels.Add(levelCopy);
+        levelCopy.SetActive(false);
+
         level.GetComponent<Level>().num = i;
         level.transform.SetParent(transform);
         level.GetComponent<Level>().face = Faces[i];

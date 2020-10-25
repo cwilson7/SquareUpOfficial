@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -15,6 +16,20 @@ public class PointyController : Controller
         audioKey = "Pointy";
         audioHandler.InitializeAudio(audioKey);
         ogRotation = avatarCharacteristics.transform.localRotation.eulerAngles;
+    }
+
+    protected override void Die()
+    {
+        isDead = true;
+        rocketMode = false;
+        GameInfo.GI.StatChange(PhotonNetwork.LocalPlayer.ActorNumber, Stat.deaths);
+        //explode with color
+        SignifyDeath();
+        Transform[] list = Cube.cb.CurrentFace.spawnPoints;
+        int spawnPtlocID = UnityEngine.Random.Range(0, list.Length);
+        PV.RPC("LoseWeapon_RPC", RpcTarget.All);
+        PV.RPC("DieAndRespawn_RPC", RpcTarget.AllBuffered, spawnPtlocID);
+        PhotonNetwork.SendAllOutgoingCommands();
     }
 
     void FixedUpdate()

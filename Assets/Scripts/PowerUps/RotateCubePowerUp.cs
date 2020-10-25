@@ -34,28 +34,15 @@ public class RotateCubePowerUp : PowerUp
         faceLoc = Instantiate(Resources.Load<GameObject>("PhotonPrefabs/CubeStuff/FaceLocation"), transform.position - transform.up * cubeSize / 2, Quaternion.Euler(new Vector3(180 - 90, 180, 0)));
         faces.Add(faceLoc.transform);
 
-        List<GameObject> levels = Cube.cb.levelModels;
+        List<GameObject> levels = Cube.cb.rotatePowerUpCopyLevels;//Cube.cb.levelModels;
 
         for (int i = 0; i < faces.Count; i++)
         {
             faces[i].localScale /= sizeReduction;
             GameObject levelModel = Instantiate(levels[i], faces[i].transform);
-            levelModel.transform.localScale *= 1.66f;
-            Renderer[] renderers = levelModel.GetComponentsInChildren<Renderer>();
-            foreach (Renderer renderer in renderers)
-            {
-                foreach (MonoBehaviour bhvr in renderer.gameObject.GetComponents<MonoBehaviour>())
-                {
-                    bhvr.enabled = false;
-                }
-                foreach(Collider cldr in renderer.gameObject.GetComponents<Collider>())
-                {
-                    cldr.enabled = false;
-                }
-                renderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
-                renderer.receiveShadows = false;
-            }
+            //levelModel.transform.localScale *= 1.66f;
             faces[i].transform.SetParent(cubeHolder.transform);
+            levelModel.SetActive(true);
         }
     }
     

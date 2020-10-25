@@ -176,6 +176,27 @@ MonoBehaviour:
   audioHandler: {fileID: 0}
   audioKey: 
   rocketMode: 0
+  rocketVelocity: 0
+  startingVelocity: 2
+  maxVelocity: 75
+  rocketAcceleration: 1.05
+  cooldownTimer: 0
+  abilityCooldown: 1
+  rotateSpeed: 2
+--- !u!114 &5117506934261748798
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5741959500119901525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2ed45debe02cbe43bb68773d727833f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  netAbilityVelocity: 0
+  netTransformUp: {x: 0, y: 0, z: 0}
 --- !u!114 &8090217939308510326
 MonoBehaviour:
   m_ObjectHideFlags: 0

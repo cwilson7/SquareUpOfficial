@@ -1,4 +1,5 @@
 ﻿using Photon.Pun;
+using Photon.Realtime;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,13 +14,75 @@ public class PointyController : Controller
 
     override public void InitializePlayerController()
     {
-        base.InitializePlayerController();
+        PV = GetComponent<PhotonView>();
+
+        rb = GetComponent<Rigidbody>();
+
+        PaintExplosionSystem = GetComponentInChildren<ParticleSystem>();
+
+        avatarCharacteristics = GetComponentInChildren<AvatarCharacteristics>();
+
+        spawnEffect = Resources.Load<GameObject>(avatarCharacteristics.PathOfEffect(EffectType.Ability));
+        deathEffect = Resources.Load<GameObject>(avatarCharacteristics.PathOfEffect(EffectType.Ability));
+
+        impact = Vector3.zero;
+        AimDirection = Vector2.zero;
+
+        //Default values for all players
+        speed = 35f;
+        gravity = -9.8f;
+        jumpHeightMultiplier = 50f;
+        maxJumps = 2;
+        distanceFromGround = 0.5f;
+        HP = 1f;
+        punchPower = 0.1f;
+        punchImpact = 0.75f;
+        respawnDelay = 3f;
+        boundaryDist = 150f;
+        directionModifier = 1;
+        actorNr = PV.OwnerActorNr;
+        isGrounded = false;
+
+        currentWeapon = GetComponent<Weapon>();
+        moveStick = JoyStickReference.joyStick.gameObject.GetComponent<FloatingJoystick>();
+
+        moveStick.gameObject.SetActive(false);
+
+        //do not change order of fist instantiation
+        LFist = SetUpFist(GetComponentInChildren<LFist>());
+        RFist = SetUpFist(GetComponentInChildren<RFist>());
+
+        crown = GetComponentInChildren<Crown>().gameObject;
+        crown.SetActive(false);
+
+        mmPlayer = GetComponentInChildren<MiniMapPlayer>();
+
+        baseOfCharacter = GetComponentInChildren<BaseOfCharacter>().gameObject.transform;
+        baseOfCharacter.transform.position = new Vector3(baseOfCharacter.position.x, baseOfCharacter.position.y - distanceFromGround, baseOfCharacter.transform.position.z);
+
+        GroundCollider = GetComponentInChildren<GroundColliderBone>().gameObject.GetComponent<SphereCollider>();
+
+        anim = GetComponentInChildren<Animator>();
+
+        audioHandler = GetComponent<AudioHandler>();
+
+        Player p = PhotonNetwork.CurrentRoom.GetPlayer(actorNr);
+        int colorID = (int)p.CustomProperties["AssignedColor"];
+        myMat = LobbyController.lc.availableMaterials[colorID];
+
         audioKey = "Pointy";
         audioHandler.InitializeAudio(audioKey);
         ogRotation = avatarCharacteristics.transform.localRotation.eulerAngles;
         abilityEmitter = Instantiate(Resources.Load<GameObject>(avatarCharacteristics.PathOfEffect(EffectType.Ability)), transform.position, Quaternion.identity);
         abilityEmitter.GetComponent<PointyEmission>().InitializePointyEmission(this);
         abilityEmitter.SetActive(false);
+
+        avatarCharacteristics.gameObject.GetComponent<PointyPunObserve>().InitializePointyAbilityPun(this);
+
+        controllerInitialized = true;
+        if (PV.IsMine) MultiplayerSettings.multiplayerSettings.SetCustomPlayerProperties("ControllerInitialized", true);
+        PV.RefreshRpcMonoBehaviourCache();
+        PhotonNetwork.UseRpcMonoBehaviourCache = true;
     }
 
     protected override void Die()
@@ -57,10 +120,8 @@ public class PointyController : Controller
         if (!PV.IsMine) return;
         if (rocketMode && Input.GetKeyDown(KeyCode.R))
         {
-            rocketMode = false;
             unfreezeForAbility = false;
-            abilityEmitter.SetActive(false);
-            StartCoroutine(RotateBack());           
+            PV.RPC("MoveOutOfRocketMode", RpcTarget.All);    
         }
         HandleInputs();
         MouseCombat();
@@ -102,8 +163,7 @@ public class PointyController : Controller
         rocketDirection = AimDirection;
         unfreezeForAbility = true;
         rocketVelocity = startingVelocity;
-        rocketMode = true;
-        abilityEmitter.SetActive(true);
+        PV.RPC("MoveToRocketMode", RpcTarget.All);
     }
 
     public void RocketMan()
@@ -147,5 +207,21 @@ public class PointyController : Controller
 
         //Account for impact from being hit by weapon
         if (receivingImpact) ImpactHandler();      
+    }
+
+
+    [PunRPC]
+    public void MoveToRocketMode()
+    {
+        rocketMode = true;
+        abilityEmitter.SetActive(true);
+    }
+
+    [PunRPC]
+    public void MoveOutOfRocketMode()
+    {
+        rocketMode = false;
+        abilityEmitter.SetActive(false);
+        StartCoroutine(RotateBack());
     }
 }

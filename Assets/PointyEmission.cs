@@ -31,7 +31,8 @@ public class PointyEmission : MonoBehaviour
 
         System.Random rnd = new System.Random();
         int randIndex = rnd.Next(0, physicsEmissions.Length);
-        GameObject physicsEmit = Instantiate(physicsEmissions[randIndex], physicsPos, Quaternion.identity);
+        GameObject physicsEmit = Instantiate(physicsEmissions[randIndex], physicsPos, Quaternion.Euler(Random.value, Random.value, Random.value));
+        physicsEmit.GetComponent<PointyPhyiscsEmission>().SetMaterial(parentController.myMat);
         physicsEmit.transform.localScale *= Random.Range(physicsEmissionMinSz, physicsEmissionMaxSz);
     }
 

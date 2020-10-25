@@ -123,3 +123,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edc243437a5816b439e1d56edbef4b33, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  materialsToChangeIndexes: 00000000

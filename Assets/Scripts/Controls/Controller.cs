@@ -17,14 +17,14 @@ public abstract class Controller : MonoBehaviour
     protected Rigidbody rb;
     protected SphereCollider GroundCollider;
     protected AvatarCharacteristics avatarCharacteristics;
-    protected Material myMat;
+    public Material myMat;
 
     public Weapon currentWeapon;
     public Fist RFist; //fist num 1
     public Fist LFist; //fist num 0
     public MiniMapPlayer mmPlayer;
 
-    GameObject deathEffect, spawnEffect;
+    protected GameObject deathEffect, spawnEffect;
 
     //Control UI
     protected FloatingJoystick moveStick;
@@ -35,7 +35,7 @@ public abstract class Controller : MonoBehaviour
     public int maxJumps;
     public Transform baseOfCharacter;
     public float punchPower, punchImpact;
-    [SerializeField] float respawnDelay, boundaryDist;
+    [SerializeField] protected float respawnDelay, boundaryDist;
 
     //Tracked variables
     public Vector3 impact;
@@ -52,8 +52,8 @@ public abstract class Controller : MonoBehaviour
     public AudioHandler audioHandler;
     public string audioKey;
 
-    Vector3 respawnPos;
-    GameObject crown;
+    protected Vector3 respawnPos;
+    protected GameObject crown;
 
     protected bool abilityOffCooldown = true, unfreezeForAbility = false;
 
@@ -125,7 +125,7 @@ public abstract class Controller : MonoBehaviour
 
     }
 
-    Fist SetUpFist(Component comp)
+    protected Fist SetUpFist(Component comp)
     {
         AvatarCharacteristics avatarData = avatarCharacteristics;
         GameObject f = Instantiate(avatarData.FistModel, comp.gameObject.transform.position, Quaternion.Euler(90, 90, 90));

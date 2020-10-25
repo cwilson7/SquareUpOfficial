@@ -79,6 +79,8 @@ MonoBehaviour:
   - SpecialAbilityEffect_RPC
   - SetUpSpecialAbilityEffect_RPC
   - DashBool_RPC
+  - MoveOutOfRocketMode
+  - MoveToRocketMode
   DisableAutoOpenWizard: 1
   ShowSettings: 1
   DevRegionSetOnce: 1

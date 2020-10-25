@@ -103,7 +103,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   value: 0
   type: 0
-  associatedEffects: []
+  associatedEffects:
+  - filePath: PhotonPrefabs/AbilityEffects/PointyAbility
+    type: 2
 --- !u!114 &-6526870460012744441
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -173,6 +175,7 @@ MonoBehaviour:
   anim: {fileID: 0}
   audioHandler: {fileID: 0}
   audioKey: 
+  rocketMode: 0
 --- !u!114 &8090217939308510326
 MonoBehaviour:
   m_ObjectHideFlags: 0

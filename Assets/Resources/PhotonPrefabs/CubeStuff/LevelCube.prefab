@@ -155,6 +155,7 @@ MonoBehaviour:
   DistanceFromCameraForRotation: 65
   ownerActorNr: 0
   cubeSize: 0
+  rotatePowerUpCopyLevels: []
 --- !u!114 &5897616120442807645
 MonoBehaviour:
   m_ObjectHideFlags: 0

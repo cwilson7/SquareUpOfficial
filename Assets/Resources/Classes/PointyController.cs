@@ -6,9 +6,10 @@ using UnityEngine;
 public class PointyController : Controller
 {
 
-    bool rocketMode = false;
+    public bool rocketMode = false;
     Vector3 rocketDirection, ogRotation;
-    float rocketVelocity, startingVelocity = 2f, maxVelocity = 75f, rocketAcceleration = 1.05f, cooldownTimer, abilityCooldown = 1f, rotateSpeed = 2f;
+    public float rocketVelocity, startingVelocity = 2f, maxVelocity = 75f, rocketAcceleration = 1.05f, cooldownTimer, abilityCooldown = 1f, rotateSpeed = 2f;
+    GameObject abilityEmitter;
 
     override public void InitializePlayerController()
     {
@@ -16,6 +17,9 @@ public class PointyController : Controller
         audioKey = "Pointy";
         audioHandler.InitializeAudio(audioKey);
         ogRotation = avatarCharacteristics.transform.localRotation.eulerAngles;
+        abilityEmitter = Instantiate(Resources.Load<GameObject>(avatarCharacteristics.PathOfEffect(EffectType.Ability)), transform.position, Quaternion.identity);
+        abilityEmitter.GetComponent<PointyEmission>().InitializePointyEmission(this);
+        abilityEmitter.SetActive(false);
     }
 
     protected override void Die()
@@ -55,6 +59,7 @@ public class PointyController : Controller
         {
             rocketMode = false;
             unfreezeForAbility = false;
+            abilityEmitter.SetActive(false);
             StartCoroutine(RotateBack());           
         }
         HandleInputs();
@@ -98,6 +103,7 @@ public class PointyController : Controller
         unfreezeForAbility = true;
         rocketVelocity = startingVelocity;
         rocketMode = true;
+        abilityEmitter.SetActive(true);
     }
 
     public void RocketMan()

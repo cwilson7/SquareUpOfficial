@@ -12,6 +12,7 @@ public class RotateCubePowerUp : PowerUp
     void Start()
     {
         cubeHolder = Instantiate(new GameObject(), transform.position, Quaternion.identity);
+        cubeHolder.name = "RotatePowerUpContainer";
         
         cubeSize = Cube.cb.cubeSize/ sizeReduction;
         

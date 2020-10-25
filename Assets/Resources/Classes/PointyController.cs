@@ -51,17 +51,32 @@ public class PointyController : Controller
         if (!controllerInitialized) return;
         if (CheckForTimeStop()) return;
         if (!PV.IsMine) return;
-        if (Input.GetKeyDown(KeyCode.R))
+        if (rocketMode && Input.GetKeyDown(KeyCode.R))
         {
             rocketMode = false;
             unfreezeForAbility = false;
-            avatarCharacteristics.transform.localRotation = Quaternion.Euler(ogRotation);
+            StartCoroutine(RotateBack());           
         }
         HandleInputs();
         MouseCombat();
         TrackMouse();
         if (!abilityOffCooldown) HandleCooldownTimer();
 
+    }
+
+    IEnumerator RotateBack()
+    {
+        float elapsedTime = 0;
+        Vector3 startingPos = avatarCharacteristics.transform.up;
+        float time = 1f;
+        while (elapsedTime < time)
+        {
+            avatarCharacteristics.transform.up = Vector3.Lerp(startingPos, Vector3.up, elapsedTime/time);
+
+            elapsedTime += Time.deltaTime;
+            yield return null; 
+        }
+        avatarCharacteristics.transform.localRotation = Quaternion.Euler(ogRotation);
     }
 
     public override void HandleCooldownTimer()
@@ -125,8 +140,6 @@ public class PointyController : Controller
         transform.position = new Vector3(transform.position.x, transform.position.y, Cube.cb.CurrentFace.spawnPoints[0].position.z);
 
         //Account for impact from being hit by weapon
-        if (receivingImpact) ImpactHandler();
-        
-
+        if (receivingImpact) ImpactHandler();      
     }
 }

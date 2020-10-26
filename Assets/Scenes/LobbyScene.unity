@@ -1771,6 +1771,8 @@ MonoBehaviour:
   dots: 0
   dotsPerSec: 6
   colorsPerSec: 0.2
+  panelScrollTime: 4
+  isDisplayed: 1
 --- !u!114 &1502451108
 MonoBehaviour:
   m_ObjectHideFlags: 0

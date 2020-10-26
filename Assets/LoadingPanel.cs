@@ -8,7 +8,9 @@ using UnityEngine.SceneManagement;
 public class LoadingPanel : MonoBehaviour
 {
     Material[] colorsToInterp;
-    Image background;
+    Image background, loadingBuddy;
+    RectTransform rectTransform;
+    string loadingBuddyPrefabPath = "PhotonPrefabs/GameUI/LoadingPanelBuddy";
     int nextColIndex = 1;
     float colorTimer = 0f, dotTimer = 0f;
 
@@ -17,19 +19,27 @@ public class LoadingPanel : MonoBehaviour
     public int maxDots, dots = 0;
     public float dotsPerSec, colorsPerSec, panelScrollTime;
 
+    public bool isDisplayed = true;
+
     // Start is called before the first frame update
     void Awake()
     {
         //if (SceneManager.GetActiveScene().buildIndex != MultiplayerSettings.multiplayerSettings.intermediateScene || SceneManager.GetActiveScene().buildIndex != MultiplayerSettings.multiplayerSettings.multiplayerScene) Destroy(this.gameObject);
         background = GetComponent<Image>();
-        DontDestroyOnLoad(this);
+        rectTransform = GetComponent<RectTransform>();
+        GameObject _loadingObject = Instantiate(Resources.Load<GameObject>(loadingBuddyPrefabPath), GetComponentInParent<Canvas>().transform);
+        _loadingObject.transform.SetSiblingIndex(transform.GetSiblingIndex());
+        loadingBuddy = _loadingObject.GetComponent<Image>();
+        DontDestroyOnLoad(this.gameObject);
+        DontDestroyOnLoad(loadingBuddy.gameObject);
     }
 
     // Update is called once per frame
     void Update()
     {
         if (colorsToInterp == null) colorsToInterp = LobbyController.lc.availableMaterials.ToArray();
-        
+        if (Input.GetKeyDown(KeyCode.Space)) DisplayLoadingPanel(!isDisplayed);
+
         InterpColors(loadingTxt);
         InterpColors(background);
         TextInterp();
@@ -38,18 +48,30 @@ public class LoadingPanel : MonoBehaviour
     public void DisplayLoadingPanel(bool display)
     {
         StartCoroutine(ScrollInDisplay(display));
+        isDisplayed = display;
     }
 
     IEnumerator ScrollInDisplay(bool toScreen)
     {
-        float elapsedTime = 0;
-        Vector3 startingPos = transform.position, endingPos;
-        float time = panelScrollTime;
-        if (toScreen) endingPos = Vector3.zero;
-        else endingPos = new Vector3(0f, Screen.height * 2, 0f);
+        float elapsedTime = 0, time = panelScrollTime, startingAlpha = loadingBuddy.color.a, endingAlpha;
+        Vector3 startingPos = rectTransform.anchoredPosition, endingPos;
+        Color loadingBuddyColor  = loadingBuddy.color;
+        if (toScreen)
+        {
+            endingPos = Vector2.zero;
+            endingAlpha = 1f;
+        }
+        else
+        {
+            endingPos = new Vector2(0f, Screen.height);
+            endingAlpha = 0f;
+        }
         while (elapsedTime < time)
         {
-            transform.position = Vector3.Lerp(startingPos, endingPos, elapsedTime / time);
+            float step = elapsedTime / time;
+            rectTransform.anchoredPosition = Vector2.Lerp(startingPos, endingPos, step);
+            float alpha = Mathf.Lerp(startingAlpha, endingAlpha, step);
+            loadingBuddy.color = new Color(loadingBuddyColor.r, loadingBuddyColor.g, loadingBuddyColor.b, alpha);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
@@ -105,5 +127,10 @@ public class LoadingPanel : MonoBehaviour
             }
             dotTimer = 0;
         }
+    }
+
+    private void OnDestroy()
+    {
+        Destroy(loadingBuddy.gameObject);
     }
 }

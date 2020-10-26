@@ -75,6 +75,7 @@ public class LobbyGameController : MonoBehaviour
         {
             LobbyController.lc.gameObject.GetComponent<PhotonView>().RPC("UpdateAllCharacters_RPC", RpcTarget.AllBuffered);
             PhotonNetwork.CurrentRoom.IsOpen = false;
+            LoadingPanel.loadingPanel.DisplayLoadingPanel(true);
             yield return new WaitForSeconds(5f);
             LobbyController.lc.StartGame();
         }

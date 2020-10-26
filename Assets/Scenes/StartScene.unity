@@ -4279,7 +4279,7 @@ MonoBehaviour:
   intermediateScene: 1
   mainMenuScene: 0
   customRoomName: 
-  font: {fileID: 0}
+  font: {fileID: 11400000, guid: aa8a98b5a42e9ee44baff019d7f3f7b8, type: 2}
 --- !u!4 &972313603
 Transform:
   m_ObjectHideFlags: 0

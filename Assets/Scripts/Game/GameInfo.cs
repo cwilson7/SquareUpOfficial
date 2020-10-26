@@ -231,7 +231,7 @@ public class GameInfo : MonoBehaviour
             GameManager.Manager.InitalizeGameManager();
             GameManager.Manager.StartCoroutine(GameManager.Manager.StartDelay());
         }
-
+        LoadingPanel.loadingPanel.DisplayLoadingPanel(false);
         StartCoroutine(StartingMatch());
     }
 

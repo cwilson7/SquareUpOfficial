@@ -7,7 +7,10 @@ using UnityEngine.SceneManagement;
 
 public class LoadingPanel : MonoBehaviour
 {
+    public static LoadingPanel loadingPanel;
+    
     Material[] colorsToInterp;
+    Canvas parentCanvas;
     Image background, loadingBuddy;
     RectTransform rectTransform;
     string loadingBuddyPrefabPath = "PhotonPrefabs/GameUI/LoadingPanelBuddy";
@@ -19,16 +22,19 @@ public class LoadingPanel : MonoBehaviour
     public int maxDots, dots = 0;
     public float dotsPerSec, colorsPerSec, panelScrollTime;
 
-    public bool isDisplayed = true;
+    public bool isDisplayed = false;
 
     // Start is called before the first frame update
     void Awake()
     {
         //if (SceneManager.GetActiveScene().buildIndex != MultiplayerSettings.multiplayerSettings.intermediateScene || SceneManager.GetActiveScene().buildIndex != MultiplayerSettings.multiplayerSettings.multiplayerScene) Destroy(this.gameObject);
+        if (loadingBuddy != null) Destroy(loadingPanel);
+        loadingPanel = this;
         background = GetComponent<Image>();
         rectTransform = GetComponent<RectTransform>();
-        GameObject _loadingObject = Instantiate(Resources.Load<GameObject>(loadingBuddyPrefabPath), GetComponentInParent<Canvas>().transform);
-        _loadingObject.transform.SetSiblingIndex(transform.GetSiblingIndex());
+        parentCanvas = GetComponentInParent<Canvas>();
+        GameObject _loadingObject = Instantiate(Resources.Load<GameObject>(loadingBuddyPrefabPath), parentCanvas.transform);
+        _loadingObject.transform.SetAsFirstSibling();// SetSiblingIndex(transform.GetSiblingIndex());
         loadingBuddy = _loadingObject.GetComponent<Image>();
         DontDestroyOnLoad(this.gameObject);
         DontDestroyOnLoad(loadingBuddy.gameObject);
@@ -38,10 +44,10 @@ public class LoadingPanel : MonoBehaviour
     void Update()
     {
         if (colorsToInterp == null) colorsToInterp = LobbyController.lc.availableMaterials.ToArray();
-        if (Input.GetKeyDown(KeyCode.Space)) DisplayLoadingPanel(!isDisplayed);
+        //if (Input.GetKeyDown(KeyCode.Space)) DisplayLoadingPanel(!isDisplayed);
 
-        InterpColors(loadingTxt);
-        InterpColors(background);
+        //InterpColors(loadingTxt);
+        //InterpColors(background);
         TextInterp();
     }
 
@@ -51,6 +57,16 @@ public class LoadingPanel : MonoBehaviour
         isDisplayed = display;
     }
 
+    void GiveStaticColors()
+    {
+        if (LobbyController.lc.selectedMaterialIDs.Contains((int)MultiplayerSettings.multiplayerSettings.localPlayerValues["AssignedColor"]))
+        {
+            Material mat = LobbyController.lc.availableMaterials[(int)MultiplayerSettings.multiplayerSettings.localPlayerValues["AssignedColor"]];
+            loadingTxt.color = mat.color;
+            background.color = mat.color;
+        }
+    }
+
     IEnumerator ScrollInDisplay(bool toScreen)
     {
         float elapsedTime = 0, time = panelScrollTime, startingAlpha = loadingBuddy.color.a, endingAlpha;
@@ -58,6 +74,8 @@ public class LoadingPanel : MonoBehaviour
         Color loadingBuddyColor  = loadingBuddy.color;
         if (toScreen)
         {
+            GiveStaticColors();
+            parentCanvas.sortingOrder = 1;
             endingPos = Vector2.zero;
             endingAlpha = 1f;
         }
@@ -75,6 +93,7 @@ public class LoadingPanel : MonoBehaviour
             elapsedTime += Time.deltaTime;
             yield return null;
         }
+        if (!toScreen) parentCanvas.sortingOrder = 0;
     }
 
     void InterpColors(TMP_Text text)

@@ -130,6 +130,20 @@ public class PointyController : Controller
 
     }
 
+    override protected void OnCollisionEnter(Collision other)
+    {
+        if (GroundCheck(other, true))
+        {
+            jumpNum = maxJumps;
+            if (!PV.IsMine) return;
+            if (rocketMode)
+            {
+                unfreezeForAbility = false;
+                PV.RPC("MoveOutOfRocketMode", RpcTarget.All);
+            }
+        }
+    }
+
     IEnumerator RotateBack()
     {
         float elapsedTime = 0;

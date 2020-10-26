@@ -450,7 +450,7 @@ public abstract class Controller : MonoBehaviour
 
     #region Collision/ Trigger 
     
-    protected void OnCollisionEnter(Collision other)
+    protected virtual void OnCollisionEnter(Collision other)
     {
         if (GroundCheck(other, true)) jumpNum = maxJumps;       
     }
@@ -510,7 +510,7 @@ public abstract class Controller : MonoBehaviour
     }
 
 
-    bool GroundCheck(Collision collision, bool onGround)
+    protected bool GroundCheck(Collision collision, bool onGround)
     {       
         if (collision.collider.gameObject.layer == 8) // is the collider we are running into a platform
         {

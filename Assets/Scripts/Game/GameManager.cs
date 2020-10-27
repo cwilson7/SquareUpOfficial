@@ -18,7 +18,7 @@ public class GameManager : MonoBehaviour
     public Multikill currentMultikill = Multikill.Single;
 
     //Set values
-    [SerializeField] private double percentOfPowerUpsWeapons;
+    [SerializeField] public double percentOfPowerUpsWeapons;
     [SerializeField] private float powerUpMaxCooldown;
     [SerializeField] private int maxPowerups;
     [SerializeField] int totalMatchMinutes;

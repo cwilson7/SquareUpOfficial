@@ -10,6 +10,7 @@ public class RaynMakr : Projectile
     public override void InitializeProjectile(float dmg, float impt, Vector3 vel, int owner)
     {
         base.InitializeProjectile(dmg, impt, vel, owner);
+        thisGOPath = "PhotonPrefabs/Weapons/RaynMakerProj";
         GameObject bullet = Instantiate(Resources.Load<GameObject>(thisGOPath), transform.position, Quaternion.identity);
         RaynMakr makrProj = bullet.GetComponent<RaynMakr>();
         makrProj.InitializeProjectile(damage, impt, vel, owner, iteration);
@@ -21,16 +22,14 @@ public class RaynMakr : Projectile
         this.iteration = newIteration;
     }
 
-
-    // Start is called before the first frame update
-    void Start()
+    private void FixedUpdate()
     {
-        
+        transform.position += Velocity / Time.deltaTime;
+        lifeTime += Time.deltaTime;
+        if (lifeTime > maxLifeTime)
+        {
+            Destroy(gameObject);
+        }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

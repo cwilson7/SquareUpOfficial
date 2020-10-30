@@ -203,6 +203,7 @@
     <Compile Include="Assets\Scripts\Shop\ShopController.cs" />
     <Compile Include="Assets\Scripts\Shop\ShopPanel.cs" />
     <Compile Include="Assets\Scripts\Shop\ShopPanelController.cs" />
+    <Compile Include="Assets\Scripts\SpecialBullets\Expanding.cs" />
     <Compile Include="Assets\Scripts\SpecialBullets\GravityAffected.cs" />
     <Compile Include="Assets\Scripts\SpecialBullets\RaynMakr.cs" />
     <Compile Include="Assets\Scripts\SpecialBullets\StraitFire.cs" />

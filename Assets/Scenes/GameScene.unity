@@ -1123,7 +1123,7 @@ MonoBehaviour:
   optionsPanel: {fileID: 446728279}
   killIndicator: {fileID: 133207467}
   currentMultikill: 0
-  percentOfPowerUpsWeapons: 0
+  percentOfPowerUpsWeapons: 0.8
   powerUpMaxCooldown: 2
   maxPowerups: 10
   totalMatchMinutes: 1

@@ -8,7 +8,7 @@ public class GravityAffected : Projectile
     private void FixedUpdate()
     {
         transform.position += Velocity / Time.deltaTime;
-        transform.position += new Vector3(0,-9.8f * lifeTime * lifeTime);
+        transform.position += new Vector3(0,-4.9f * lifeTime * lifeTime);
         lifeTime += Time.deltaTime;
         if (lifeTime > maxLifeTime)
         {

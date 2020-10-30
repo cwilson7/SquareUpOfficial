@@ -146,6 +146,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   PaintExplosionSystem: {fileID: 0}
   PV: {fileID: 0}
+  myMat: {fileID: 0}
   currentWeapon: {fileID: 0}
   RFist: {fileID: 0}
   LFist: {fileID: 0}
@@ -159,6 +160,8 @@ MonoBehaviour:
   baseOfCharacter: {fileID: 0}
   punchPower: 0
   punchImpact: 0
+  moveStickVerticalDeadzone: 0.3
+  fightStickDeadzones: 0.2
   respawnDelay: 0
   boundaryDist: 0
   impact: {x: 0, y: 0, z: 0}
@@ -175,6 +178,8 @@ MonoBehaviour:
   anim: {fileID: 0}
   audioHandler: {fileID: 0}
   audioKey: 
+  shakeDetectionThreshold: 3.2
+  minShakeInterval: 0.2
   rocketMode: 0
   rocketVelocity: 0
   startingVelocity: 2
@@ -549,6 +554,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Layer
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2502203975881118265, guid: f6720e134edf86a44b45db32f06d4d9b,
+        type: 3}
+      propertyPath: m_TagString
+      value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 7851568653041424660, guid: f6720e134edf86a44b45db32f06d4d9b,
         type: 3}

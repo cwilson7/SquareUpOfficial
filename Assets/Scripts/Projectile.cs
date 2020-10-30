@@ -5,11 +5,12 @@ using UnityEngine;
 
 public class Projectile : DamageDealer
 {
-    public float lifeTime, maxLifeTime;
+    public float maxLifeTime;
+    public float lifeTime;
 
     public virtual void InitializeProjectile(float dmg, float impt, Vector3 vel, int owner)
     {
-        maxLifeTime = 5f;
+        maxLifeTime = 1f;
         this.damage = dmg;
         this.impactMultiplier = impt;
         this.Velocity = vel;

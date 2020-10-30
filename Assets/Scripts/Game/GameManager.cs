@@ -30,6 +30,8 @@ public class GameManager : MonoBehaviour
     float maxTimeSeconds, timerSeconds, maxKillDisplayTime = 2f; 
 
     private System.Random rand;
+
+    public bool rotatePwrUpSpawned = false;
     
     // Start is called before the first frame update
     void Awake()
@@ -130,7 +132,7 @@ public class GameManager : MonoBehaviour
         {
             powerUpCooldown = powerUpMaxCooldown;
             if (!PhotonNetwork.IsMasterClient) return;
-            if (RandomPercent() <= percentOfPowerUpsWeapons)
+            if (rotatePwrUpSpawned || RandomPercent() <= percentOfPowerUpsWeapons)
             {
                 //instantiate weapon power up
                 PowerUpSelection(1);
@@ -139,6 +141,7 @@ public class GameManager : MonoBehaviour
             {
                 //instantiate power up
                 PowerUpSelection(2);
+                rotatePwrUpSpawned = true;
             }
         }
     }
@@ -221,6 +224,7 @@ public class GameManager : MonoBehaviour
         if (!currentPowerUps.ContainsKey(id)) return;
         
         GameObject pwrUp = (GameObject)currentPowerUps[id];
+        if (pwrUp.GetComponent<PowerUp>().GetType() == typeof(RotateCubePowerUp)) rotatePwrUpSpawned = false;
         Destroy(pwrUp);
         currentPowerUps.Remove(id);
     }

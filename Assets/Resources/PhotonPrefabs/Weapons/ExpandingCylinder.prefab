@@ -210,3 +210,5 @@ MonoBehaviour:
   impactMultiplier: 0
   lifeTime: 0
   maxLifeTime: 0
+  minSize: 1
+  maxSize: 6

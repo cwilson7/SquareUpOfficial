@@ -162,11 +162,11 @@ public abstract class Controller : MonoBehaviour
         if (!controllerInitialized) return;
         if (CheckForTimeStop()) return;
         if (!PV.IsMine) return;
-        //HandleInputs();
-        TouchMovement();
-        //MouseCombat();
-        TouchCombat();
-        //TrackMouse();
+        //TouchMovement();
+        //TouchCombat();
+        HandleInputs();
+        MouseCombat();
+        TrackMouse();
         if (!abilityOffCooldown) HandleCooldownTimer();
     }
 

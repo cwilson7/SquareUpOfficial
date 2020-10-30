@@ -39,6 +39,9 @@ public class Cube : MonoBehaviour, IPunObservable
 
     public List<GameObject> rotatePowerUpCopyLevels;
 
+    public float shakeDetectionThreshold = 3.2f, minShakeInterval = 0.2f;
+    protected float sqrShakeDetectionThreshold, timeSinceLastShake;
+
     private void Awake()
     {
         cb = this;
@@ -56,8 +59,13 @@ public class Cube : MonoBehaviour, IPunObservable
     {        
         gameObject.transform.rotation = cubeRot;
 
+        /*
         targetXY = new Vector2(rubberBandX(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")),
                                 rubberBandY(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")));
+        */
+        Touch touch = Input.GetTouch(0);
+        Vector3 touchPosition = Camera.main.ScreenToWorldPoint(touch.position);
+        Vector3 scaledVector = new Vector3(Scale(touchPosition.x, 0, 1, -1, 1), Scale(touchPosition.y, 0, 1, -1, 1), touchPosition.z);
 
         Vector2 diff = targetXY - actualXY;
         if (diff.magnitude < 0.1)
@@ -69,11 +77,12 @@ public class Cube : MonoBehaviour, IPunObservable
             actualXY += diff.normalized * 0.05f;
         }
 
-        gameObject.transform.Rotate(transform.InverseTransformVector(Vector3.up), actualXY.x * 90);
-        gameObject.transform.Rotate(transform.InverseTransformVector(Vector3.left), actualXY.y * 90);
+        gameObject.transform.Rotate(transform.InverseTransformVector(Vector3.up), scaledVector.x * 90);
+        gameObject.transform.Rotate(transform.InverseTransformVector(Vector3.left), scaledVector.y * 90);
 
-        if (Input.GetMouseButtonDown(0) && actualXY.x == Mathf.Floor(actualXY.x) && actualXY.y == Mathf.Floor(actualXY.y))
+        if ((Input.acceleration.sqrMagnitude >= sqrShakeDetectionThreshold && Time.unscaledTime >= timeSinceLastShake + minShakeInterval) && actualXY.x == Mathf.Floor(actualXY.x) && actualXY.y == Mathf.Floor(actualXY.y))
         {
+            timeSinceLastShake = Time.unscaledTime;
             cubeRot = gameObject.transform.rotation;
             targetXY = new Vector2(0, 0);
             actualXY = new Vector2(0, 0);
@@ -137,6 +146,12 @@ public class Cube : MonoBehaviour, IPunObservable
         currFaceID = levelNum;
         CurrentFace = LevelsOnCube[currFaceID];
         SetLevelObjects();
+    }
+
+    private float Scale(float value, float min, float max, float minScale, float maxScale)
+    {
+        float scaled = minScale + (value - min) / (max - min) * (maxScale - minScale);
+        return scaled;
     }
 
     float rubberBandX(float x, float y)
@@ -251,11 +266,11 @@ public class Cube : MonoBehaviour, IPunObservable
 
     void DeploySelectedLevels()
     {
-            for (int i = 0; i < InstantiatedLevelIDs.Count; i++)
-            {
-                int id = InstantiatedLevelIDs[i];
-                PV.RPC("SetLevels_RPC", RpcTarget.AllBuffered, id, i);
-            }
+        for (int i = 0; i < InstantiatedLevelIDs.Count; i++)
+        {
+            int id = InstantiatedLevelIDs[i];
+            PV.RPC("SetLevels_RPC", RpcTarget.AllBuffered, id, i);
+        }
 
     }
 
@@ -314,22 +329,6 @@ public class Cube : MonoBehaviour, IPunObservable
         //cubeOverlay.GetComponent<Image>().color = some color based on where cube is facing;
         //current level should know who is left/ right/ up/ down
         // during rotation lerp color from main color to left(color)/ right(color) etc
-    }
-
-    #endregion
-
-    #region Paint
-    //take paint gameobjects and turn it into data that can be sent over a network
-    //PAINT SHOULD BE MOVED TO A CONTAINER OUTSIDE OF CUBE IN HIERARCHY
-    System.Collections.Hashtable TranslatePaint()
-    {
-        System.Collections.Hashtable retHash = new System.Collections.Hashtable();
-        PaintInfo[] existingPaintObjs = GetComponentInChildren<PaintObjects>().gameObject.GetComponentsInChildren<PaintInfo>();
-        for (int i = 0; i < existingPaintObjs.Length; i++) {
-            (int ,Vector3, Vector3) dumbTransform = (existingPaintObjs[i].ID, existingPaintObjs[i].myTransform.position, existingPaintObjs[i].myTransform.eulerAngles);
-            retHash.Add(i, dumbTransform);
-        }
-        return retHash;
     }
 
     #endregion

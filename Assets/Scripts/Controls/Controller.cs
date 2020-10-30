@@ -27,7 +27,7 @@ public abstract class Controller : MonoBehaviour
     protected GameObject deathEffect, spawnEffect;
 
     //Control UI
-    protected FloatingJoystick moveStick;
+    protected FloatingJoystick moveStick, fightStick;
 
     //Initial Player movement variables
     public int actorNr;
@@ -35,6 +35,7 @@ public abstract class Controller : MonoBehaviour
     public int maxJumps;
     public Transform baseOfCharacter;
     public float punchPower, punchImpact;
+    public float moveStickVerticalDeadzone = 0.3f, fightStickDeadzones = 0.2f;
     [SerializeField] protected float respawnDelay, boundaryDist;
 
     //Tracked variables
@@ -56,6 +57,10 @@ public abstract class Controller : MonoBehaviour
     protected GameObject crown;
 
     protected bool abilityOffCooldown = true, unfreezeForAbility = false;
+
+    // shake detection stuff
+    public float shakeDetectionThreshold = 3.2f, minShakeInterval = 0.2f;
+    protected float sqrShakeDetectionThreshold, timeSinceLastShake;
 
 
     #region SET VALUES
@@ -90,9 +95,13 @@ public abstract class Controller : MonoBehaviour
         directionModifier = 1;
         actorNr = PV.OwnerActorNr;
         isGrounded = false;
+
+        sqrShakeDetectionThreshold = Mathf.Pow(shakeDetectionThreshold, 2);
         
         currentWeapon = GetComponent<Weapon>();
-        moveStick = JoyStickReference.joyStick.gameObject.GetComponent<FloatingJoystick>();
+        moveStick = GameObject.Find("LJoyStick").GetComponent<FloatingJoystick>();
+        fightStick = GameObject.Find("RJoyStick").GetComponent<FloatingJoystick>();
+        //JoyStickReference.joyStick.gameObject.GetComponent<FloatingJoystick>();
 
         moveStick.gameObject.SetActive(false);
 
@@ -153,9 +162,11 @@ public abstract class Controller : MonoBehaviour
         if (!controllerInitialized) return;
         if (CheckForTimeStop()) return;
         if (!PV.IsMine) return;
-        HandleInputs();
-        MouseCombat();
-        TrackMouse();
+        //HandleInputs();
+        TouchMovement();
+        //MouseCombat();
+        TouchCombat();
+        //TrackMouse();
         if (!abilityOffCooldown) HandleCooldownTimer();
     }
 
@@ -225,6 +236,62 @@ public abstract class Controller : MonoBehaviour
             }
         }
         if (Input.GetMouseButtonDown(1)) SignifyKill();
+    }
+
+    protected void TouchCombat()
+    {
+        Vector2 aimDir = fightStick.Direction;
+        AimDirection = new Vector3(aimDir.x, aimDir.y, transform.position.z);
+
+        if (AimDirection.x > fightStickDeadzones || AimDirection.y > fightStickDeadzones)
+        {
+            if (currentWeapon == null)
+            {
+                if (LFist.punching && RFist.punching) return;
+                GameInfo.GI.StatChange(actorNr, Stat.punchesThrown);
+                PV.RPC("RPC_MeleeAttack", RpcTarget.AllBuffered, AimDirection, actorNr, FistToPunch());
+                PhotonNetwork.SendAllOutgoingCommands();
+            }
+            else if (currentWeapon != null)
+            {
+                currentWeapon.Attack(AimDirection);
+            }
+        }
+    }
+
+    protected void TouchMovement()
+    {
+        float inputX = moveStick.Horizontal;
+        bool inputY = moveStick.Vertical > moveStickVerticalDeadzone;
+        bool specialInput = Input.acceleration.sqrMagnitude >= sqrShakeDetectionThreshold && Time.unscaledTime >= timeSinceLastShake + minShakeInterval;
+
+        if (specialInput && abilityOffCooldown)
+        {
+            SpecialAbility();
+            timeSinceLastShake = Time.unscaledTime;
+        }
+
+        if (inputX > 0) directionModifier = 1;
+        else if (inputX < 0) directionModifier = 0;
+
+        if (receivingImpact) FreezePositions(false);
+        else if (inputX != 0) FreezePositions(false);
+        else if (unfreezeForAbility) FreezePositions(false);
+        else if (isGrounded) FreezePositions(true);
+
+        if (inputX > 0) gameObject.transform.rotation = Quaternion.Euler(0, 100, 0);
+        if (inputX < 0) gameObject.transform.rotation = Quaternion.Euler(0, -100, 0);
+        if (inputY) TryJump();
+
+        if (!unfreezeForAbility) anim.SetFloat("Velocity", Mathf.Abs(rb.velocity.x));
+
+        tempVel = new Vector3(inputX * speed, rb.velocity.y, 0f) + impact;
+
+        //lock Z Pos
+        transform.position = new Vector3(transform.position.x, transform.position.y, Cube.cb.CurrentFace.spawnPoints[0].position.z);
+
+        //Account for impact from being hit by weapon
+        if (receivingImpact) ImpactHandler();
     }
 
     public virtual void HandleSpecial()

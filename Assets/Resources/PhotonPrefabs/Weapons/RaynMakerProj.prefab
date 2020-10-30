@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3708285235661419135}
   - component: {fileID: 2451817450943489043}
   - component: {fileID: 3119746324113414687}
-  - component: {fileID: 3080354442625743472}
+  - component: {fileID: -1803872460881292602}
   m_Layer: 0
   m_Name: RaynMakerProj
   m_TagString: Projectile
@@ -191,7 +191,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &3080354442625743472
+--- !u!114 &-1803872460881292602
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -200,7 +200,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4787272334423502449}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8cb00a35e4b68c9439253224407b0e8c, type: 3}
+  m_Script: {fileID: 11500000, guid: de957ffb920afec4dbf5ea4817bd4187, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   Velocity: {x: 0, y: 0, z: 0}

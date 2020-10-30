@@ -76,7 +76,7 @@ public class Weapon : MonoBehaviour
         Direction = Direction.normalized;
 
         ParentController.impact += Vector3.Normalize(new Vector3(-Direction.x, -Direction.y, 0)) * recoil;
-        PV.RPC("FireWeapon_RPC", RpcTarget.AllBuffered, Direction, damage, impact, bltSpeed, owner, projectile.name);
+        PV.RPC("FireWeapon_RPC", RpcTarget.AllBuffered, Direction, damage, impact, bltSpeed, owner, projectile.name, transform.rotation.eulerAngles);
 
         fireCooldown = fireRate;
         ammoLeft -= 1;

@@ -103,8 +103,6 @@ public abstract class Controller : MonoBehaviour
         fightStick = GameObject.Find("RJoyStick").GetComponent<FloatingJoystick>();
         //JoyStickReference.joyStick.gameObject.GetComponent<FloatingJoystick>();
 
-        moveStick.gameObject.SetActive(false);
-
         //do not change order of fist instantiation
         LFist = SetUpFist(GetComponentInChildren<LFist>());
         RFist = SetUpFist(GetComponentInChildren<RFist>());
@@ -162,11 +160,11 @@ public abstract class Controller : MonoBehaviour
         if (!controllerInitialized) return;
         if (CheckForTimeStop()) return;
         if (!PV.IsMine) return;
-        //TouchMovement();
-        //TouchCombat();
-        HandleInputs();
-        MouseCombat();
-        TrackMouse();
+        TouchMovement();
+        TouchCombat();
+        //HandleInputs();
+        //MouseCombat();
+        //TrackMouse();
         if (!abilityOffCooldown) HandleCooldownTimer();
     }
 

@@ -59,14 +59,14 @@ public class Cube : MonoBehaviour, IPunObservable
     {        
         gameObject.transform.rotation = cubeRot;
 
+        /*
         targetXY = new Vector2(rubberBandX(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")),
                                 rubberBandY(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical")));
+        */
 
-        /*
         Touch touch = Input.GetTouch(0);
         Vector3 touchPosition = Camera.main.ScreenToWorldPoint(touch.position);
         Vector3 scaledVector = new Vector3(Scale(touchPosition.x, 0, 1, -1, 1), Scale(touchPosition.y, 0, 1, -1, 1), touchPosition.z);
-        */
 
 
         Vector2 diff = targetXY - actualXY;
@@ -79,8 +79,8 @@ public class Cube : MonoBehaviour, IPunObservable
             actualXY += diff.normalized * 0.05f;
         }
 
-        gameObject.transform.Rotate(transform.InverseTransformVector(Vector3.up), actualXY.x * 90);//scaledVector.x * 90);
-        gameObject.transform.Rotate(transform.InverseTransformVector(Vector3.left), actualXY.y * 90);//scaledVector.y * 90);
+        gameObject.transform.Rotate(transform.InverseTransformVector(Vector3.up), scaledVector.x * 90);//actualXY.x * 90);//
+        gameObject.transform.Rotate(transform.InverseTransformVector(Vector3.left), scaledVector.y * 90);//actualXY.y * 90);//
 
         if ((Input.acceleration.sqrMagnitude >= sqrShakeDetectionThreshold && Time.unscaledTime >= timeSinceLastShake + minShakeInterval) && actualXY.x == Mathf.Floor(actualXY.x) && actualXY.y == Mathf.Floor(actualXY.y))
         {
@@ -363,7 +363,7 @@ public class Cube : MonoBehaviour, IPunObservable
     {
         GameInfo.GI.CubeClone.inRotation = inRot;
         GameInfo.GI.CubeClone.ownerActorNr = ownerNr;
-        GameManager.Manager.rotatePwrUpSpawned = false;
+
         inRotation = inRot;
         ownerActorNr = ownerNr;
     }

@@ -191,13 +191,15 @@ public class PointyController : Controller
 
     protected override void HandleInputs()
     {
+        /*
         float inputX = Input.GetAxis("Horizontal");
         bool inputY = Input.GetKeyDown(KeyCode.W);
         bool specialInput = Input.GetKeyDown(KeyCode.R);
 
         if (specialInput && abilityOffCooldown) SpecialAbility();
 
-        /*
+        */
+
         float inputX = moveStick.Horizontal;
         bool inputY = moveStick.Vertical > moveStickVerticalDeadzone;
         bool specialInput = Input.acceleration.sqrMagnitude >= sqrShakeDetectionThreshold && Time.unscaledTime >= timeSinceLastShake + minShakeInterval;
@@ -207,7 +209,6 @@ public class PointyController : Controller
             SpecialAbility();
             timeSinceLastShake = Time.unscaledTime;
         }
-        */
 
         if (inputX > 0) directionModifier = 1;
         else if (inputX < 0) directionModifier = 0;
